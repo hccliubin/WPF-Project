@@ -1,0 +1,35 @@
+﻿<Window x:Class="SureDream.Appliaction.DemoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
+        xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="900">
+    <Grid>
+        <StackPanel>
+            <StackPanel>
+                <com:MenuBar Header="工具栏">
+                    <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe656;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuDefaultButton FIcon="&#xe657;"   Content="播放"  LeftRightAlignment="Right"/>
+                    <com:MenuDefaultButton FIcon="&#xe65a;" Content="暂停"  LeftRightAlignment="Right"/>
+                </com:MenuBar>
+
+                <com:MenuBar Header="菜单栏">
+                    <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe656;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuDefaultButton FIcon="&#xe657;"   Content="播放"  LeftRightAlignment="Right"/>
+                    <com:MenuDefaultButton FIcon="&#xe65a;" Content="暂停"  LeftRightAlignment="Right"/>
+                </com:MenuBar>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
