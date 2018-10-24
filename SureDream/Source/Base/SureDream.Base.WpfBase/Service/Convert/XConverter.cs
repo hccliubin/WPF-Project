@@ -36,14 +36,6 @@ namespace SureDream.Base.WpfBase
             get { return new VisibilityConverter(); }
         }
 
-
-        
-        //public static BackgroundToForegroundConverter BackgroundToForegroundConverter
-        //{
-        //    get { return Singleton<BackgroundToForegroundConverter>.GetInstance(); }
-        //}
-
-
         public static ThicknessToDoubleConverter ThicknessToDoubleConverter
         {
             get { return new ThicknessToDoubleConverter(); }

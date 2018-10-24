@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,35 +19,8 @@ using System.Windows.Shapes;
 namespace SureDream.Component.MenuBar
 {
     /// <summary>
-    /// 按照步骤 1a 或 1b 操作，然后执行步骤 2 以在 XAML 文件中使用此自定义控件。
-    ///
-    /// 步骤 1a) 在当前项目中存在的 XAML 文件中使用该自定义控件。
-    /// 将此 XmlNamespace 特性添加到要使用该特性的标记文件的根 
-    /// 元素中: 
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:SureDream.Component.MenuBar"
-    ///
-    ///
-    /// 步骤 1b) 在其他项目中存在的 XAML 文件中使用该自定义控件。
-    /// 将此 XmlNamespace 特性添加到要使用该特性的标记文件的根 
-    /// 元素中: 
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
-    ///
-    /// 您还需要添加一个从 XAML 文件所在的项目到此项目的项目引用，
-    /// 并重新生成以避免编译错误: 
-    ///
-    ///     在解决方案资源管理器中右击目标项目，然后依次单击
-    ///     “添加引用”->“项目”->[浏览查找并选择此项目]
-    ///
-    ///
-    /// 步骤 2)
-    /// 继续操作并在 XAML 文件中使用控件。
-    ///
-    ///     <MyNamespace:MenuBar/>
-    ///
+    /// 通用工具栏
     /// </summary>
-    
     public class MenuBar : ItemsControl
     {
         static MenuBar()
@@ -54,13 +28,11 @@ namespace SureDream.Component.MenuBar
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuBar), new FrameworkPropertyMetadata(typeof(MenuBar)));
         }
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
+        #region - 依赖属性 -
 
-            this.RefreshWith();
-        }
-
+        /// <summary>
+        /// 标题抬头
+        /// </summary>
         public string Header
         {
             get { return (string)GetValue(HeaderProperty); }
@@ -70,15 +42,17 @@ namespace SureDream.Component.MenuBar
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeaderProperty =
             DependencyProperty.Register("Header", typeof(string), typeof(MenuBar), new PropertyMetadata(default(string), (d, e) =>
-             {
-                 MenuBar control = d as MenuBar;
+            {
+                MenuBar control = d as MenuBar;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 string config = e.NewValue as string;
+                string config = e.NewValue as string;
 
-             }));
-
+            }));
+        /// <summary>
+        /// 左侧控件集合依赖属性
+        /// </summary>
         public ObservableCollection<ButtonBase> LeftControls
         {
             get { return (ObservableCollection<ButtonBase>)GetValue(LeftControlsProperty); }
@@ -87,19 +61,20 @@ namespace SureDream.Component.MenuBar
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LeftControlsProperty =
-            DependencyProperty.Register("LeftControls", typeof(ObservableCollection<ButtonBase>), typeof(MenuBar), new PropertyMetadata(new ObservableCollection<ButtonBase>(), (d, e) =>
-             {
-                 MenuBar control = d as MenuBar;
+            DependencyProperty.Register("LeftControls", typeof(ObservableCollection<ButtonBase>),
+                typeof(MenuBar), new PropertyMetadata(new ObservableCollection<ButtonBase>(), (d, e) =>
+                {
+                    MenuBar control = d as MenuBar;
 
-                 if (control == null) return;
+                    if (control == null) return;
 
-                 List<ButtonBase> config = e.NewValue as List<ButtonBase>;
+                    List<ButtonBase> config = e.NewValue as List<ButtonBase>;
 
-                 //control._leftControl.ItemsSource = config;
+                }));
 
-             }));
-
-
+        /// <summary>
+        /// 右侧侧控件集合依赖属性
+        /// </summary>
         public ObservableCollection<ButtonBase> RightControls
         {
             get { return (ObservableCollection<ButtonBase>)GetValue(RightControlsProperty); }
@@ -109,23 +84,211 @@ namespace SureDream.Component.MenuBar
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RightControlsProperty =
             DependencyProperty.Register("RightControls", typeof(ObservableCollection<ButtonBase>), typeof(MenuBar), new PropertyMetadata(new ObservableCollection<ButtonBase>(), (d, e) =>
-             {
-                 MenuBar control = d as MenuBar;
+            {
+                MenuBar control = d as MenuBar;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 List<ButtonBase> config = e.NewValue as List<ButtonBase>;
-
-                 //control._rightControl.ItemsSource = config;
-             }));
-    
+                List<ButtonBase> config = e.NewValue as List<ButtonBase>;
+            }));
 
 
+        /// <summary>
+        /// 动态绑定按钮接口依赖属性
+        /// </summary>
+        public ObservableCollection<MenuButton> ButtonSource
+        {
+            get { return (ObservableCollection<MenuButton>)GetValue(ButtonSourceProperty); }
+            set { SetValue(ButtonSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ButtonSourceProperty =
+            DependencyProperty.Register("ButtonSource", typeof(ObservableCollection<MenuButton>), typeof(MenuBar), new PropertyMetadata(default(ObservableCollection<MenuButton>), (d, e) =>
+            {
+                MenuBar control = d as MenuBar;
+
+                if (control == null) return;
+
+                ObservableCollection<MenuButton> config = e.NewValue as ObservableCollection<MenuButton>;
+
+                config.CollectionChanged += (l, k) =>
+                {
+                    control.RefreshWith(config);
+                };
+
+                control.RefreshWith(config);
+
+            }));
+
+
+        #endregion
+
+        #region - 依赖事件 -
+        //声明和注册路由事件
+        public static readonly RoutedEvent MenuClickedRoutedEvent =
+            EventManager.RegisterRoutedEvent("MenuClicked", RoutingStrategy.Direct, typeof(EventHandler<MenuRoutedEventArgs>), typeof(MenuBar));
+
+        /// <summary>
+        /// 点击事件依赖事件
+        /// </summary>
+        public event EventHandler<MenuRoutedEventArgs> MenuClicked
+        {
+            add { this.AddHandler(MenuClickedRoutedEvent, value); }
+            remove { this.RemoveHandler(MenuClickedRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+        protected void OnMenuClicked(IMenuIconButton button)
+        {
+            MenuRoutedEventArgs args = new MenuRoutedEventArgs(MenuClickedRoutedEvent, this, button);
+            this.RaiseEvent(args);
+        }
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent CheckedChangedRoutedEvent =
+            EventManager.RegisterRoutedEvent("CheckedChanged", RoutingStrategy.Bubble, typeof(EventHandler<MenuCheckedRoutedEventArgs>), typeof(MenuBar));
+        /// <summary>
+        /// 选择事件依赖事件
+        /// </summary>
+        public event EventHandler<MenuCheckedRoutedEventArgs> CheckedChanged
+        {
+            add { this.AddHandler(CheckedChangedRoutedEvent, value); }
+            remove { this.RemoveHandler(CheckedChangedRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnCheckedChanged(IMenuToggleButton button)
+        {
+            MenuCheckedRoutedEventArgs args = new MenuCheckedRoutedEventArgs(CheckedChangedRoutedEvent, this, button);
+            this.RaiseEvent(args);
+        }
+
+        /// <summary>
+        /// 刷新动态控件布局
+        /// </summary>
+        /// <param name="source"></param>
+        void RefreshWith(ObservableCollection<MenuButton> source)
+        {
+            ObservableCollection<ButtonBase> left = new ObservableCollection<ButtonBase>();
+            ObservableCollection<ButtonBase> right = new ObservableCollection<ButtonBase>();
+
+            if (source == null)
+            {
+                this.LeftControls = left;
+                this.RightControls = right;
+                return;
+            }
+
+            //  Do：按类别添加到组内
+            Action<IMenuIconButton> addAction = l =>
+              {
+                  if (l.LeftRightAlignment == LeftRightAlignment.Left)
+                  {
+                      left.Add(l as ButtonBase);
+                  }
+
+                  if (l.LeftRightAlignment == LeftRightAlignment.Right)
+                  {
+                      right.Add(l as ButtonBase);
+                  }
+              };
+
+            //  Do：按类别转换按钮
+            Func<MenuButton, IMenuIconButton> fuction = l =>
+              {
+                  if (l.MenuButtonStyle == MenuButtonStyle.Default)
+                  {
+                      MenuDefaultButton btn = new MenuDefaultButton();
+                      btn.Content = l.Content;
+                      btn.FIcon = l.IconFont;
+                      btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                      btn.Click += (s, e) =>
+                        {
+                            this.OnMenuClicked(btn);
+                        };
+
+                      return btn;
+                  }
+
+                  if (l.MenuButtonStyle == MenuButtonStyle.IconButton)
+                  {
+                      MenuIconButton btn = new MenuIconButton();
+                      btn.Content = l.Content;
+                      btn.FIcon = l.IconFont;
+                      btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                      btn.Click += (s, e) =>
+                      {
+                          this.OnMenuClicked(btn);
+                      };
+
+                      return btn;
+                  }
+
+                  if (l.MenuButtonStyle == MenuButtonStyle.ToggleButton)
+                  {
+                      MenuToggleButton btn = new MenuToggleButton();
+                      btn.Content = l.Content;
+                      btn.FIcon = l.IconFont;
+                      btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                      btn.Checked += (s, e) =>
+                      {
+                          this.OnCheckedChanged(btn);
+                      };
+
+                      btn.Unchecked += (s, e) =>
+                      {
+                          this.OnCheckedChanged(btn);
+                      };
+
+                      return btn;
+                  }
+
+                  return null;
+              };
+
+
+            foreach (var item in source)
+            {
+
+                IMenuIconButton btnInstance = fuction(item);
+
+                if (btnInstance == null)
+                {
+                    Debug.WriteLine("未识别按钮样式");
+                    return;
+                }
+
+                addAction(btnInstance);
+
+            }
+
+            this.LeftControls = left;
+            this.RightControls = right;
+        }
+
+        #endregion
+
+        #region - 成员方法 -
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            this.RefreshWith();
+        }
+
+        /// <summary>
+        /// 刷新静态控件布局
+        /// </summary>
         void RefreshWith()
         {
             ObservableCollection<ButtonBase> left = new ObservableCollection<ButtonBase>();
             ObservableCollection<ButtonBase> right = new ObservableCollection<ButtonBase>();
-          
+
             if (this.Items == null)
             {
                 this.LeftControls = left;
@@ -135,32 +298,59 @@ namespace SureDream.Component.MenuBar
 
             foreach (var item in this.Items)
             {
-                if(item is IMenuIconButton)
+                if (item is IMenuIconButton)
                 {
                     IMenuIconButton button = item as IMenuIconButton;
 
-                    if(button.LeftRightAlignment== LeftRightAlignment.Left)
+                    if (item is IMenuToggleButton)
                     {
-                        ButtonBase b = button as ButtonBase;
+                        ToggleButton b = button as ToggleButton;
 
-                        b.Click += (l, k) =>
-                          {
-                              this.OnMenuClicked(button);
-                          };
-
-                        left.Add(button as ButtonBase);
-                    }
-
-                    if (button.LeftRightAlignment == LeftRightAlignment.Right)
-                    {
-                        ButtonBase b = button as ButtonBase;
-
-                        b.Click += (l, k) =>
+                        b.Checked += (l, k) =>
                         {
                             this.OnMenuClicked(button);
                         };
 
-                        right.Add(button as ButtonBase);
+                        b.Unchecked += (l, k) =>
+                        {
+                            this.OnMenuClicked(button);
+                        };
+
+                        if (button.LeftRightAlignment == LeftRightAlignment.Left)
+                        {
+                            left.Add(button as ButtonBase);
+                        }
+                        if (button.LeftRightAlignment == LeftRightAlignment.Right)
+                        {
+                            right.Add(button as ButtonBase);
+                        }
+                    }
+                    else
+                    {
+
+                        if (button.LeftRightAlignment == LeftRightAlignment.Left)
+                        {
+                            ButtonBase b = button as ButtonBase;
+
+                            b.Click += (l, k) =>
+                            {
+                                this.OnMenuClicked(button);
+                            };
+
+                            left.Add(button as ButtonBase);
+                        }
+
+                        if (button.LeftRightAlignment == LeftRightAlignment.Right)
+                        {
+                            ButtonBase b = button as ButtonBase;
+
+                            b.Click += (l, k) =>
+                            {
+                                this.OnMenuClicked(button);
+                            };
+
+                            right.Add(button as ButtonBase);
+                        }
                     }
                 }
             }
@@ -169,27 +359,7 @@ namespace SureDream.Component.MenuBar
             this.RightControls = right;
         }
 
-
-
-        //声明和注册路由事件
-        public static readonly RoutedEvent MenuClickedRoutedEvent =
-            EventManager.RegisterRoutedEvent("MenuClicked", RoutingStrategy.Bubble, typeof(EventHandler<MenuRoutedEventArgs>), typeof(MenuBar));
-        //CLR事件包装
-        public event MenuRoutedEventHandler MenuClicked
-        {
-            add { this.AddHandler(MenuClickedRoutedEvent, value); }
-            remove { this.RemoveHandler(MenuClickedRoutedEvent, value); }
-        }
-
-        //激发路由事件,借用Click事件的激发方法
-
-        protected void OnMenuClicked(IMenuIconButton button)
-        {
-            MenuRoutedEventArgs args = new MenuRoutedEventArgs(MenuClickedRoutedEvent, this, button);
-            this.RaiseEvent(args);
-        }
-
-
+        #endregion
     }
 
 

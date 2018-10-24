@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SureDream.Component.MenuBar
+namespace SureDream.Appliaction.DemoApp
 {
     /// <summary>
-    /// 默认的按钮
+    /// FirstUserControl.xaml 的交互逻辑
     /// </summary>
-    public class MenuDefaultButton : MenuIconButton
+    public partial class FirstUserControl : UserControl
     {
-        static MenuDefaultButton()
+        public FirstUserControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuDefaultButton), new FrameworkPropertyMetadata(typeof(MenuDefaultButton)));
-
-
+            InitializeComponent();
         }
     }
 }

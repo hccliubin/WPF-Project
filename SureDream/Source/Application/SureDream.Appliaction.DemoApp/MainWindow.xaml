@@ -6,30 +6,16 @@
         xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
         xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="900">
+        Title="MainWindow" Height="400" Width="700">
     <Grid>
-        <StackPanel>
-            <StackPanel>
-                <com:MenuBar Header="工具栏">
-                    <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left"/>
-                    <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
-                    <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
-                    <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>
-                    <com:MenuToggleButton FIcon="&#xe656;"  Content="缩小" LeftRightAlignment="Left"/>
-                    <com:MenuDefaultButton FIcon="&#xe657;"   Content="播放"  LeftRightAlignment="Right"/>
-                    <com:MenuDefaultButton FIcon="&#xe65a;" Content="暂停"  LeftRightAlignment="Right"/>
-                </com:MenuBar>
+        <TabControl>
+            <TabItem Header="绑定加载">
+                <local:SecondUserControl/>
+            </TabItem>
 
-                <com:MenuBar Header="菜单栏">
-                    <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left"/>
-                    <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
-                    <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
-                    <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>
-                    <com:MenuToggleButton FIcon="&#xe656;"  Content="缩小" LeftRightAlignment="Left"/>
-                    <com:MenuDefaultButton FIcon="&#xe657;"   Content="播放"  LeftRightAlignment="Right"/>
-                    <com:MenuDefaultButton FIcon="&#xe65a;" Content="暂停"  LeftRightAlignment="Right"/>
-                </com:MenuBar>
-            </StackPanel>
-        </StackPanel>
+            <TabItem Header="静态加载">
+                <local:FirstUserControl/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

@@ -51,12 +51,9 @@
   <ItemGroup>
     <Compile Include="Service\Attach\ControlAttachEvent.cs" />
     <Compile Include="Service\Attach\ControlAttachProperty.cs" />
-    <Compile Include="Themes\Color\ThemeService.cs" />
     <Compile Include="Service\Command\RelayCommand.cs" />
-    <Compile Include="Service\Convert\DataConverter.cs" />
     <Compile Include="Service\Convert\UIConverter.cs" />
     <Compile Include="Service\Convert\XConverter.cs" />
-    <Compile Include="Service\Mvvm\NotifyPropertyChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,11 +67,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Service\UrlLinkNotifyClass.cs" />
-    <Compile Include="Service\VisualTreeHelperEx.cs" />
-    <Compile Include="Service\ElementExtession.cs" />
-    <Compile Include="Service\PrintControlTreeService.cs" />
-    <Compile Include="Service\StoryBoardService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -86,9 +78,6 @@
     <Resource Include="Resources\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Themes\Color\视觉规范.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Themes\Controls\CenterScroll.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,7 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\HeBianGu.Themes.Resource.xaml">
+    <Page Include="Themes\SureDream.Themes.Resource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,6 +114,8 @@
   <ItemGroup>
     <Resource Include="Resources\demo_unicode.html" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Service\Mvvm\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

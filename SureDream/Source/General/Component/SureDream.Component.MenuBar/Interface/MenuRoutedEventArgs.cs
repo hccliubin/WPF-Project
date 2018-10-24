@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace SureDream.Component.MenuBar
 {
+    /// <summary> 按钮点击事件参数 </summary>
     public class MenuRoutedEventArgs : RoutedEventArgs
     {
         public IMenuIconButton MenuSource { get; set; }
@@ -15,9 +16,22 @@ namespace SureDream.Component.MenuBar
         {
             MenuSource = menusource;
         }
+    }
+
+    /// <summary> 按钮选中事件参数 </summary>
+    public class MenuCheckedRoutedEventArgs : RoutedEventArgs
+    {
+        public IMenuToggleButton MenuSource { get; set; }
+
+        public MenuCheckedRoutedEventArgs(RoutedEvent routedEvent, object source, IMenuToggleButton menusource) : base(routedEvent, source)
+        {
+            MenuSource = menusource;
+        }
 
 
     }
+
+    
 
 
 }

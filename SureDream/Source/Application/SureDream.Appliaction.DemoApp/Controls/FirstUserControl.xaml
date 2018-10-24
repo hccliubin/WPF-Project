@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="SureDream.Appliaction.DemoApp.FirstUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
+             xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel>
+            <StackPanel>
+                <com:MenuBar Header="工具栏">
+                    <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe656;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuDefaultButton FIcon="&#xe657;"  Content="播放"  LeftRightAlignment="Right"/>
+                    <com:MenuDefaultButton FIcon="&#xe65a;" Content="暂停"  LeftRightAlignment="Right"/>
+                </com:MenuBar>
+
+                <com:MenuBar Header="菜单栏">
+                    <com:MenuToggleButton FIcon="&#xe67f;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe680;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe682;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe689;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe68b;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe68f;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe692;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe698;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe69c;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe69d;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe69e;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe69f;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe6a0;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe6a5;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe6ae;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuDefaultButton FIcon="&#xe68d;"   Content="播放"  LeftRightAlignment="Right"/>
+                    <com:MenuDefaultButton FIcon="&#xe68e;" Content="暂停"  LeftRightAlignment="Right"/>
+                </com:MenuBar>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
