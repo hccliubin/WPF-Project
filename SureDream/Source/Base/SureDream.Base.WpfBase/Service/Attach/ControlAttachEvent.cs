@@ -10,7 +10,7 @@ using System.Windows.Controls;
 namespace SureDream.Base.WpfBase
 {
 
-    /// <summary> 依赖事件 </summary>
+    /// <summary> 附加事件 </summary>
     public static class ControlAttachEvent
     {
 

@@ -75,6 +75,9 @@ namespace SureDream.Appliaction.DemoApp
             {
                 this.Command.Execute(this.CommandParameter);
             }
+            
         }
+
+      
     }
 }

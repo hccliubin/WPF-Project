@@ -49,7 +49,7 @@
 
         <ComboBox SelectedIndex="1"  Grid.Column="1" Grid.Row="1" x:Name="type" ItemsSource="{Binding Source={StaticResource MenuButtonStyle} }"/>
 
-        <ComboBox SelectedIndex="0"  Grid.Column="1" Grid.Row="2" x:Name="leftright" ItemsSource="{Binding Source={StaticResource LeftRightAlignment}}"/>
+        <ComboBox SelectedIndex="0"  Grid.Column="1" Grid.Row="2" x:Name="leftright"  ItemsSource="{Binding Source={StaticResource LeftRightAlignment}}"/>
 
         <TextBox  Grid.Row="3"  Grid.Column="1" x:Name="name" Text="播放"/>
 
