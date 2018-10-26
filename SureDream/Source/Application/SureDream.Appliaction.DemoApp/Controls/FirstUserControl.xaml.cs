@@ -24,5 +24,10 @@ namespace SureDream.Appliaction.DemoApp
         {
             InitializeComponent();
         }
+
+        private void MenuToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("eee");
+        }
     }
 }
