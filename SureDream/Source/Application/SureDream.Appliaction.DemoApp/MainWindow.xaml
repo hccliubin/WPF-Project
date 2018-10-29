@@ -6,16 +6,18 @@
         xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
         xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="700">
+        Title="MainWindow" Height="700" Width="700">
     <Grid>
         <TabControl>
             <TabItem Header="绑定加载">
                 <local:SecondUserControl/>
             </TabItem>
-
+            
             <TabItem Header="静态加载">
                 <local:FirstUserControl/>
             </TabItem>
         </TabControl>
+        
+        
     </Grid>
 </Window>

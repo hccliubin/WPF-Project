@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SureDream.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -92,7 +93,6 @@ namespace SureDream.Component.MenuBar
                 List<ButtonBase> config = e.NewValue as List<ButtonBase>;
             }));
 
-
         /// <summary>
         /// 动态绑定按钮接口依赖属性
         /// </summary>
@@ -120,6 +120,45 @@ namespace SureDream.Component.MenuBar
                 control.RefreshWith(config);
 
             }));
+
+
+        /// <summary>
+        /// 设置按钮是否可用规则
+        /// </summary>
+        public Predicate<IMenuIconButton> CanMenuButtonEnble
+        {
+            get { return (Predicate<IMenuIconButton>)GetValue(CanMenuButtonEnbleProperty); }
+            set { SetValue(CanMenuButtonEnbleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CanMenuButtonEnbleProperty =
+            DependencyProperty.Register("CanMenuButtonEnble", typeof(Predicate<IMenuIconButton>), typeof(MenuBar), new PropertyMetadata(default(Predicate<IMenuIconButton>), (d, e) =>
+             {
+                 MenuBar control = d as MenuBar;
+
+                 if (control == null) return;
+
+                 Predicate<IMenuIconButton> config = e.NewValue as Predicate<IMenuIconButton>;
+
+                 foreach (var item in control.LeftControls)
+                 {
+                     if (item is IMenuIconButton)
+                     {
+                         item.IsEnabled = config(item as IMenuIconButton);
+                     }
+                 }
+
+
+                 foreach (var item in control.RightControls)
+                 {
+                     if (item is IMenuIconButton)
+                     {
+                         item.IsEnabled = config(item as IMenuIconButton);
+                     }
+                 }
+
+             }));
 
 
         #endregion
@@ -204,7 +243,8 @@ namespace SureDream.Component.MenuBar
                       btn.Content = l.Content;
                       btn.FIcon = l.IconFont;
                       btn.LeftRightAlignment = l.LeftRightAlignment;
-
+                      btn.IsEnabled = l.IsEnabled;
+                      //btn.Orientation = l.Orientation;
                       btn.Click += (s, e) =>
                         {
                             this.OnMenuClicked(btn);
@@ -218,6 +258,9 @@ namespace SureDream.Component.MenuBar
                       MenuIconButton btn = new MenuIconButton();
                       btn.Content = l.Content;
                       btn.FIcon = l.IconFont;
+                      btn.IsEnabled = l.IsEnabled;
+                      btn.Orientation = l.Orientation;
+
                       btn.LeftRightAlignment = l.LeftRightAlignment;
 
                       btn.Click += (s, e) =>
@@ -233,6 +276,9 @@ namespace SureDream.Component.MenuBar
                       MenuToggleButton btn = new MenuToggleButton();
                       btn.Content = l.Content;
                       btn.FIcon = l.IconFont;
+                      btn.IsEnabled = l.IsEnabled;
+                      btn.Orientation = l.Orientation;
+
                       btn.LeftRightAlignment = l.LeftRightAlignment;
 
                       btn.Checked += (s, e) =>
@@ -265,6 +311,29 @@ namespace SureDream.Component.MenuBar
 
                 addAction(btnInstance);
 
+                if(item.MenuKey != null)
+                {
+                    ////  Do：注册快捷键
+                    //InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control);
+
+                    RelayCommand cmd = new RelayCommand(l =>
+                    {
+                        if(btnInstance is IMenuToggleButton)
+                        {
+                            this.OnCheckedChanged(btnInstance as IMenuToggleButton);
+                        }
+                        else
+                        {
+                            this.OnMenuClicked(btnInstance);
+                        }
+                   
+                    });
+
+                    InputBinding input = new InputBinding(cmd, item.MenuKey);
+
+                    //  Do：注册到窗口级别
+                    ControlsSearchHelper.GetParentObject<Window>(this, string.Empty).InputBindings.Add(input);
+                }
             }
 
             this.LeftControls = left;

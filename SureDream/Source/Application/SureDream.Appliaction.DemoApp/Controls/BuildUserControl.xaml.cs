@@ -69,15 +69,19 @@ namespace SureDream.Appliaction.DemoApp
             btn.LeftRightAlignment = (LeftRightAlignment)this.leftright.SelectedItem;
             btn.MenuButtonStyle = (MenuButtonStyle)this.type.SelectedValue;
             btn.Content = this.name.Text;
+            btn.IsEnabled = this.cb_isenbled.IsChecked ?? this.cb_isenbled.IsChecked.Value;
+
+            btn.MenuKey = new MenuKey((Key)this.cb_key.SelectedValue, (ModifierKeys)this.cb_ModifierKeys.SelectedValue);
+            btn.Orientation= (Orientation)this.cb_Orientation.SelectedValue;
             this.MenuButton = btn;
 
-            if(this.Command!=null)
+            if (this.Command != null)
             {
                 this.Command.Execute(this.CommandParameter);
             }
-            
+
         }
 
-      
+
     }
 }

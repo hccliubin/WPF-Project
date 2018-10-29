@@ -23,8 +23,6 @@ namespace SureDream.Component.MenuBar
         static MenuDefaultButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuDefaultButton), new FrameworkPropertyMetadata(typeof(MenuDefaultButton)));
-
-
         }
     }
 }

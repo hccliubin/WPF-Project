@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
+             xmlns:base="clr-namespace:SureDream.Base.WpfBase;assembly=SureDream.Base.WpfBase"
              xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <StackPanel>
+            <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}">
+                
                 <com:MenuBar Header="工具栏">
                     <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left" Click="MenuToggleButton_Click"/>
                     <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
@@ -39,7 +41,9 @@
                     <com:MenuDefaultButton FIcon="&#xe68d;"   Content="播放"  LeftRightAlignment="Right"/>
                     <com:MenuDefaultButton FIcon="&#xe68e;" Content="暂停"  LeftRightAlignment="Right"/>
                 </com:MenuBar>
-            </StackPanel>
+
+            </com:MenuBarPanel>
+            <CheckBox x:Name="toggle_enble" Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
         </StackPanel>
     </Grid>
 </UserControl>

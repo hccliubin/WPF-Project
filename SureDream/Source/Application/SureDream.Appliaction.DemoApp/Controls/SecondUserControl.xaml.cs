@@ -138,6 +138,11 @@ namespace SureDream.Appliaction.DemoApp
             {
                 this.Collection2.Add(BindAddButton);
             }
+            //  Do：取消
+            else if (command == "Delete")
+            {
+                this.Collection2.Remove(BindAddButton);
+            }
         }
     }
 

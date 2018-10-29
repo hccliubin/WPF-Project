@@ -223,8 +223,6 @@
 
                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=MouseOverForeground}" TargetName="txt"/>
-
-
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -296,18 +294,6 @@
                 </Trigger.ExitActions>
             </Trigger>
 
-            <Trigger Property="IsEnabled" Value="false">
-
-                <Setter Property="Opacity" Value="0.5" TargetName="border"/>
-
-                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
-                                Path=PressedBackground}" TargetName="border" />
-                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
-                                Path=PressedForeground}" TargetName="icon"/>
-                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
-                                Path=PressedForeground}" TargetName="txt"/>
-
-            </Trigger>
 
             <Trigger Property="base:ControlAttachProperty.IsBuzy" Value="true">
 
@@ -335,6 +321,19 @@
                 <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
             </Trigger>
 
+            <Trigger Property="IsEnabled" Value="false">
+
+                <Setter Property="Opacity" Value="0.5" TargetName="border"/>
+
+                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedBackground}" TargetName="border" />
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>
+
+            </Trigger>
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -353,8 +352,6 @@
         <Setter Property="Foreground" Value="{StaticResource TitleTextForeground}" />
         <Setter Property="MouseOverForeground" Value="{StaticResource S_AccentBrush}" />
         <Setter Property="PressedForeground" Value="{StaticResource S_GrayNotice}" />
-
-
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Width" Value="45" />
@@ -549,19 +546,6 @@
                             </Trigger.ExitActions>
                         </Trigger>
 
-                        <Trigger Property="IsEnabled" Value="false">
-
-                            <Setter Property="Opacity" Value="0.5" TargetName="border"/>
-
-                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
-                                Path=PressedBackground}" TargetName="border" />
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
-                                Path=PressedForeground}" TargetName="icon"/>
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
-                                Path=PressedForeground}" TargetName="txt"/>
-
-                        </Trigger>
-
                         <Trigger Property="base:ControlAttachProperty.IsBuzy" Value="true">
 
                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
@@ -586,6 +570,26 @@
                             <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="txt"/>
 
                             <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="border"/>
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="txt"/>
+
+                            <!--<Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedBackground}" TargetName="border" />
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>
+                            
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>-->
+
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -615,10 +619,57 @@
         <Setter Property="FIconMargin" Value="0,0,5,0" />
         <Setter Property="AllowsAnimation" Value="False" />
         <Setter Property="CornerRadius" Value="2" />
+        <Setter Property="Orientation" Value="Horizontal" />
     </Style>
 
     <!--设置默认样式-->
     <Style  BasedOn="{StaticResource MenuDefaultButtonDefaultStyle}" TargetType="{x:Type local:MenuDefaultButton}"/>
     <Style BasedOn="{StaticResource MenuToggleButtonDefaultStyle}" TargetType="{x:Type local:MenuToggleButton}"/>
     <Style BasedOn="{StaticResource MenuIconButtonDefaultStyle}" TargetType="{x:Type local:MenuIconButton}"/>
+
+    <Style TargetType="{x:Type local:MenuBarPanel}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MenuBarPanel}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+
+                        </Border>
+
+                        <StackPanel>
+                            <ItemsPresenter Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
+
+                            </ItemsPresenter>
+                            <ToggleButton x:Name="toggle" Width="Auto" Height="20" HorizontalAlignment="Right" IsChecked="True">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Grid>
+                                            <TextBlock Text="&#xe9bd;" Style="{StaticResource FIcon}" x:Name="txt" FontSize="{StaticResource DefaultFontSize}" ToolTip="显示工具栏"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="true">
+                                                <Setter Property="Text" Value="&#xe9c0;" TargetName="txt" />
+                                                <Setter Property="ToolTip" Value="隐藏工具栏" TargetName="txt" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="txt"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource S_GrayNotice}" TargetName="txt"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="false">
+                                                <Setter Property="Opacity" Value="0.5" TargetName="txt"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

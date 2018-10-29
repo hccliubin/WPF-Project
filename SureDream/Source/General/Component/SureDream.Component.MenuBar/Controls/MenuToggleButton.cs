@@ -117,13 +117,13 @@ namespace SureDream.Component.MenuBar
             set { SetValue(ContentDecorationsProperty, value); }
         }
 
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(MenuToggleButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(MenuToggleButton), new PropertyMetadata(Orientation.Vertical));
 
         /// <summary> 图标和文字的布局方式 </summary>
         public Orientation Orientation
         {
-            get { return (Orientation)GetValue(ContentDecorationsProperty); }
-            set { SetValue(ContentDecorationsProperty, value); }
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
         }
 
         public static readonly DependencyProperty IconFontWeightProperty = DependencyProperty.Register("IconFontWeight", typeof(FontWeight), typeof(MenuToggleButton), new PropertyMetadata(null));

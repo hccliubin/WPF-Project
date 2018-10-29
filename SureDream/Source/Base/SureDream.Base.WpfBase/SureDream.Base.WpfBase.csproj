@@ -49,6 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlsSearchHelper.cs" />
     <Compile Include="Service\Attach\ControlAttachEvent.cs" />
     <Compile Include="Service\Attach\ControlAttachProperty.cs" />
     <Compile Include="Service\Command\RelayCommand.cs" />

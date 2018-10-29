@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Appliaction.DemoA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Component.MenuBar", "..\..\Source\General\Component\SureDream.Component.MenuBar\SureDream.Component.MenuBar.csproj", "{FCB2AD85-4D83-45CF-A593-6001B1A85E75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{83843C3C-0AD8-4825-8DA8-197C43821E97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FCB2AD85-4D83-45CF-A593-6001B1A85E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCB2AD85-4D83-45CF-A593-6001B1A85E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCB2AD85-4D83-45CF-A593-6001B1A85E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83843C3C-0AD8-4825-8DA8-197C43821E97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83843C3C-0AD8-4825-8DA8-197C43821E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83843C3C-0AD8-4825-8DA8-197C43821E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83843C3C-0AD8-4825-8DA8-197C43821E97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,6 @@ Global
 		{435FEB82-599F-48E3-8891-755ACF8E4117} = {1893C403-901C-4669-AA9A-18BCCBF69541}
 		{C4388FC7-984F-4415-B495-9330E6097EB3} = {F0B44989-BF14-41A4-83E8-95BC99504412}
 		{FCB2AD85-4D83-45CF-A593-6001B1A85E75} = {A098864B-523B-4F78-B8D0-277440E7255F}
+		{83843C3C-0AD8-4825-8DA8-197C43821E97} = {C9A42D93-5C1C-4C89-A487-A7BC36CBD040}
 	EndGlobalSection
 EndGlobal
