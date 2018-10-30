@@ -204,141 +204,7 @@ namespace SureDream.Component.MenuBar
             this.RaiseEvent(args);
         }
 
-        /// <summary>
-        /// 刷新动态控件布局
-        /// </summary>
-        /// <param name="source"></param>
-        void RefreshWith(ObservableCollection<MenuButton> source)
-        {
-            ObservableCollection<ButtonBase> left = new ObservableCollection<ButtonBase>();
-            ObservableCollection<ButtonBase> right = new ObservableCollection<ButtonBase>();
-
-            if (source == null)
-            {
-                this.LeftControls = left;
-                this.RightControls = right;
-                return;
-            }
-
-            //  Do：按类别添加到组内
-            Action<IMenuIconButton> addAction = l =>
-              {
-                  if (l.LeftRightAlignment == LeftRightAlignment.Left)
-                  {
-                      left.Add(l as ButtonBase);
-                  }
-
-                  if (l.LeftRightAlignment == LeftRightAlignment.Right)
-                  {
-                      right.Add(l as ButtonBase);
-                  }
-              };
-
-            //  Do：按类别转换按钮
-            Func<MenuButton, IMenuIconButton> fuction = l =>
-              {
-                  if (l.MenuButtonStyle == MenuButtonStyle.Default)
-                  {
-                      MenuDefaultButton btn = new MenuDefaultButton();
-                      btn.Content = l.Content;
-                      btn.FIcon = l.IconFont;
-                      btn.LeftRightAlignment = l.LeftRightAlignment;
-                      btn.IsEnabled = l.IsEnabled;
-                      //btn.Orientation = l.Orientation;
-                      btn.Click += (s, e) =>
-                        {
-                            this.OnMenuClicked(btn);
-                        };
-
-                      return btn;
-                  }
-
-                  if (l.MenuButtonStyle == MenuButtonStyle.IconButton)
-                  {
-                      MenuIconButton btn = new MenuIconButton();
-                      btn.Content = l.Content;
-                      btn.FIcon = l.IconFont;
-                      btn.IsEnabled = l.IsEnabled;
-                      btn.Orientation = l.Orientation;
-
-                      btn.LeftRightAlignment = l.LeftRightAlignment;
-
-                      btn.Click += (s, e) =>
-                      {
-                          this.OnMenuClicked(btn);
-                      };
-
-                      return btn;
-                  }
-
-                  if (l.MenuButtonStyle == MenuButtonStyle.ToggleButton)
-                  {
-                      MenuToggleButton btn = new MenuToggleButton();
-                      btn.Content = l.Content;
-                      btn.FIcon = l.IconFont;
-                      btn.IsEnabled = l.IsEnabled;
-                      btn.Orientation = l.Orientation;
-
-                      btn.LeftRightAlignment = l.LeftRightAlignment;
-
-                      btn.Checked += (s, e) =>
-                      {
-                          this.OnCheckedChanged(btn);
-                      };
-
-                      btn.Unchecked += (s, e) =>
-                      {
-                          this.OnCheckedChanged(btn);
-                      };
-
-                      return btn;
-                  }
-
-                  return null;
-              };
-
-
-            foreach (var item in source)
-            {
-
-                IMenuIconButton btnInstance = fuction(item);
-
-                if (btnInstance == null)
-                {
-                    Debug.WriteLine("未识别按钮样式");
-                    return;
-                }
-
-                addAction(btnInstance);
-
-                if(item.MenuKey != null)
-                {
-                    ////  Do：注册快捷键
-                    //InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control);
-
-                    RelayCommand cmd = new RelayCommand(l =>
-                    {
-                        if(btnInstance is IMenuToggleButton)
-                        {
-                            this.OnCheckedChanged(btnInstance as IMenuToggleButton);
-                        }
-                        else
-                        {
-                            this.OnMenuClicked(btnInstance);
-                        }
-                   
-                    });
-
-                    InputBinding input = new InputBinding(cmd, item.MenuKey);
-
-                    //  Do：注册到窗口级别
-                    ControlsSearchHelper.GetParentObject<Window>(this, string.Empty).InputBindings.Add(input);
-                }
-            }
-
-            this.LeftControls = left;
-            this.RightControls = right;
-        }
+  
 
         #endregion
 
@@ -427,6 +293,187 @@ namespace SureDream.Component.MenuBar
             this.LeftControls = left;
             this.RightControls = right;
         }
+
+        /// <summary>
+        /// 刷新动态控件布局
+        /// </summary>
+        /// <param name="source"></param>
+        void RefreshWith(ObservableCollection<MenuButton> source)
+        {
+            ObservableCollection<ButtonBase> left = new ObservableCollection<ButtonBase>();
+            ObservableCollection<ButtonBase> right = new ObservableCollection<ButtonBase>();
+
+            if (source == null)
+            {
+                this.LeftControls = left;
+                this.RightControls = right;
+                return;
+            }
+
+            //  Do：按类别添加到组内
+            Action<IMenuIconButton> addAction = l =>
+            {
+                if (l.LeftRightAlignment == LeftRightAlignment.Left)
+                {
+                    left.Add(l as ButtonBase);
+                }
+
+                if (l.LeftRightAlignment == LeftRightAlignment.Right)
+                {
+                    right.Add(l as ButtonBase);
+                }
+            };
+
+            //  Do：按类别转换按钮
+            Func<MenuButton, IMenuIconButton> fuction = l =>
+            {
+                if (l.MenuButtonStyle == MenuButtonStyle.Default)
+                {
+                    MenuDefaultButton btn = new MenuDefaultButton();
+                    btn.Content = l.Content;
+                    btn.FIcon = l.IconFont;
+                    btn.LeftRightAlignment = l.LeftRightAlignment;
+                    btn.IsEnabled = l.IsEnabled;
+                    //btn.Orientation = l.Orientation;
+                    btn.Click += (s, e) =>
+                    {
+                        this.OnMenuClicked(btn);
+                    };
+
+                    return btn;
+                }
+
+                if (l.MenuButtonStyle == MenuButtonStyle.IconButton)
+                {
+                    MenuIconButton btn = new MenuIconButton();
+                    btn.Content = l.Content;
+                    btn.FIcon = l.IconFont;
+                    btn.IsEnabled = l.IsEnabled;
+                    btn.Orientation = l.Orientation;
+
+                    btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                    btn.Click += (s, e) =>
+                    {
+                        this.OnMenuClicked(btn);
+                    };
+
+                    return btn;
+                }
+
+                if (l.MenuButtonStyle == MenuButtonStyle.ToggleButton)
+                {
+                    MenuToggleButton btn = new MenuToggleButton();
+                    btn.Content = l.Content;
+                    btn.FIcon = l.IconFont;
+                    btn.IsEnabled = l.IsEnabled;
+                    btn.Orientation = l.Orientation;
+
+                    btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                    btn.Checked += (s, e) =>
+                    {
+                        this.OnCheckedChanged(btn);
+                    };
+
+                    btn.Unchecked += (s, e) =>
+                    {
+                        this.OnCheckedChanged(btn);
+                    };
+
+                    return btn;
+                }
+
+                if (l.MenuButtonStyle == MenuButtonStyle.MenuImageButton)
+                {
+                    MenuImageButton btn = new MenuImageButton();
+                    btn.Content = l.Content;
+                    btn.ImageSource = l.ImageSource;
+                    btn.IsEnabled = l.IsEnabled;
+                    btn.Orientation = l.Orientation;
+
+                    btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                    btn.Click += (s, e) =>
+                    {
+                        this.OnMenuClicked(btn);
+                    };
+
+                    return btn;
+                }
+
+                if (l.MenuButtonStyle == MenuButtonStyle.MenuToggleImageButton)
+                {
+                    MenuToggleImageButton btn = new MenuToggleImageButton();
+                    btn.Content = l.Content;
+                    btn.ImageSource = l.ImageSource;
+                    btn.IsEnabled = l.IsEnabled;
+                    btn.Orientation = l.Orientation;
+
+                    btn.LeftRightAlignment = l.LeftRightAlignment;
+
+                    btn.Checked += (s, e) =>
+                    {
+                        this.OnCheckedChanged(btn);
+                    };
+
+                    btn.Unchecked += (s, e) =>
+                    {
+                        this.OnCheckedChanged(btn);
+                    };
+
+                    return btn;
+                }
+
+                return null;
+            };
+
+
+            foreach (var item in source)
+            {
+
+                IMenuIconButton btnInstance = fuction(item);
+
+                if (btnInstance == null)
+                {
+                    Debug.WriteLine("未识别按钮样式");
+                    return;
+                }
+
+                addAction(btnInstance);
+
+                if (item.MenuKey != null)
+                {
+                    ////  Do：注册快捷键
+                    //InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control);
+
+                    RelayCommand cmd = new RelayCommand(l =>
+                    {
+                        if (btnInstance is IMenuToggleButton)
+                        {
+                            this.OnCheckedChanged(btnInstance as IMenuToggleButton);
+                        }
+                        else
+                        {
+                            this.OnMenuClicked(btnInstance);
+                        }
+
+                    });
+
+                    InputBinding input = new InputBinding(cmd, item.MenuKey);
+
+                    //  Do：注册到窗口级别
+                    var collection = ControlsSearchHelper.GetParentObject<Window>(this, string.Empty).InputBindings;
+
+                    collection.Add(input);
+
+                }
+            }
+
+            this.LeftControls = left;
+            this.RightControls = right;
+        }
+
 
         #endregion
     }

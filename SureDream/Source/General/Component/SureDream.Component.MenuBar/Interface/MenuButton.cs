@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SureDream.Component.MenuBar
 {
@@ -31,6 +32,8 @@ namespace SureDream.Component.MenuBar
 
         /// <summary> 图片布局方式 </summary>
         public Orientation Orientation { get; set; } = Orientation.Vertical;
+
+        public ImageSource ImageSource { get; set; }
 
 
 

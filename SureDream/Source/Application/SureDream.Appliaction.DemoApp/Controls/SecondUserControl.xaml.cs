@@ -136,7 +136,14 @@ namespace SureDream.Appliaction.DemoApp
             //  Do：取消
             else if (command == "sumit")
             {
-                this.Collection2.Add(BindAddButton);
+                if (this.Collection2.ToList().Exists(l => l.MenuKey.String == BindAddButton.MenuKey.String))
+                {
+                    MessageBox.Show("该快捷键已经被其他按钮注册了" + BindAddButton.MenuKey.String);
+                }
+                else
+                {
+                    this.Collection2.Add(BindAddButton);
+                }
             }
             //  Do：取消
             else if (command == "Delete")

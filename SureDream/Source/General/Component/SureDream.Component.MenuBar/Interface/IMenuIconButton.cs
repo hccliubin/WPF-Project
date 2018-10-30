@@ -36,6 +36,6 @@ namespace SureDream.Component.MenuBar
     /// <summary> 按钮类型 </summary>
     public enum MenuButtonStyle
     {
-        Default = 0, IconButton, ToggleButton
+        Default = 0, IconButton, ToggleButton, MenuImageButton, MenuToggleImageButton
     }
 }

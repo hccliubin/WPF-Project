@@ -11,9 +11,11 @@
     <Grid>
         <StackPanel>
             <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}">
-                
+
                 <com:MenuBar Header="工具栏">
-                    <com:MenuToggleButton FIcon="&#xe64b;"  Content="添加" LeftRightAlignment="Left" Click="MenuToggleButton_Click"/>
+                    <com:MenuImageButton ImageSource="../Image/Downloads.ico"   Content="修改" LeftRightAlignment="Left"/>
+
+                    <com:MenuToggleImageButton ImageSource="../Image/Flash.ico"  Content="添加" LeftRightAlignment="Left" Click="MenuToggleButton_Click"/>
                     <com:MenuIconButton FIcon="&#xe650;"   Content="修改" LeftRightAlignment="Left"/>
                     <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
                     <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>

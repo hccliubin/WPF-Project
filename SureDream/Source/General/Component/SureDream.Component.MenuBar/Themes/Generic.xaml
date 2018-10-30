@@ -41,7 +41,8 @@
 
     <!--工具栏默认样式-->
     <Style TargetType="{x:Type local:MenuBar}">
-        <Setter Property="Height" Value="50"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Height" Value="60"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MenuBar}">
@@ -72,13 +73,15 @@
 
                                 <Thumb x:Name="ToolBarThumb" 
                                        Margin="-3,-1,0,0"  
-                                       DockPanel.Dock="Right" Padding="6,5,1,6" 
+                                       DockPanel.Dock="Right" Padding="6,5,1,6"
                                        Style="{StaticResource ToolBarThumbStyle}" Width="15"/>
+                                
                                 <TextBlock  TextWrapping="Wrap" 
                                            Width="15" Text="{TemplateBinding Header}"
                                            HorizontalAlignment="Center" 
-                                           FontWeight="Bold" 
+                                           FontWeight="Bold" VerticalAlignment="Center"
                                            Grid.Column="1"/>
+                                
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden" 
                                               HorizontalScrollBarVisibility="Auto"  
                                               Style="{StaticResource CenterScrollViewer}"  
@@ -95,7 +98,7 @@
                                             </ItemsControl>
                                         </DockPanel>
 
-                                        <DockPanel Height="50" x:Name="PART_RIGHTPANEL" 
+                                        <DockPanel Height="{TemplateBinding Height}" x:Name="PART_RIGHTPANEL" 
                                                    Width="Auto" 
                                                    HorizontalAlignment="Right" 
                                                    DockPanel.Dock="Right">
@@ -628,6 +631,7 @@
     <Style BasedOn="{StaticResource MenuIconButtonDefaultStyle}" TargetType="{x:Type local:MenuIconButton}"/>
 
     <Style TargetType="{x:Type local:MenuBarPanel}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MenuBarPanel}">
@@ -639,10 +643,10 @@
                         </Border>
 
                         <StackPanel>
-                            <ItemsPresenter Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
+                            <ItemsPresenter Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.VisibilityConverter}}">
 
                             </ItemsPresenter>
-                            <ToggleButton x:Name="toggle" Width="Auto" Height="20" HorizontalAlignment="Right" IsChecked="True">
+                            <ToggleButton x:Name="toggle" Width="Auto" Height="10" HorizontalAlignment="Right" IsChecked="True">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                                         <Grid>
@@ -668,6 +672,450 @@
                             </ToggleButton>
                         </StackPanel>
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:MenuImageButton}">
+        <!--<Setter Property="Background" Value="{StaticResource S_AccentBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource S_WhiteNotice}" />
+        <Setter Property="MouseOverBackground" Value="{StaticResource S_AccentBrushCommon}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S_WhiteNotice}" />
+        <Setter Property="PressedBackground" Value="{StaticResource S_GrayNotice}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S_WhiteNotice}" />-->
+
+
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="MouseOverBackground" Value="Transparent" />
+        <Setter Property="PressedBackground" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource TitleTextForeground}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S_AccentBrush}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S_GrayNotice}" />
+
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="45" />
+        <Setter Property="Height" Value="45" />
+        <Setter Property="FontSize" Value="8" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="FIconSize" Value="20" />
+        <Setter Property="Padding" Value="3,1,3,1" />
+        <Setter Property="Content" Value="{x:Null}" />
+        <Setter Property="FIconMargin" Value="8,0" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+        <Setter Property="AllowsAnimation" Value="False" />
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="IconFontWeight" Value="Normal"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MenuImageButton}">
+                    <Grid >
+                        <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= Background}" 
+                                    Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Height}" 
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                    Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Width}"/>
+
+                        <Grid  x:Name="grid">
+                            <Grid.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform x:Name="grid_scale" ScaleX="1" ScaleY="1" />
+                                </TransformGroup>
+                            </Grid.LayoutTransform>
+                            <!--Icon/Text-->
+                            <StackPanel Orientation="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=Orientation}" VerticalAlignment="Center" 
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+
+                                <Image  x:Name="icon"  Source="{TemplateBinding ImageSource}" Margin="{TemplateBinding FIconMargin}"/>
+
+                                <TextBlock VerticalAlignment="Center"  x:Name="txt" 
+                           TextDecorations="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContentDecorations}" 
+                                               Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}" 
+                                               FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FontSize}" 
+                                               Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"
+                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ProgressBar  Background="Transparent"  Opacity="0.5" Visibility="{TemplateBinding base:ControlAttachProperty.IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}" 
+                                     BorderBrush="Transparent"  IsIndeterminate="True"
+                                     BorderThickness="0">
+                            <ProgressBar.Clip>
+                                <RectangleGeometry  RadiusX="{TemplateBinding base:ControlAttachProperty.CornerRadius}" RadiusY="{TemplateBinding base:ControlAttachProperty.CornerRadius}">
+                                    <RectangleGeometry.Rect>
+                                        <Rect Width="280" Height="52"/>
+                                    </RectangleGeometry.Rect>
+                                </RectangleGeometry>
+                            </ProgressBar.Clip>
+                        </ProgressBar>
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverBackground}" TargetName="border" />
+
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverForeground}"/>
+
+                            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverForeground}" TargetName="icon"/>-->
+
+                            <Setter Property="Opacity" Value="0.7" TargetName="icon"/>
+
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverForeground}" TargetName="txt"/>
+
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="0.8" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"></Condition>
+                                <Condition Property="AllowsAnimation" Value="true"></Condition>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transIcon" Storyboard.TargetProperty="Angle" To="180" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transIcon" Storyboard.TargetProperty="Angle" To="0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>-->
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"   Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"   Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <Trigger Property="base:ControlAttachProperty.IsBuzy" Value="true">
+
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedBackground}" TargetName="border" />
+                            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>-->
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>
+
+                            <Setter Property="Text" Value="{Binding Path=(base:ControlAttachProperty.BuzyText),RelativeSource={RelativeSource TemplatedParent}}" TargetName="txt"/>
+
+                            <Setter Property="IsEnabled" Value="False"/>
+
+                        </Trigger>
+
+                        <!--<Trigger Property="IsChecked" Value="true">
+
+                            --><!--<Setter Property="Background" Value="{DynamicResource S_AccentBrush}" TargetName="border" />-->
+
+                            <!--<Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="icon"/>--><!--
+
+                            <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="txt"/>
+
+                            --><!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>--><!--
+                        </Trigger>-->
+
+                        <Trigger Property="IsEnabled" Value="false">
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="border"/>
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="txt"/>
+
+                            <!--<Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedBackground}" TargetName="border" />
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>
+                            
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>-->
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:MenuToggleImageButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="MouseOverBackground" Value="Transparent" />
+        <Setter Property="PressedBackground" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource AssistTextForeground}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S_AccentBrush}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S_GrayNotice}" />
+
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="45" />
+        <Setter Property="Height" Value="45" />
+        <Setter Property="FontSize" Value="8" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="FIconSize" Value="20" />
+        <Setter Property="Padding" Value="3,1,3,1" />
+        <Setter Property="Content" Value="{x:Null}" />
+        <Setter Property="FIconMargin" Value="8,0" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+        <Setter Property="AllowsAnimation" Value="False" />
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="IconFontWeight" Value="Normal"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MenuToggleImageButton}">
+                    <Grid >
+                        <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= Background}" 
+                                    Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Height}" 
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                    Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Width}"/>
+
+                        <Grid  x:Name="grid">
+                            <Grid.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform x:Name="grid_scale" ScaleX="1" ScaleY="1" />
+                                </TransformGroup>
+                            </Grid.LayoutTransform>
+                            <!--Icon/Text-->
+                            <StackPanel Orientation="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=Orientation}" VerticalAlignment="Center" 
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+
+                                <Image  x:Name="icon"  Source="{TemplateBinding ImageSource}" Opacity="0.5" Margin="{TemplateBinding FIconMargin}"/>
+
+                                <TextBlock VerticalAlignment="Center"  x:Name="txt" 
+                           TextDecorations="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContentDecorations}" 
+                                               Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}" 
+                                               FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FontSize}" 
+                                               Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"
+                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ProgressBar  Background="Transparent"  Opacity="0.5" Visibility="{TemplateBinding base:ControlAttachProperty.IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}" 
+                                     BorderBrush="Transparent"  IsIndeterminate="True"
+                                     BorderThickness="0">
+                            <ProgressBar.Clip>
+                                <RectangleGeometry  RadiusX="{TemplateBinding base:ControlAttachProperty.CornerRadius}" RadiusY="{TemplateBinding base:ControlAttachProperty.CornerRadius}">
+                                    <RectangleGeometry.Rect>
+                                        <Rect Width="280" Height="52"/>
+                                    </RectangleGeometry.Rect>
+                                </RectangleGeometry>
+                            </ProgressBar.Clip>
+                        </ProgressBar>
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverBackground}" TargetName="border" />
+
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverForeground}"/>
+
+                            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverForeground}" TargetName="icon"/>-->
+
+                            <Setter Property="Opacity" Value="0.7" TargetName="icon"/>
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=MouseOverForeground}" TargetName="txt"/>
+
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="0.8" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"></Condition>
+                                <Condition Property="AllowsAnimation" Value="true"></Condition>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transIcon" Storyboard.TargetProperty="Angle" To="180" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transIcon" Storyboard.TargetProperty="Angle" To="0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>-->
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"   Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"   Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <Trigger Property="base:ControlAttachProperty.IsBuzy" Value="true">
+
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedBackground}" TargetName="border" />
+                            
+                            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>-->
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
+                            
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>
+
+                            <Setter Property="Text" Value="{Binding Path=(base:ControlAttachProperty.BuzyText),RelativeSource={RelativeSource TemplatedParent}}" TargetName="txt"/>
+
+                            <Setter Property="IsEnabled" Value="False"/>
+
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="true">
+
+                            <!--<Setter Property="Background" Value="{DynamicResource S_AccentBrush}" TargetName="border" />-->
+
+                            <!--<Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="icon"/>-->
+
+                            <Setter Property="Opacity" Value="1" TargetName="icon"/>
+
+                            <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="txt"/>
+
+                            <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="border"/>
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
+
+                            <Setter Property="Opacity" Value="0.5" TargetName="txt"/>
+
+                            <!--<Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedBackground}" TargetName="border" />
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="icon"/>
+                            
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                Path=PressedForeground}" TargetName="txt"/>-->
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

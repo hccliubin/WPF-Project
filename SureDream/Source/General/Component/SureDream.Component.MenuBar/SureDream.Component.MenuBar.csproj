@@ -48,12 +48,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MenuBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\MenuImageButton.cs" />
     <Compile Include="Interface\MenuButton.cs" />
     <Compile Include="Interface\MenuRoutedEventArgs.cs" />
     <Compile Include="Controls\MenuBar.cs" />
@@ -61,7 +66,11 @@
     <Compile Include="Controls\MenuIconButton.cs" />
     <Compile Include="Controls\MenuToggleButton.cs" />
     <Compile Include="Interface\IMenuIconButton.cs" />
-    <Compile Include="MenuBarPanel.cs" />
+    <Compile Include="Controls\MenuBarPanel.cs" />
+    <Compile Include="Controls\MenuToggleImageButton.cs" />
+    <Compile Include="MenuBarControl.xaml.cs">
+      <DependentUpon>MenuBarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -90,6 +99,5 @@
       <Name>SureDream.Base.WpfBase</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

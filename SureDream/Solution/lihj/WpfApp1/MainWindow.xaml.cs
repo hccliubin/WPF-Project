@@ -25,6 +25,10 @@ namespace WpfApp1
         {
             InitializeComponent();
 
+            btn.MouseLeftButtonDown += btn_MouseLeftButtonDown;
+            btn.MouseMove += btn_MouseMove;
+            btn.MouseLeftButtonUp += btn_MouseLeftButtonUp;
+
             ////  Do：注册快捷键
             //KeyBinding keybinding = new KeyBinding();
             InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control);
@@ -53,6 +57,34 @@ namespace WpfApp1
         //实例化一个RoutedUICommand对象来进行升序排列，指定其Text属性，并设置快捷键
         public static RoutedUICommand SortCommand  = new RoutedUICommand("Sort", "Sort", typeof(MainWindow)
                 , new InputGestureCollection(new KeyGesture[] { new KeyGesture(key: Key.F3, modifiers: ModifierKeys.None) }));
+
+        Point pos = new Point();
+        void btn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Button tmp = (Button)sender;
+            pos = e.GetPosition(null);
+            tmp.CaptureMouse();
+            tmp.Cursor = Cursors.Hand;
+        }
+
+        void btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Button tmp = (Button)sender;
+                double dx = e.GetPosition(null).X - pos.X + tmp.Margin.Left;
+                double dy = e.GetPosition(null).Y - pos.Y + tmp.Margin.Top;
+                tmp.Margin = new Thickness(dx, dy, 0, 0);
+                pos = e.GetPosition(null);
+            }
+        }
+
+        void btn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Button tmp = (Button)sender;
+            tmp.ReleaseMouseCapture();
+        }
+
     }
 
     //将所有命令封装在一个类里面

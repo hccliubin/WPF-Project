@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -124,6 +125,81 @@
       <Project>{fcb2ad85-4d83-45cf-a593-6001b1a85e75}</Project>
       <Name>SureDream.Component.MenuBar</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Chocolate Covered.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Downloads.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Dreamweaver.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Email.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Explorer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Fireworks.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Flash.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Freehand.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Gear 1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Gear 2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Illustrator 10.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Music.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Paint.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Public.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Quark.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Screenshots.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Splat 1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Splat 2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Temporary Items.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Web 1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Web 2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Zipped 1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Zipped 2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Zipped 3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Zipped 4.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

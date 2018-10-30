@@ -12,25 +12,28 @@
     <!--滚动两边按钮样式-->
     <Style x:Key="CenterScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush_MouseOver}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TitleTextForeground}"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
         <!--<Setter Property="HorizontalAlignment" Value="{x:Null}"></Setter>-->
         <Setter Property="Width" Value="auto"></Setter>
-        <Setter Property="Height" Value="auto"></Setter>
+        <Setter Property="Height" Value="100"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <TextBlock x:Name="FIcon" 
-                               FontSize="12" 
+
+                    <Grid>
+                        <TextBlock x:Name="FIcon" 
+                               FontSize="15" 
                                Text="{TemplateBinding local:ControlAttachProperty.FIcon}" 
-                               Margin="1"
+                               Margin="1" VerticalAlignment="Center"
                                Style="{StaticResource FIcon}" />
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="FIcon"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource S_GrayNotice}" TargetName="FIcon"/>
+                            <Setter Property="Foreground" Value="{DynamicResource S_GrayLight}" TargetName="FIcon"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5" TargetName="FIcon"/>

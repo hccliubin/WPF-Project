@@ -9,33 +9,33 @@
               xmlns:base="clr-namespace:SureDream.Base.WpfBase;assembly=SureDream.Base.WpfBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    
+
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height="2"/>-->
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel>
-            <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}">
-
-                <com:MenuBar Header="{Binding ElementName=tb_header1,Path=Text,Mode=TwoWay}" 
+        <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}" VerticalAlignment="Center">
+            <com:MenuBar Header="{Binding ElementName=tb_header1,Path=Text,Mode=TwoWay}" 
                          ButtonSource="{Binding Collection1,Mode=TwoWay}" 
                          MenuClicked="MenuBar_MenuClicked" Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                          CheckedChanged="MenuBar_CheckedChanged"/>
 
-                <com:MenuBar Header="{Binding ElementName=tb_header2,Path=Text,Mode=TwoWay}" 
+            <!--<GridSplitter Height="5" HorizontalAlignment="Stretch"/>-->
+
+            <com:MenuBar Header="{Binding ElementName=tb_header2,Path=Text,Mode=TwoWay}" Grid.Row="2"
                          ButtonSource="{Binding Collection2,Mode=TwoWay}"  
                          MenuClicked="MenuBar_MenuClicked" 
                          CheckedChanged="MenuBar_CheckedChanged" />
-            </com:MenuBarPanel>
-            <CheckBox x:Name="toggle_enble" Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
+        </com:MenuBarPanel>
+        
+        <!--<GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch"/>-->
 
-           
-        </StackPanel>
 
-        <GroupBox Header="动态添加示例"  Grid.Row="1">
+        <GroupBox Header="动态添加示例"  Grid.Row="2">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -46,12 +46,14 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" Height="20">
+                <StackPanel Orientation="Horizontal" Height="20" Grid.ColumnSpan="2">
+                    <CheckBox x:Name="toggle_enble" Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
+
                     <TextBlock Text="名称1："/>
-                    <TextBox x:Name="tb_header1" Height="20" MinWidth="100" Text="工具懒" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="tb_header1" Height="20" MinWidth="100" Text="工具栏" HorizontalAlignment="Center"/>
 
                     <TextBlock Text="名称2："/>
-                    <TextBox x:Name="tb_header2"  Height="20" MinWidth="100"  Text="菜烂"  HorizontalAlignment="Center"/>
+                    <TextBox x:Name="tb_header2"  Height="20" MinWidth="100"  Text="菜单栏"  HorizontalAlignment="Center"/>
                 </StackPanel>
 
                 <ListBox Grid.Row="1" ItemsSource="{Binding Collection2,Mode=TwoWay}" SelectedItem="{Binding BindAddButton,Mode=TwoWay}">
@@ -62,7 +64,7 @@
                     </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
                         <ItemContainerTemplate>
-                            <Grid Width="300" Height="30">
+                            <Grid Width="250" Height="30">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>

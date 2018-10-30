@@ -73,6 +73,9 @@ namespace SureDream.Appliaction.DemoApp
 
             btn.MenuKey = new MenuKey((Key)this.cb_key.SelectedValue, (ModifierKeys)this.cb_ModifierKeys.SelectedValue);
             btn.Orientation= (Orientation)this.cb_Orientation.SelectedValue;
+
+            btn.ImageSource = ((Image)this.image.SelectedValue).Source;
+
             this.MenuButton = btn;
 
             if (this.Command != null)

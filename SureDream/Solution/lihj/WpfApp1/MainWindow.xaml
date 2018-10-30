@@ -16,6 +16,8 @@
     </Window.InputBindings>-->
 
     <Grid>
-
+        <Grid Name="gd">
+            <Button Width="90" Height="30" Name="btn">button</Button>
+        </Grid>
     </Grid>
 </Window>

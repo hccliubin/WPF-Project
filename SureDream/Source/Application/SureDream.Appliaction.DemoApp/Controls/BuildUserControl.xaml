@@ -56,16 +56,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="选择图标" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="按钮类型" Grid.Column="0"  Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="停靠类型" Grid.Column="0"  Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="显示名称" Grid.Column="0"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="是否可用" Grid.Column="0"  Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="快捷键" Grid.Column="0"  Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Text="选择图片" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+        <TextBlock Text="按钮类型" Grid.Column="0"  Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Text="停靠类型" Grid.Column="0"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Text="显示名称" Grid.Column="0"  Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Text="是否可用" Grid.Column="0"  Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock Text="快捷键" Grid.Column="0"  Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="图片文本布局方式" Grid.Column="0"  Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Text="快捷键" Grid.Column="0"  Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Text="图片文本布局方式" Grid.Column="0"  Grid.Row="8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
         
         <ComboBox Grid.Row="0"  Grid.Column="1" x:Name="icon" SelectedIndex="0">
@@ -87,23 +90,31 @@
             <TextBlock Text="&#xea5e;" Style="{StaticResource FIcon}"/>
         </ComboBox>
 
-        <ComboBox SelectedIndex="1"  Grid.Column="1" Grid.Row="1" x:Name="type" ItemsSource="{Binding Source={StaticResource MenuButtonStyle} }"/>
+        <ComboBox Grid.Row="1"  Grid.Column="1" x:Name="image" SelectedIndex="0">
+            <Image Source="../Image/Downloads.ico" Height="20" Width="20"/>
+            <Image Source="../Image/Email.ico" Height="20" Width="20"/>
+            <Image Source="../Image/Explorer.ico" Height="20" Width="20"/>
+            <Image Source="../Image/Flash.ico" Height="20" Width="20"/>
+            <Image Source="../Image/Freehand.ico" Height="20" Width="20"/>
+            <Image Source="../Image/Music.ico" Height="20" Width="20"/>
+        </ComboBox>
 
-        <ComboBox SelectedIndex="0"  Grid.Column="1" Grid.Row="2" x:Name="leftright"  ItemsSource="{Binding Source={StaticResource LeftRightAlignment}}"/>
+        <ComboBox SelectedIndex="1"  Grid.Column="1" Grid.Row="2" x:Name="type" ItemsSource="{Binding Source={StaticResource MenuButtonStyle} }"/>
 
-        <TextBox  Grid.Row="3"  Grid.Column="1" x:Name="name" Text="播放"/>
+        <ComboBox SelectedIndex="0"  Grid.Column="1" Grid.Row="3" x:Name="leftright"  ItemsSource="{Binding Source={StaticResource LeftRightAlignment}}"/>
 
-        <CheckBox  x:Name="cb_isenbled" Grid.Row="4"  Grid.Column="1" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox  Grid.Row="4"  Grid.Column="1" x:Name="name" Text="播放"/>
 
+        <CheckBox  x:Name="cb_isenbled" Grid.Row="5"  Grid.Column="1" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <ComboBox SelectedIndex="60"  Grid.Column="1" Grid.Row="5" x:Name="cb_key"  ItemsSource="{Binding Source={StaticResource KeySource}}"/>
+        <ComboBox SelectedIndex="60"  Grid.Column="1" Grid.Row="6" x:Name="cb_key"  ItemsSource="{Binding Source={StaticResource KeySource}}"/>
 
-        <ComboBox SelectedIndex="2"  Grid.Column="1" Grid.Row="6" x:Name="cb_ModifierKeys"  ItemsSource="{Binding Source={StaticResource ModifierKeysSource}}"/>
+        <ComboBox SelectedIndex="2"  Grid.Column="1" Grid.Row="7" x:Name="cb_ModifierKeys"  ItemsSource="{Binding Source={StaticResource ModifierKeysSource}}"/>
 
-        <ComboBox SelectedIndex="1"  Grid.Column="1" Grid.Row="7" x:Name="cb_Orientation"  ItemsSource="{Binding Source={StaticResource OrientationSource}}"/>
+        <ComboBox SelectedIndex="1"  Grid.Column="1" Grid.Row="8" x:Name="cb_Orientation"  ItemsSource="{Binding Source={StaticResource OrientationSource}}"/>
 
         
-        <Button  Grid.Row="8" Grid.ColumnSpan="2" Content="添加" Click="Button_Click"/>
+        <Button  Grid.Row="9" Grid.ColumnSpan="2" Content="添加" Click="Button_Click"/>
 
     </Grid>
 </UserControl>
