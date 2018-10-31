@@ -22,7 +22,7 @@ using System.Windows.Shapes;
 namespace SureDream.Appliaction.DemoApp
 {
     /// <summary>
-    /// SecondUserControl.xaml 的交互逻辑
+    /// 动态加载
     /// </summary>
     public partial class SecondUserControl : UserControl
     {
@@ -53,7 +53,7 @@ namespace SureDream.Appliaction.DemoApp
     {
 
         private ObservableCollection<MenuButton> _collection1 = new ObservableCollection<MenuButton>();
-        /// <summary> 说明  </summary>
+        /// <summary> 工具栏按钮列表  </summary>
         public ObservableCollection<MenuButton> Collection1
         {
             get { return _collection1; }
@@ -65,7 +65,7 @@ namespace SureDream.Appliaction.DemoApp
         }
 
         private ObservableCollection<MenuButton> _collection2 = new ObservableCollection<MenuButton>();
-        /// <summary> 说明  </summary>
+        /// <summary> 菜单栏按钮列表  </summary>
         public ObservableCollection<MenuButton> Collection2
         {
             get { return _collection2; }
@@ -78,7 +78,7 @@ namespace SureDream.Appliaction.DemoApp
 
 
         private MenuButton _bindAddButton;
-        /// <summary> 说明  </summary>
+        /// <summary> 当前要增加删除的按钮  </summary>
         public MenuButton BindAddButton
         {
             get { return _bindAddButton; }
@@ -97,7 +97,7 @@ namespace SureDream.Appliaction.DemoApp
         {
             string command = obj.ToString();
 
-            //  Do：应用
+            //  Do：初始化
             if (command == "Init")
             {
                 string str = "\xe652;\xe653;\xe654;\xe655;\xe656;\xe657;\xe658;\xe65a;\xe65d;\xe65e;\xe65f;\xe662;\xe663;\xe668;\xe669;\xe66a;";
@@ -133,7 +133,7 @@ namespace SureDream.Appliaction.DemoApp
                 }
 
             }
-            //  Do：取消
+            //  Do：添加
             else if (command == "sumit")
             {
                 if (this.Collection2.ToList().Exists(l => l.MenuKey.String == BindAddButton.MenuKey.String))
@@ -145,7 +145,7 @@ namespace SureDream.Appliaction.DemoApp
                     this.Collection2.Add(BindAddButton);
                 }
             }
-            //  Do：取消
+            //  Do：删除
             else if (command == "Delete")
             {
                 this.Collection2.Remove(BindAddButton);

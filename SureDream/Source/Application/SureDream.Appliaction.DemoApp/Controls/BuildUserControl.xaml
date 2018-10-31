@@ -10,35 +10,45 @@
              mc:Ignorable="d"  x:Name="my_control"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="LeftRightAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="com:LeftRightAlignment"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="MenuButtonStyle" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="com:MenuButtonStyle"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--自定义资源引用-->
+                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Themes.Resource.xaml"/>
+                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
+                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Thremes.Control.xaml"/>
+                <ResourceDictionary Source="/SureDream.Component.MenuBar;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <ObjectDataProvider x:Key="KeySource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Key"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
 
-        <ObjectDataProvider x:Key="ModifierKeysSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ModifierKeys"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+            <ObjectDataProvider x:Key="LeftRightAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="com:LeftRightAlignment"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="MenuButtonStyle" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="com:MenuButtonStyle"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
-        <ObjectDataProvider x:Key="OrientationSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Orientation"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+            <ObjectDataProvider x:Key="KeySource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Key"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
+            <ObjectDataProvider x:Key="ModifierKeysSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ModifierKeys"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="OrientationSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Orientation"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
 
@@ -70,7 +80,7 @@
         <TextBlock Text="快捷键" Grid.Column="0"  Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock Text="图片文本布局方式" Grid.Column="0"  Grid.Row="8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
-        
+
         <ComboBox Grid.Row="0"  Grid.Column="1" x:Name="icon" SelectedIndex="0">
             <TextBlock Text="&#xe68d;" Style="{StaticResource FIcon}"/>
             <TextBlock Text="&#xe682;" Style="{StaticResource FIcon}"/>
@@ -113,7 +123,7 @@
 
         <ComboBox SelectedIndex="1"  Grid.Column="1" Grid.Row="8" x:Name="cb_Orientation"  ItemsSource="{Binding Source={StaticResource OrientationSource}}"/>
 
-        
+
         <Button  Grid.Row="9" Grid.ColumnSpan="2" Content="添加" Click="Button_Click"/>
 
     </Grid>

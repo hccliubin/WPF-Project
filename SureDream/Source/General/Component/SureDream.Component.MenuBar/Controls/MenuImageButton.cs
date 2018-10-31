@@ -16,7 +16,9 @@ using System.Windows.Shapes;
 
 namespace SureDream.Component.MenuBar
 {
-   
+    /// <summary>
+    /// 图片作为资源的按钮
+    /// </summary>
     public class MenuImageButton : ButtonBase, IMenuIconButton
     {
         static MenuImageButton()

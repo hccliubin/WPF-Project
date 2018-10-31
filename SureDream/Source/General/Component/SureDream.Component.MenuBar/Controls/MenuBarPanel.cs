@@ -15,7 +15,9 @@ using System.Windows.Shapes;
 
 namespace SureDream.Component.MenuBar
 { 
-    
+    /// <summary>
+    /// 工具栏容器
+    /// </summary>
     public class MenuBarPanel : ItemsControl
     {
         static MenuBarPanel()

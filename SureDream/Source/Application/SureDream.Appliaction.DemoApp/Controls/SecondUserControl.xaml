@@ -8,13 +8,11 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
               xmlns:base="clr-namespace:SureDream.Base.WpfBase;assembly=SureDream.Base.WpfBase"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-
+             d:DesignHeight="500" d:DesignWidth="1000">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!--<RowDefinition Height="2"/>-->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -24,15 +22,11 @@
                          MenuClicked="MenuBar_MenuClicked" Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                          CheckedChanged="MenuBar_CheckedChanged"/>
 
-            <!--<GridSplitter Height="5" HorizontalAlignment="Stretch"/>-->
-
             <com:MenuBar Header="{Binding ElementName=tb_header2,Path=Text,Mode=TwoWay}" Grid.Row="2"
                          ButtonSource="{Binding Collection2,Mode=TwoWay}"  
                          MenuClicked="MenuBar_MenuClicked" 
                          CheckedChanged="MenuBar_CheckedChanged" />
         </com:MenuBarPanel>
-        
-        <!--<GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch"/>-->
 
 
         <GroupBox Header="动态添加示例"  Grid.Row="2">

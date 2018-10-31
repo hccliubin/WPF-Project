@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 
 namespace SureDream.Component.MenuBar
 {
+    /// <summary>
+    /// 图片作为资源的选中按钮
+    /// </summary>
     public class MenuToggleImageButton : ToggleButton, IMenuToggleButton
     {
         static MenuToggleImageButton()

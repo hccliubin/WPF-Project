@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace SureDream.Appliaction.DemoApp
 {
     /// <summary>
-    /// FirstUserControl.xaml 的交互逻辑
+    /// 静态加载
     /// </summary>
     public partial class FirstUserControl : UserControl
     {

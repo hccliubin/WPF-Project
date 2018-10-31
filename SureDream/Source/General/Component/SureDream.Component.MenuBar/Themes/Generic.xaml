@@ -3,10 +3,20 @@
     xmlns:base="clr-namespace:SureDream.Base.WpfBase;assembly=SureDream.Base.WpfBase"
     xmlns:local="clr-namespace:SureDream.Component.MenuBar">
 
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--自定义资源引用-->
+        <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Themes.Resource.xaml"/>
+        <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
+        <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Thremes.Control.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <!--工具栏边框颜色-->
     <SolidColorBrush x:Key="ToolBarMenuBorder" Color="#808080"/>
+
     <!--工具栏背景颜色-->
     <SolidColorBrush x:Key="ToolBarSubMenuBackground" Color="#ffffffff"/>
+
     <!--工具栏背景颜色-->
     <SolidColorBrush x:Key="ToolBarGripper" Color="#C6C3C6"/>
 
@@ -75,13 +85,13 @@
                                        Margin="-3,-1,0,0"  
                                        DockPanel.Dock="Right" Padding="6,5,1,6"
                                        Style="{StaticResource ToolBarThumbStyle}" Width="15"/>
-                                
+
                                 <TextBlock  TextWrapping="Wrap" 
                                            Width="15" Text="{TemplateBinding Header}"
                                            HorizontalAlignment="Center" 
                                            FontWeight="Bold" VerticalAlignment="Center"
                                            Grid.Column="1"/>
-                                
+
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden" 
                                               HorizontalScrollBarVisibility="Auto"  
                                               Style="{StaticResource CenterScrollViewer}"  
@@ -630,6 +640,7 @@
     <Style BasedOn="{StaticResource MenuToggleButtonDefaultStyle}" TargetType="{x:Type local:MenuToggleButton}"/>
     <Style BasedOn="{StaticResource MenuIconButtonDefaultStyle}" TargetType="{x:Type local:MenuIconButton}"/>
 
+    <!--工具栏容器样式-->
     <Style TargetType="{x:Type local:MenuBarPanel}">
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -677,6 +688,7 @@
         </Setter>
     </Style>
 
+    <!--图片资源的按钮-->
     <Style TargetType="{x:Type local:MenuImageButton}">
         <!--<Setter Property="Background" Value="{StaticResource S_AccentBrush}" />
         <Setter Property="Foreground" Value="{StaticResource S_WhiteNotice}" />
@@ -864,13 +876,17 @@
 
                         <!--<Trigger Property="IsChecked" Value="true">
 
-                            --><!--<Setter Property="Background" Value="{DynamicResource S_AccentBrush}" TargetName="border" />-->
+                            -->
+                        <!--<Setter Property="Background" Value="{DynamicResource S_AccentBrush}" TargetName="border" />-->
 
-                            <!--<Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="icon"/>--><!--
+                        <!--<Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="icon"/>-->
+                        <!--
 
                             <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="txt"/>
 
-                            --><!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>--><!--
+                            -->
+                        <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
+                        <!--
                         </Trigger>-->
 
                         <Trigger Property="IsEnabled" Value="false">
@@ -899,6 +915,7 @@
         </Setter>
     </Style>
 
+    <!--图片资源的选中按钮-->
     <Style TargetType="{x:Type local:MenuToggleImageButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MouseOverBackground" Value="Transparent" />
@@ -983,7 +1000,7 @@
                                 Path=MouseOverForeground}" TargetName="icon"/>-->
 
                             <Setter Property="Opacity" Value="0.7" TargetName="icon"/>
-                            
+
                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=MouseOverForeground}" TargetName="txt"/>
 
@@ -1031,7 +1048,7 @@
                                 Path=PressedForeground}" TargetName="icon"/>-->
 
                             <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
-                            
+
                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=PressedForeground}" TargetName="txt"/>
 
@@ -1066,13 +1083,13 @@
 
                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=PressedBackground}" TargetName="border" />
-                            
+
                             <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=PressedForeground}" TargetName="icon"/>-->
 
                             <Setter Property="Opacity" Value="0.5" TargetName="icon"/>
-                            
-                            
+
+
                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=PressedForeground}" TargetName="txt"/>
 
@@ -1120,4 +1137,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 </ResourceDictionary>

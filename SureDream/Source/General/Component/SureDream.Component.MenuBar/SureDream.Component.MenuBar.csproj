@@ -48,10 +48,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MenuBarControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -68,9 +64,6 @@
     <Compile Include="Interface\IMenuIconButton.cs" />
     <Compile Include="Controls\MenuBarPanel.cs" />
     <Compile Include="Controls\MenuToggleImageButton.cs" />
-    <Compile Include="MenuBarControl.xaml.cs">
-      <DependentUpon>MenuBarControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

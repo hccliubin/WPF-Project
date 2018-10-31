@@ -39,6 +39,9 @@ namespace SureDream.Component.MenuBar
 
     }
 
+    /// <summary>
+    /// 按钮快捷键
+    /// </summary>
     public class MenuKey : KeyGesture
     {
         public MenuKey(Key key) : base(key)
@@ -51,7 +54,9 @@ namespace SureDream.Component.MenuBar
 
         }
 
-
+        /// <summary>
+        /// 快捷键文本
+        /// </summary>
         public string String
         {
             get

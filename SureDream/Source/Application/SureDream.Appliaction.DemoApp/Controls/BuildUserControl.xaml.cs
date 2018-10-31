@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace SureDream.Appliaction.DemoApp
 {
     /// <summary>
-    /// BuildUserControl.xaml 的交互逻辑
+    /// 添加按钮组件
     /// </summary>
     public partial class BuildUserControl : UserControl, ICommandSource
     {
