@@ -2,8 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!--资源文件-->
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="HeBianGu.Themes.Resource.xaml"/>
+        <ResourceDictionary Source="SureDream.Thremes.Control.xaml"/>
+        <ResourceDictionary Source="SureDream.Themes.Resource.xaml"/>
         <ResourceDictionary Source="Color/LightThemeResource.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

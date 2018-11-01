@@ -101,6 +101,12 @@ namespace SureDream.Base.WpfBase
 
         }
 
+        /// <summary>
+        /// 查找子节点类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="depObj"></param>
+        /// <returns></returns>
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
         {
             if (depObj != null)

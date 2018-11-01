@@ -23,97 +23,51 @@ using System.Windows.Controls;
 
 namespace SureDream.Base.WpfBase
 {
+
+    /// <summary>
+    /// 类型转换
+    /// </summary>
     public sealed class XConverter
     {
+        /// <summary>
+        /// 可见转换
+        /// </summary>
         public static BooleanToVisibilityConverter BooleanToVisibilityConverter
         {
             get { return new BooleanToVisibilityConverter(); }
         }
 
-
+        /// <summary>
+        /// 可见转换
+        /// </summary>
         public static VisibilityConverter VisibilityConverter
         {
             get { return new VisibilityConverter(); }
         }
 
+        /// <summary>
+        /// 边距转换
+        /// </summary>
         public static ThicknessToDoubleConverter ThicknessToDoubleConverter
         {
             get { return new ThicknessToDoubleConverter(); }
         }
+
+        /// <summary>
+        /// 百分比转换
+        /// </summary>
         public static PercentToAngleConverter PercentToAngleConverter
         {
             get { return new PercentToAngleConverter(); }
         }
 
+        /// <summary>
+        /// bool转换
+        /// </summary>
         public static TrueToFalseConverter TrueToFalseConverter
         {
             get { return new TrueToFalseConverter(); }
         }
-
-        public static PressedSizeConverter PressedSizeConverter
-        {
-            get { return new PressedSizeConverter(); }
-        }
-
-        public static MouseOverSizeConverter MouseOverSizeConverter
-        {
-            get { return new MouseOverSizeConverter(); }
-        }
-
-        public static VisibilityEmptyConverter VisibilityEmptyConverter
-        {
-            get { return new VisibilityEmptyConverter(); }
-        }
-        public static VisibilityStringConverter VisibilityStringConverter
-        {
-            get { return new VisibilityStringConverter(); }
-        }
-
-        
-        public static CornerRadiusToDouble CornerRadiusToDouble
-        {
-            get { return new CornerRadiusToDouble(); }
-        }
-
-
-        public static ComboBoxAutoSelectionConverter ComboBoxAutoSelectionConverter
-        {
-            get { return new ComboBoxAutoSelectionConverter(); }
-        }
-
-
-        public static ColorToBrushConverter ColorToBrushConverter
-        {
-            get { return new ColorToBrushConverter(); }
-        }
-
-        
-
-        //public static SelectTextConverter SelectTextConverter
-        //{
-        //    get { return Singleton<SelectTextConverter>.GetInstance(); }
-        //}
-
-        //public static DataVisibleTextConverter DataVisibleTextConverter
-        //{
-        //    get { return Singleton<DataVisibleTextConverter>.GetInstance(); }
-        //}
-
-        //public static DataVisibleTextConverterFalse DataVisibleTextConverterFalse
-        //{
-        //    get { return Singleton<DataVisibleTextConverterFalse>.GetInstance(); }
-        //}
-
-        //public static PressedSizeConverter PressedSizeConverter
-        //{
-        //    get { return Singleton<PressedSizeConverter>.GetInstance(); }
-        //}
-
-
-        //public static PassWordConverter PassWordConverter
-        //{
-        //    get { return Singleton<PassWordConverter>.GetInstance(); }
-        //}
 
     }
 }

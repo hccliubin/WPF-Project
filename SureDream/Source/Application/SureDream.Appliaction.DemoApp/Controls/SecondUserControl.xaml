@@ -18,12 +18,12 @@
 
         <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}" VerticalAlignment="Center">
             <com:MenuBar Header="{Binding ElementName=tb_header1,Path=Text,Mode=TwoWay}" 
-                         ButtonSource="{Binding Collection1,Mode=TwoWay}" 
+                         ButtonSource="{Binding Collection1,Mode=TwoWay}"  CanMenuButtonEnble="{Binding Filter1,Mode=TwoWay}"
                          MenuClicked="MenuBar_MenuClicked" Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                          CheckedChanged="MenuBar_CheckedChanged"/>
 
             <com:MenuBar Header="{Binding ElementName=tb_header2,Path=Text,Mode=TwoWay}" Grid.Row="2"
-                         ButtonSource="{Binding Collection2,Mode=TwoWay}"  
+                         ButtonSource="{Binding Collection2,Mode=TwoWay}"   CanMenuButtonEnble="{Binding Filter2,Mode=TwoWay}"
                          MenuClicked="MenuBar_MenuClicked" 
                          CheckedChanged="MenuBar_CheckedChanged" />
         </com:MenuBarPanel>
@@ -32,7 +32,7 @@
         <GroupBox Header="动态添加示例"  Grid.Row="2">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -40,38 +40,72 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" Height="20" Grid.ColumnSpan="2">
-                    <CheckBox x:Name="toggle_enble" Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
+                <StackPanel  Grid.ColumnSpan="1">
+                    <CheckBox x:Name="toggle_enble" Height="30"  Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
 
-                    <TextBlock Text="名称1："/>
-                    <TextBox x:Name="tb_header1" Height="20" MinWidth="100" Text="工具栏" HorizontalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" Height="30">
+                        <TextBlock Text="名称1：" Height="20"/>
+                        <TextBox x:Name="tb_header1" Height="20" MinWidth="100" Text="工具栏" HorizontalAlignment="Center"/>
 
-                    <TextBlock Text="名称2："/>
-                    <TextBox x:Name="tb_header2"  Height="20" MinWidth="100"  Text="菜单栏"  HorizontalAlignment="Center"/>
+                        <TextBlock Text="名称2：" Height="20"/>
+                        <TextBox x:Name="tb_header2"  Height="20" MinWidth="100"  Text="菜单栏"  HorizontalAlignment="Center"/>
+                    </StackPanel>
                 </StackPanel>
 
-                <ListBox Grid.Row="1" ItemsSource="{Binding Collection2,Mode=TwoWay}" SelectedItem="{Binding BindAddButton,Mode=TwoWay}">
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Width="300">
+                    <TextBlock Text="添加到工具栏" VerticalAlignment="Center"  Width="100" />
+                    <ComboBox x:Name="cb_selectTool" SelectedIndex="{Binding SelectIndex}" Width="200" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ElementName=tb_header1,Path=Text}"/>
+                        <TextBlock Text="{Binding ElementName=tb_header2,Path=Text}"/>
+                    </ComboBox>
+
+                </StackPanel>
+                <ListBox x:Name="listbox" Grid.Row="1" ItemsSource="{Binding Collection,Mode=TwoWay}"  SelectionChanged="ListBox_SelectionChanged"  SelectionMode="Multiple" SelectedItem="{Binding BindAddButton,Mode=TwoWay}">
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="删除" Command="{Binding RelayCommand}" CommandParameter="Delete"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
-                    <ListBox.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Grid Width="250" Height="30">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding IconFont}" Style="{StaticResource FIcon}" Grid.Column="0" FontSize="15"/>
-                                <TextBlock Text="{Binding MenuKey.String}"  FontSize="15"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid  Height="30">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.5*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="0.5*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                <ContentPresenter Content="{Binding Content}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.ColumnSpan="4"/>
+                                            <TextBlock Text="{Binding IconFont}" Style="{StaticResource FIcon}" Grid.Column="0" FontSize="15"/>
+                                                
+                                                <TextBlock Text="{Binding MenuKey.String}"  FontSize="15"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                            </Grid>
-                        </ItemContainerTemplate>
-                    </ListBox.ItemTemplate>
+                                                <ContentPresenter Content="{Binding Content}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                                <CheckBox Content="是否锁定" VerticalAlignment="Center" IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" Grid.Column="3"/>
+                                          
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource S_GrayNotice}" />
+                                                <!--<Setter TargetName="Border" Property="Opacity" Value="{StaticResource DisableOpacity}" />-->
+                                            </Trigger>
+                                           
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Border" Property="Opacity" Value="{StaticResource DisableOpacity}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                 </ListBox>
 
                 <Grid Grid.Column="1" Grid.Row="1">

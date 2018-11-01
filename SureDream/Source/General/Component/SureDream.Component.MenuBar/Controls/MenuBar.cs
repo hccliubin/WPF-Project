@@ -50,7 +50,57 @@ namespace SureDream.Component.MenuBar
 
                 string config = e.NewValue as string;
 
+
+                if (string.IsNullOrEmpty(config)) return;
+
+
+                int count = config.Length % 3 == 0 ? config.Length / 3 : config.Length / 3 + 1;
+
+                if(config.Length>20)
+                {
+                    MessageBox.Show("标题栏长度限定为20字(40字节)以内。");
+                    return;
+                }
+
+                List<string> collection = new List<string>();
+
+                for (int i = 0; i < count; i++)
+                {
+                    var v = config.Skip(i * 3).Take(3).Select(l=>l.ToString()).Aggregate((l, k) =>
+                    {
+                        return l.ToString() + k.ToString();
+                    });
+
+                    collection.Add(v);
+                }
+
+                control.HeaderCollection = collection;
             }));
+
+
+        List<string> HeaderCollection
+        {
+            get { return (List<string>)GetValue(HeaderCollectionProperty); }
+
+            set
+            {
+                SetValue(HeaderCollectionProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderCollectionProperty =
+            DependencyProperty.Register("HeaderCollection", typeof(List<string>), typeof(MenuBar), new PropertyMetadata(new List<string>() { "工具栏", "惨淡蓝", "测试蓝" }, (d, e) =>
+              {
+                  MenuBar control = d as MenuBar;
+
+                  if (control == null) return;
+
+                  List<string> config = e.NewValue as List<string>;
+
+              }));
+
+
         /// <summary>
         /// 左侧控件集合依赖属性
         /// </summary>
@@ -204,7 +254,7 @@ namespace SureDream.Component.MenuBar
             this.RaiseEvent(args);
         }
 
-  
+
 
         #endregion
 
@@ -336,9 +386,9 @@ namespace SureDream.Component.MenuBar
                     btn.IsEnabled = l.IsEnabled;
                     //btn.Orientation = l.Orientation;
                     btn.Click += (s, e) =>
-                    {
-                        this.OnMenuClicked(btn);
-                    };
+            {
+                this.OnMenuClicked(btn);
+            };
 
                     return btn;
                 }

@@ -45,12 +45,72 @@ namespace SureDream.Appliaction.DemoApp
         {
             MessageBox.Show("名称:" + e.MenuSource.Content?.ToString() + " 状态:" + e.MenuSource.IsChecked?.ToString());
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            List<IMenuIconButton> names = new List<IMenuIconButton>();
+
+            foreach (var item in this.listbox.SelectedItems)
+            {
+                if (item is IMenuIconButton)
+                {
+                    names.Add(item as IMenuIconButton);
+                }
+            }
+
+
+            Predicate<IMenuIconButton> match = l =>
+              {
+                  return !names.Exists(k => k.Content == l.Content);
+              };
+
+            _vm.RefreshFilter(match);
+
+        }
     }
 
 
 
     partial class SecondNotifyClass
     {
+        public void RefreshFilter(Predicate<IMenuIconButton> filter)
+        {
+            if (this.SelectIndex == 0)
+            {
+                this.Filter1 = filter;
+            }
+            else
+            {
+                this.Filter2 = filter;
+            }
+        }
+
+        private Predicate<IMenuIconButton> _filter1;
+        /// <summary> 说明  </summary>
+        public Predicate<IMenuIconButton> Filter1
+        {
+            get { return _filter1; }
+            set
+            {
+                _filter1 = value;
+                RaisePropertyChanged("Filter1");
+            }
+        }
+
+
+        private Predicate<IMenuIconButton> _filter2;
+        /// <summary> 说明  </summary>
+        public Predicate<IMenuIconButton> Filter2
+        {
+            get { return _filter2; }
+            set
+            {
+                _filter2 = value;
+                RaisePropertyChanged("Filter2");
+            }
+        }
+
 
         private ObservableCollection<MenuButton> _collection1 = new ObservableCollection<MenuButton>();
         /// <summary> 工具栏按钮列表  </summary>
@@ -76,6 +136,18 @@ namespace SureDream.Appliaction.DemoApp
             }
         }
 
+        private ObservableCollection<MenuButton> _collection = new ObservableCollection<MenuButton>();
+        /// <summary> 菜单栏按钮列表  </summary>
+        public ObservableCollection<MenuButton> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                _collection = value;
+                RaisePropertyChanged("Collection");
+            }
+        }
+
 
         private MenuButton _bindAddButton;
         /// <summary> 当前要增加删除的按钮  </summary>
@@ -88,6 +160,46 @@ namespace SureDream.Appliaction.DemoApp
                 RaisePropertyChanged("BindAddButton");
             }
         }
+
+
+
+        private ObservableCollection<MenuButton> _selectedItems = new ObservableCollection<MenuButton>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<MenuButton> SelectedItems
+        {
+            get { return _selectedItems; }
+            set
+            {
+                _selectedItems = value;
+                RaisePropertyChanged("SelectedItems");
+            }
+        }
+
+
+        private int _selectIndex = 0;
+        /// <summary> 说明  </summary>
+        public int SelectIndex
+        {
+            get { return _selectIndex; }
+            set
+            {
+                _selectIndex = value;
+                RaisePropertyChanged("SelectIndex");
+
+
+                if (this.SelectIndex == 0)
+                {
+                    this.Collection = this.Collection1;
+                    this.Filter1=l=> true;
+                }
+                else
+                {
+                    this.Collection = this.Collection2;
+                    this.Filter2 = l => true;
+                }
+            }
+        }
+
 
 
 
@@ -106,12 +218,14 @@ namespace SureDream.Appliaction.DemoApp
 
                 collection.RemoveAll(l => l == "");
 
+
+                int index = 0;
                 foreach (var item in collection)
                 {
 
                     MenuButton btn = new MenuButton();
                     btn.IconFont = item;
-                    btn.Content = "添加";
+                    btn.Content = "添加"+(index++).ToString();
 
                     int result = r.Next(8);
 
@@ -132,23 +246,36 @@ namespace SureDream.Appliaction.DemoApp
                     this.Collection1.Add(btn);
                 }
 
+
+                this.SelectIndex = 0;
+
             }
             //  Do：添加
             else if (command == "sumit")
             {
-                if (this.Collection2.ToList().Exists(l => l.MenuKey.String == BindAddButton.MenuKey.String))
+                if (this.Collection.ToList().Exists(l => l.MenuKey != null && l.MenuKey.String == BindAddButton.MenuKey.String))
                 {
                     MessageBox.Show("该快捷键已经被其他按钮注册了" + BindAddButton.MenuKey.String);
                 }
+                else if (this.Collection.ToList().Exists(l => l.Content == BindAddButton.Content))
+                {
+                    MessageBox.Show("该名称已经被其他按钮注册了" + BindAddButton.MenuKey.String);
+                }
                 else
                 {
-                    this.Collection2.Add(BindAddButton);
+
+                    this.Collection.Add(BindAddButton);
+
+
+
                 }
             }
             //  Do：删除
             else if (command == "Delete")
             {
-                this.Collection2.Remove(BindAddButton);
+
+                this.Collection.Remove(BindAddButton);
+
             }
         }
     }

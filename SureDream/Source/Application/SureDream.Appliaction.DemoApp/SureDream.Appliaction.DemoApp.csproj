@@ -201,5 +201,9 @@
   <ItemGroup>
     <Resource Include="Image\Zipped 4.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Chinamap.png" />
+    <Resource Include="Image\loading.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

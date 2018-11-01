@@ -1,4 +1,5 @@
-﻿using SureDream.Component.MenuBar;
+﻿using Microsoft.Win32;
+using SureDream.Component.MenuBar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace SureDream.Appliaction.DemoApp
             btn.IsEnabled = this.cb_isenbled.IsChecked ?? this.cb_isenbled.IsChecked.Value;
 
             btn.MenuKey = new MenuKey((Key)this.cb_key.SelectedValue, (ModifierKeys)this.cb_ModifierKeys.SelectedValue);
-            btn.Orientation= (Orientation)this.cb_Orientation.SelectedValue;
+            btn.Orientation = (Orientation)this.cb_Orientation.SelectedValue;
 
             btn.ImageSource = ((Image)this.image.SelectedValue).Source;
 
@@ -85,6 +86,20 @@ namespace SureDream.Appliaction.DemoApp
 
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
 
+            var result = open.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                Image image = new Image();
+
+                image.Source = new BitmapImage(new Uri(open.FileName, UriKind.Absolute));
+
+                this.image.Items.Add(image);
+            }
+        }
     }
 }
