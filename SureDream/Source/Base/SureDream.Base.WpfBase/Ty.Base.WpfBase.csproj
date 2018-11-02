@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FCB2AD85-4D83-45CF-A593-6001B1A85E75}</ProjectGuid>
+    <ProjectGuid>{435FEB82-599F-48E3-8891-755ACF8E4117}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>SureDream.Component.MenuBar</RootNamespace>
-    <AssemblyName>SureDream.Component.MenuBar</AssemblyName>
+    <RootNamespace>Ty.Base.WpfBase</RootNamespace>
+    <AssemblyName>Ty.Base.WpfBase</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -18,10 +18,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Product\Debug\</OutputPath>
+    <OutputPath>..\..\..\Product\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\Product\Debug\Ty.Base.WpfBase.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,12 +35,12 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -48,22 +49,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controls\MenuImageButton.cs" />
-    <Compile Include="Interface\MenuButton.cs" />
-    <Compile Include="Interface\MenuRoutedEventArgs.cs" />
-    <Compile Include="Controls\MenuBar.cs" />
-    <Compile Include="Controls\MenuDefaultButton.cs" />
-    <Compile Include="Controls\MenuIconButton.cs" />
-    <Compile Include="Controls\MenuToggleButton.cs" />
-    <Compile Include="Interface\IMenuIconButton.cs" />
-    <Compile Include="Controls\MenuBarPanel.cs" />
-    <Compile Include="Controls\MenuToggleImageButton.cs" />
+    <Compile Include="Service\ControlsSearchHelper.cs" />
+    <Compile Include="Service\Attach\ControlAttachEvent.cs" />
+    <Compile Include="Service\Attach\ControlAttachProperty.cs" />
+    <Compile Include="Service\Command\RelayCommand.cs" />
+    <Compile Include="Service\Convert\UIConverter.cs" />
+    <Compile Include="Service\Convert\XConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,12 +76,45 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Base\SureDream.Base.WpfBase\SureDream.Base.WpfBase.csproj">
-      <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
-      <Name>SureDream.Base.WpfBase</Name>
-    </ProjectReference>
+    <Page Include="Themes\Controls\CenterScroll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\FIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Ty.Themes.Resource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\StoryBoard\StoryBoardResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Color\DarkThemeResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Color\LightThemeResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Ty.Thremes.Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\demo_unicode.html" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

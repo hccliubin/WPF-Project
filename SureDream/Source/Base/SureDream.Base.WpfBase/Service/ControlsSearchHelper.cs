@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace SureDream.Base.WpfBase
+namespace Ty.Base.WpfBase
 {
     /// <summary>
     /// 用于查找控件的工具类：找到父控件、子控件

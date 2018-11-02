@@ -117,13 +117,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\SureDream.Base.WpfBase\SureDream.Base.WpfBase.csproj">
+    <ProjectReference Include="..\..\Base\SureDream.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
-      <Name>SureDream.Base.WpfBase</Name>
+      <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\General\Component\SureDream.Component.MenuBar\SureDream.Component.MenuBar.csproj">
+    <ProjectReference Include="..\..\General\Component\SureDream.Component.MenuBar\Ty.Component.MenuBar.csproj">
       <Project>{fcb2ad85-4d83-45cf-a593-6001b1a85e75}</Project>
-      <Name>SureDream.Component.MenuBar</Name>
+      <Name>Ty.Component.MenuBar</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

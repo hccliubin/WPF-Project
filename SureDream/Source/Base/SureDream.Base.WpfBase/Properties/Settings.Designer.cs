@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SureDream.Base.WpfBase.Properties {
+namespace Ty.Base.WpfBase.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

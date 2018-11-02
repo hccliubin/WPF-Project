@@ -12,7 +12,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace SureDream.Base.WpfBase
+namespace Ty.Base.WpfBase
 {
     /// <summary> 布尔转不可用 </summary>
     [ValueConversion(typeof(Visibility), typeof(bool))]

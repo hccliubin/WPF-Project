@@ -1,5 +1,5 @@
-﻿using SureDream.Base.WpfBase;
-using SureDream.Component.MenuBar;
+﻿using Ty.Base.WpfBase;
+using Ty.Component.MenuBar;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -161,21 +161,6 @@ namespace SureDream.Appliaction.DemoApp
             }
         }
 
-
-
-        private ObservableCollection<MenuButton> _selectedItems = new ObservableCollection<MenuButton>();
-        /// <summary> 说明  </summary>
-        public ObservableCollection<MenuButton> SelectedItems
-        {
-            get { return _selectedItems; }
-            set
-            {
-                _selectedItems = value;
-                RaisePropertyChanged("SelectedItems");
-            }
-        }
-
-
         private int _selectIndex = 0;
         /// <summary> 说明  </summary>
         public int SelectIndex
@@ -184,13 +169,14 @@ namespace SureDream.Appliaction.DemoApp
             set
             {
                 _selectIndex = value;
+
                 RaisePropertyChanged("SelectIndex");
 
 
                 if (this.SelectIndex == 0)
                 {
                     this.Collection = this.Collection1;
-                    this.Filter1=l=> true;
+                    this.Filter1 = l => true;
                 }
                 else
                 {
@@ -225,7 +211,7 @@ namespace SureDream.Appliaction.DemoApp
 
                     MenuButton btn = new MenuButton();
                     btn.IconFont = item;
-                    btn.Content = "添加"+(index++).ToString();
+                    btn.Content = "添加" + (index++).ToString();
 
                     int result = r.Next(8);
 
@@ -253,22 +239,22 @@ namespace SureDream.Appliaction.DemoApp
             //  Do：添加
             else if (command == "sumit")
             {
-                if (this.Collection.ToList().Exists(l => l.MenuKey != null && l.MenuKey.String == BindAddButton.MenuKey.String))
+                if (!string.IsNullOrEmpty(BindAddButton.MenuKey.String))
                 {
-                    MessageBox.Show("该快捷键已经被其他按钮注册了" + BindAddButton.MenuKey.String);
+                    if (this.Collection.ToList().Exists(l => l.MenuKey != null && l.MenuKey.String == BindAddButton.MenuKey.String))
+                    {
+                        MessageBox.Show("该【快捷键】已经被其他按钮注册了" + BindAddButton.MenuKey.String);
+                        return;
+                    }
                 }
-                else if (this.Collection.ToList().Exists(l => l.Content == BindAddButton.Content))
+                if (this.Collection.ToList().Exists(l => l.Content == BindAddButton.Content))
                 {
-                    MessageBox.Show("该名称已经被其他按钮注册了" + BindAddButton.MenuKey.String);
+                    MessageBox.Show("该【名称】已经被其他按钮注册了" + BindAddButton.Content);
+                    return;
                 }
-                else
-                {
 
-                    this.Collection.Add(BindAddButton);
+                this.Collection.Add(BindAddButton);
 
-
-
-                }
             }
             //  Do：删除
             else if (command == "Delete")

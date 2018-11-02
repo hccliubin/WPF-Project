@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SureDream.Component.MenuBar
+namespace Ty.Component.MenuBar
 {
     /// <summary> 静态控件布局接口 </summary>
     public interface IMenuIconButton
@@ -36,6 +36,19 @@ namespace SureDream.Component.MenuBar
     /// <summary> 按钮类型 </summary>
     public enum MenuButtonStyle
     {
-        Default = 0, IconButton, ToggleButton, MenuImageButton, MenuToggleImageButton
+        /// <summary> 默认按钮类型 </summary>
+        Default = 0,
+
+        /// <summary> 矢量图标按钮类型 </summary>
+        IconButton,
+
+        /// <summary> 选中矢量图标按钮类型 </summary>
+        ToggleButton,
+
+        /// <summary> 图片按钮类型 </summary>
+        MenuImageButton,
+
+        /// <summary> 图片选中按钮类型 </summary>
+        MenuToggleImageButton
     }
 }

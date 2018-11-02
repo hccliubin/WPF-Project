@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SureDream.Component.MenuBar
+namespace Ty.Component.MenuBar
 {
     /// <summary>
     /// 矢量图标库选中按钮控件

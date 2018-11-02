@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
-             xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
+             xmlns:com="clr-namespace:Ty.Component.MenuBar;assembly=Ty.Component.MenuBar"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
              mc:Ignorable="d"  x:Name="my_control"
@@ -13,10 +13,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--自定义资源引用-->
-                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Themes.Resource.xaml"/>
-                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
-                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Thremes.Control.xaml"/>
-                <ResourceDictionary Source="/SureDream.Component.MenuBar;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Themes.Resource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Thremes.Control.xaml"/>
+                <ResourceDictionary Source="/Ty.Component.MenuBar;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
 

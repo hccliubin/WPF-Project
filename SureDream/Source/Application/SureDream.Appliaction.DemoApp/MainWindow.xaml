@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
-        xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
+        xmlns:com="clr-namespace:Ty.Component.MenuBar;assembly=Ty.Component.MenuBar"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="700">
     <Grid>

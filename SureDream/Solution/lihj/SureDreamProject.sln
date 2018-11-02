@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tester", "Tester", "{C9A42D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Component", "Component", "{A098864B-523B-4F78-B8D0-277440E7255F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Base.WpfBase", "..\..\Source\Base\SureDream.Base.WpfBase\SureDream.Base.WpfBase.csproj", "{435FEB82-599F-48E3-8891-755ACF8E4117}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ty.Base.WpfBase", "..\..\Source\Base\SureDream.Base.WpfBase\Ty.Base.WpfBase.csproj", "{435FEB82-599F-48E3-8891-755ACF8E4117}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Appliaction.DemoApp", "..\..\Source\Application\SureDream.Appliaction.DemoApp\SureDream.Appliaction.DemoApp.csproj", "{C4388FC7-984F-4415-B495-9330E6097EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Component.MenuBar", "..\..\Source\General\Component\SureDream.Component.MenuBar\SureDream.Component.MenuBar.csproj", "{FCB2AD85-4D83-45CF-A593-6001B1A85E75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ty.Component.MenuBar", "..\..\Source\General\Component\SureDream.Component.MenuBar\Ty.Component.MenuBar.csproj", "{FCB2AD85-4D83-45CF-A593-6001B1A85E75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

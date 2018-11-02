@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SureDream.Base.WpfBase
+namespace Ty.Base.WpfBase
 {
 
     /// <summary> 带参数的命令 </summary>

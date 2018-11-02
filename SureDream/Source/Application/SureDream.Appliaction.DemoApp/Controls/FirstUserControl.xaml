@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
-             xmlns:base="clr-namespace:SureDream.Base.WpfBase;assembly=SureDream.Base.WpfBase"
-             xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
+             xmlns:base="clr-namespace:Ty.Base.WpfBase;assembly=Ty.Base.WpfBase"
+             xmlns:com="clr-namespace:Ty.Component.MenuBar;assembly=Ty.Component.MenuBar"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1000">
     <Grid>

@@ -3,7 +3,7 @@
 
     <!--FIcon-->
     <Style x:Key="FIcon" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="/SureDream.Base.WpfBase;component/Resources/#HBG"></Setter>
+        <Setter Property="FontFamily" Value="/Ty.Base.WpfBase;component/Resources/#HBG"></Setter>
         <!--<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>-->
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>

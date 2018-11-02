@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace SureDream.Base.WpfBase
+namespace Ty.Base.WpfBase
 {
     /// <summary> 公共附加属性 </summary>
     public  static partial class ControlAttachProperty

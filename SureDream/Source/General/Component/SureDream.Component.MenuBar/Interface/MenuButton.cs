@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace SureDream.Component.MenuBar
+namespace Ty.Component.MenuBar
 {
     /// <summary> 动态添加控件接口 </summary>
     public class MenuButton : IMenuIconButton

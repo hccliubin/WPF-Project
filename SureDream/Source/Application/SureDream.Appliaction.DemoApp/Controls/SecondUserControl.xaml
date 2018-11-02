@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:com="clr-namespace:SureDream.Component.MenuBar;assembly=SureDream.Component.MenuBar"
+             xmlns:com="clr-namespace:Ty.Component.MenuBar;assembly=Ty.Component.MenuBar"
              xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-              xmlns:base="clr-namespace:SureDream.Base.WpfBase;assembly=SureDream.Base.WpfBase"
+              xmlns:base="clr-namespace:Ty.Base.WpfBase;assembly=Ty.Base.WpfBase"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1000">
 
@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}" VerticalAlignment="Center">
+        <com:MenuBarPanel IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}" VerticalAlignment="Center">
             <com:MenuBar Header="{Binding ElementName=tb_header1,Path=Text,Mode=TwoWay}" 
                          ButtonSource="{Binding Collection1,Mode=TwoWay}"  CanMenuButtonEnble="{Binding Filter1,Mode=TwoWay}"
                          MenuClicked="MenuBar_MenuClicked" Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"

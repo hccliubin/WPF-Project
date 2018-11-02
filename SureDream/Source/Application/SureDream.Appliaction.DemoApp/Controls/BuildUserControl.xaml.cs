@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using SureDream.Component.MenuBar;
+using Ty.Component.MenuBar;
 using System;
 using System.Collections.Generic;
 using System.Linq;

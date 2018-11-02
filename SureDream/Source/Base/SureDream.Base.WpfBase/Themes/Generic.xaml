@@ -4,8 +4,11 @@
 
     <!--资源文件-->
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="SureDream.Thremes.Control.xaml"/>
-        <ResourceDictionary Source="SureDream.Themes.Resource.xaml"/>
+        <!--控件字眼-->
+        <ResourceDictionary Source="Ty.Thremes.Control.xaml"/>
+        <!--系统资源-->
+        <ResourceDictionary Source="Ty.Themes.Resource.xaml"/>
+        <!--主题资源-->
         <ResourceDictionary Source="Color/LightThemeResource.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

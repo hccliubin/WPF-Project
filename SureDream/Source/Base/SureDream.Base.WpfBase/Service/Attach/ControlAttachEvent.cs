@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 
-namespace SureDream.Base.WpfBase
+namespace Ty.Base.WpfBase
 {
 
     /// <summary> 附加事件 </summary>
@@ -15,6 +15,7 @@ namespace SureDream.Base.WpfBase
     {
 
         #region - 双击事件 -
+
 
         public static readonly DependencyProperty PreviewMouseDoubleClickProperty =
             DependencyProperty.RegisterAttached("PreviewMouseDoubleClick", typeof(ICommand), typeof(ControlAttachEvent), new FrameworkPropertyMetadata(OnCommandChanged));
@@ -50,6 +51,9 @@ namespace SureDream.Base.WpfBase
         }
         #endregion
 
+        #region  - 鼠标左键按下- 
+
+
         public static DependencyProperty PreviewMouseLeftButtonDownCommandProperty = DependencyProperty.RegisterAttached("PreviewMouseLeftButtonDown",typeof(ICommand),typeof(ControlAttachEvent),new FrameworkPropertyMetadata(null, new PropertyChangedCallback(PreviewMouseLeftButtonDownChanged)));
 
         public static void SetPreviewMouseLeftButtonDown(DependencyObject target, ICommand value)
@@ -84,5 +88,7 @@ namespace SureDream.Base.WpfBase
             ICommand command = (ICommand)element.GetValue(PreviewMouseLeftButtonDownCommandProperty);
             command.Execute(sender);
         }
+
+        #endregion
     }
 }

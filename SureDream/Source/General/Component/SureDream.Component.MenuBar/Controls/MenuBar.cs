@@ -1,4 +1,4 @@
-﻿using SureDream.Base.WpfBase;
+﻿using Ty.Base.WpfBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SureDream.Component.MenuBar
+namespace Ty.Component.MenuBar
 {
     /// <summary>
     /// 通用工具栏
@@ -50,34 +50,49 @@ namespace SureDream.Component.MenuBar
 
                 string config = e.NewValue as string;
 
-
                 if (string.IsNullOrEmpty(config)) return;
 
+                control.RefreshTiltle(config);
 
-                int count = config.Length % 3 == 0 ? config.Length / 3 : config.Length / 3 + 1;
+                control.OnHeaderChanged();
 
-                if(config.Length>20)
-                {
-                    MessageBox.Show("标题栏长度限定为20字(40字节)以内。");
-                    return;
-                }
-
-                List<string> collection = new List<string>();
-
-                for (int i = 0; i < count; i++)
-                {
-                    var v = config.Skip(i * 3).Take(3).Select(l=>l.ToString()).Aggregate((l, k) =>
-                    {
-                        return l.ToString() + k.ToString();
-                    });
-
-                    collection.Add(v);
-                }
-
-                control.HeaderCollection = collection;
             }));
 
 
+
+        /// <summary>
+        /// 刷新抬头布局
+        /// </summary>
+        /// <param name="header"></param>
+        void RefreshTiltle(string header)
+        {
+
+            int count = header.Length % 3 == 0 ? header.Length / 3 : header.Length / 3 + 1;
+
+            if (header.Length > 20)
+            {
+                MessageBox.Show("标题栏长度限定为20字(40字节)以内。");
+                return;
+            }
+
+            List<string> collection = new List<string>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var v = header.Skip(i * 3).Take(3).Select(l => l.ToString()).Aggregate((l, k) =>
+                {
+                    return l.ToString() + k.ToString();
+                });
+
+                collection.Add(v);
+            }
+
+            this.HeaderCollection = collection;
+        }
+
+        /// <summary>
+        /// 用于拆分标题抬头
+        /// </summary>
         List<string> HeaderCollection
         {
             get { return (List<string>)GetValue(HeaderCollectionProperty); }
@@ -254,11 +269,30 @@ namespace SureDream.Component.MenuBar
             this.RaiseEvent(args);
         }
 
+        //声明和注册路由事件
+        public static readonly RoutedEvent HeaderChangedRoutedEvent =
+            EventManager.RegisterRoutedEvent("HeaderChanged", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(MenuBar));
+        /// <summary>
+        /// 抬头文本发生变化触发
+        /// </summary>
+        public event RoutedEventHandler HeaderChanged
+        {
+            add { this.AddHandler(HeaderChangedRoutedEvent, value); }
+            remove { this.RemoveHandler(HeaderChangedRoutedEvent, value); }
+        }
 
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnHeaderChanged()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(HeaderChangedRoutedEvent, this);
+            this.RaiseEvent(args);
+        }
 
         #endregion
 
         #region - 成员方法 -
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -492,7 +526,7 @@ namespace SureDream.Component.MenuBar
 
                 addAction(btnInstance);
 
-                if (item.MenuKey != null)
+                if (item.MenuKey != null&& !string.IsNullOrEmpty(item.MenuKey.String))
                 {
                     ////  Do：注册快捷键
                     //InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control);

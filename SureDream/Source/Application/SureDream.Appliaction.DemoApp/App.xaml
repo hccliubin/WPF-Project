@@ -7,10 +7,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--自定义资源引用-->
-                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Themes.Resource.xaml"/>
-                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
-                <ResourceDictionary Source="/SureDream.Base.WpfBase;component/Themes/SureDream.Thremes.Control.xaml"/>
-                <ResourceDictionary Source="/SureDream.Component.MenuBar;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Themes.Resource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Thremes.Control.xaml"/>
+                <ResourceDictionary Source="/Ty.Component.MenuBar;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

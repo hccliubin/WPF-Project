@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SureDream.Component.MenuBar
+namespace Ty.Component.MenuBar
 {
     /// <summary> 按钮点击事件参数 </summary>
     public class MenuRoutedEventArgs : RoutedEventArgs
