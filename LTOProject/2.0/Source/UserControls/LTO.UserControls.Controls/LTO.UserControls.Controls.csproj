@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{356FAC93-C6BB-4893-9045-1ADEFBC26BD4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LTO.UserControls.Controls</RootNamespace>
+    <AssemblyName>LTO.UserControls.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Product\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Product\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\..\..\Product\Libs\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\..\Product\Libs\System.Windows.Interactivity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\GeneralControlDomain.cs" />
+    <Compile Include="View\Config\HomeConfigNotifyClass.cs" />
+    <Compile Include="View\Config\PrintConfigViewModel.cs" />
+    <Compile Include="View\Config\ConfigMessageControl.xaml.cs">
+      <DependentUpon>ConfigMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Config\HomeConfigControl.xaml.cs">
+      <DependentUpon>HomeConfigControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Home\HomePageControl.xaml.cs">
+      <DependentUpon>HomePageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Config\PassWordControl.xaml.cs">
+      <DependentUpon>PassWordControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Config\SystemConfigControl.xaml.cs">
+      <DependentUpon>SystemConfigControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Module\ModulePageControl.xaml.cs">
+      <DependentUpon>ModulePageControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\Config\ConfigMessageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Config\HomeConfigControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Config\PassWordControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Config\SystemConfigControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Home\HomePageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Module\ModulePageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BaseLayer\LTO.Base.Frame.MVVM\LTO.Base.Frame.MVVM.csproj">
+      <Project>{f9fa9a39-e268-4665-ad1d-ec4deb48cc97}</Project>
+      <Name>LTO.Base.Frame.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BaseLayer\LTO.Base.Theme.Style\LTO.Base.Theme.Style.csproj">
+      <Project>{625015c8-f451-49ae-bf39-6c648bd036bc}</Project>
+      <Name>LTO.Base.Theme.Style</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DomainLayer\LTO.Domain.DataService\LTO.Domain.DataService.csproj">
+      <Project>{7522b825-d0fa-4b21-89ac-2256104dff55}</Project>
+      <Name>LTO.Domain.DataService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\LTO.General.ModuleManager\LTO.General.ModuleManager.csproj">
+      <Project>{99b03c22-c240-471e-b2df-433be2dc46b0}</Project>
+      <Name>LTO.General.ModuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\LTO.Module.GetNumberModule\LTO.Module.GetNumberModule.csproj">
+      <Project>{b37022b8-0ef1-44e0-af5c-de31c67bcc14}</Project>
+      <Name>LTO.Module.GetNumberModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\LTO.Module.ObserveModule\LTO.Module.ObserveModule.csproj">
+      <Project>{057a845e-2b23-4d09-89b6-b946c46e46ec}</Project>
+      <Name>LTO.Module.ObserveModule</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\icon_记录.png" />
+    <Resource Include="Image\中医体质.png" />
+    <Resource Include="Image\信号拷贝.png" />
+    <Resource Include="Image\取消.png" />
+    <Resource Include="Image\妥妥医标志横版（VI）白.png" />
+    <Resource Include="Image\打印失败.png" />
+    <Resource Include="Image\查询成功.png" />
+    <Resource Include="Image\正在打印.png" />
+    <Resource Include="Image\用户-医生.png" />
+    <Resource Include="Image\索引.png" />
+    <Resource Include="Image\表单页面2.png" />
+    <Resource Include="Image\费用拷贝.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\人员档案.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\单选.png" />
+    <Resource Include="Image\复选.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\针筒.png" />
+    <Resource Include="Image\闹钟.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\预防接种取号留观机.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

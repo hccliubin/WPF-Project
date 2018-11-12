@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="2通用服务层" Bounds="-163.281478271484,-192.541905517578,175.97,25.24" Label="CH.Product.General.Logger" />
+    <Node Id="3领域模型层" Bounds="108.552978993853,-171.853200060127,203.84,25.24" Label="CH.Product.Domain.DataService" />
+    <Node Id="4用户控件层" Bounds="428.170016747844,-222.689428433567,90.5866666666666,25.24" Label="4 用户控件层" />
+    <Node Id="5模块模型层" Bounds="428.170011025798,-167.44931612888,90.5866666666666,25.24" Label="5 模块模型层" />
+    <Node Id="6主程序" Bounds="440.170016747844,-112.209249600559,66.5866666666666,25.24" Label="6 主程序" />
+    <Node Id="CH.Product.Base.Tool" Bounds="-442.038812255859,-158.296873916891,142.95,25.24" />
+    <Node Id="CH.Product.Base.WPF" Bounds="-442.286131998698,-103.056692947653,143.543333333333,25.24" />
+    <Node Id="CH.Product.General.NetWork" Bounds="-169.038799133301,-137.298005218506,187.43,25.24" />
+    <Node Id="WPF基础" Category="Comment" Bounds="-279.653686726888,-308.777186221578,69.9266666666667,25.24" UseManualLocation="True" />
+    <Node Id="业务逻辑层" Bounds="88.5529789938529,-211.853300060127,243.84,85.2402" Group="Expanded" UseManualLocation="True" />
+    <Node Id="基础实体" Category="Comment" Bounds="-357.653686523438,-364.017286221578,68,25.24" UseManualLocation="True" />
+    <Node Id="基础工具" Category="Comment" Bounds="-473.653687672814,-332.07212164826,68,25.24" UseManualLocation="True" />
+    <Node Id="基础设施层" Bounds="-447.88879699707,-213.536986221578,154.65,25.24" Label="CH.Product.Base.Model" />
+    <Node Id="基础设施层1" Bounds="-467.88879699707,-253.537086221578,194.65,195.720493273926" Group="Expanded" Label="基础设施层" UseManualLocation="True" />
+    <Node Id="实现业务逻辑" Category="Comment" Bounds="143.21407790717,-298.07212164826,128,25.24" Label="实现数据的业务逻辑" UseManualLocation="True" />
+    <Node Id="日志服务" Category="Comment" Bounds="-40.6536860466003,-306.192174072266,68,25.24" UseManualLocation="True" />
+    <Node Id="用户界面，负责视觉和用户互动" Category="Comment" Bounds="384.346312327186,-332.07212164826,188,25.24" UseManualLocation="True" />
+    <Node Id="网络数据服务" Category="Comment" Bounds="-170.6536860466,-308.952061767578,92,25.24" UseManualLocation="True" />
+    <Node Id="表现层" Bounds="408.170011025798,-262.689528433567,130.586670481364,195.720378833008" Group="Expanded" UseManualLocation="True" />
+    <Node Id="通用服务层" Bounds="-189.0387979454,-232.542005961537,227.43,140.484101252747" Group="Expanded" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="2通用服务层" Target="3领域模型层" Bounds="12.6885217285157,-173.552098009382,86.8879482955726,6.29038478632594" />
+    <Link Source="3领域模型层" Target="4用户控件层" Bounds="275.759849196091,-199.606097832716,143.573723926099,27.7529053888686" />
+    <Link Source="4用户控件层" Target="5模块模型层" Bounds="473.463333129883,-197.44941986084,0,21.0001123046874" />
+    <Link Source="5模块模型层" Target="6主程序" Bounds="473.463336615866,-142.209307556152,5.8007821053252E-06,21.0000665283208" />
+    <Link Source="WPF基础" Target="CH.Product.Base.WPF" Bounds="-358.099807476975,-283.537186221578,105.690727244917,172.80271808265" />
+    <Link Source="业务逻辑层" Target="3领域模型层" Category="Contains" />
+    <Link Source="基础实体" Target="基础设施层" Bounds="-362.944651134531,-323.703318481445,34.7305267758133,96.1090280674487" />
+    <Link Source="基础工具" Target="CH.Product.Base.Tool" Bounds="-434.469345083161,-306.832133178711,55.3012854929893,134.617333939382" />
+    <Link Source="基础设施层" Target="2通用服务层" Bounds="-293.23879699707,-199.547070232087,121.002716074199,10.8959941682972" />
+    <Link Source="基础设施层1" Target="CH.Product.Base.Tool" Category="Contains" />
+    <Link Source="基础设施层1" Target="CH.Product.Base.WPF" Category="Contains" />
+    <Link Source="基础设施层1" Target="基础设施层" Category="Contains" />
+    <Link Source="实现业务逻辑" Target="3领域模型层" Bounds="207.539921533521,-272.832117919922,2.37491731946076,91.9819238614623" />
+    <Link Source="日志服务" Target="2通用服务层" Bounds="-63.0212146883786,-280.952174072266,48.7452678172364,80.7064013591653" />
+    <Link Source="用户界面，负责视觉和用户互动" Target="表现层" Bounds="476.837834630431,-306.83212164826,1.10993984458736,35.1470776552004" />
+    <Link Source="网络数据服务" Target="CH.Product.General.NetWork" Bounds="-121.026954995042,-283.712061767578,39.5906188444415,137.764156487723" />
+    <Link Source="表现层" Target="4用户控件层" Category="Contains" />
+    <Link Source="表现层" Target="5模块模型层" Category="Contains" />
+    <Link Source="表现层" Target="6主程序" Category="Contains" />
+    <Link Source="通用服务层" Target="2通用服务层" Category="Contains" />
+    <Link Source="通用服务层" Target="CH.Product.General.NetWork" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="注释" Description="表示在图表中用户定义的注释" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="注释" />
+    <Category Id="Contains" Label="包含" Description="链接的源是否包含目标对象" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="包含者" IsContainment="True" OutgoingActionLabel="包含" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="Group" Label="组" Description="将节点显示为组" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="注释" ValueLabel="包含注释">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

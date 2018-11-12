@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A658E0AC-6F56-408E-8C98-9ED7AE6D3C98}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HEW.Module.TCM</RootNamespace>
+    <AssemblyName>HEW.Module.TCM</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Product\Debug\Module\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Product\Release\Module\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\..\..\Product\Libs\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\..\Product\Libs\System.Windows.Interactivity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TCMModuleControl.xaml.cs">
+      <DependentUpon>TCMModuleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TCMModuleNotifyClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="TCMModuleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BaseLayer\HEW.Base.Frame.MVVM\HEW.Base.Frame.MVVM.csproj">
+      <Project>{F9FA9A39-E268-4665-AD1D-EC4DEB48CC97}</Project>
+      <Name>HEW.Base.Frame.MVVM</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BaseLayer\HEW.Base.Theme.Style\HEW.Base.Theme.Style.csproj">
+      <Project>{625015c8-f451-49ae-bf39-6c648bd036bc}</Project>
+      <Name>HEW.Base.Theme.Style</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\HEW.General.Data\HEW.General.Data.Manager\HEW.General.Data.Manager.csproj">
+      <Project>{56BDFBED-2702-4140-98B7-54ED7D4FD4B3}</Project>
+      <Name>HEW.General.Data.Manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\HEW.General.Model\HEW.General.Model.csproj">
+      <Project>{524999D6-6AEC-4F81-A77E-1C5219F71566}</Project>
+      <Name>HEW.General.Model</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UserControls\HEW.UserControl.Reports\HEW.UserControl.Reports.csproj">
+      <Project>{4502697e-34cd-4635-9018-f4138b2f1037}</Project>
+      <Name>HEW.UserControl.Reports</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,84 @@
+﻿<style:BaseUserControl x:Class="LTO.UserControls.Controls.HomeConfigControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LTO.UserControls.Controls"
+             xmlns:style="clr-namespace:LTO.Base.Theme.Style;assembly=LTO.Base.Theme.Style"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" IsShow="{Binding IsShow,Mode=TwoWay}"
+             mc:Ignorable="d"   Style="{StaticResource OpacityVisibleUserControl}" x:Name="control_config"
+             d:DesignHeight="1024" d:DesignWidth="1248">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LTO.UserControls.Controls;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+
+        <local:SystemConfigControl  x:Name="control_systemconfig" IsShow="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CancelClicked">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_password}" PropertyName="IsShow" Value="true"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_config}" PropertyName="IsShow" Value="false"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </local:SystemConfigControl>
+
+        <!--设置、关闭、关机页面-->
+        <local:ConfigMessageControl  x:Name="control_configmessage" IsShow="{Binding IsShowConfigMessage,Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <!--点击关闭-->
+                <i:EventTrigger EventName="CloseClicked">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_config}" PropertyName="IsShow" Value="false"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_password}" PropertyName="IsShow" Value="true"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_configmessage}" PropertyName="IsShow" Value="false"/>
+                </i:EventTrigger>
+
+                <!--点击设置-->
+                <i:EventTrigger EventName="SetClicked">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_configmessage}" PropertyName="IsShow" Value="false"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_systemconfig}" PropertyName="IsShow" Value="true"/>
+                </i:EventTrigger>
+
+                <!--点击关机-->
+                <i:EventTrigger EventName="SetDownClicked">
+                    <i:InvokeCommandAction  Command="{Binding RelayCommand}"  CommandParameter="SetDownClicked"/>
+                </i:EventTrigger>
+
+                <!--点击关闭程序-->
+                <i:EventTrigger EventName="ShutDownApp">
+                    <i:InvokeCommandAction  Command="{Binding RelayCommand}"  CommandParameter="ShutDownAppClicked"/>
+                </i:EventTrigger>
+
+
+            </i:Interaction.Triggers>
+        </local:ConfigMessageControl>
+
+        <local:PassWordControl x:Name="control_password" IsShow="{Binding IsShowPassWord,Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="loginClicked">
+                    <i:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="PasswordLoginClick"/>
+                </i:EventTrigger>
+
+                <i:EventTrigger EventName="PassWordGotFocus">
+                    <i:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="PassWordGotFocus"/>
+                </i:EventTrigger>
+
+                <i:EventTrigger EventName="CancelClicked">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_password}" PropertyName="IsShow" Value="false"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_config}" PropertyName="IsShow" Value="false"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </local:PassWordControl>
+
+    </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Showed">
+            <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_password}" PropertyName="IsShow" Value="true"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+</style:BaseUserControl>

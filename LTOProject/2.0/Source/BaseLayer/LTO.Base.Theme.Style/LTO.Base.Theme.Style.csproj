@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{625015C8-F451-49AE-BF39-6C648BD036BC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LTO.Base.Theme.Style</RootNamespace>
+    <AssemblyName>LTO.Base.Theme.Style</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Product\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Product\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attach\ControlAttachEvent.cs" />
+    <Compile Include="Attach\ControlAttachProperty.cs" />
+    <Compile Include="BaseUserControl.xaml.cs">
+      <DependentUpon>BaseUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BindPassWordBox.xaml.cs">
+      <DependentUpon>BindPassWordBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FilterControl.xaml.cs">
+      <DependentUpon>FilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageSingleControl.xaml.cs">
+      <DependentUpon>MessageSingleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModuleButtonControl.xaml.cs">
+      <DependentUpon>ModuleButtonControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageBar.xaml.cs">
+      <DependentUpon>PageBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RadioControl.xaml.cs">
+      <DependentUpon>RadioControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ButtonControl.xaml.cs">
+      <DependentUpon>ButtonControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TPageControl.xaml.cs">
+      <DependentUpon>TPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WaittingSingleControl.xaml.cs">
+      <DependentUpon>WaittingSingleControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BaseUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BindPassWordBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FilterControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MessageSingleControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ModuleButtonControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PageBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadioControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ButtonControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Scroll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TPageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WaittingSingleControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\BG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\保存.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\菜单选项框倒影.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\打印.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\打印失败.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\返回.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\关闭.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\取消.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\筛选.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\应用.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\查询成功.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\针筒.png" />
+    <Resource Include="Image\闹钟.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

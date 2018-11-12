@@ -1,0 +1,60 @@
+﻿<local:BaseUserControl x:Class="LTO.Base.Theme.Style.MessageSingleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LTO.Base.Theme.Style"
+             mc:Ignorable="d"   Style="{StaticResource DefaultCoverUserControl}" x:Name="control_message"
+             d:DesignHeight="1024" d:DesignWidth="1248">
+    <!--<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HEW.UserControl.General;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>-->
+    <Grid>
+        <Grid Width="700" Height="240">
+            <!--Width="720"-->
+            <Border x:Name="border" CornerRadius="10" Background="{StaticResource S_GrayLight}" MouseUp="Border_MouseUp"/>
+
+            <StackPanel Height="Auto"  VerticalAlignment="Center" Margin="0,0,0,-10">
+
+                <StackPanel Orientation="Horizontal" MinHeight="50" HorizontalAlignment="Center" Margin="-20,0,0,0">
+                    <Image x:Name="image" Source="Image/打印失败.png" Margin="20"  Height="40"/>
+
+                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap"  MaxWidth="800"
+                           VerticalAlignment="Center" 
+                           Foreground="{StaticResource S_AccentBrush}" 
+                           FontSize="{StaticResource DefaultFontSize}">
+                    
+                    <Run Text="{Binding Title,Mode=TwoWay,ElementName=control_message}"/>
+
+                    </TextBlock>
+                </StackPanel>
+
+                <!--<StackPanel Orientation="Horizontal" Height="Auto"  HorizontalAlignment="Center">-->
+                <TextBlock x:Name="txt_message" HorizontalAlignment="Center" TextWrapping="Wrap"  MaxWidth="800"
+                           VerticalAlignment="Center" 
+                           Foreground="{StaticResource TitleTextForeground}" 
+                           FontSize="{StaticResource DefaultFontSize}">
+                    
+                    <Run Text="{Binding Message,Mode=TwoWay,ElementName=control_message}"/>
+                </TextBlock>
+
+                <!--</StackPanel>-->
+
+                <StackPanel x:Name="stack_buttons" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <!--<Button x:Name="btn_cancel" Content="取消" Style="{StaticResource DefultButtonStyle}" Height="60" Margin="10,5"/>-->
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding CountDown,Mode=TwoWay,ElementName=control_message}" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource S_OrangeNotice}" 
+                           FontSize="{StaticResource DefaultFontSize}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</local:BaseUserControl>

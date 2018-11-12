@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7522B825-D0FA-4B21-89AC-2256104DFF55}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LTO.Domain.DataService</RootNamespace>
+    <AssemblyName>LTO.Domain.DataService</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Product\Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Product\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceManager.cs" />
+    <Compile Include="ToolService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BaseLayer\LTO.Base.Frame.MVVM\LTO.Base.Frame.MVVM.csproj">
+      <Project>{f9fa9a39-e268-4665-ad1d-ec4deb48cc97}</Project>
+      <Name>LTO.Base.Frame.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BaseLayer\LTO.Base.Product.Provider\LTO.Base.Product.Provider.csproj">
+      <Project>{FB8BD811-3A5E-4FE3-BD8C-2AED71ABBEC0}</Project>
+      <Name>LTO.Base.Product.Provider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BaseLayer\LTO.Base.Theme.Style\LTO.Base.Theme.Style.csproj">
+      <Project>{625015c8-f451-49ae-bf39-6c648bd036bc}</Project>
+      <Name>LTO.Base.Theme.Style</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\LTO.General.Logger\LTO.General.Logger.csproj">
+      <Project>{49761701-347a-4c14-ad41-996d09271f07}</Project>
+      <Name>LTO.General.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\LTO.General.Model\LTO.General.Model.csproj">
+      <Project>{c9de89f4-fe74-4967-b472-7c3006e25011}</Project>
+      <Name>LTO.General.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\LTO.General.NetWork\LTO.General.NetWork.csproj">
+      <Project>{5D06542F-66F7-4080-8C24-5178AED6AA3C}</Project>
+      <Name>LTO.General.NetWork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeneralLayer\LTO.General.SystemTool\LTO.General.SystemTool.csproj">
+      <Project>{48DA06DD-26C5-405A-B47E-F14AA2FFEA83}</Project>
+      <Name>LTO.General.SystemTool</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

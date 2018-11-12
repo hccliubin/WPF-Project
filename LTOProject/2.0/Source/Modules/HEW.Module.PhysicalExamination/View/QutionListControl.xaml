@@ -1,0 +1,50 @@
+﻿<reports:BaseModuleControl x:Class="HEW.Module.PhysicalExamination.QutionListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:reports="clr-namespace:HEW.UserControls.Reports;assembly=HEW.UserControl.Reports"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HEW.Module.PhysicalExamination"
+             xmlns:style="clr-namespace:HEW.Base.Theme.Style;assembly=HEW.Base.Theme.Style"
+             mc:Ignorable="d"   Style="{ StaticResource OpacityVisibleUserControl}"  x:Name="control_qutionlist"
+             d:DesignHeight="1024" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HEW.Base.Theme.Style;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="169"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <style:ButtonControl Grid.Column="0" Content="取消" Style="{StaticResource CancelButton}" Click="ButtonControl_Click"/>
+
+            <style:ButtonControl Grid.Column="2" Content="保存"  Style="{StaticResource SaveButton}" Command="{Binding RelayCommand}" CommandParameter="Button_Save"/>
+
+            <TextBlock Grid.Column="1"  FontSize="{StaticResource FontSize}" Foreground="{StaticResource S_GrayLight}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Run Text="请回答以下问题，左右滑动可以翻页 （第"/>
+                 <Run Text="{Binding ElementName=tpage_control,Path=PageSelect}"/>
+             <Run Text="页/共"/>
+               <Run Text="{Binding ElementName=tpage_control,Path=PageCount}"/>
+                <Run Text="页)"/>
+            </TextBlock>
+        </Grid>
+
+        <reports:TPageControl  x:Name="tpage_control" Grid.Row="1" Margin="0,25,0,0" BindControls="{Binding QustionList}"/>
+    </Grid>
+</reports:BaseModuleControl>

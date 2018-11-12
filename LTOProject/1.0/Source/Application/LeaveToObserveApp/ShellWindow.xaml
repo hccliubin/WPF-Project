@@ -1,0 +1,18 @@
+﻿<Window x:Class="CH.Product.LeaveToObserveApp.ShellWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CH.Product.LeaveToObserveApp"
+        xmlns:service1="clr-namespace:CH.Product.UserControls.Service.View;assembly=CH.Product.UserControls"
+        mc:Ignorable="d" AllowsTransparency="True"
+        Title="留观机" Height="1024" Width="768" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid  MouseDown="titleBorder_MouseDown"   MouseUp="titleBorder_MouseUp" TouchDown="titleBorder_TouchDown" TouchUp="titleBorder_TouchUp" TouchLeave="titleBorder_TouchLeave" >
+
+        <!--<Viewbox>-->
+        <service1:ObserveListUserControl/>
+
+        <!--</Viewbox>-->
+
+    </Grid>
+</Window>

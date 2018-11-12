@@ -1,0 +1,69 @@
+﻿<Window x:Class="WpfApp.LeaveToObserve.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp.LeaveToObserve"
+        xmlns:general="clr-namespace:LTO.UserControls.Controls;assembly=LTO.UserControls.Controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:style="clr-namespace:LTO.Base.Theme.Style;assembly=LTO.Base.Theme.Style"
+        mc:Ignorable="d" WindowStyle="None" WindowStartupLocation="CenterScreen" Background="{x:Null}"  AllowsTransparency="True"
+        Title="MainWindow"  d:DesignHeight="1024" d:DesignWidth="1280"  WindowState="Maximized" Icon="Resource/main.ico">
+    <!--<Viewbox Stretch="Fill" StretchDirection="Both">-->
+    <Grid>
+
+        <Viewbox Stretch="Fill" StretchDirection="Both">
+            <!--首页-->
+            <general:HomePageControl x:Name="control_home" Modules="{Binding Modules}"  CurrentModule="{Binding CurrentModule,Mode=TwoWay}">
+                <i:Interaction.Triggers>
+
+                    <!--点击模块-->
+                    <i:EventTrigger EventName="Clicked">
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_module}" PropertyName="IsShow" Value="true"/>
+                    </i:EventTrigger>
+
+                    <!--点击配置-->
+                    <i:EventTrigger EventName="ImageClick">
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_config}" PropertyName="IsShow" Value="true"/>
+                    </i:EventTrigger>
+
+                    <!--<i:EventTrigger EventName="SetDownClicked">
+                    <i:InvokeCommandAction  Command="{Binding RelayCommand}"  CommandParameter="SetDownClicked"/>
+                </i:EventTrigger>-->
+
+                </i:Interaction.Triggers>
+            </general:HomePageControl>
+        </Viewbox>
+
+        <!--模块页-->
+        <general:ModulePageControl x:Name="control_module"  IsShow="{Binding IsShowModule,Mode=TwoWay}" ModulePage="{Binding CurrentModule.ModulePage}">
+            <i:Interaction.Triggers>
+                <!--点击配置-->
+                <i:EventTrigger EventName="ImageClick">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_config}" PropertyName="IsShow" Value="true"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </general:ModulePageControl>
+
+        <Viewbox Stretch="Fill" StretchDirection="Both">
+            <!--配置页-->
+            <general:HomeConfigControl x:Name="control_config"  IsShow="False"/>
+        </Viewbox>
+        
+        <!--等待页-->
+        <style:WaittingSingleControl x:Name="control_waitting" IsShow="False"/>
+
+        <!--消息页-->
+        <style:MessageSingleControl  x:Name="control_message"  IsShow="False">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CountDownEnd">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=control_message}" PropertyName="IsShow" Value="false"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </style:MessageSingleControl>
+
+
+    </Grid>
+    <!--</Viewbox>-->
+</Window>

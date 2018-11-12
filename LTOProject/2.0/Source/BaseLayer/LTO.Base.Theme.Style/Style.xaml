@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:LTO.Base.Theme.Style"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/BaseUserControl.xaml"/>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/ButtonControl.xaml"/>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/Scroll.xaml"/>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/RadioControl.xaml"/>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/FilterControl.xaml"/>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/BindPassWordBox.xaml"/>
+        <ResourceDictionary Source="/LTO.Base.Theme.Style;component/ModuleButtonControl.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+
+
+
+    
+</ResourceDictionary>

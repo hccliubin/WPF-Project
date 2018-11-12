@@ -1,0 +1,58 @@
+﻿<reports:BaseModuleControl  x:Class="HEW.Module.Signing.SigningModuleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HEW.Module.Signing"
+            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"    
+           x:Name="UserControl_Module"
+             mc:Ignorable="d"           Style="{ StaticResource OpacityVisibleUserControl}"
+            xmlns:style="clr-namespace:HEW.Base.Theme.Style;assembly=HEW.Base.Theme.Style"
+            xmlns:reports="clr-namespace:HEW.UserControls.Reports;assembly=HEW.UserControl.Reports"
+               d:DesignHeight="1024" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HEW.Base.Theme.Style;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+
+        <TextBlock FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Text="家庭签约" />
+
+        <reports:ModuleReportControl  x:Name="Control_ReportControl">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="GoBack">
+                    <!--<i:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="Module_Clicked"/>-->
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=UserControl_Module}" PropertyName="IsShow" Value="false"/>
+                    <ei:CallMethodAction TargetObject="{Binding  ElementName=UserControl_Module}" MethodName="OnClosed" />
+                </i:EventTrigger>
+
+
+                <i:EventTrigger EventName="Print">
+                    <i:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="{Binding ElementName=Control_ReportControl,Path=TPageControl}"/>
+                </i:EventTrigger>
+                
+                
+            </i:Interaction.Triggers>
+        </reports:ModuleReportControl>
+
+
+    </Grid>
+
+    <i:Interaction.Triggers>
+
+        <!--检查是否登录本模块-->
+        <i:EventTrigger EventName="BeginCheckLogin">
+            <ei:CallMethodAction TargetObject="{Binding  ElementName=UserControl_Module}" MethodName="OnLoginModuleSuccessed" />
+        </i:EventTrigger>
+        
+        <!--登录成功触发命令-->
+        <i:EventTrigger EventName="LoginModuleSuccessed">
+            <ei:ChangePropertyAction TargetObject="{Binding ElementName=UserControl_Module}" PropertyName="IsShow" Value="true"/>
+            <i:InvokeCommandAction Command="{Binding  RelayCommand}"  CommandParameter="LoginModuleSuccessed"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+</reports:BaseModuleControl>

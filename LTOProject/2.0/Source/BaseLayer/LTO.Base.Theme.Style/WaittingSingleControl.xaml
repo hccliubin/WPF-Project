@@ -1,0 +1,41 @@
+﻿<local:BaseUserControl x:Class="LTO.Base.Theme.Style.WaittingSingleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LTO.Base.Theme.Style" x:Name="control_waitting"
+             mc:Ignorable="d"   Style="{StaticResource DefaultCoverUserControl}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <!--<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HEW.UserControl.General;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>-->
+    <Grid>
+        <Grid Width="700" Height="240">
+            <Border CornerRadius="10" Background="{StaticResource S_GrayLight}"/>
+
+            <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center">
+                <Image Source="Image/查询成功.png" Margin="10"/>
+
+                <TextBlock Text="{Binding ElementName=control_waitting,Path=Message}" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Foreground="{StaticResource S_AccentBrush}" 
+                           FontSize="{StaticResource DefaultFontSize}">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever"  AutoReverse="True"   >
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.5" Duration="0:0:01"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</local:BaseUserControl>

@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="HEW.Module.PhysicalExamination.QuetionItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HEW.Module.PhysicalExamination"
+             xmlns:style="clr-namespace:HEW.Base.Theme.Style;assembly=HEW.Base.Theme.Style"
+             mc:Ignorable="d" x:Name="control_quetionitem"
+             d:DesignHeight="1024" d:DesignWidth="1280" Height="600" VerticalAlignment="Top" Margin="0,-150,0,0">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HEW.Base.Theme.Style;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid Width="{Binding ElementName=control_qutionlist,Path=Width}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid  TextBlock.FontSize="{StaticResource DefaultFontSize}" TextBlock.Foreground="{StaticResource S_GrayLight}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{Binding ElementName=control_quetionitem,Path=Item1.Quetion}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <style:RadioControl Content="{Binding ElementName=control_quetionitem,Path=Item1.Collection[0].Name,Mode=TwoWay}" 
+                             Grid.Row="0" Grid.Column="0" Width="350" Height="68"  Margin="20,0"
+                             IsChecked="{Binding ElementName=control_quetionitem,Path=Item1.Collection[0].IsChecked}"
+                             FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"/>
+
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item1.Collection[1].Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Grid.Row="0" Grid.Column="1"  IsChecked="{Binding ElementName=control_quetionitem,Path=Item1.Collection[1].IsChecked}"  FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item1.Collection[2].Name,Mode=TwoWay}"  Grid.Row="0" Grid.Column="2"  IsChecked="{Binding ElementName=control_quetionitem,Path=Item1.Collection[2].IsChecked}"  FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+
+
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item1.Collection[3].Name,Mode=TwoWay}"  Grid.Row="1" Grid.Column="0"  IsChecked="{Binding ElementName=control_quetionitem,Path=Item1.Collection[3].IsChecked}"   FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item1.Collection[4].Name,Mode=TwoWay}"  Grid.Row="1" Grid.Column="1"   IsChecked="{Binding ElementName=control_quetionitem,Path=Item1.Collection[4].IsChecked}"  FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+
+            </Grid>
+
+        </Grid>
+
+
+        <Grid Grid.Row="2" TextBlock.FontSize="{StaticResource DefaultFontSize}" TextBlock.Foreground="{StaticResource S_GrayLight}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{Binding ElementName=control_quetionitem,Path=Item2.Quetion}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <Grid Grid.Row="1" Margin="10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item2.Collection[0].Name}" Grid.Row="0" Grid.Column="0" IsChecked="{Binding ElementName=control_quetionitem,Path=Item2.Collection[0].IsChecked}" FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}" HorizontalAlignment="Center"/>
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item2.Collection[1].Name}"  Grid.Row="0" Grid.Column="1"  IsChecked="{Binding ElementName=control_quetionitem,Path=Item2.Collection[1].IsChecked}"  FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item2.Collection[2].Name}"  Grid.Row="0" Grid.Column="2"  IsChecked="{Binding ElementName=control_quetionitem,Path=Item2.Collection[2].IsChecked}"  FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+
+
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item2.Collection[3].Name}"  Grid.Row="1" Grid.Column="0"  IsChecked="{Binding ElementName=control_quetionitem,Path=Item2.Collection[3].IsChecked}"   FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+                <style:RadioControl  Width="350" Height="68" Margin="20,0" Content="{Binding ElementName=control_quetionitem,Path=Item2.Collection[4].Name}"  Grid.Row="1" Grid.Column="1"   IsChecked="{Binding ElementName=control_quetionitem,Path=Item2.Collection[4].IsChecked}"  FontSize="{StaticResource DefaultFontSize}" Foreground="{StaticResource S_GrayLight}"  HorizontalAlignment="Center"/>
+
+            </Grid>
+
+
+
+        </Grid>
+    </Grid>
+
+</UserControl>

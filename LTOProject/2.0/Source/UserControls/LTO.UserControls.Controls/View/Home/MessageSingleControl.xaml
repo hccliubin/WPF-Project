@@ -1,0 +1,36 @@
+﻿<style:BaseUserControl x:Class="HEW.UserControls.General.MessageSingleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HEW.UserControls.General"
+             xmlns:style="clr-namespace:HEW.Base.Theme.Style;assembly=HEW.Base.Theme.Style"
+             mc:Ignorable="d"   Style="{StaticResource DefaultCoverUserControl}" x:Name="control_message"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HEW.UserControl.General;component/Theme/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Width="720" Height="220">
+            <Border CornerRadius="10" Background="{StaticResource S_GrayLight}" MouseUp="Border_MouseUp"/>
+
+            <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center">
+                <Image Source="../../Image/查询成功.png" Margin="10"/>
+
+                <TextBlock HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Foreground="{StaticResource S_AccentBrush}" 
+                           FontSize="{StaticResource DefaultFontSize}">
+                    
+                    <Run Text="{Binding Message,Mode=TwoWay,ElementName=control_message}"/>
+                    <Run Text="... "/>
+                    <Run Text="{Binding CountDown,Mode=TwoWay,ElementName=control_message}"/>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</style:BaseUserControl>
