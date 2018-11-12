@@ -189,7 +189,7 @@ namespace LTO.Module.GetNumberModule
                            no = result[3];
                        }
 
-                       GetNumberModuleDomain.Instance.PostGetChildInfo(code, type, no, action);
+                       GetNumberModuleDomain.Instance.PostGetChildInfo(code, type, no, prepayid, action);
 
 
                    };

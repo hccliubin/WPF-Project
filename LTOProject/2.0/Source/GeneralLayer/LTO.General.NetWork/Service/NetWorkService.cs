@@ -217,7 +217,7 @@ namespace LTO.General.NetWork
         }
 
         /// <summary> 挂号接口 </summary>
-        public RegisterEntity PostRegisterDefend(string code, string jgdm,string type,string idx, out string err)
+        public RegisterEntity PostRegisterDefend(string code, string jgdm,string type,string idx, string prepayid, out string err)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
@@ -225,6 +225,7 @@ namespace LTO.General.NetWork
             dic.Add("jgdm", jgdm);
             dic.Add("type", type);
             dic.Add("idx", idx);
+            dic.Add("prepayId", prepayid);
 
             string str = this.Post(URLEnum.registerDefend, dic, out err);
 

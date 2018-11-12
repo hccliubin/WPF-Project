@@ -28,11 +28,11 @@ namespace LTO.Module.GetNumberModule
         }
 
         Random r = new Random();
-        public void PostGetChildInfo(string id, string type, string idx, Action<RegisterEntity, string, string> action)
+        public void PostGetChildInfo(string id, string type, string idx,string prepayid, Action<RegisterEntity, string, string> action)
         {
             string err;
 
-            var result = ServiceManager.DataService.PostRegisterDefend(id, type, idx,out err);
+            var result = ServiceManager.DataService.PostRegisterDefend(id, type, idx, prepayid, out err);
 
             if (result == null)
             {

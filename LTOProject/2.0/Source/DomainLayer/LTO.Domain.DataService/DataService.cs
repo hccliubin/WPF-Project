@@ -136,12 +136,12 @@ namespace LTO.Domain.DataService
         }
 
         /// <summary> 挂号接口 </summary>
-        public RegisterEntity PostRegisterDefend(string code, string type, string idx, out string err)
+        public RegisterEntity PostRegisterDefend(string code, string type, string idx, string prepayid, out string err)
         {
 
             string jgdm = this.GetConfigByID("GovernmentUnit");
 
-            return _netWorkService.PostRegisterDefend(code, jgdm, type, idx, out err);
+            return _netWorkService.PostRegisterDefend(code, jgdm, type, idx, prepayid, out err);
 
         }
 
