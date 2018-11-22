@@ -4,23 +4,22 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C4388FC7-984F-4415-B495-9330E6097EB3}</ProjectGuid>
+    <ProjectGuid>{E6A6995F-0865-4EE4-86C8-D7B5245859B0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SureDream.Appliaction.DemoApp</RootNamespace>
-    <AssemblyName>SureDream.Appliaction.DemoApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SureDream.Appliaction.Demo.ImageControl</RootNamespace>
+    <AssemblyName>SureDream.Appliaction.Demo.ImageControl</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Product\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,7 +36,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,20 +54,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\BuildUserControl.xaml.cs">
-      <DependentUpon>BuildUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SecondUserControl.xaml.cs">
-      <DependentUpon>SecondUserControl.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Controls\BuildUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\FirstUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,17 +62,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\FirstUserControl.xaml.cs">
-      <DependentUpon>FirstUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\SecondUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -115,95 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Chocolate Covered.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Downloads.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Dreamweaver.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Email.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Explorer.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Fireworks.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Flash.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Freehand.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Gear 1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Gear 2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Illustrator 10.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Music.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Paint.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Public.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Quark.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Screenshots.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Splat 1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Splat 2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Temporary Items.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Web 1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Web 2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Zipped 1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Zipped 2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Zipped 3.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Zipped 4.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image\Chinamap.png" />
-    <Resource Include="Image\loading.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
-      <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
-      <Name>Ty.Base.WpfBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\General\Component\Ty.Component.MenuBar\Ty.Component.MenuBar.csproj">
-      <Project>{fcb2ad85-4d83-45cf-a593-6001b1a85e75}</Project>
-      <Name>Ty.Component.MenuBar</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
