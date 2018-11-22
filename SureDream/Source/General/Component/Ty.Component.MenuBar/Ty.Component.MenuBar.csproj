@@ -86,7 +86,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Base\SureDream.Base.WpfBase\Ty.Base.WpfBase.csproj">
+    <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
