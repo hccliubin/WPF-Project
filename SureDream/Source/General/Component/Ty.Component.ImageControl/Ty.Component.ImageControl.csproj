@@ -48,20 +48,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageLayer.cs" />
+    <Compile Include="RectangleStroke.cs" />
     <Page Include="ImageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl1.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="ImageControl.xaml.cs">
       <DependentUpon>ImageControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\101.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
+      <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
+      <Name>Ty.Base.WpfBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

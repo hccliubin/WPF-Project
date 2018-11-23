@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\General\Component\Ty.Component.ImageControl\Ty.Component.ImageControl.csproj">
+      <Project>{aa6dde61-ae1d-4153-bd1b-213c8d8feb24}</Project>
+      <Name>Ty.Component.ImageControl</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

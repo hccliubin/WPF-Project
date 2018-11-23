@@ -4,9 +4,127 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ty.Component.ImageControl"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="700">
+             d:DesignHeight="600" d:DesignWidth="1000">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--自定义资源引用-->
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Themes.Resource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Thremes.Control.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--<x:Array x:Key="MyEditingModes" x:Type="{x:Type InkCanvasEditingMode}">
+            <x:Static Member="InkCanvasEditingMode.Ink"/>
+            <x:Static Member="InkCanvasEditingMode.Select"/>
+            <x:Static Member="InkCanvasEditingMode.EraseByPoint"/>
+            <x:Static Member="InkCanvasEditingMode.EraseByStroke"/>
+        </x:Array>-->
+
+            <!--Define an array containing some DrawingAttributes.-->
+            <!--<x:Array x:Key="MyDrawingAttributes"  x:Type="{x:Type DrawingAttributes}">
+            <DrawingAttributes Color="Black" FitToCurve="true" Width="3" Height="10"/>
+            <DrawingAttributes Color="Blue" FitToCurve="false" Width="5" Height="10"/>
+            <DrawingAttributes Color="Red" FitToCurve="true" Width="7" Height="10"/>
+        </x:Array>-->
+
+            <XmlDataProvider x:Key="ds1" XPath="XUnits/SampleVieModel">
+                <x:XData>
+                    <XUnits xmlns="">
+                        <SampleVieModel Name="成都" Flag="&#xeac3;" Code="2001"></SampleVieModel>
+                        <SampleVieModel Name="绵阳" Flag="&#xeac3;" Code="2002"></SampleVieModel>
+                        <SampleVieModel Name="西安" Flag="&#xeac5;" Code="2003"></SampleVieModel>
+                        <SampleVieModel Name="武汉" Flag="&#xeac5;" Code="2004"></SampleVieModel>
+                        <SampleVieModel Name="长沙" Flag="&#xeac3;" Code="2005"></SampleVieModel>
+                        <SampleVieModel Name="辽宁" Flag="&#xeac3;" Code="2006"></SampleVieModel>
+                    </XUnits>
+                </x:XData>
+            </XmlDataProvider>
+
+            <ObjectDataProvider x:Key="Resource.ObjectDataProvider.InkCanvasEditingMode" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="InkCanvasEditingMode"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+            </Style>
+
+
+            <Style TargetType="{x:Type ComboBox}">
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <DataTemplate DataType="{x:Type local:SampleVieModel}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding Visible}"/>
+                    <TextBlock Style="{StaticResource FIcon}" Text="{Binding Flag}" Grid.Column="1"/>
+                    <TextBlock  Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding Code}" Grid.Column="2"/>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type DrawingAttributes}" >
+                <Border Width="80" Height="{Binding Path=Height}">
+                    <Border.Background >
+                        <SolidColorBrush Color="{Binding Path=Color}"/>
+                    </Border.Background>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
-        <Image Source="Resources/101.png" Stretch="Fill" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Viewbox>
+            <InkCanvas x:Name="canvas" 
+                   MouseDown="InkCanvas_MouseDown" 
+                   MouseMove="InkCanvas_MouseMove" 
+                   MouseUp="InkCanvas_MouseUp" 
+                   EditingMode="{Binding ElementName=cb_edit,Path=SelectedItem}" 
+                   DefaultDrawingAttributes="{Binding ElementName=cb_draw, Path=SelectedItem}"
+                   Strokes="{Binding StrokeCollection}" >
+                <!--<InkCanvas EditingMode="{Binding ElementName=cb_edit,Path=SelectedItem}" DefaultDrawingAttributes="{Binding ElementName=cb_draw, Path=SelectedItem}" >-->
+                <InkCanvas.Background>
+                    <ImageBrush ImageSource="Resources/101.png" />
+                </InkCanvas.Background>
+            </InkCanvas>
+        </Viewbox>
+        <ListBox Grid.Column="1" ItemsSource="{Binding SampleCollection}"/>
+
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="操作类型："/>
+            <ComboBox x:Name="cb_edit" SelectedIndex="0" ItemsSource="{Binding Source={StaticResource Resource.ObjectDataProvider.InkCanvasEditingMode}}"/>
+
+            <!--<TextBlock Text="画笔类型："/>
+            <ComboBox  x:Name="cb_draw"  SelectedIndex="0"  ItemsSource="{Binding Source={StaticResource MyDrawingAttributes}}"/>-->
+
+          
+        </StackPanel>
     </Grid>
 </UserControl>
