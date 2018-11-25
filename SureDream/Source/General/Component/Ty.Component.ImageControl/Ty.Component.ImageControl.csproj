@@ -48,15 +48,37 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageLayer.cs" />
+    <Compile Include="ImageControlViewModel.cs" />
+    <Compile Include="IconButton.cs" />
+    <Compile Include="ImageOprateCtrEntity.xaml.cs">
+      <DependentUpon>ImageOprateCtrEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImagePartView.xaml.cs">
+      <DependentUpon>ImagePartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImageView.xaml.cs">
+      <DependentUpon>ImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RectangleShape.cs" />
+    <Compile Include="RectangleLayer.cs" />
+    <Compile Include="IRectangleStroke.cs" />
     <Compile Include="RectangleStroke.cs" />
-    <Page Include="ImageControl.xaml">
+    <Page Include="ImageOprateCtrEntity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="ImageControl.xaml.cs">
-      <DependentUpon>ImageControl.xaml</DependentUpon>
-    </Compile>
+    <Page Include="ImagePartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\General.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -82,13 +104,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\101.png" />
+    <Resource Include="Resources\_101.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\map.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

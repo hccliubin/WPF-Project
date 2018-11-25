@@ -8,6 +8,35 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000">
     <Grid>
-        <imagecontrol:ImageControl/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <!--<imagecontrol:ImageControl x:Name="image" LastClicked="image_LastClicked" NextClick="image_NextClick"/>-->
+        <imagecontrol:ImageOprateCtrEntity x:Name="image"  LastClicked="image_LastClicked" NextClick="image_NextClick"/>
+        <Button Content="浏览文件" Width="100" Height="30" Margin="20,0" Grid.Row="1" Click="Button_Click"/>
+
+        <ListBox x:Name="listbox_samples" Grid.Column="2" ItemsSource="{Binding SampleCollection,Mode=TwoWay}">
+            <ListBox.Resources>
+                <DataTemplate DataType="{x:Type imagecontrol:SampleVieModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding Visible}"/>
+                        <TextBlock Style="{StaticResource FIcon}" Text="{Binding Flag}" Grid.Column="1"/>
+                        <TextBlock  Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding Code}" Grid.Column="2"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.Resources>
+        </ListBox>
+
     </Grid>
 </Window>

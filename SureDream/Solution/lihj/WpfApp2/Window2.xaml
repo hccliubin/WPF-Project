@@ -1,0 +1,44 @@
+﻿<Window x:Class="WpfApp2.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="Window2" Height="450" Width="800">
+    <Grid>
+        <Canvas x:Name="RootCanvas">
+            <!--左侧小图-->
+            <Canvas x:Name="SmallBox" Width="320" Height="180" Canvas.Left="20" Canvas.Top="20">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="F:\python\image\133187\05a01.jpg" Stretch="UniformToFill" />
+                </Canvas.Background>
+                <!--半透明矩形框-->
+                <Rectangle x:Name="MoveRect" Fill="White" Opacity="0.3" Stroke="Red" Width="50" Height="50" Canvas.Top="78" Canvas.Left="202"
+                   MouseMove="MoveRect_MouseMove"
+                   MouseLeftButtonDown="MoveRect_MouseLeftButtonDown"
+                   MouseLeftButtonUp="MoveRect_MouseLeftButtonUp"/>
+            </Canvas>
+
+            <!--右侧大图-->
+            <Canvas x:Name="BigBox" Width="300" Height="300" Canvas.Left="360" Canvas.Top="20">
+                <!--右侧原图片 注意尺寸-->
+                <Image x:Name="bigImg" Canvas.Left="0" Canvas.Top="-780" Source="F:\python\image\133187\05a01.jpg" />
+                <Canvas.Clip>
+                    <RectangleGeometry Rect="0,0,300,300" />
+                </Canvas.Clip>
+            </Canvas>
+
+            <!--右侧大图--><!--
+            <Canvas x:Name="BigBox" Width="300" Height="300" Canvas.Left="360" Canvas.Top="20">
+                --><!--右侧原图片 注意尺寸--><!--
+                <Image x:Name="bigImg" Width="1920" Height="1080" Canvas.Left="0" Canvas.Top="-780" Source="F:\python\image\133187\05a01.jpg" />
+                <Canvas.Clip>
+                    <RectangleGeometry Rect="0,0,300,300" />
+                </Canvas.Clip>
+            </Canvas>-->
+
+        </Canvas>
+
+    </Grid>
+</Window>
