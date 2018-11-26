@@ -24,6 +24,7 @@
     <Style TargetType="{x:Type local:DefectShape}">
         <!--<Setter Property="StrokeDashArray" Value="8,8"/>
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
+        <Setter Property="StrokeThickness" Value="2"/>
         <Setter Property="Stroke" Value="Red"/>
         <Setter Property="Fill">
             <Setter.Value>
@@ -37,8 +38,8 @@
                     <ToolTip.Background>
                         <SolidColorBrush Color="White" Opacity="0.7"/>
                     </ToolTip.Background>
-                    <Grid Height="110" Width="220">
-                        <Grid Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid>
+                        <Grid Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -76,7 +77,8 @@
     <Style TargetType="{x:Type local:SampleShape}">
         <!--<Setter Property="StrokeDashArray" Value="8,8"/>
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
-        <Setter Property="Stroke" Value="Green"/>
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="Stroke" Value="Blue"/>
         <Setter Property="Fill">
             <Setter.Value>
                 <SolidColorBrush Color="LightGray" Opacity="0"/>
@@ -88,9 +90,8 @@
                     <ToolTip.Background>
                         <SolidColorBrush Color="White" Opacity="0.7"/>
                     </ToolTip.Background>
-                    <Grid  Height="80" Width="200"  >
-                        <Grid Margin="5"  HorizontalAlignment="Center" VerticalAlignment="Center">
-
+                    <Grid>
+                        <Grid Margin="2"  HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -208,19 +209,18 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=MouseOverBackground}" TargetName="border" />
-
                 <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=MouseOverForeground}"/>
-
                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=MouseOverForeground}" TargetName="icon"/>
 
-                <Setter Property="Opacity" Value="1"/>
-                
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="0.8" Duration="0:0:0.2" />
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.5" />
+
+                            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Duration="0:0:0.2"  Storyboard.TargetName="grid" To="1.2"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Duration="0:0:0.2"  Storyboard.TargetName="grid" To="1.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -228,7 +228,10 @@
                 <Trigger.ExitActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2" />
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.5" />
+
+                            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Duration="0:0:0.2"  Storyboard.TargetName="grid" To="1"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Duration="0:0:0.2"  Storyboard.TargetName="grid" To="1"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>
@@ -310,6 +313,8 @@
 
                 <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" TargetName="icon"/>
 
+                <Setter Property="Opacity" Value="1"/>
+
                 <!--<Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" TargetName="txt"/>-->
 
                 <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
@@ -340,7 +345,7 @@
         <Setter Property="PressedBackground" Value="{StaticResource S_GrayNotice}" />
         <Setter Property="PressedForeground" Value="{StaticResource S_WhiteNotice}" />-->
 
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{StaticResource S_BlackNotice}" />
         <Setter Property="MouseOverForeground"  Value="{StaticResource S_WhiteNotice}"/>
         <Setter Property="MouseOverBackground"  Value="{StaticResource S_BlackNotice}"/>
         <Setter Property="PressedBackground" Value="Transparent" />

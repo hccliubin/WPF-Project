@@ -4,8 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ty.Component.ImageControl"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static local:ImageViewCommands.LastImage}"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.NextImage}"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.LastImage}" 
+                        Executed="CommandBinding_LastImage_Executed" 
+                        CanExecute="CommandBinding_LastImage_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.NextImage}" 
+                        Executed="CommandBinding_NextImage_Executed" 
+                        CanExecute="CommandBinding_NextImage_CanExecute"/>
+    </UserControl.CommandBindings>
+
     <Grid>
         <local:ImageView x:Name="control_imageView" 
                          BegionShowPartView="control_imageView_BegionShowPartView"/>
@@ -15,11 +30,11 @@
                               ImageVisual="{Binding ElementName=control_imageView,Path=ImageVisual}"
                               DynamicShape="{Binding ElementName=control_imageView,Path=DynamicShape}"/>
 
-        <local:IconButton  x:Name="button_last"  Grid.Column="1" FIcon="&#xe671;" Margin="10,0" HorizontalAlignment="Left" Click="button_last_Click"
-                             Style="{StaticResource Style.IconButton.Default}" Background="Transparent" Height="60"  Width="20"/>
+        <local:IconButton  x:Name="button_last"  Grid.Column="1" FIcon="&#xe671;" Margin="10,0" HorizontalAlignment="Left" Command="{x:Static local:ImageViewCommands.LastImage}" ToolTip="{Binding Source={x:Static local:ImageViewCommands.LastImage},Path=Text}"
+                             Style="{StaticResource Style.IconButton.Default}"  Height="60"  Width="20"/>
 
-        <local:IconButton  x:Name="button_next"  Grid.Column="1" FIcon="&#xe66d;" Margin="10,0"  HorizontalAlignment="Right" Click="button_next_Click"
-                             Style="{StaticResource Style.IconButton.Default}"  Background="Transparent" Height="60"  Width="20"/>
+        <local:IconButton  x:Name="button_next"  Grid.Column="1" FIcon="&#xe66d;" Margin="10,0"  HorizontalAlignment="Right" Command="{x:Static local:ImageViewCommands.NextImage}" ToolTip="{Binding Source={x:Static local:ImageViewCommands.NextImage},Path=Text}"
+                             Style="{StaticResource Style.IconButton.Default}"  Height="60"  Width="20"/>
         <!--<Button x:Name="button_last" Content="《" Width="30" Height="50" HorizontalAlignment="Left" Click="button_last_Click"/>-->
         <!--<Button x:Name="button_next" Content="》" Width="30" Height="50" HorizontalAlignment="Right" Click="button_next_Click"/>-->
 

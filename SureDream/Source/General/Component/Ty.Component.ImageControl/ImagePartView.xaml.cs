@@ -51,7 +51,9 @@ namespace Ty.Component.ImageControl
 
                  var geo = Geometry.Combine(control.rectangle_clip.RenderedGeometry, new RectangleGeometry(config.Rect), GeometryCombineMode.Exclude, null);
 
-                 control.visualbrush_part.Viewbox = config.Rect;
+                 Rect rect = new Rect(config.Rect.X-5, config.Rect.Y-5, config.Rect.Width+5, config.Rect.Height+5);
+                 control.visualbrush_part.Viewbox = rect;
+                 //control.visualbrush_part.Viewbox = config.Rect;
                  control.rectangle_clip.Clip = geo;
 
              }));

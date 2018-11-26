@@ -25,7 +25,6 @@ namespace Ty.Component.ImageControl
             InitializeComponent();
         }
 
-
         public ImageControlViewModel ViewModel
         {
             get
@@ -41,11 +40,13 @@ namespace Ty.Component.ImageControl
         private void control_imageView_BegionShowPartView(object sender, RoutedEventArgs e)
         {
             this.control_ImagePartView.Visibility = Visibility.Visible;
+
+            this.control_imageView.ShowRectangleClip();
         }
 
         private void control_ImagePartView_Closed(object sender, RoutedEventArgs e)
         {
-            this.control_imageView.RefreshData();
+            this.control_imageView.HideRectangleClip();
         }
 
 
@@ -104,6 +105,30 @@ namespace Ty.Component.ImageControl
         {
             this.control_ImagePartView.Visibility = Visibility.Collapsed;
             this.control_imageView.Clear();
+        }
+
+        private void CommandBinding_LastImage_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.RefreshPart();
+
+            this.OnLastClicked();
+        }
+
+        private void CommandBinding_LastImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+        private void CommandBinding_NextImage_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.RefreshPart();
+
+            this.OnNextClick();
+        }
+
+        private void CommandBinding_NextImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
         }
     }
 }

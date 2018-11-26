@@ -50,6 +50,9 @@
   <ItemGroup>
     <Compile Include="ImageControlViewModel.cs" />
     <Compile Include="IconButton.cs" />
+    <Compile Include="ImageFullScreenWindow.xaml.cs">
+      <DependentUpon>ImageFullScreenWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageOprateCtrEntity.xaml.cs">
       <DependentUpon>ImageOprateCtrEntity.xaml</DependentUpon>
     </Compile>
@@ -59,10 +62,15 @@
     <Compile Include="ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImageViewCommands.cs" />
     <Compile Include="RectangleShape.cs" />
     <Compile Include="RectangleLayer.cs" />
     <Compile Include="IRectangleStroke.cs" />
     <Compile Include="RectangleStroke.cs" />
+    <Page Include="ImageFullScreenWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ImageOprateCtrEntity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

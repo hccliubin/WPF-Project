@@ -12,7 +12,6 @@
                 <!--自定义资源引用-->
                 <ResourceDictionary Source="/Ty.Component.ImageControl;component/Theme/General.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -29,15 +28,15 @@
         </Grid.ColumnDefinitions>
 
         <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
-            <Grid>
+            <Grid Visibility="Hidden">
                 <InkCanvas x:Name="canvas">
                     <InkCanvas.DefaultDrawingAttributes>
                         <DrawingAttributes Color="Transparent"/>
                     </InkCanvas.DefaultDrawingAttributes>
 
-                    <Image Stretch="Uniform" Source="{Binding ImageSource}" />
+                    <Image Stretch="Uniform" Source="{Binding ImageSource}"/>
 
-                    <Rectangle x:Name="rectangle_clip" 
+                    <Rectangle x:Name="rectangle_clip"
                                Width="{Binding ElementName=canvas,Path=ActualWidth}"
                                Height="{Binding ElementName=canvas,Path=ActualHeight}">
                         <Rectangle.Fill>
@@ -48,11 +47,11 @@
             </Grid>
         </Viewbox>
 
-        <Grid  x:Name="Screen_Rectangle"  Grid.ColumnSpan="3" Grid.RowSpan="3" >
+        <Grid  x:Name="Screen_Rectangle" Grid.ColumnSpan="3" Grid.RowSpan="3" >
             <Rectangle>
                 <Rectangle.Fill>
                     <VisualBrush x:Name="visualbrush_part" Visual="{Binding ElementName=canvas}" Stretch="Uniform" 
-                                     ViewboxUnits="Absolute" 
+                                     ViewboxUnits="Absolute"
                                      ViewportUnits="RelativeToBoundingBox" Viewport="0, 0, 1, 1">
 
                     </VisualBrush>
@@ -63,7 +62,7 @@
         </Grid>
 
         <local:IconButton x:Name="btn_close" Grid.Column="1" FIcon="&#xe6f4;"
-                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5"
                              Style="{StaticResource Style.IconButton.Default}" CornerRadius="30"
                             Click="btn_close_Click">
         </local:IconButton>
@@ -72,7 +71,7 @@
                             MouseLeave="btn_close_MouseLeave"-->
         <Rectangle x:Name="rectangle_show" Stroke="Blue" Grid.Column="1" HorizontalAlignment="Stretch"
                        Grid.Row="1" 
-                       StrokeThickness="1" >
+                       StrokeThickness="0.5" >
 
             <Rectangle.Fill>
                 <VisualBrush x:Name="visualbrush_image" Visual="{Binding ElementName=canvas}" Stretch="Uniform">

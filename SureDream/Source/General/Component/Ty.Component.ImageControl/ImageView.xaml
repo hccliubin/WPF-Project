@@ -14,9 +14,20 @@
                 <!--自定义资源引用-->
                 <ResourceDictionary Source="/Ty.Component.ImageControl;component/Theme/General.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+            <Storyboard x:Key="OnLoaded1"/>
+            <Storyboard x:Key="OnMouseEnter1"/>
         </ResourceDictionary>
     </UserControl.Resources>
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static local:ImageViewCommands.FullScreen}" 
+                        Executed="CommandBinding_FullScreen_Executed" 
+                        CanExecute="CommandBinding_FullScreen_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.ShowStyleTool}" 
+                        Executed="CommandBinding_ShowStyleTool_Executed" 
+                        CanExecute="CommandBinding_ShowStyleTool_CanExecute"/>
+    </UserControl.CommandBindings>
 
     <Grid>
         <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
@@ -39,7 +50,7 @@
                                Height="{Binding ElementName=canvas,Path=ActualHeight}" 
 >
                         <Rectangle.Fill>
-                            <SolidColorBrush Color="White" Opacity="0.5"/>
+                            <SolidColorBrush Color="LightGray" Opacity="0.9"/>
                         </Rectangle.Fill>
                     </Rectangle>
 
@@ -47,15 +58,15 @@
             </Grid>
         </Viewbox>
 
-        <Popup x:Name="popup" PopupAnimation="Slide" 
+        <Popup x:Name="popup" PopupAnimation="Slide" IsOpen="False"
                                Placement="MousePoint" AllowsTransparency="True"
                                StaysOpen="False" HorizontalAlignment="Left" 
                                VerticalAlignment="Bottom">
-            <Grid Height="170" Width="220">
-                <Grid  Margin="10">
-                    <Grid.Background>
-                        <SolidColorBrush Color="White" Opacity="0.7"/>
-                    </Grid.Background>
+            <Grid Height="170" Width="300">
+                <Grid.Background>
+                    <SolidColorBrush Color="White" Opacity="0.7"/>
+                </Grid.Background>
+                <Grid  Margin="10,5">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -80,7 +91,7 @@
             </Grid>
         </Popup>
 
-        <ListBox  Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="60" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="60" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <RadioButton x:Name="r_defect" Content="缺陷" Background="Red"  Foreground="White" Width="50" IsChecked="True"/>
             <RadioButton x:Name="r_sample" Content="样本" Background="Blue"  Foreground="White" Width="50" />
             <RadioButton x:Name="r_screen" Content="放大" Foreground="White" Width="50" />
@@ -89,5 +100,72 @@
                 <SolidColorBrush Color="LightGray" Opacity="0.5"/>
             </ListBox.Background>
         </ListBox>
+
+        <Grid Height="120" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" TextBlock.Foreground="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.Background>
+                <SolidColorBrush Color="LightGray" Opacity="0.5"/>
+            </Grid.Background>
+
+            <Border Background="Red" Opacity="0.5"/>
+
+            <TextBlock Text="路段：重庆-成都"/>
+            <TextBlock Text="1024x1248" Grid.Row="1"/>
+            <TextBlock Text="D1024" Grid.Row="2"/>
+            <TextBlock Text="2018-11-26"  Grid.Row="3"/>
+        </Grid>
+
+        <local:IconButton x:Name="btn_fullScreen" Grid.Column="1" FIcon="&#xe9d0;"  Command="{x:Static local:ImageViewCommands.FullScreen}"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="5" ToolTip="{Binding Source={x:Static local:ImageViewCommands.FullScreen},Path=Text}"
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+        </local:IconButton>
+
+        <local:IconButton x:Name="btn_imageStyle"  Grid.Column="1" FIcon="&#xe7a6;" Command="{x:Static local:ImageViewCommands.ShowStyleTool}"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0" ToolTip="{Binding Source={x:Static local:ImageViewCommands.ShowStyleTool},Path=Text}"
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+        </local:IconButton>
+
+        <Popup PopupAnimation="Fade" PlacementTarget="{Binding ElementName=btn_imageStyle}" 
+               IsOpen="{Binding ElementName=btn_imageStyle,Path=IsChecked}" 
+               Placement="Right" 
+               AllowsTransparency="True" 
+               StaysOpen="False" HorizontalAlignment="Left"   VerticalAlignment="Bottom">
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <local:IconButton  Grid.Column="1" FIcon="&#xe7aa;" ToolTip="滤镜"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+                </local:IconButton>
+                <local:IconButton  Grid.Column="1" FIcon="&#xe7ab;" ToolTip="对比对"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+                </local:IconButton>
+                <local:IconButton  Grid.Column="1" FIcon="&#xe7ac;" ToolTip="曝光补偿"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+                </local:IconButton>
+
+                <local:IconButton  Grid.Column="1" FIcon="&#xe7ad;" ToolTip="夜视"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+                </local:IconButton>
+
+                <local:IconButton  Grid.Column="1" FIcon="&#xe7a3;"  ToolTip="夜视"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+                </local:IconButton>
+
+                <local:IconButton  Grid.Column="1" FIcon="&#xe7a7;" ToolTip="边缘锐化"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+                </local:IconButton>
+
+            </StackPanel>
+
+        </Popup>
     </Grid>
 </UserControl>

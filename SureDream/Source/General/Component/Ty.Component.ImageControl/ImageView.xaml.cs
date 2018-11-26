@@ -39,7 +39,6 @@ namespace Ty.Component.ImageControl
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             SampleVieModel sample = new SampleVieModel();
             sample.Name = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
 
@@ -75,6 +74,9 @@ namespace Ty.Component.ImageControl
 
         private void InkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
+            if (this.ViewModel == null) return;
+
             _isMatch = false;
 
             start = e.GetPosition(sender as InkCanvas);
@@ -87,9 +89,11 @@ namespace Ty.Component.ImageControl
 
         private void InkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
+            if (this.ViewModel == null) return;
+
             if (e.LeftButton != MouseButtonState.Pressed) return;
 
-            if (this.start.X<0) return;
+            if (this.start.X <= 0) return;
 
             Point end = e.GetPosition(this.canvas);
 
@@ -170,15 +174,18 @@ namespace Ty.Component.ImageControl
 
                 Image im;
 
-                this.rectangle_clip.Visibility = Visibility.Visible;
 
-                this.rectangle_clip.Width = this.canvas.ActualWidth;
+                //this.rectangle_clip.Visibility = Visibility.Visible;
+                //this.rectangle_clip.Visibility = Visibility.Hidden;
+                //this.rectangle_clip.Visibility = Visibility.Visible;
 
-                this.rectangle_clip.Height = this.canvas.ActualHeight;
+                //this.rectangle_clip.Width = this.canvas.ActualWidth;
 
-                RectangleGeometry rect = new RectangleGeometry(new Rect(0, 0, this.canvas.Width, this.canvas.Height));
+                //this.rectangle_clip.Height = this.canvas.ActualHeight;
 
-                var geo = Geometry.Combine(this.rectangle_clip.RenderedGeometry, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
+                RectangleGeometry rect = new RectangleGeometry(new Rect(0, 0, this.canvas.ActualWidth, this.canvas.ActualHeight));
+
+                var geo = Geometry.Combine(rect, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
                 //var geo = Geometry.Combine(this.rectangle_clip.RenderedGeometry, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
 
                 DynamicShape shape = new DynamicShape(this._dynamic);
@@ -187,13 +194,7 @@ namespace Ty.Component.ImageControl
 
                 this.ImageVisual = this.canvas;
 
-               
-
                 this.OnBegionShowPartView();
-
-                //this.ShowScreen();
-
-                //this.VisualBrush.Viewbox = this._dynamic.Rect;
 
                 this.rectangle_clip.Clip = geo;
 
@@ -206,17 +207,33 @@ namespace Ty.Component.ImageControl
             }
 
 
-            start = new Point(-1,-1);
+            start = new Point(-1, -1);
 
         }
 
-        public void RefreshData()
+        public void HideRectangleClip()
         {
             this.rectangle_clip.Visibility = Visibility.Collapsed;
+
+            this.Visibility = Visibility.Visible;
+        }
+
+        public void ShowRectangleClip()
+        {
+            this.rectangle_clip.Width = this.canvas.ActualWidth;
+
+            this.rectangle_clip.Height = this.canvas.ActualHeight;
+
+            this.rectangle_clip.Visibility = Visibility.Visible;
+
+            this.Visibility = Visibility.Hidden;
+            
         }
 
         public void Clear()
         {
+            if(this.ViewModel==null) return;
+
             this._dynamic.Visibility = Visibility.Collapsed;
 
             foreach (var sample in this.ViewModel.SampleCollection)
@@ -227,10 +244,31 @@ namespace Ty.Component.ImageControl
                 }
             }
 
-            this.RefreshData();
+            this.HideRectangleClip();
 
 
         }
-        
+
+        private void CommandBinding_FullScreen_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ImageFullScreenWindow window = new ImageFullScreenWindow();
+            window.ImageVisual = this.canvas;
+            window.ShowDialog();
+        }
+
+        private void CommandBinding_FullScreen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+        private void CommandBinding_ShowStyleTool_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.btn_imageStyle.IsChecked = !this.btn_imageStyle.IsChecked;
+        }
+
+        private void CommandBinding_ShowStyleTool_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
     }
 }
