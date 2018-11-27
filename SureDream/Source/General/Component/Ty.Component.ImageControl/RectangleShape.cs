@@ -15,7 +15,6 @@ namespace Ty.Component.ImageControl
     public class RectangleShape : Shape, IRectangleStroke
     {
 
-
         public RectangleShape() : base()
         {
 
@@ -62,6 +61,17 @@ namespace Ty.Component.ImageControl
 
             this.Position = new Point(rectangle.Position.X, rectangle.Position.Y);
         }
+
+        public RectangleShape(double x,double y,double width,double height)
+        {
+            this.InitComponent();
+
+            this.Width = width;
+            this.Height = height;
+
+            this.Position = new Point(x, y);
+        }
+        
 
 
         public Point Position { get; set; }
@@ -128,6 +138,11 @@ namespace Ty.Component.ImageControl
         }
 
         public DynamicShape(RectangleShape rectangle) : base(rectangle)
+        {
+
+        }
+
+        public DynamicShape(double x, double y, double width, double height) : base(x,y,width,height)
         {
 
         }
@@ -205,6 +220,11 @@ namespace Ty.Component.ImageControl
 
     public class DefectShape : RectangleShape
     {
+
+        public string Name { get; set; }
+
+        public string Code { get; set; }
+
         public DefectShape() : base()
         {
 
@@ -218,10 +238,20 @@ namespace Ty.Component.ImageControl
         {
 
         }
+
+        public DefectShape(double x, double y, double width, double height) : base(x, y, width, height)
+        {
+
+        }
     }
 
     public class SampleShape : RectangleShape
     {
+
+        public string Name { get; set; }
+
+        public string Code { get; set; }
+
         public SampleShape() : base()
         {
 
@@ -232,6 +262,11 @@ namespace Ty.Component.ImageControl
         }
 
         public SampleShape(RectangleShape rectangle) : base(rectangle)
+        {
+
+        }
+
+        public SampleShape(double x, double y, double width, double height) : base(x, y, width, height)
         {
 
         }

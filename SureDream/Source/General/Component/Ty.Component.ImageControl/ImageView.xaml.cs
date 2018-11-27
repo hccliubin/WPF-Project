@@ -40,30 +40,43 @@ namespace Ty.Component.ImageControl
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SampleVieModel sample = new SampleVieModel();
+
             sample.Name = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
 
-            sample.Code = sample.Name;
+            sample.Code = this.cb_code.Text;
 
-            RectangleShape resultStroke;
+       
 
             if (this.r_defect.IsChecked.HasValue && this.r_defect.IsChecked.Value)
             {
-                resultStroke = new DefectShape(this._dynamic);
+                DefectShape resultStroke = new DefectShape(this._dynamic);
+             
+
                 sample.Flag = "\xeac4";
                 sample.Type = "0";
+                resultStroke.Name = sample.Name;
+                resultStroke.Code = sample.Code;
+                resultStroke.Draw(this.canvas);
+                sample.Add(resultStroke);
             }
             else
             {
-                resultStroke = new SampleShape(this._dynamic);
+                SampleShape resultStroke = new SampleShape(this._dynamic);
                 sample.Flag = "\xeac5";
                 sample.Type = "1";
+                resultStroke.Name = sample.Name;
+                resultStroke.Code = sample.Code;
+                resultStroke.Draw(this.canvas);
+                sample.Add(resultStroke);
+
             }
 
-            resultStroke.Draw(this.canvas);
+          
+           
 
-            sample.RectangleLayer.Add(resultStroke);
+       
 
-            this.ViewModel.SampleCollection.Add(sample);
+            this.ViewModel.Add(sample);
 
             //_dynamic.Clear(this.canvas);
 
@@ -256,6 +269,20 @@ namespace Ty.Component.ImageControl
         private void CommandBinding_ShowStyleTool_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.ViewModel != null;
+        }
+
+        /// <summary> 重新刷新数据 </summary>
+        public void RefreshAll()
+        {
+            foreach (var items in this.ViewModel.SampleCollection)
+            {
+                foreach (var item in items.RectangleLayer)
+                {
+                    item.Clear(this.canvas);
+
+                    item.Draw(this.canvas);
+                }
+            }
         }
     }
 }

@@ -38,8 +38,6 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
-
         private Dictionary<string, string> _codeCollection=new Dictionary<string, string>();
         /// <summary> 说明  </summary>
         public Dictionary<string, string> CodeCollection
@@ -66,6 +64,32 @@ namespace Ty.Component.ImageControl
         }
 
 
+        public event ImgMarkHandler ImgMarkOperateEvent;
+
+        public event ImgProcessHandler ImgProcessEvent;
+
+        public void Add(SampleVieModel entity)
+        {
+            this.SampleCollection.Add(entity);
+
+            this.ImgMarkOperateEvent?.Invoke(entity.Model);
+        }
+
+        public void Delete(SampleVieModel vm)
+        {
+            this.SampleCollection.Remove(vm);
+
+            vm.Model.markOperateType = ImgMarkOperateType.Delete;
+
+            this.ImgMarkOperateEvent?.Invoke(vm.Model);
+        }
+
+        public void Update(SampleVieModel vm)
+        {
+            vm.Model.markOperateType = ImgMarkOperateType.Update;
+
+            this.ImgMarkOperateEvent?.Invoke(vm.Model);
+        }
 
         public void RelayMethod(object obj)
         {
@@ -106,6 +130,7 @@ namespace Ty.Component.ImageControl
             RelayCommand = new RelayCommand(RelayMethod);
 
         }
+        
         #region - MVVM -
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -14,42 +14,48 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 由大括号包起来的全部大写的36位guidID，与表中的记录保持一致
         /// </summary>
-        public string ID;
+        public string ID { get; set; }
 
         /// <summary>
         /// 标定矩形框左上角X坐标
         /// </summary>
-        public int X;
+        public int X { get; set; }
 
         /// <summary>
         /// 标定矩形框左上角Y坐标
         /// </summary>
-        public int Y;
+        public int Y { get; set; }
 
         /// <summary>
         /// 标定矩形框高度
         /// </summary>
-        public int Height;
+        public int Height { get; set; }
 
         /// <summary>
         /// 标定矩形框宽度
         /// </summary>
-        public int Width;
+        public int Width { get; set; }
 
         /// <summary>
         /// 标定类型代码（代码唯一，从代码表中查询）
         /// </summary>
-        public string Code;
+        public string Code { get; set; }
 
         /// <summary>
         /// 标定类型名称（通过标定类型代码到表中查询）
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
 
         /// <summary>
         /// 标注操作类型，枚举值，默认是新增
         /// </summary>
-        ImgMarkOperateType markOperateType;
+        public ImgMarkOperateType markOperateType { get; set; }
+
+        public ImgMarkEntity()
+        {
+            markOperateType = ImgMarkOperateType.Insert;
+            ID = Guid.NewGuid().ToString();
+        }
     }
 
     /// <summary>

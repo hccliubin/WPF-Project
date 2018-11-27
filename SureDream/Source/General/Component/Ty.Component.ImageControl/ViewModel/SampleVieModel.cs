@@ -15,16 +15,21 @@ namespace Ty.Component.ImageControl
     public partial class SampleVieModel
     {
         ImgMarkEntity _model = new ImgMarkEntity();
+
         public SampleVieModel(ImgMarkEntity imgMarkEntity)
         {
             RelayCommand = new RelayCommand(RelayMethod);
 
-            _model = imgMarkEntity;
+            Model = imgMarkEntity;
 
             this.Flag = "\xeac4";
 
             this.Name = imgMarkEntity.Name;
             this.Code = imgMarkEntity.Code;
+
+            DefectShape defect = new DefectShape(imgMarkEntity.X, imgMarkEntity.Y, imgMarkEntity.Width, imgMarkEntity.Height);
+
+            this.RectangleLayer.Add(defect);
 
             //sample.Flag = "\xeac5";
         }
@@ -56,18 +61,27 @@ namespace Ty.Component.ImageControl
             }
         }
 
-        private string _name;
+        public void Add(RectangleShape shape)
+        {
+            this._model.X = (int)shape.Position.X;
+            this._model.Y = (int)shape.Position.Y;
+
+            this._model.Width = (int)shape.Width;
+            this._model.Height = (int)shape.Height;
+
+            this.RectangleLayer.Add(shape);
+        }
+
         /// <summary> 说明  </summary>
         public string Name
         {
-            get { return this._model.Name; }
+            get { return this.Model.Name; }
             set
             {
-                this._model.Name = value;
+                this.Model.Name = value;
                 RaisePropertyChanged("Name");
             }
         }
-
 
         private string _flag;
         /// <summary> 说明  </summary>
@@ -81,7 +95,6 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
         private string _type;
         /// <summary> 说明  </summary>
         public string Type
@@ -94,18 +107,19 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
-        private string _code;
+        
         /// <summary> 说明  </summary>
         public string Code
         {
-            get { return _code; }
+            get { return _model.Code; }
             set
             {
-                _code = value;
+                _model.Code = value;
                 RaisePropertyChanged("Code");
             }
         }
+
+        public ImgMarkEntity Model { get => _model; set => _model = value; }
 
         public void RelayMethod(object obj)
         {

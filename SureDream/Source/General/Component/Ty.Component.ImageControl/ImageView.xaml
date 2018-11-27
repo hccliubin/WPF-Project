@@ -71,7 +71,6 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -80,11 +79,9 @@
 
                     <TextBlock Text="样本名称："  Grid.Row="0"/>
                     <TextBlock Text="缺陷类型：" Grid.Row="1"/>
-                    <TextBlock Text="样本类型：" Grid.Row="2"/>
 
                     <ComboBox Grid.Column="1" Grid.Row="0"/>
-                    <ComboBox Grid.Column="1" Grid.Row="1"/>
-                    <ComboBox Grid.Column="1" Grid.Row="2"/>
+                    <ComboBox x:Name="cb_code" Grid.Column="1" SelectedIndex="0" Grid.Row="1" ItemsSource="{Binding CodeCollection}"/>
 
                     <Button Content="保存" Height="30" Width="100" Grid.Row="3" Grid.Column="1" Click="Button_Click"/>
                 </Grid>
@@ -101,8 +98,25 @@
             </ListBox.Background>
         </ListBox>
 
-        <Grid Height="120" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" TextBlock.Foreground="White">
-            <Grid.RowDefinitions>
+        <!--<Grid Height="120" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" TextBlock.Foreground="White">-->
+            <ListBox HorizontalAlignment="Left" VerticalAlignment="Top" TextBlock.FontWeight="Black" Margin="10" Background="Black" TextBlock.Foreground="White" ItemsSource="{Binding FigureCollection}">
+                <ListBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Key}" />
+
+                            <TextBlock Text="{Binding Value}" Grid.Column="1"/>
+                        </Grid>
+                    </ItemContainerTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <!--<Grid.RowDefinitions>
                 <RowDefinition Height="1.2*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -117,8 +131,8 @@
             <TextBlock Text="路段：重庆-成都"/>
             <TextBlock Text="1024x1248" Grid.Row="1"/>
             <TextBlock Text="D1024" Grid.Row="2"/>
-            <TextBlock Text="2018-11-26"  Grid.Row="3"/>
-        </Grid>
+            <TextBlock Text="2018-11-26"  Grid.Row="3"/>-->
+        <!--</Grid>-->
 
         <local:IconButton x:Name="btn_imageStyle"  Grid.Column="1" FIcon="&#xe7a6;" Command="{x:Static local:ImageViewCommands.ShowStyleTool}"
                             HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0" ToolTip="{Binding Source={x:Static local:ImageViewCommands.ShowStyleTool},Path=Text}"

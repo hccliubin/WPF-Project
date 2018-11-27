@@ -8,6 +8,6 @@ namespace Ty.Component.ImageControl
 {
     public class ImageMarkEngine
     {
-
+        public List<ImgMarkEntity> ImgMarkEntitys { get; set; }
     }
 }

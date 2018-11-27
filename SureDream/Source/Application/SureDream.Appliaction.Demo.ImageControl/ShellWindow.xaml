@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SureDream.Appliaction.Demo.ImageControl"
+                xmlns:imagecontrol="clr-namespace:Ty.Component.ImageControl;assembly=Ty.Component.ImageControl"
+
         mc:Ignorable="d"
         Title="ShellWindow" Height="600" Width="1000">
 
@@ -34,6 +36,7 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="Content" Value="{Binding RelativeSource={RelativeSource Self},Path=Command.Text}"/>
         </Style>
+
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -50,6 +53,11 @@
         <CommandBinding Command="{StaticResource Resources.Command.ImgPlaySpeedUp}" Executed="CommandBinding_ImgPlaySpeedUp_Executed" CanExecute="CommandBinding_ImgPlaySpeedUp_CanExecut" />
         <CommandBinding Command="{StaticResource Resources.Command.ImgPlaySpeedDown}" Executed="CommandBinding_ImgPlaySpeedDown_Executed" CanExecute="CommandBinding_ImgPlaySpeedDown_CanExecut" />
 
+        <CommandBinding Command="{StaticResource Resources.Command.LoadMarkEntitys}" Executed="CommandBinding_LoadMarkEntitys_Executed" CanExecute="CommandBinding_LoadMarkEntitys_CanExecut" />
+        <CommandBinding Command="{StaticResource Resources.Command.LoadCodes}" Executed="CommandBinding_LoadCodes_Executed" CanExecute="CommandBinding_LoadCodes_CanExecut" />
+        <CommandBinding Command="{StaticResource Resources.Command.AddImgFigure}" Executed="CommandBinding_AddImgFigure_Executed" CanExecute="CommandBinding_AddImgFigure_CanExecut" />
+
+        
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -86,11 +94,26 @@
             <Button  Command="{Binding Source={StaticResource Resources.Command.ShowMarks}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedUp}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedDown}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.LoadCodes}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.AddImgFigure}}"/>
 
         </StackPanel>
-        <!--<ListBox x:Name="listbox_samples" Grid.Column="2" ItemsSource="{Binding SampleCollection,Mode=TwoWay}">
+        
+        <ListBox x:Name="listbox_samples" Grid.Column="2" Grid.RowSpan="2" ItemsSource="{Binding Collection}">
             <ListBox.Resources>
-                <DataTemplate DataType="{x:Type imagecontrol:SampleVieModel}">
+                <DataTemplate DataType="{x:Type imagecontrol:ImgMarkEntity}">
+                    <Grid Background="Red">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Name}"  ToolTip="{Binding ID}"/>
+                        <TextBlock Text="{Binding Code}" Grid.Column="1"/>
+                    </Grid>
+                </DataTemplate>
+
+                <!--<DataTemplate DataType="{x:Type imagecontrol:SampleVieModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
@@ -101,9 +124,12 @@
                         <TextBlock Style="{StaticResource FIcon}" Text="{Binding Flag}" Grid.Column="1"/>
                         <TextBlock  Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding Code}" Grid.Column="2"/>
                     </Grid>
-                </DataTemplate>
+                </DataTemplate>-->
             </ListBox.Resources>
-        </ListBox>-->
+        </ListBox>
+
+        <Button Grid.Column="1" Grid.Row="2"  Command="{Binding Source={StaticResource Resources.Command.LoadMarkEntitys}}"/>
+
 
     </Grid>
 </Window>

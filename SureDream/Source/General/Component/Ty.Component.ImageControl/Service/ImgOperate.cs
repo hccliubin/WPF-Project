@@ -24,10 +24,6 @@ namespace Ty.Component.ImageControl
 
         LinkedListNode<string> current;
 
-        Dictionary<string, string> _codeDic = new Dictionary<string, string>();
-
-        Dictionary<string, string> _imgFigures = new Dictionary<string, string>();
-
         public void AddImgFigure(Dictionary<string, string> imgFigures)
         {
             if (this._imageOprateCtrEntity.ViewModel == null)
@@ -75,12 +71,16 @@ namespace Ty.Component.ImageControl
 
             viewModel.ImageSource = new BitmapImage(new Uri(imgPath, UriKind.Absolute));
 
+            viewModel.ImgMarkOperateEvent += this.ImgMarkOperateEvent;
+
             this._imageOprateCtrEntity.ViewModel = viewModel;
         }
 
         public void LoadImg(List<string> imgPathes)
         {
             if (imgPathes == null) return;
+
+            if (imgPathes.Count==0) return;
 
             if (!File.Exists(imgPathes.First())) return;
 
@@ -116,6 +116,8 @@ namespace Ty.Component.ImageControl
 
                 this._imageOprateCtrEntity.ViewModel.SampleCollection.Add(vm);
             }
+
+            this._imageOprateCtrEntity.RefreshAll();
         }
 
         public void NextImg()

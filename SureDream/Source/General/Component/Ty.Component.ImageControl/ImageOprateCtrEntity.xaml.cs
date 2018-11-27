@@ -69,6 +69,8 @@ namespace Ty.Component.ImageControl
 
         public void OnLastClicked()
         {
+            this.RefreshPart();
+
             RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
             this.RaiseEvent(args);
         }
@@ -88,20 +90,22 @@ namespace Ty.Component.ImageControl
 
         public void OnNextClick()
         {
+            this.RefreshPart();
+
             RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
             this.RaiseEvent(args);
         }
 
         private void button_last_Click(object sender, RoutedEventArgs e)
         {
-            this.RefreshPart();
+         
 
             this.OnLastClicked();
         }
 
         private void button_next_Click(object sender, RoutedEventArgs e)
         {
-            this.RefreshPart();
+        
 
             this.OnNextClick();
         }
@@ -197,6 +201,11 @@ namespace Ty.Component.ImageControl
         private void CommandBinding_Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.ViewModel != null;
+        }
+
+        public void RefreshAll()
+        {
+            this.control_imageView.RefreshAll();
         }
     }
 }

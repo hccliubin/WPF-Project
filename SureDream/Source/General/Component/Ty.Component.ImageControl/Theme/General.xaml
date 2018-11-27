@@ -12,7 +12,7 @@
 
     <XmlDataProvider x:Key="Resource.XmlDataProvider.ImageControl" Source="/Ty.Component.ImageControl;component/Resources/ImageConfig.xml"  XPath="root"/>
 
-    
+
     <!--<RoutedUICommand x:Key="Resource.Command.AddDefect" Text="添加缺陷"/>-->
     <RoutedUICommand x:Key="Resource.Command.AddSample" Text="添加标定"/>
     <RoutedUICommand x:Key="Resource.Command.AddScrean" Text="放大视图"/>
@@ -46,7 +46,6 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
-                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -54,12 +53,10 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="样本名称："  Grid.Row="0"/>
-                            <TextBlock Text="缺陷类型：" Grid.Row="1"/>
-                            <TextBlock Text="样本类型：" Grid.Row="2"/>
+                            <TextBlock Text="缺陷代码：" Grid.Row="1"/>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0"/>
-                            <TextBlock Grid.Column="1" Grid.Row="1"/>
-                            <TextBlock Grid.Column="1" Grid.Row="2"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RelativeSource={RelativeSource Mode=Self},Path=Name}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding RelativeSource={RelativeSource Mode=Self},Path=Code}"/>
                         </Grid>
                     </Grid>
                 </ToolTip>
@@ -77,6 +74,28 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <DataTemplate DataType="{x:Type local:SampleShape}">
+        <Grid>
+            <Grid Margin="2"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="样本名称："  Grid.Row="0"/>
+                <TextBlock Text="缺陷代码：" Grid.Row="2"/>
+
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
+                <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding Code}"/>
+            </Grid>
+        </Grid>
+    </DataTemplate>
     <Style TargetType="{x:Type local:SampleShape}">
         <!--<Setter Property="StrokeDashArray" Value="8,8"/>
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
@@ -105,10 +124,10 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="样本名称："  Grid.Row="0"/>
-                            <TextBlock Text="样本类型：" Grid.Row="2"/>
+                            <TextBlock Text="缺陷代码：" Grid.Row="2"/>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0"/>
-                            <TextBlock Grid.Column="1" Grid.Row="1"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RelativeSource={RelativeSource Mode=PreviousData},Path=Name}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Code}"/>
                         </Grid>
                     </Grid>
                 </ToolTip>

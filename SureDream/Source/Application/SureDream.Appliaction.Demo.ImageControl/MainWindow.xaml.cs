@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ty.Base.WpfBase;
 using Ty.Component.ImageControl;
 
 namespace SureDream.Appliaction.Demo.ImageControl
@@ -24,12 +27,13 @@ namespace SureDream.Appliaction.Demo.ImageControl
     public partial class MainWindow : Window
     {
 
-        
+        MainViewModel _vm = new MainViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
 
-
+            this.DataContext = _vm;
         }
 
         LinkedList<string> _collection = new LinkedList<string>();
@@ -111,4 +115,8 @@ namespace SureDream.Appliaction.Demo.ImageControl
             MessageBox.Show("正在保存..");
         }
     }
+
+
+
+
 }
