@@ -25,17 +25,20 @@ namespace Ty.Component.ImageControl
         }
 
 
-        public Visual ImageVisual
+        public UIElement CenterContent
         {
             set
             {
-                this.visualbrush_image.Visual = value;
+                this.grid_all.Children.Add(value);
             }
         }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            this.Close();
+
+            this.grid_all.Children.Clear();
+
+            this.Hide();
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

@@ -4,9 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ty.Component.ImageControl"
-             mc:Ignorable="d" Background="Black"
+             mc:Ignorable="d" x:Name="control" Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--自定义资源引用-->
+                <ResourceDictionary Source="/Ty.Component.ImageControl;component/Theme/General.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <UserControl.CommandBindings>
         <CommandBinding Command="{x:Static local:ImageViewCommands.LastImage}"/>
 
@@ -19,13 +28,28 @@
         <CommandBinding Command="{x:Static local:ImageViewCommands.NextImage}" 
                         Executed="CommandBinding_NextImage_Executed" 
                         CanExecute="CommandBinding_NextImage_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.FullScreen}" 
+                        Executed="CommandBinding_FullScreen_Executed" 
+                        CanExecute="CommandBinding_FullScreen_CanExecute"/>
+
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.Save}" 
+                        Executed="CommandBinding_Save_Executed" 
+                        CanExecute="CommandBinding_Save_CanExecute"/>
     </UserControl.CommandBindings>
 
-    <Grid>
-        <local:ImageView x:Name="control_imageView" 
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.Save}}"
+                Key="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SaveCommand/@Key}"
+                Modifiers="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SaveCommand/@Modifiers}"/>
+    </UserControl.InputBindings>
+
+    <Grid x:Name="grid_all">
+        <local:ImageView x:Name="control_imageView" Background="{Binding ElementName=control,Path=Background}"
                          BegionShowPartView="control_imageView_BegionShowPartView"/>
 
-        <local:ImagePartView  x:Name="control_ImagePartView" 
+        <local:ImagePartView  x:Name="control_ImagePartView" Background="{Binding ElementName=control,Path=Background}"
                               Visibility="Collapsed" Closed="control_ImagePartView_Closed"
                               ImageVisual="{Binding ElementName=control_imageView,Path=ImageVisual}"
                               DynamicShape="{Binding ElementName=control_imageView,Path=DynamicShape}"/>
@@ -38,5 +62,9 @@
         <!--<Button x:Name="button_last" Content="《" Width="30" Height="50" HorizontalAlignment="Left" Click="button_last_Click"/>-->
         <!--<Button x:Name="button_next" Content="》" Width="30" Height="50" HorizontalAlignment="Right" Click="button_next_Click"/>-->
 
+        <local:IconButton x:Name="btn_fullScreen" Grid.Column="1" FIcon="&#xe9d0;"  Command="{x:Static local:ImageViewCommands.FullScreen}"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="5" ToolTip="{Binding Source={x:Static local:ImageViewCommands.FullScreen},Path=Text}"
+                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
+        </local:IconButton>
     </Grid>
 </UserControl>

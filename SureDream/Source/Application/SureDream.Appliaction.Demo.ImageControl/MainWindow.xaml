@@ -19,7 +19,11 @@
         </Grid.ColumnDefinitions>
         <!--LastClicked="image_LastClicked" NextClick="image_NextClick"-->
         <!--<imagecontrol:ImageControl x:Name="image" LastClicked="image_LastClicked" NextClick="image_NextClick"/>-->
-        <imagecontrol:ImageOprateCtrEntity x:Name="image"  LastClicked="image_LastClicked" NextClick="image_NextClick"/>
+        <imagecontrol:ImageOprateCtrEntity x:Name="image" 
+                                           SaveClick="image_Save"
+                                           LastClicked="image_LastClicked" 
+                                           NextClick="image_NextClick"/>
+        
         <Button Content="浏览文件" Width="100" Height="30" HorizontalAlignment="Left" Margin="20,0"  Grid.Row="1" Click="Button_Click"/>
 
         <ListBox x:Name="listbox_samples" Grid.Column="2" ItemsSource="{Binding SampleCollection,Mode=TwoWay}">

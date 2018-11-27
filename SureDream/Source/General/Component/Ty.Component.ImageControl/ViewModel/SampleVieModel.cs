@@ -12,105 +12,22 @@ using Ty.Base.WpfBase;
 
 namespace Ty.Component.ImageControl
 {
-    public partial class ImageControlViewModel
+    public partial class SampleVieModel
     {
-        private ImageSource _imageSource;
-        /// <summary> 说明  </summary>
-        public ImageSource ImageSource
-        {
-            get { return _imageSource; }
-            set
-            {
-                _imageSource = value;
-                RaisePropertyChanged("ImageSource");
-            }
-        }
-
-
-        private ObservableCollection<SampleVieModel> _samplecollection = new ObservableCollection<SampleVieModel>();
-        /// <summary> 说明  </summary>
-        public ObservableCollection<SampleVieModel> SampleCollection
-        {
-            get { return _samplecollection; }
-            set
-            {
-                _samplecollection = value;
-                RaisePropertyChanged("SampleCollection");
-            }
-        }
-
-
-
-        private StrokeCollection _strokeCollection = new StrokeCollection();
-        /// <summary> 说明  </summary>
-        public StrokeCollection StrokeCollection
-        {
-            get { return _strokeCollection; }
-            set
-            {
-                _strokeCollection = value;
-
-                RaisePropertyChanged("StrokeCollection");
-            }
-        }
-
-
-
-        public void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "text")
-            {
-                this.SampleCollection.Clear();
-                for (int i = 0; i < 10; i++)
-                {
-                    SampleVieModel sample = new SampleVieModel();
-
-                    sample.Name = "Name" + i;
-                    sample.Flag = i % 3 == 0 ? "\xeac5" : "\xeac3";
-                    sample.Code = "Code" + i;
-
-                    this.SampleCollection.Add(sample);
-                }
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
-    }
-
-    partial class ImageControlViewModel : INotifyPropertyChanged
-    {
-
-        public RelayCommand RelayCommand { get; set; }
-
-        public ImageControlViewModel()
+        ImgMarkEntity _model = new ImgMarkEntity();
+        public SampleVieModel(ImgMarkEntity imgMarkEntity)
         {
             RelayCommand = new RelayCommand(RelayMethod);
 
+            _model = imgMarkEntity;
+
+            this.Flag = "\xeac4";
+
+            this.Name = imgMarkEntity.Name;
+            this.Code = imgMarkEntity.Code;
+
+            //sample.Flag = "\xeac5";
         }
-        #region - MVVM -
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-    }
-
-
-    public partial class SampleVieModel
-    {
 
         private bool _visible = true;
         /// <summary> 说明  </summary>
@@ -127,7 +44,6 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
         private RectangleLayer _rectangleLayerLayer = new RectangleLayer();
         /// <summary> 说明  </summary>
         public RectangleLayer RectangleLayer
@@ -140,15 +56,14 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
         private string _name;
         /// <summary> 说明  </summary>
         public string Name
         {
-            get { return _name; }
+            get { return this._model.Name; }
             set
             {
-                _name = value;
+                this._model.Name = value;
                 RaisePropertyChanged("Name");
             }
         }
@@ -191,8 +106,6 @@ namespace Ty.Component.ImageControl
                 RaisePropertyChanged("Code");
             }
         }
-
-
 
         public void RelayMethod(object obj)
         {

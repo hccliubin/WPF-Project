@@ -61,15 +61,15 @@
             <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         </Grid>
 
-        <local:IconButton x:Name="btn_close" Grid.Column="1" FIcon="&#xe6f4;"
-                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5"
+        <local:IconButton x:Name="btn_close" Grid.Column="1" FIcon="&#xe701;"  ToolTip="取消放大"
+                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"
                              Style="{StaticResource Style.IconButton.Default}" CornerRadius="30"
                             Click="btn_close_Click">
         </local:IconButton>
 
         <!--MouseEnter="btn_close_MouseEnter" 
                             MouseLeave="btn_close_MouseLeave"-->
-        <Rectangle x:Name="rectangle_show" Stroke="Blue" Grid.Column="1" HorizontalAlignment="Stretch"
+        <Rectangle x:Name="rectangle_show" Stroke="Transparent" Grid.Column="1" HorizontalAlignment="Stretch"
                        Grid.Row="1" 
                        StrokeThickness="0.5" >
 

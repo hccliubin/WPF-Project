@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace Ty.Component.ImageControl
     /// </summary>
     public partial class ImageOprateCtrEntity : UserControl
     {
+
+        ImageFullScreenWindow _fullWindow = new ImageFullScreenWindow();
         public ImageOprateCtrEntity()
         {
             InitializeComponent();
@@ -36,6 +39,8 @@ namespace Ty.Component.ImageControl
                 this.DataContext = value;
             }
         }
+
+        public ImageFullScreenWindow FullWindow { get => _fullWindow; set => _fullWindow = value; }
 
         private void control_imageView_BegionShowPartView(object sender, RoutedEventArgs e)
         {
@@ -62,7 +67,7 @@ namespace Ty.Component.ImageControl
 
         //激发路由事件,借用Click事件的激发方法
 
-        protected void OnLastClicked()
+        public void OnLastClicked()
         {
             RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
             this.RaiseEvent(args);
@@ -81,7 +86,7 @@ namespace Ty.Component.ImageControl
 
         //激发路由事件,借用Click事件的激发方法
 
-        protected void OnNextClick()
+        public void OnNextClick()
         {
             RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
             this.RaiseEvent(args);
@@ -127,6 +132,69 @@ namespace Ty.Component.ImageControl
         }
 
         private void CommandBinding_NextImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+
+        private void CommandBinding_FullScreen_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            //ImageFullScreenWindow window = new ImageFullScreenWindow();
+            
+            FullWindow.DataContext = this.ViewModel;
+            this.ClearToScreen();
+            FullWindow.CenterContent = this.grid_all;
+            FullWindow.ShowDialog();
+            this.RecoverFromScreen();
+        }
+
+        private void CommandBinding_FullScreen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+        void ClearToScreen()
+        {
+            this.Content = null;
+            this.btn_fullScreen.Visibility = Visibility.Collapsed;
+        }
+
+        void RecoverFromScreen()
+        {
+            this.Content = this.grid_all;
+            this.btn_fullScreen.Visibility = Visibility.Visible;
+        }
+
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent SaveClickRoutedEvent =
+            EventManager.RegisterRoutedEvent("SaveClick", RoutingStrategy.Bubble, typeof(EventHandler<ImgMarkRoutedEventArgs>), typeof(ImageOprateCtrEntity));
+        //CLR事件包装
+        public event RoutedEventHandler SaveClick
+        {
+            add { this.AddHandler(SaveClickRoutedEvent, value); }
+            remove { this.RemoveHandler(SaveClickRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnSaveClick()
+        {
+            ImageMarkEngine engine = new ImageMarkEngine();
+
+            ImgMarkRoutedEventArgs args = new ImgMarkRoutedEventArgs(SaveClickRoutedEvent, this, engine);
+            this.RaiseEvent(args);
+        }
+
+
+        private void CommandBinding_Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.OnSaveClick();
+
+            Debug.WriteLine("保存");
+        }
+
+        private void CommandBinding_Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.ViewModel != null;
         }

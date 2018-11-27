@@ -23,6 +23,8 @@ namespace SureDream.Appliaction.Demo.ImageControl
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -102,6 +104,11 @@ namespace SureDream.Appliaction.Demo.ImageControl
             this.image.ViewModel = viewModel;
 
             this.listbox_samples.DataContext = viewModel;
+        }
+
+        private void image_Save(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("正在保存..");
         }
     }
 }

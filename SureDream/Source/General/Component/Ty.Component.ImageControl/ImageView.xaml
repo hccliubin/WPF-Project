@@ -20,10 +20,7 @@
     </UserControl.Resources>
 
     <UserControl.CommandBindings>
-        <CommandBinding Command="{x:Static local:ImageViewCommands.FullScreen}" 
-                        Executed="CommandBinding_FullScreen_Executed" 
-                        CanExecute="CommandBinding_FullScreen_CanExecute"/>
-
+        
         <CommandBinding Command="{x:Static local:ImageViewCommands.ShowStyleTool}" 
                         Executed="CommandBinding_ShowStyleTool_Executed" 
                         CanExecute="CommandBinding_ShowStyleTool_CanExecute"/>
@@ -41,7 +38,10 @@
 
                     <Image Stretch="Uniform" Source="{Binding ImageSource}" />
 
-                    <local:DynamicShape x:Name="_dynamic" Visibility="Collapsed"/>
+                    <local:DynamicShape x:Name="_dynamic" 
+                                        Visibility="Collapsed" 
+                                        WidthMatch="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicMatch/@Width}"
+                                        HeightMatch="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicMatch/@Height}"/>
 
                     <!--Width="{Binding ElementName=canvas,Path=ActualWidth}" 
                                Height="{Binding ElementName=canvas,Path=ActualHeight}"-->
@@ -119,11 +119,6 @@
             <TextBlock Text="D1024" Grid.Row="2"/>
             <TextBlock Text="2018-11-26"  Grid.Row="3"/>
         </Grid>
-
-        <local:IconButton x:Name="btn_fullScreen" Grid.Column="1" FIcon="&#xe9d0;"  Command="{x:Static local:ImageViewCommands.FullScreen}"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="5" ToolTip="{Binding Source={x:Static local:ImageViewCommands.FullScreen},Path=Text}"
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-        </local:IconButton>
 
         <local:IconButton x:Name="btn_imageStyle"  Grid.Column="1" FIcon="&#xe7a6;" Command="{x:Static local:ImageViewCommands.ShowStyleTool}"
                             HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0" ToolTip="{Binding Source={x:Static local:ImageViewCommands.ShowStyleTool},Path=Text}"

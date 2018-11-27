@@ -88,7 +88,7 @@ namespace Ty.Component.ImageControl
             }
         }
 
-        public override Geometry RenderedGeometry 
+        public override Geometry RenderedGeometry
         {
             get
             {
@@ -144,6 +144,63 @@ namespace Ty.Component.ImageControl
             //Debug.WriteLine(this.Width + "*" + this.Height);
             //Debug.WriteLine(Position.X + "*" + Position.Y);
         }
+
+
+        //public int WidthMatch { get; set; }
+        //public int HeightMatch { get; set; }
+
+
+        public int HeightMatch
+        {
+            get { return (int)GetValue(HeightMatchProperty); }
+            set { SetValue(HeightMatchProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeightMatchProperty =
+            DependencyProperty.Register("HeightMatch", typeof(int), typeof(DynamicShape), new PropertyMetadata(10, (d, e) =>
+             {
+                 DynamicShape control = d as DynamicShape;
+
+                 if (control == null) return;
+
+                 //int config = e.NewValue as int;
+
+             }));
+
+
+        public int WidthMatch
+        {
+            get { return (int)GetValue(WidthMatchProperty); }
+            set { SetValue(WidthMatchProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WidthMatchProperty =
+            DependencyProperty.Register("WidthMatch", typeof(int), typeof(DynamicShape), new PropertyMetadata(10, (d, e) =>
+             {
+                 DynamicShape control = d as DynamicShape;
+
+                 if (control == null) return;
+
+                 //int config = e.NewValue as int;
+
+             }));
+
+
+
+        public bool IsMatch()
+        {
+            return _initFlag && this.Width > this.WidthMatch && this.Height > this.HeightMatch;
+        }
+
+        bool _initFlag = false;
+
+        public void BegionMatch(bool flag)
+        {
+            _initFlag = flag;
+        }
+
     }
 
     public class DefectShape : RectangleShape

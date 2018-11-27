@@ -50,11 +50,13 @@ namespace Ty.Component.ImageControl
             {
                 resultStroke = new DefectShape(this._dynamic);
                 sample.Flag = "\xeac4";
+                sample.Type = "0";
             }
             else
             {
                 resultStroke = new SampleShape(this._dynamic);
                 sample.Flag = "\xeac5";
+                sample.Type = "1";
             }
 
             resultStroke.Draw(this.canvas);
@@ -74,10 +76,9 @@ namespace Ty.Component.ImageControl
 
         private void InkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             if (this.ViewModel == null) return;
 
-            _isMatch = false;
+            _dynamic.BegionMatch(true);
 
             start = e.GetPosition(sender as InkCanvas);
 
@@ -97,9 +98,10 @@ namespace Ty.Component.ImageControl
 
             Point end = e.GetPosition(this.canvas);
 
-            this._isMatch = Math.Abs(start.X - end.X) > 50 && Math.Abs(start.Y - end.Y) > 50;
+            //this._isMatch = Math.Abs(start.X - end.X) > 50 && Math.Abs(start.Y - end.Y) > 50;
 
             _dynamic.Visibility = Visibility.Visible;
+
             _dynamic.Refresh(start, end);
 
         }
@@ -161,28 +163,25 @@ namespace Ty.Component.ImageControl
 
         private void InkCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!_isMatch)
+            //if (!_isMatch)
+            //{
+            //    _dynamic.Visibility = Visibility.Collapsed;
+            //    return;
+            //};
+
+            //_isMatch = false;
+
+            if (!_dynamic.IsMatch())
             {
                 _dynamic.Visibility = Visibility.Collapsed;
                 return;
             };
+            _dynamic.BegionMatch(false);
 
-            _isMatch = false;
+            //_isMatch = false;
 
             if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
             {
-
-                Image im;
-
-
-                //this.rectangle_clip.Visibility = Visibility.Visible;
-                //this.rectangle_clip.Visibility = Visibility.Hidden;
-                //this.rectangle_clip.Visibility = Visibility.Visible;
-
-                //this.rectangle_clip.Width = this.canvas.ActualWidth;
-
-                //this.rectangle_clip.Height = this.canvas.ActualHeight;
-
                 RectangleGeometry rect = new RectangleGeometry(new Rect(0, 0, this.canvas.ActualWidth, this.canvas.ActualHeight));
 
                 var geo = Geometry.Combine(rect, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
@@ -246,20 +245,8 @@ namespace Ty.Component.ImageControl
 
             this.HideRectangleClip();
 
-
         }
 
-        private void CommandBinding_FullScreen_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            ImageFullScreenWindow window = new ImageFullScreenWindow();
-            window.ImageVisual = this.canvas;
-            window.ShowDialog();
-        }
-
-        private void CommandBinding_FullScreen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = this.ViewModel != null;
-        }
 
         private void CommandBinding_ShowStyleTool_Executed(object sender, ExecutedRoutedEventArgs e)
         {

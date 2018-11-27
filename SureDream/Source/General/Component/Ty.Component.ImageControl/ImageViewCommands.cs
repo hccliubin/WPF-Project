@@ -16,5 +16,7 @@ namespace Ty.Component.ImageControl
         public static RoutedUICommand FullScreen= new RoutedUICommand() { Text = "全屏显示" };
 
         public static RoutedUICommand ShowStyleTool = new RoutedUICommand() { Text = "显示全部" };
+
+        public static RoutedUICommand Save = new RoutedUICommand() { Text = "保存" };
     }
 }

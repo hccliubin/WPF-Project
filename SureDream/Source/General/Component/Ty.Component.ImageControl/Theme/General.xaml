@@ -10,6 +10,9 @@
         <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Thremes.Control.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <XmlDataProvider x:Key="Resource.XmlDataProvider.ImageControl" Source="/Ty.Component.ImageControl;component/Resources/ImageConfig.xml"  XPath="root"/>
+
+    
     <!--<RoutedUICommand x:Key="Resource.Command.AddDefect" Text="添加缺陷"/>-->
     <RoutedUICommand x:Key="Resource.Command.AddSample" Text="添加标定"/>
     <RoutedUICommand x:Key="Resource.Command.AddScrean" Text="放大视图"/>
@@ -24,11 +27,11 @@
     <Style TargetType="{x:Type local:DefectShape}">
         <!--<Setter Property="StrokeDashArray" Value="8,8"/>
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
-        <Setter Property="StrokeThickness" Value="2"/>
-        <Setter Property="Stroke" Value="Red"/>
+        <Setter Property="StrokeThickness" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@StrokeThickness}"/>
+        <Setter Property="Stroke" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Stroke}"/>
         <Setter Property="Fill">
             <Setter.Value>
-                <SolidColorBrush Color="LightGray" Opacity="0"/>
+                <SolidColorBrush Color="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Fill}" Opacity="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Opacity}"/>
             </Setter.Value>
         </Setter>
 
@@ -66,22 +69,22 @@
     <Style TargetType="{x:Type local:DynamicShape}">
         <Setter Property="StrokeDashArray" Value="8,8"/>
         <Setter Property="StrokeDashCap" Value="Triangle"/>
-        <Setter Property="Stroke" Value="Blue"/>
-        <Setter Property="StrokeThickness" Value="0.2"/>
+        <Setter Property="Stroke" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicRectangle/@Stroke}"/>
+        <Setter Property="StrokeThickness" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicRectangle/@StrokeThickness}"/>
         <Setter Property="Fill">
             <Setter.Value>
-                <SolidColorBrush Color="LightGray" Opacity="0.3"/>
+                <SolidColorBrush Color="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicRectangle/@Fill}" Opacity="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicRectangle/@Opacity}"/>
             </Setter.Value>
         </Setter>
     </Style>
     <Style TargetType="{x:Type local:SampleShape}">
         <!--<Setter Property="StrokeDashArray" Value="8,8"/>
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
-        <Setter Property="StrokeThickness" Value="2"/>
-        <Setter Property="Stroke" Value="Blue"/>
+        <Setter Property="StrokeThickness" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@StrokeThickness}"/>
+        <Setter Property="Stroke" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Stroke}"/>
         <Setter Property="Fill">
             <Setter.Value>
-                <SolidColorBrush Color="LightGray" Opacity="0"/>
+                <SolidColorBrush Color="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Fill}" Opacity="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Opacity}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="ToolTip">
@@ -127,6 +130,10 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
+
+
+
+
 
     <!--<DataTemplate DataType="{x:Type local:SampleVieModel}">
         <Grid>

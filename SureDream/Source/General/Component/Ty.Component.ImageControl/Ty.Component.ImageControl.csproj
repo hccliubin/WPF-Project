@@ -48,7 +48,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageControlViewModel.cs" />
+    <Compile Include="Provider\ImageConfiger.cs" />
+    <Compile Include="Service\ImgOperate.cs" />
+    <Compile Include="Model\ImgMarkEntity.cs" />
+    <Compile Include="Service\IImgOperate.cs" />
+    <Compile Include="Provider\ImgMarkRoutedEventArgs.cs" />
+    <Compile Include="ViewModel\SampleVieModel.cs" />
+    <Compile Include="ViewModel\ImageControlViewModel.cs" />
     <Compile Include="IconButton.cs" />
     <Compile Include="ImageFullScreenWindow.xaml.cs">
       <DependentUpon>ImageFullScreenWindow.xaml</DependentUpon>
@@ -63,6 +69,7 @@
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImageViewCommands.cs" />
+    <Compile Include="Model\ImageMarkEngine.cs" />
     <Compile Include="RectangleShape.cs" />
     <Compile Include="RectangleLayer.cs" />
     <Compile Include="IRectangleStroke.cs" />
@@ -112,16 +119,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\_101.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\map.jpg" />
+    <Resource Include="Resources\ImageConfig.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
