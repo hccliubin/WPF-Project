@@ -38,6 +38,20 @@ namespace Ty.Component.ImageControl
             }
         }
 
+
+        private SampleVieModel _selectSample;
+        /// <summary> 说明  </summary>
+        public SampleVieModel SelectSample
+        {
+            get { return _selectSample; }
+            set
+            {
+                _selectSample = value;
+                RaisePropertyChanged("SelectSample");
+            }
+        }
+
+
         private Dictionary<string, string> _codeCollection=new Dictionary<string, string>();
         /// <summary> 说明  </summary>
         public Dictionary<string, string> CodeCollection
@@ -63,32 +77,10 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
-        public event ImgMarkHandler ImgMarkOperateEvent;
-
-        public event ImgProcessHandler ImgProcessEvent;
-
         public void Add(SampleVieModel entity)
         {
             this.SampleCollection.Add(entity);
-
-            this.ImgMarkOperateEvent?.Invoke(entity.Model);
-        }
-
-        public void Delete(SampleVieModel vm)
-        {
-            this.SampleCollection.Remove(vm);
-
-            vm.Model.markOperateType = ImgMarkOperateType.Delete;
-
-            this.ImgMarkOperateEvent?.Invoke(vm.Model);
-        }
-
-        public void Update(SampleVieModel vm)
-        {
-            vm.Model.markOperateType = ImgMarkOperateType.Update;
-
-            this.ImgMarkOperateEvent?.Invoke(vm.Model);
+            
         }
 
         public void RelayMethod(object obj)
@@ -104,17 +96,30 @@ namespace Ty.Component.ImageControl
                     SampleVieModel sample = new SampleVieModel();
 
                     sample.Name = "Name" + i;
-                    sample.Flag = i % 3 == 0 ? "\xeac5" : "\xeac3";
+                    sample.Flag = i % 3 == 0 ? "\xe688" : "\xeaf3";
                     sample.Code = "Code" + i;
 
                     this.SampleCollection.Add(sample);
                 }
             }
             //  Do：取消
-            else if (command == "Cancel")
+            else if (command == "delete")
             {
+                if (this.SelectSample == null) return;
 
+                this.SelectSample.Flag = "\xe743";
+                this.SelectSample.Model.markOperateType = ImgMarkOperateType.Delete;
+                this.SelectSample.Visible = false;
 
+                //xe6b5 修改
+            }
+            else if (command == "update")
+            {
+                if (this.SelectSample == null) return;
+
+                this.SelectSample.Flag = "\xe6b5";
+                this.SelectSample.Model.markOperateType = ImgMarkOperateType.Update;
+                //xe6b5 修改
             }
         }
 

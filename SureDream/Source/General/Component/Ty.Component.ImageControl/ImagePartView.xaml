@@ -25,11 +25,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition />
+
         </Grid.ColumnDefinitions>
 
         <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Grid Visibility="Hidden">
-                <InkCanvas x:Name="canvas">
+                <InkCanvas x:Name="canvas" Background="Black">
                     <InkCanvas.DefaultDrawingAttributes>
                         <DrawingAttributes Color="Transparent"/>
                     </InkCanvas.DefaultDrawingAttributes>

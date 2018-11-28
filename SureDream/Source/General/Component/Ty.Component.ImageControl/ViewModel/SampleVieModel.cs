@@ -22,10 +22,11 @@ namespace Ty.Component.ImageControl
 
             Model = imgMarkEntity;
 
-            this.Flag = "\xeac4";
+            this.Flag = "\xe76c";
 
             this.Name = imgMarkEntity.Name;
             this.Code = imgMarkEntity.Code;
+            this.Type = "0";
 
             DefectShape defect = new DefectShape(imgMarkEntity.X, imgMarkEntity.Y, imgMarkEntity.Width, imgMarkEntity.Height);
 

@@ -14,6 +14,9 @@ namespace Ty.Component.ImageControl
 
     public class RectangleShape : Shape, IRectangleStroke
     {
+        public string Name { get; set; }
+
+        public string Code { get; set; }
 
         public RectangleShape() : base()
         {
@@ -221,9 +224,49 @@ namespace Ty.Component.ImageControl
     public class DefectShape : RectangleShape
     {
 
-        public string Name { get; set; }
+        //public string Name { get; set; } 
 
-        public string Code { get; set; }
+        //public string Code { get; set; } 
+
+
+
+        //public string Code
+        //{
+        //    get { return (string)GetValue(CodeProperty); }
+        //    set { SetValue(CodeProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty CodeProperty =
+        //    DependencyProperty.Register("Code", typeof(string), typeof(DefectShape), new PropertyMetadata(default(string), (d, e) =>
+        //     {
+        //         DefectShape control = d as DefectShape;
+
+        //         if (control == null) return;
+
+        //         string config = e.NewValue as string;
+
+        //     }));
+
+
+        //public string Name
+        //{
+        //    get { return (string)GetValue(NameProperty); }
+        //    set { SetValue(NameProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty NameProperty =
+        //    DependencyProperty.Register("Name", typeof(string), typeof(DefectShape), new PropertyMetadata(default(string), (d, e) =>
+        //     {
+        //         DefectShape control = d as DefectShape;
+
+        //         if (control == null) return;
+
+        //         string config = e.NewValue as string;
+
+        //     }));
+
 
         public DefectShape() : base()
         {
@@ -248,9 +291,9 @@ namespace Ty.Component.ImageControl
     public class SampleShape : RectangleShape
     {
 
-        public string Name { get; set; }
+        //public string Name { get; set; }
 
-        public string Code { get; set; }
+        //public string Code { get; set; }
 
         public SampleShape() : base()
         {

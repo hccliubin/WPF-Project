@@ -27,19 +27,35 @@
         <RoutedUICommand x:Key="Resources.Command.SetImgPlay" Text="设置图片播放"/>
         <RoutedUICommand x:Key="Resources.Command.ShowMarksWithCode" Text="展示指定编码标注"/>
         <RoutedUICommand x:Key="Resources.Command.LoadMarkEntitys" Text="加载图片的标定信息"/>
-        <RoutedUICommand x:Key="Resources.Command.AddImgFigure" Text="图片详细信息展示"/>
-        <RoutedUICommand x:Key="Resources.Command.LoadCodes" Text="图片控件加载标定使用代码和代码名称"/>
+        <RoutedUICommand x:Key="Resources.Command.AddImgFigure" Text="展示图片详细信息"/>
+        <RoutedUICommand x:Key="Resources.Command.LoadCodes" Text="加载标定使用代码和代码名称"/>
 
-        <Style TargetType="Button">
-            <Setter Property="Width" Value="100"/>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="MinWidth" Value="100"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Content" Value="{Binding RelativeSource={RelativeSource Self},Path=Command.Text}"/>
         </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        
 
     </Window.Resources>
 
     <Window.CommandBindings>
+
+
+        <CommandBinding Command="{StaticResource Resources.Command.LoadImg}" Executed="CommandBinding_LoadImg_Executed" CanExecute="CommandBinding_LoadImg_CanExecute" />
+
         <CommandBinding Command="{StaticResource Resources.Command.Search}" Executed="CommandBinding_Search_Executed" CanExecute="CommandBinding_Search_CanExecute" />
         <CommandBinding Command="{StaticResource Resources.Command.Previous}" Executed="CommandBinding_Previous_Executed" CanExecute="CommandBinding_Previous_CanExecute" />
         <CommandBinding Command="{StaticResource Resources.Command.Next}" Executed="CommandBinding_Next_Executed" CanExecute="CommandBinding_Next_CanExecut" />
@@ -57,6 +73,9 @@
         <CommandBinding Command="{StaticResource Resources.Command.LoadCodes}" Executed="CommandBinding_LoadCodes_Executed" CanExecute="CommandBinding_LoadCodes_CanExecut" />
         <CommandBinding Command="{StaticResource Resources.Command.AddImgFigure}" Executed="CommandBinding_AddImgFigure_Executed" CanExecute="CommandBinding_AddImgFigure_CanExecut" />
 
+        <CommandBinding Command="{StaticResource Resources.Command.SetImgPlay}" Executed="CommandBinding_SetImgPlay_Executed" CanExecute="CommandBinding_SetImgPlay_CanExecut" />
+
+        
         
     </Window.CommandBindings>
     <Grid>
@@ -64,11 +83,12 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="200"/>
+            <!--<ColumnDefinition Width="200"/>-->
         </Grid.ColumnDefinitions>
         <!--LastClicked="image_LastClicked" NextClick="image_NextClick"-->
         <!--<imagecontrol:ImageControl x:Name="image" LastClicked="image_LastClicked" NextClick="image_NextClick"/>-->
@@ -78,12 +98,14 @@
         
         <StackPanel Orientation="Horizontal" Grid.Row="0">
 
-            <Button  Command="{Binding Source={StaticResource Resources.Command.LoadImg}}"/>
-            <Button  Command="{Binding Source={StaticResource Resources.Command.Search}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.LoadImg}}" Background="{DynamicResource S_AccentBrush}" />
+            <Button  Command="{Binding Source={StaticResource Resources.Command.Search}}"  Background="{DynamicResource S_AccentBrush}" />
             <Button  Command="{Binding Source={StaticResource Resources.Command.Previous}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.Next}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.FullScreen}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.UnFullScreen}}"/>
+
+            <Button  Margin="100,0" Command="{Binding Source={StaticResource Resources.Command.LoadMarkEntitys}}"/>
 
         </StackPanel>
 
@@ -92,43 +114,43 @@
             <Button  Command="{Binding Source={StaticResource Resources.Command.ShowLocates}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.ShowDefects}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.ShowMarks}}"/>
-            <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedUp}}"/>
-            <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedDown}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.LoadCodes}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.AddImgFigure}}"/>
-
         </StackPanel>
-        
-        <ListBox x:Name="listbox_samples" Grid.Column="2" Grid.RowSpan="2" ItemsSource="{Binding Collection}">
-            <ListBox.Resources>
-                <DataTemplate DataType="{x:Type imagecontrol:ImgMarkEntity}">
-                    <Grid Background="Red">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Name}"  ToolTip="{Binding ID}"/>
-                        <TextBlock Text="{Binding Code}" Grid.Column="1"/>
-                    </Grid>
-                </DataTemplate>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
 
-                <!--<DataTemplate DataType="{x:Type imagecontrol:SampleVieModel}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox IsChecked="{Binding Visible}"/>
-                        <TextBlock Style="{StaticResource FIcon}" Text="{Binding Flag}" Grid.Column="1"/>
-                        <TextBlock  Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding Code}" Grid.Column="2"/>
-                    </Grid>
-                </DataTemplate>-->
-            </ListBox.Resources>
-        </ListBox>
+            <ComboBox x:Name="cb_playmode" SelectedIndex="0">
+                <imagecontrol:ImgPlayMode>正序</imagecontrol:ImgPlayMode>
+                <imagecontrol:ImgPlayMode>倒叙</imagecontrol:ImgPlayMode>
+                <imagecontrol:ImgPlayMode>停止播放</imagecontrol:ImgPlayMode>
+            </ComboBox>
 
-        <Button Grid.Column="1" Grid.Row="2"  Command="{Binding Source={StaticResource Resources.Command.LoadMarkEntitys}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.SetImgPlay}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedUp}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedDown}}"/>
+        </StackPanel>
+
+        <!--<GroupBox Grid.Column="1" Grid.RowSpan="2" Header="{Binding Source={StaticResource Resources.Command.LoadMarkEntitys},Path=Text}">
+            <ListBox x:Name="listbox_samples" Grid.Column="2" Grid.RowSpan="2" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ItemsSource="{Binding Collection}">
+                <ListBox.Resources>
+                    <DataTemplate DataType="{x:Type imagecontrol:ImgMarkEntity}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="名称:" Grid.Column="2" Width="Auto"/>
+                            <TextBlock Text="{Binding Name}" Grid.Column="3"  Width="Auto" ToolTip="{Binding ID}"/>
+                            <TextBlock Text="代码:"  Grid.Column="0"  Width="Auto"/>
+                            <TextBlock Text="{Binding Code}" Grid.Column="1"  Width="Auto"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.Resources>
+            </ListBox>
+        </GroupBox>-->
 
 
     </Grid>

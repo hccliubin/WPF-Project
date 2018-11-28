@@ -30,7 +30,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
         MainViewModel _vm = new MainViewModel();
 
-        ImgOperate _imgOperate = new ImgOperate();
+        IImgOperate _imgOperate = new ImageOprateCtrEntity();
 
         bool _isload = false;
 
@@ -38,25 +38,36 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             InitializeComponent();
 
-            this.listbox_samples.DataContext = _vm;
-
             this.grid_center.Children.Add(_imgOperate.BuildEntity());
 
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
-            string tempFiles = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp.txt");
-
             _imgOperate.ImgMarkOperateEvent += l =>
               {
+                  string fn = System.IO.Path.GetFileNameWithoutExtension(this._imgOperate.BuildEntity().Current.Value);
+
+                  string file = this.GetMarkFileName(fn);
+
                   Debug.WriteLine("添加：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
 
                   temp.Add(l);
 
                   string result = JsonConvert.SerializeObject(temp);
 
-                  File.WriteAllText(tempFiles, result);
+                  File.WriteAllText(file, result);
+
+                  MessageBox.Show("添加：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}", "保存成功");
 
               };
+
+            _imgOperate.ImgProcessEvent +=(l, k) =>
+             {
+                 Debug.WriteLine("图片路径：" + l);
+
+                 Debug.WriteLine("操作参数：" + k);
+
+                 MessageBox.Show(k.ToString());
+             };
 
         }
 
@@ -64,7 +75,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             OpenFileDialog open = new OpenFileDialog();
 
-            open.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            open.InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images");
 
             var result = open.ShowDialog();
 
@@ -157,12 +168,12 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
         private void CommandBinding_ImgPlaySpeedUp_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            _imgOperate.ImgPlaySpeedUp();
         }
 
         private void CommandBinding_ImgPlaySpeedDown_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            _imgOperate.ImgPlaySpeedDown();
         }
 
         private void CommandBinding_ShowLocates_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -192,12 +203,27 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
         private void CommandBinding_LoadMarkEntitys_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _imgOperate.LoadMarkEntitys(this._vm.Collection);
+            OpenFileDialog open = new OpenFileDialog();
+
+            open.InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Marks");
+
+            var result = open.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                string marks = File.ReadAllText(open.FileName);
+
+                var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
+
+                _imgOperate.LoadMarkEntitys(list);
+            }
+
+
         }
 
         private void CommandBinding_LoadMarkEntitys_CanExecut(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = this._vm.Collection != null && this._vm.Collection.Count > 0 && this._isload;
+            e.CanExecute = this._isload;
         }
 
         private void CommandBinding_LoadCodes_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -205,13 +231,13 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
-            var count = r.Next(10);
+            var count = r.Next(5,10);
 
             for (int i = 0; i < count; i++)
             {
-                dic.Add((i +1).ToString(), "D10"+i.ToString());
+                dic.Add((i + 1).ToString(), "D10" + i.ToString());
             }
-           
+
 
             _imgOperate.LoadCodes(dic);
         }
@@ -226,7 +252,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
-            var count= r.Next(10);
+            var count = r.Next(5, 10);
 
             for (int i = 0; i < count; i++)
             {
@@ -239,6 +265,56 @@ namespace SureDream.Appliaction.Demo.ImageControl
         private void CommandBinding_AddImgFigure_CanExecut(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this._isload;
+        }
+
+        private void CommandBinding_SetImgPlay_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            _imgOperate.SetImgPlay((ImgPlayMode)this.cb_playmode.SelectedItem);
+        }
+
+        private void CommandBinding_SetImgPlay_CanExecut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this._isload;
+        }
+
+        private void CommandBinding_LoadImg_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+
+            open.InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images");
+
+            var result = open.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                _imgOperate.LoadImg(open.FileName);
+            }
+
+
+
+            this._isload = true;
+        }
+
+        private void CommandBinding_LoadImg_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void btn_search_Click(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+
+        public string GetMarkFileName(string imgName)
+        {
+            string file = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
+
+            string tempFiles = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory+"\\Marks", imgName + "[" + file + "].mark");
+
+            if (!File.Exists(tempFiles)) File.WriteAllText(tempFiles, string.Empty);
+
+            return tempFiles;
         }
     }
 
@@ -258,7 +334,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             }
         }
 
-
+        public string tempFiles;
         public void RelayMethod(object obj)
         {
             string command = obj.ToString();
@@ -266,15 +342,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             //  Do：应用
             if (command == "init")
             {
-                string tempFiles = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp.txt");
 
-                string result = File.ReadAllText(tempFiles);
-
-                if (string.IsNullOrEmpty(tempFiles)) return;
-
-                var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(result);
-
-                Collection = list;
 
             }
             //  Do：取消

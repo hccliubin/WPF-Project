@@ -72,9 +72,9 @@
     <sys:Double x:Key="SystemButtonHeight">24</sys:Double>
     <sys:Double x:Key="SystemButtonWidth">32</sys:Double>
 
-    <Style x:Key="ContentRoot" TargetType="FrameworkElement">
+    <!--<Style x:Key="ContentRoot" TargetType="FrameworkElement">
         <Setter Property="Margin" Value="16,28,16,16" />
-    </Style>
+    </Style>-->
 
     <!--默认的主题颜色-->
     <ResourceDictionary.MergedDictionaries>

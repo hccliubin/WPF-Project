@@ -19,12 +19,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <UserControl.CommandBindings>
-        
-        <CommandBinding Command="{x:Static local:ImageViewCommands.ShowStyleTool}" 
-                        Executed="CommandBinding_ShowStyleTool_Executed" 
-                        CanExecute="CommandBinding_ShowStyleTool_CanExecute"/>
-    </UserControl.CommandBindings>
 
     <Grid>
         <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
@@ -62,7 +56,7 @@
                                Placement="MousePoint" AllowsTransparency="True"
                                StaysOpen="False" HorizontalAlignment="Left" 
                                VerticalAlignment="Bottom">
-            <Grid Height="170" Width="300">
+            <Grid Height="120">
                 <Grid.Background>
                     <SolidColorBrush Color="White" Opacity="0.7"/>
                 </Grid.Background>
@@ -99,24 +93,24 @@
         </ListBox>
 
         <!--<Grid Height="120" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" TextBlock.Foreground="White">-->
-            <ListBox HorizontalAlignment="Left" VerticalAlignment="Top" TextBlock.FontWeight="Black" Margin="10" Background="Black" TextBlock.Foreground="White" ItemsSource="{Binding FigureCollection}">
-                <ListBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+        <ListBox HorizontalAlignment="Left" VerticalAlignment="Top" TextBlock.FontWeight="Black" Margin="10" Background="Black" TextBlock.Foreground="White" ItemsSource="{Binding FigureCollection}">
+            <ListBox.ItemTemplate>
+                <ItemContainerTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{Binding Key}" />
+                        <TextBlock Text="{Binding Key}" />
 
-                            <TextBlock Text="{Binding Value}" Grid.Column="1"/>
-                        </Grid>
-                    </ItemContainerTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            
-            <!--<Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Value}" Grid.Column="1"/>
+                    </Grid>
+                </ItemContainerTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--<Grid.RowDefinitions>
                 <RowDefinition Height="1.2*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -134,47 +128,5 @@
             <TextBlock Text="2018-11-26"  Grid.Row="3"/>-->
         <!--</Grid>-->
 
-        <local:IconButton x:Name="btn_imageStyle"  Grid.Column="1" FIcon="&#xe7a6;" Command="{x:Static local:ImageViewCommands.ShowStyleTool}"
-                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0" ToolTip="{Binding Source={x:Static local:ImageViewCommands.ShowStyleTool},Path=Text}"
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-        </local:IconButton>
-
-        <Popup PopupAnimation="Fade" PlacementTarget="{Binding ElementName=btn_imageStyle}" 
-               IsOpen="{Binding ElementName=btn_imageStyle,Path=IsChecked}" 
-               Placement="Right" 
-               AllowsTransparency="True" 
-               StaysOpen="False" HorizontalAlignment="Left"   VerticalAlignment="Bottom">
-            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <local:IconButton  Grid.Column="1" FIcon="&#xe7aa;" ToolTip="滤镜"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-                </local:IconButton>
-                <local:IconButton  Grid.Column="1" FIcon="&#xe7ab;" ToolTip="对比对"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-                </local:IconButton>
-                <local:IconButton  Grid.Column="1" FIcon="&#xe7ac;" ToolTip="曝光补偿"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-                </local:IconButton>
-
-                <local:IconButton  Grid.Column="1" FIcon="&#xe7ad;" ToolTip="夜视"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-                </local:IconButton>
-
-                <local:IconButton  Grid.Column="1" FIcon="&#xe7a3;"  ToolTip="夜视"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-                </local:IconButton>
-
-                <local:IconButton  Grid.Column="1" FIcon="&#xe7a7;" ToolTip="边缘锐化"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                             Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
-                </local:IconButton>
-
-            </StackPanel>
-
-        </Popup>
     </Grid>
 </UserControl>

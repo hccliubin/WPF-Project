@@ -35,10 +35,9 @@ namespace Ty.Component.ImageControl
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
             this.grid_all.Children.Clear();
 
-            this.Hide();
+            this.Close();
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -46,25 +45,5 @@ namespace Ty.Component.ImageControl
             e.CanExecute = true;
         }
 
-
-        //    public Visual ImageVisual
-        //    {
-        //        get { return (Visual)GetValue(ImageVisualProperty); }
-        //        set { SetValue(ImageVisualProperty, value); }
-        //    }
-
-        //    // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //    public static readonly DependencyProperty ImageVisualProperty =
-        //        DependencyProperty.Register("ImageVisual", typeof(Visual), typeof(ImageFullScreenWindow), new PropertyMetadata(default(Visual), (d, e) =>
-        //        {
-        //            ImageFullScreenWindow control = d as ImageFullScreenWindow;
-
-        //            if (control == null) return;
-
-        //            Visual config = e.NewValue as Visual;
-
-        //            control.visualbrush_image.Visual = config;
-
-        //        }));
     }
 }

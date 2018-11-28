@@ -50,9 +50,7 @@ namespace Ty.Component.ImageControl
             if (this.r_defect.IsChecked.HasValue && this.r_defect.IsChecked.Value)
             {
                 DefectShape resultStroke = new DefectShape(this._dynamic);
-             
-
-                sample.Flag = "\xeac4";
+                sample.Flag = "\xe688";
                 sample.Type = "0";
                 resultStroke.Name = sample.Name;
                 resultStroke.Code = sample.Code;
@@ -62,19 +60,13 @@ namespace Ty.Component.ImageControl
             else
             {
                 SampleShape resultStroke = new SampleShape(this._dynamic);
-                sample.Flag = "\xeac5";
+                sample.Flag = "\xeaf3";
                 sample.Type = "1";
                 resultStroke.Name = sample.Name;
                 resultStroke.Code = sample.Code;
                 resultStroke.Draw(this.canvas);
                 sample.Add(resultStroke);
-
             }
-
-          
-           
-
-       
 
             this.ViewModel.Add(sample);
 
@@ -261,15 +253,7 @@ namespace Ty.Component.ImageControl
         }
 
 
-        private void CommandBinding_ShowStyleTool_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.btn_imageStyle.IsChecked = !this.btn_imageStyle.IsChecked;
-        }
-
-        private void CommandBinding_ShowStyleTool_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = this.ViewModel != null;
-        }
+  
 
         /// <summary> 重新刷新数据 </summary>
         public void RefreshAll()

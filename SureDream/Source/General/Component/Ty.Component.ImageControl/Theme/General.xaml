@@ -25,8 +25,6 @@
     </ContextMenu>
 
     <Style TargetType="{x:Type local:DefectShape}">
-        <!--<Setter Property="StrokeDashArray" Value="8,8"/>
-                <Setter Property="StrokeDashCap" Value="Triangle"/>-->
         <Setter Property="StrokeThickness" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@StrokeThickness}"/>
         <Setter Property="Stroke" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Stroke}"/>
         <Setter Property="Fill">
@@ -35,9 +33,9 @@
             </Setter.Value>
         </Setter>
 
-        <Setter Property="ToolTip">
+        <Setter Property="local:DefectShape.ToolTip">
             <Setter.Value>
-                <ToolTip>
+                <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
                     <ToolTip.Background>
                         <SolidColorBrush Color="White" Opacity="0.7"/>
                     </ToolTip.Background>
@@ -46,17 +44,18 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-
-                            <TextBlock Text="样本名称："  Grid.Row="0"/>
+                            
+                            <TextBlock Text="标定名称："  Grid.Row="0"/>
                             <TextBlock Text="缺陷代码：" Grid.Row="1"/>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RelativeSource={RelativeSource Mode=Self},Path=Name}"/>
-                            <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding RelativeSource={RelativeSource Mode=Self},Path=Code}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Width="Auto" Text="{Binding Path=Name}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1"   Width="Auto" Text="{Binding Path=Code}"/>
                         </Grid>
                     </Grid>
                 </ToolTip>
@@ -75,27 +74,6 @@
         </Setter>
     </Style>
 
-    <DataTemplate DataType="{x:Type local:SampleShape}">
-        <Grid>
-            <Grid Margin="2"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="样本名称："  Grid.Row="0"/>
-                <TextBlock Text="缺陷代码：" Grid.Row="2"/>
-
-
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
-                <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding Code}"/>
-            </Grid>
-        </Grid>
-    </DataTemplate>
     <Style TargetType="{x:Type local:SampleShape}">
         <!--<Setter Property="StrokeDashArray" Value="8,8"/>
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
@@ -108,7 +86,7 @@
         </Setter>
         <Setter Property="ToolTip">
             <Setter.Value>
-                <ToolTip>
+                <ToolTip  DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
                     <ToolTip.Background>
                         <SolidColorBrush Color="White" Opacity="0.7"/>
                     </ToolTip.Background>
@@ -123,11 +101,11 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="样本名称："  Grid.Row="0"/>
-                            <TextBlock Text="缺陷代码：" Grid.Row="2"/>
+                            <TextBlock Text="标定名称："  Grid.Row="0"/>
+                            <TextBlock Text="缺陷代码：" Grid.Row="1"/>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RelativeSource={RelativeSource Mode=PreviousData},Path=Name}"/>
-                            <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Code}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1"  Text="{Binding Path=Code}"/>
                         </Grid>
                     </Grid>
                 </ToolTip>
@@ -136,7 +114,8 @@
     </Style>
 
     <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="Width" Value="100"/>
+        <Setter Property="MinWidth" Value="80"/>
+        <Setter Property="Width" Value="Auto"/>
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -149,23 +128,6 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-
-
-
-
-
-    <!--<DataTemplate DataType="{x:Type local:SampleVieModel}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <CheckBox IsChecked="{Binding Visible}"/>
-            <TextBlock Style="{StaticResource FIcon}" Text="{Binding Flag}" Grid.Column="1"/>
-            <TextBlock  Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding Code}" Grid.Column="2"/>
-        </Grid>
-    </DataTemplate>-->
 
     <DataTemplate DataType="{x:Type DrawingAttributes}" >
         <Border Width="80" Height="{Binding Path=Height}">
