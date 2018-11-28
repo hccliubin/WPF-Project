@@ -334,26 +334,26 @@ namespace Ty.Component.ImageControl
         }
 
 
-        //声明和注册路由事件
-        public static readonly RoutedEvent SaveClickRoutedEvent =
-            EventManager.RegisterRoutedEvent("SaveClick", RoutingStrategy.Bubble, typeof(EventHandler<ImgMarkRoutedEventArgs>), typeof(ImageOprateCtrEntity));
-        //CLR事件包装
-        public event RoutedEventHandler SaveClick
-        {
-            add { this.AddHandler(SaveClickRoutedEvent, value); }
-            remove { this.RemoveHandler(SaveClickRoutedEvent, value); }
-        }
+        ////声明和注册路由事件
+        //public static readonly RoutedEvent SaveClickRoutedEvent =
+        //    EventManager.RegisterRoutedEvent("SaveClick", RoutingStrategy.Bubble, typeof(EventHandler<ImgMarkRoutedEventArgs>), typeof(ImageOprateCtrEntity));
+        ////CLR事件包装
+        //public event RoutedEventHandler SaveClick
+        //{
+        //    add { this.AddHandler(SaveClickRoutedEvent, value); }
+        //    remove { this.RemoveHandler(SaveClickRoutedEvent, value); }
+        //}
 
-        //激发路由事件,借用Click事件的激发方法
+        ////激发路由事件,借用Click事件的激发方法
 
-        protected void OnSaveClick()
-        {
-            ImageMarkEngine engine = new ImageMarkEngine();
+        //protected void OnSaveClick()
+        //{
+        //    ImageMarkEngine engine = new ImageMarkEngine();
 
-            ImgMarkRoutedEventArgs args = new ImgMarkRoutedEventArgs(SaveClickRoutedEvent, this, engine);
+        //    ImgMarkRoutedEventArgs args = new ImgMarkRoutedEventArgs(SaveClickRoutedEvent, this, engine);
 
-            this.RaiseEvent(args);
-        }
+        //    this.RaiseEvent(args);
+        //}
 
 
         private void CommandBinding_Save_Executed(object sender, ExecutedRoutedEventArgs e)

@@ -48,7 +48,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Provider\ImageConfiger.cs" />
     <Compile Include="Service\ImgOperate.cs" />
     <Compile Include="Model\ImgMarkEntity.cs" />
     <Compile Include="Service\IImgOperate.cs" />
