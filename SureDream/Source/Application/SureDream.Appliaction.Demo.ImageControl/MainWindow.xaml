@@ -20,7 +20,6 @@
         <!--LastClicked="image_LastClicked" NextClick="image_NextClick"-->
         <!--<imagecontrol:ImageControl x:Name="image" LastClicked="image_LastClicked" NextClick="image_NextClick"/>-->
         <imagecontrol:ImageOprateCtrEntity x:Name="image" 
-                                           SaveClick="image_Save"
                                            LastClicked="image_LastClicked" 
                                            NextClick="image_NextClick"/>
         

@@ -60,14 +60,14 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
               };
 
-            _imgOperate.ImgProcessEvent +=(l, k) =>
-             {
-                 Debug.WriteLine("图片路径：" + l);
+            _imgOperate.ImgProcessEvent += (l, k) =>
+              {
+                  Debug.WriteLine("图片路径：" + l);
 
-                 Debug.WriteLine("操作参数：" + k);
+                  Debug.WriteLine("操作参数：" + k);
 
-                 MessageBox.Show(k.ToString());
-             };
+                  MessageBox.Show(k.ToString());
+              };
 
         }
 
@@ -229,15 +229,45 @@ namespace SureDream.Appliaction.Demo.ImageControl
         private void CommandBinding_LoadCodes_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
-            Dictionary<string, string> dic = new Dictionary<string, string>();
+            //Dictionary<string, string> dic = new Dictionary<string, string>();
 
-            var count = r.Next(5,10);
+            //var count = r.Next(5, 10);
+
+            //for (int i = 0; i < count; i++)
+            //{
+            //    dic.Add((i + 1).ToString(), "D10" + i.ToString());
+            //}
+
+
+            //_imgOperate.LoadCodes(dic);
+
+            List<KeyValueViewModel> colleciotn = new List<KeyValueViewModel>();
+
+            var count = r.Next(5, 10);
 
             for (int i = 0; i < count; i++)
             {
-                dic.Add((i + 1).ToString(), "D10" + i.ToString());
+                KeyValueViewModel m = new KeyValueViewModel();
+                m.Key = (i + 1).ToString();
+                m.Value = "D10" + i.ToString();
+                colleciotn.Add(m);
             }
 
+            KeyValueWindow key = new KeyValueWindow();
+            key.Collection = colleciotn;
+            var result = key.ShowDialog();
+
+            if (!result.HasValue) return;
+
+            if (!result.Value) return;
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            foreach (var item in key.Collection)
+            {
+                if (dic.ContainsKey(item.Key)) continue;
+                dic.Add(item.Key, item.Value);
+            }
 
             _imgOperate.LoadCodes(dic);
         }
@@ -250,16 +280,47 @@ namespace SureDream.Appliaction.Demo.ImageControl
         Random r = new Random();
         private void CommandBinding_AddImgFigure_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
+            //Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            //var count = r.Next(5, 10);
+
+            //for (int i = 0; i < count; i++)
+            //{
+            //    dic.Add((i + 1).ToString(), "D10" + i.ToString());
+            //}
+
+            //_imgOperate.AddImgFigure(dic);
+
+            List<KeyValueViewModel> colleciotn = new List<KeyValueViewModel>();
 
             var count = r.Next(5, 10);
 
             for (int i = 0; i < count; i++)
             {
-                dic.Add((i + 1).ToString(), "D10" + i.ToString());
+                KeyValueViewModel m = new KeyValueViewModel();
+                m.Key = (i + 1).ToString();
+                m.Value = "D10" + i.ToString();
+                colleciotn.Add(m);
+            }
+
+            KeyValueWindow key = new KeyValueWindow();
+            key.Collection = colleciotn;
+            var result = key.ShowDialog();
+
+            if (!result.HasValue) return;
+
+            if (!result.Value) return;
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            foreach (var item in key.Collection)
+            {
+                if (dic.ContainsKey(item.Key)) continue;
+                dic.Add(item.Key, item.Value);
             }
 
             _imgOperate.AddImgFigure(dic);
+
         }
 
         private void CommandBinding_AddImgFigure_CanExecut(object sender, CanExecuteRoutedEventArgs e)
@@ -310,7 +371,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             string file = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
 
-            string tempFiles = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory+"\\Marks", imgName + "[" + file + "].mark");
+            string tempFiles = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks", imgName + "[" + file + "].mark");
 
             if (!File.Exists(tempFiles)) File.WriteAllText(tempFiles, string.Empty);
 

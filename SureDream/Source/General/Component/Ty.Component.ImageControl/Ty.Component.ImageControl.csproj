@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Product\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -54,38 +54,38 @@
     <Compile Include="Provider\ImgMarkRoutedEventArgs.cs" />
     <Compile Include="ViewModel\SampleVieModel.cs" />
     <Compile Include="ViewModel\ImageControlViewModel.cs" />
-    <Compile Include="IconButton.cs" />
-    <Compile Include="ImageFullScreenWindow.xaml.cs">
+    <Compile Include="Provider\IconButton.cs" />
+    <Compile Include="View\ImageFullScreenWindow.xaml.cs">
       <DependentUpon>ImageFullScreenWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageOprateCtrEntity.xaml.cs">
+    <Compile Include="View\ImageOprateCtrEntity.xaml.cs">
       <DependentUpon>ImageOprateCtrEntity.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImagePartView.xaml.cs">
+    <Compile Include="View\ImagePartView.xaml.cs">
       <DependentUpon>ImagePartView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageView.xaml.cs">
+    <Compile Include="View\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageViewCommands.cs" />
+    <Compile Include="Provider\ImageViewCommands.cs" />
     <Compile Include="Model\ImageMarkEngine.cs" />
-    <Compile Include="RectangleShape.cs" />
-    <Compile Include="RectangleLayer.cs" />
-    <Compile Include="IRectangleStroke.cs" />
-    <Compile Include="RectangleStroke.cs" />
-    <Page Include="ImageFullScreenWindow.xaml">
+    <Compile Include="Provider\RectangleShape.cs" />
+    <Compile Include="Provider\RectangleLayer.cs" />
+    <Compile Include="Provider\IRectangleStroke.cs" />
+    <Compile Include="Provider\RectangleStroke.cs" />
+    <Page Include="View\ImageFullScreenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ImageOprateCtrEntity.xaml">
+    <Page Include="View\ImageOprateCtrEntity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ImagePartView.xaml">
+    <Page Include="View\ImagePartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ImageView.xaml">
+    <Page Include="View\ImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
