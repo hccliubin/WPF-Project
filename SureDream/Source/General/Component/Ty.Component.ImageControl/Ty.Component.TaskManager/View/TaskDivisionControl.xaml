@@ -11,6 +11,8 @@
                 <!--自定义资源引用-->
                 <ResourceDictionary Source="/Ty.Component.TaskManager;component/Theme/General.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+          
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -46,9 +48,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel >
-          
-
+        <StackPanel VerticalAlignment="Top" >
             <StackPanel Orientation="Horizontal">
                 <RadioButton Content="检测任务" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
                 <RadioButton Content="分析任务" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
@@ -97,7 +97,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" RowHeight="25" ColumnHeaderHeight="30" SelectedItem="{Binding SelectItem}" ItemsSource="{Binding Path=TaskCollection}">
+            <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"  RowHeight="25" ColumnHeaderHeight="30" SelectedItem="{Binding SelectItem}" ItemsSource="{Binding TaskCollection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding  RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:TaskDivisionControl},Path=DataContext.RawTaskID}" />
                     <DataGridTextColumn Header="分析员"  Width="*"  Binding="{Binding Analyst.Name}" />
@@ -125,7 +125,7 @@
                                     <Button Content="删除" Grid.Column="0" Width="60" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center" Command="{Binding  RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:TaskDivisionControl},Path=DataContext.RelayCommand}" CommandParameter="btn_delete"/>
-                               
+
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

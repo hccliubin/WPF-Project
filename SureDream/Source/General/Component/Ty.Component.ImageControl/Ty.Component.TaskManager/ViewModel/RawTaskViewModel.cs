@@ -5,12 +5,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
 using Ty.Base.WpfBase.Service;
 
 namespace Ty.Component.TaskManager
 {
 
-    public partial class TaskManagement : NotifyPropertyChanged
+    public partial class RawTaskViewModel : NotifyPropertyChanged
     {
 
         private string _rawTaskID;
@@ -60,6 +62,20 @@ namespace Ty.Component.TaskManager
                 RaisePropertyChanged("TaskCollection");
             }
         }
+
+
+        private ObservableCollection<TaskViewModel> _deleteCollection = new ObservableCollection<TaskViewModel>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<TaskViewModel> DeleteCollection
+        {
+            get { return _deleteCollection; }
+            set
+            {
+                _deleteCollection = value;
+                RaisePropertyChanged("DeleteCollection");
+            }
+        }
+
 
         private TaskViewModel _selectItem;
         /// <summary> 说明  </summary>
@@ -123,11 +139,11 @@ namespace Ty.Component.TaskManager
                         this.AddItem.EndPole.ID = string.Empty;
                         this.AddItem.EndPole.Name = "*";
                     }
-
                 }
 
                 this.TaskCollection.Add(AddItem);
-                AddItem = new TaskViewModel();
+
+                AddItem = this.AddItem.Clone();
 
             }
             //  Do：取消
@@ -135,17 +151,49 @@ namespace Ty.Component.TaskManager
             {
                 if (this.SelectItem == null) return;
 
+                if (this.SelectItem.EditFlag == 0)
+                {
+                    //  Do：修改和历史数据则标识为删除，当确认时触发删除事件
+                    this.DeleteCollection.Add(this.SelectItem);
+
+                }
+
                 this.TaskCollection.Remove(this.SelectItem);
 
             }
-            //  Do：取消
+            //  Do：确定提交列表
             else if (command == "btn_sumit")
             {
                 if (this.TaskCollection == null || this.TaskCollection.Count == 0) return;
 
-                var result = this.TaskCollection.Select(l => ConvertToTask(l)).ToList();
+                var adds = this.TaskCollection.Where(l => l.EditFlag == 1).Select(l => ConvertToTask(l)).ToList();
 
-                this.TaskListCommitEvent?.Invoke(result);
+                //  Do：触发心中事件
+                if (adds != null)
+                {
+                    this.TaskListCommitEvent?.Invoke(adds);
+                }
+
+
+                //  Do：触发删除事件
+                if (this.DeleteCollection != null && this.DeleteCollection.Count > 0)
+                {
+                    foreach (var item in this.DeleteCollection)
+                    {
+                        this.TaskDeleteEvent?.Invoke(item.TaskID);
+                    }
+                }
+
+                //  Do：删除提交后的删除任务
+                this.DeleteCollection.Clear();
+
+                //  Do：将新增任务设置成历史任务
+                foreach (var item in this.TaskCollection.Where(l => l.EditFlag == 1))
+                {
+                    item.EditFlag = 0;
+                }
+
+
 
             }
             //  Do：取消
@@ -185,10 +233,16 @@ namespace Ty.Component.TaskManager
 
         }
 
+
+        public event TaskDeleteHandler TaskDeleteEvent;
+
+        public event TaskListCommitHandler TaskListCommitEvent;
+
+
     }
 
 
-    public partial class TaskManagement
+    public partial class RawTaskViewModel
     {
 
         private string _rawTaskName;
@@ -252,105 +306,5 @@ namespace Ty.Component.TaskManager
         }
     }
 
-    partial class TaskManagement : ITaskManagement
-    {
-        public event TaskDeleteHandler TaskDeleteEvent;
 
-        public event TaskListCommitHandler TaskListCommitEvent;
-
-        public void AlterTask(Task task)
-        {
-            //  ToDo：修改TaskViewModel
-            throw new NotImplementedException();
-        }
-
-        public void DeleteTask(string taskID)
-        {
-            //  ToDo：删除TaskViewModel
-            throw new NotImplementedException();
-        }
-
-        public List<Task> GetAnalystHistoryTask(string analystID, DateTime fromDate, DateTime toDate)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public List<Task> GetAnalystProcedingTask(string analystID)
-        {
-        
-            //  ToDo：获取分析员当前正在处理的任务(未完成任务）列表 删除TaskViewModel Progress<100
-            throw new NotImplementedException();
-        }
-
-        public double GetAnalystTaskProgress(string taskID, string analystID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetAnalystWorkStat(string analystID, string rawTaskID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetAnalystWorkStat(string analystID, DateTime starttime, DateTime endtime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetDefectStat(string rawTaskID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetLevelOneDefectStat(string rawTaskID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetLevelTwoDefectStat(string rawTaskID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double GetTaskProgress(string rawTaskID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetXFactorStat(string rawTaskID, List<string> factorNameList)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void LoadAnalyst(List<Analyst> analystList)
-        {
-            this.AnalystCollection = analystList;
-        }
-
-        public void LoadRawTask(string rawTaskID)
-        {
-            this.RawTaskID = rawTaskID;
-        }
-
-        public void LoadSites(List<Site> siteList)
-        {
-            this.SiteCollection = siteList;
-        }
-
-        public bool SetTaskDone(string taskID)
-        {
-            var task = this.TaskCollection.Where(l => l.TaskID == taskID);
-
-            if (task == null|| task.Count()==0)
-            {
-                Debug.WriteLine("没有查找到指定任务ID:"+ taskID);
-                return false;
-            }
-            task.First().Progress = "100";
-
-            return true;
-            
-        }
-    }
 }

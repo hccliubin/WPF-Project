@@ -47,7 +47,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModel\TaskManagement.cs" />
+    <Compile Include="RawTaskControl.xaml.cs">
+      <DependentUpon>RawTaskControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service\TaskManagement.cs" />
+    <Compile Include="ViewModel\RawTaskViewModel.cs" />
     <Compile Include="DividedWindow.xaml.cs">
       <DependentUpon>DividedWindow.xaml</DependentUpon>
     </Compile>
@@ -95,6 +99,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DividedWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RawTaskControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

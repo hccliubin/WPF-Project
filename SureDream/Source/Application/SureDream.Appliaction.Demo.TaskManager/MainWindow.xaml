@@ -5,60 +5,254 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SureDream.Appliaction.Demo.TaskManager"
         xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:taskmanager="clr-namespace:Ty.Component.TaskManager;assembly=Ty.Component.TaskManager"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="1200">
+        Title="MainWindow" Height="600" Width="1200">
+
     <Window.Resources>
-        <!--<collections:ArrayList x:Key="Resource.ArrayList.RawTaskViewModel">
-            <local:RawTaskViewModel/>
-            <local:RawTaskViewModel/>
-            <local:RawTaskViewModel/>
-            <local:RawTaskViewModel/>
-            <local:RawTaskViewModel/>
-            <local:RawTaskViewModel/>
-        </collections:ArrayList>-->
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Margin" Value="10,5"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10,5"/>
         </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10,5"/>
+        </Style>
+
+        <DataTemplate DataType="{x:Type taskmanager:Task}">
+            <Grid Margin="2" Height="150">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="任务ID:" Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="{Binding TaskID}" Grid.Row="0" Grid.Column="1" />
+
+                <TextBlock Text="名称:" Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="{Binding TaskName}" Grid.Row="1" Grid.Column="1"/>
+
+                <TextBlock Text="分析员名称:" Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="{Binding  AnalystName}"  Grid.Row="2" Grid.Column="1" />
+
+                <TextBlock Text="起始站区名称:" Grid.Row="3" Grid.Column="0"/>
+                <TextBlock Text="{Binding  StartSiteName}"  Grid.Row="3" Grid.Column="1" />
+
+                <TextBlock Text="结束站区名称:" Grid.Row="4" Grid.Column="0"/>
+                <TextBlock Text="{Binding  EndSiteName}"  Grid.Row="4" Grid.Column="1" />
+
+                <TextBlock Text="完成进度:" Grid.Row="5" Grid.Column="0"/>
+                <ProgressBar Value="{Binding  Progress}" Grid.Row="5" Grid.Column="1" />
+            </Grid>
+        </DataTemplate>
+
     </Window.Resources>
     <Grid>
-        <DataGrid AutoGenerateColumns="False" RowHeight="30" CanUserAddRows="False" ColumnHeaderHeight="40" SelectedItem="{Binding Current}" ItemsSource="{Binding Path=Collection}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding RawTaskID}" />
-                <DataGridTextColumn Header="原始数据包"  Width="3*"  Binding="{Binding RawTaskName}" />
-                <DataGridTextColumn Header="装置类别"  Width="*"  Binding="{Binding MachineType}" />
-                <DataGridTextColumn Header="实际检测日期"  Width="2*"  Binding="{Binding RealDate}" />
-                <DataGridTextColumn Header="标杆范围"  Width="2*"  Binding="{Binding SiteRange}" />
-                <DataGridTemplateColumn  Header="总体分析进度"  Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <ProgressBar Maximum="10" Margin="5" Value="{Binding Progress}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn  Header="操作"  Width="1.5*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-                                <Button Content="分工" Grid.Column="0" Width="60" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center" Command="{Binding RelayCommand}"  CommandParameter="btn_divied"/>
-                                <Button Content="查看" Grid.Column="1" Width="60"  
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center" Command="{Binding RelayCommand}" CommandParameter="btn_showTask" />
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <taskmanager:RawTaskControl Margin="10" x:Name="control_rawTaskControl"  />
+
+        <GroupBox Header="接口测试" Padding="2" Grid.Column="1" Grid.RowSpan="2" >
+            <TabControl >
+                <TabItem Header="加载数据">
+                    <ScrollViewer >
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type WrapPanel}">
+                                    <Setter Property="Orientation" Value="Horizontal"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </Style>
+                                <Style TargetType="{x:Type GroupBox}">
+                                    <Setter Property="Padding" Value="10"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button Content="全部参数加载.." Command="{Binding RelayCommand}" CommandParameter="btn_addAll_Click"/>
+                            <GroupBox Header="加载待分配的原始数据包信息">
+                                <WrapPanel Orientation="Horizontal">
+                                    <Button x:Name="btn_addrawTask" Content="加载.." Command="{Binding RelayCommand}" CommandParameter="btn_addrawTask_Click"/>
+                                    <ComboBox SelectedIndex="0" SelectedItem="{Binding SelectRawId}" ItemsSource="{Binding RawIdCollection}"/>
+                                </WrapPanel>
+
+                            </GroupBox>
+
+                            <GroupBox Header="加载站区">
+                                <WrapPanel Orientation="Horizontal">
+                                    <!--<ComboBox SelectedIndex="0" ItemsSource="{Binding SiteCollection}" SelectedItem="{Binding SelectSite}"/>-->
+                                    <Button Content="加载" Command="{Binding RelayCommand}" CommandParameter="btn_add_site"/>
+
+                                    <DataGrid AutoGenerateColumns="False" CanUserAddRows="True" ColumnHeaderHeight="30" ItemsSource="{Binding Path=SiteCollection}" >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="ID"  Width="*"  Binding="{Binding Path=ID}" />
+                                            <DataGridTextColumn Header="Name"  Width="*"  Binding="{Binding Path=Name}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="加载分析员">
+                                <WrapPanel Orientation="Horizontal">
+                                    <!--<ComboBox SelectedIndex="0" ItemsSource="{Binding AnalystCollection}" SelectedItem="{Binding SelectAnalyst}"/>-->
+                                    <Button Content="加载" Command="{Binding RelayCommand}" CommandParameter="btn_add_analyst"/>
+
+                                    <DataGrid AutoGenerateColumns="False" CanUserAddRows="True" ColumnHeaderHeight="30" ItemsSource="{Binding Path=AnalystCollection}" >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="ID"  Width="*"  Binding="{Binding Path=ID}" />
+                                            <DataGridTextColumn Header="Name"  Width="*"  Binding="{Binding Path=Name}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </WrapPanel>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="编辑任务数据">
+                    <ScrollViewer >
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type WrapPanel}">
+                                    <Setter Property="Orientation" Value="Horizontal"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </Style>
+                                <Style TargetType="{x:Type GroupBox}">
+                                    <Setter Property="Padding" Value="10"/>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <GroupBox Header="修改/删除/设置任务完成任务">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedIndex="0" ItemsSource="{Binding TaskCollection}" SelectedItem="{Binding SelectTask}"/>
+                                    <Button Content="修改" Command="{Binding RelayCommand}" CommandParameter="btn_add_site"/>
+                                    <Button Content="删除" Command="{Binding RelayCommand}" CommandParameter="btn_delete_task"/>
+                                    <Button Content="设置任务完成" Command="{Binding RelayCommand}" CommandParameter="btn_progress_over"/>
+                                </WrapPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="查询数据">
+                    <ScrollViewer >
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type WrapPanel}">
+                                    <Setter Property="Orientation" Value="Horizontal"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </Style>
+                                <Style TargetType="{x:Type GroupBox}">
+                                    <Setter Property="Padding" Value="10"/>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <GroupBox Header="获取某个原始数据包总体处理进度">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedIndex="0" SelectedItem="{Binding SelectRawId}" ItemsSource="{Binding RawIdCollection}"/>
+                                    <Button Content="获取" Command="{Binding RelayCommand}" CommandParameter="btn_rawtask_progress"/>
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="根据给定的指标列表统计任务">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox/>
+                                    <Button Content="统计" Command="{Binding RelayCommand}" CommandParameter="btn_add_site"/>
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="获取某次跑车数据分析得到的缺陷统计结果">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox/>
+                                    <Button Content="一级获取..."/>
+                                    <Button Content="二级缺陷获取.."/>
+                                    <Button Content="全部缺陷获取.."/>
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="获取分析员在某段时间内工作内容统计结果">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
+                                    <DatePicker SelectedDate="{Binding StartTime}" SelectedDateFormat="Short"/>
+                                    <DatePicker SelectedDate="{Binding EndTime}" SelectedDateFormat="Short"/>
+                                    <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_result"/>
+                                </WrapPanel>
+
+                            </GroupBox>
+
+                            <GroupBox Header="分析员对某次跑车试验数据总体分析工作统计">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
+                                    <ComboBox SelectedIndex="0" SelectedItem="{Binding SelectRawId}" ItemsSource="{Binding RawIdCollection}"/>
+
+                                    <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_rawtaskid_result"/>
+
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="获取某个分析员的某个任务处理进度">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
+                                    <ComboBox SelectedIndex="0" ItemsSource="{Binding TaskCollection}" SelectedItem="{Binding SelectTask}"/>
+                                    <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_task"/>
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="获取分析员某段时间内所有任务">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
+                                    <DatePicker SelectedDate="{Binding StartTime}" SelectedDateFormat="Short"/>
+                                    <DatePicker SelectedDate="{Binding EndTime}" SelectedDateFormat="Short"/>
+                                    <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_alltasks"/>
+                                    <ListBox ItemsSource="{Binding FindTaskCollection}"/>
+                                </WrapPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="获取分析员当前正在处理的任务(未完成任务）列表">
+                                <WrapPanel Orientation="Horizontal">
+                                    <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
+
+                                    <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_undone"/>
+
+                                    <ListBox ItemsSource="{Binding FindTaskCollection}"/>
+                                </WrapPanel>
+                            </GroupBox>
+
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+
+        </GroupBox>
+
+        <ScrollViewer Grid.Row="1">
+            <TextBlock  TextWrapping="Wrap" Text="{Binding Message}"/>
+        </ScrollViewer>
     </Grid>
 </Window>

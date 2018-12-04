@@ -14,57 +14,57 @@ namespace Ty.Component.TaskManager
         /// <summary>
         /// 任务ID
         /// </summary>
-        public string TaskID;
+        public string TaskID { get; set; }
 
         /// <summary>
         /// 任务名称
         /// </summary>
-        public string TaskName;
+        public string TaskName { get; set; }
 
         /// <summary>
         /// 分析员ID
         /// </summary>
-        public string AnalystID;
+        public string AnalystID { get; set; }
 
         /// <summary>
         /// 分析员名称
         /// </summary>
-        public string AnalystName;
+        public string AnalystName { get; set; }
 
         /// <summary>
         /// 起始站区ID
         /// </summary>
-        public string StartSiteID;
+        public string StartSiteID { get; set; }
 
         /// <summary>
         /// 起始站区名称
         /// </summary>
-        public string StartSiteName;
+        public string StartSiteName { get; set; }
 
         /// <summary>
         /// 结束站区ID
         /// </summary>
-        public string EndSiteID;
+        public string EndSiteID { get; set; }
 
         /// <summary>
         /// 结束站区名称
         /// </summary>
-        public string EndSiteName;
+        public string EndSiteName { get; set; }
 
         /// <summary>
         /// 任务开始时间
         /// </summary>
-        public DateTime StartDate;
+        public DateTime StartDate { get; set; }
 
         /// <summary>
         /// 任务截止时间
         /// </summary>
-        public DateTime EndDate;
+        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// 任务当前完成进度
         /// </summary>
-        public double Progress;
+        public double Progress { get; set; }
     }
 
 

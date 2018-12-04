@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Ty.Component.TaskManager;
 
-namespace SureDream.Appliaction.Demo.TaskManager
+namespace Ty.Component.TaskManager
 {
     /// <summary>
-    /// ShowWindow.xaml 的交互逻辑
+    /// RawTaskControl.xaml 的交互逻辑
     /// </summary>
-    public partial class ShowWindow : Window
+    public partial class RawTaskControl : UserControl
     {
-        public ShowWindow()
+        public RawTaskControl()
         {
             InitializeComponent();
         }

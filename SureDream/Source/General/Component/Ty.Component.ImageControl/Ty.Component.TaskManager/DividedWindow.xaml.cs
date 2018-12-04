@@ -29,5 +29,7 @@ namespace Ty.Component.TaskManager
             this.DialogResult = true;
             this.Close();
         }
+
+     
     }
 }
