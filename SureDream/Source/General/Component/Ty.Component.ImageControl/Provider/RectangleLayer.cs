@@ -9,8 +9,14 @@ using System.Windows.Media;
 
 namespace Ty.Component.ImageControl
 {
+    /// <summary>
+    ///矩形图集合
+    /// </summary>
    public class RectangleLayer : Collection<IRectangleStroke>
     {
+        /// <summary>
+        /// 集合图形是否可见
+        /// </summary>
         public bool IsVisible
         {
             set

@@ -16,15 +16,69 @@ using System.Windows.Shapes;
 namespace Ty.Component.ImageControl
 {
     /// <summary>
-    /// ImageView.xaml 的交互逻辑
+    /// 图片浏览和标定缺陷控件
     /// </summary>
     public partial class ImageView : UserControl
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ImageView()
         {
             InitializeComponent();
         }
 
+        #region - 依赖属性 -
+
+        /// <summary>
+        /// 动态显示的矩形标定范围
+        /// </summary>
+        public DynamicShape DynamicShape
+        {
+            get { return (DynamicShape)GetValue(DynamicShapeProperty); }
+            set { SetValue(DynamicShapeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DynamicShapeProperty =
+            DependencyProperty.Register("DynamicShape", typeof(DynamicShape), typeof(ImageView), new PropertyMetadata(default(DynamicShape), (d, e) =>
+             {
+                 ImageView control = d as ImageView;
+
+                 if (control == null) return;
+
+                 DynamicShape config = e.NewValue as DynamicShape;
+
+             }));
+
+        /// <summary>
+        /// 用于显示局部放大的视图
+        /// </summary>
+        public Visual ImageVisual
+        {
+            get { return (Visual)GetValue(ImageVisualProperty); }
+            set { SetValue(ImageVisualProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageVisualProperty =
+            DependencyProperty.Register("ImageVisual", typeof(Visual), typeof(ImageView), new PropertyMetadata(default(Visual), (d, e) =>
+             {
+                 ImageView control = d as ImageView;
+
+                 if (control == null) return;
+
+                 Visual config = e.NewValue as Visual;
+
+             }));
+
+        #endregion
+
+        #region - 成员变量 -
+
+        /// <summary>
+        /// 绑定模型
+        /// </summary>
         public ImageControlViewModel ViewModel
         {
             get
@@ -37,6 +91,105 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        Point start;
+
+        #endregion
+
+        #region - 成员方法 -
+
+        /// <summary>
+        /// 关闭局部放大时隐藏蒙版
+        /// </summary>
+        public void HideRectangleClip()
+        {
+            this.rectangle_clip.Visibility = Visibility.Collapsed;
+
+            this.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 显示局部放大时显示蒙版
+        /// </summary>
+        public void ShowRectangleClip()
+        {
+            this.rectangle_clip.Width = this.canvas.ActualWidth;
+
+            this.rectangle_clip.Height = this.canvas.ActualHeight;
+
+            this.rectangle_clip.Visibility = Visibility.Visible;
+
+            this.Visibility = Visibility.Hidden;
+
+        }
+
+        /// <summary>
+        /// 上一页、下一页时清理局部放大还有蒙版等页面
+        /// </summary>
+        public void Clear()
+        {
+            if (this.ViewModel == null) return;
+
+            //  Do：清理动态形状
+            this._dynamic.Visibility = Visibility.Collapsed;
+
+            //  Do：清理所有样本形状
+            foreach (var sample in this.ViewModel.SampleCollection)
+            {
+                foreach (var item in sample.RectangleLayer)
+                {
+                    item.Clear(this.canvas);
+                }
+            }
+
+            //  Do：隐藏蒙版
+            this.HideRectangleClip();
+
+        }
+
+        /// <summary>
+        /// 重新刷新绘制所有样本数据
+        /// </summary>
+        public void RefreshAll()
+        {
+            foreach (var items in this.ViewModel.SampleCollection)
+            {
+                foreach (var item in items.RectangleLayer)
+                {
+                    item.Clear(this.canvas);
+
+                    item.Draw(this.canvas);
+                }
+            }
+        }
+        #endregion
+
+        #region - 成员事件 -
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent BegionShowPartViewRoutedEvent =
+            EventManager.RegisterRoutedEvent("BegionShowPartView", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageView));
+        //CLR事件包装
+        public event RoutedEventHandler BegionShowPartView
+        {
+            add { this.AddHandler(BegionShowPartViewRoutedEvent, value); }
+            remove { this.RemoveHandler(BegionShowPartViewRoutedEvent, value); }
+        }
+
+        /// <summary>
+        /// 显示局部放大视图
+        /// </summary>
+        protected void OnBegionShowPartView()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(BegionShowPartViewRoutedEvent, this);
+            this.RaiseEvent(args);
+        }
+
+
+        /// <summary>
+        /// 菜单点击确定 生成缺陷和样本
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SampleVieModel sample = new SampleVieModel();
@@ -45,8 +198,7 @@ namespace Ty.Component.ImageControl
 
             sample.Code = this.cb_code.Text;
 
-       
-
+            //  Do：根据选择的样本类型来生成缺陷/样本
             if (this.r_defect.IsChecked.HasValue && this.r_defect.IsChecked.Value)
             {
                 DefectShape resultStroke = new DefectShape(this._dynamic);
@@ -70,15 +222,14 @@ namespace Ty.Component.ImageControl
 
             this.ViewModel.Add(sample);
 
-            //_dynamic.Clear(this.canvas);
-
-            //_dynamic.Visibility = Visibility.Visible;
-
             this.popup.IsOpen = false;
         }
 
-        Point start;
-
+        /// <summary>
+        /// 鼠标按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InkCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (this.ViewModel == null) return;
@@ -91,8 +242,11 @@ namespace Ty.Component.ImageControl
 
         }
 
-        bool _isMatch = false;
-
+        /// <summary>
+        /// 鼠标移动事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.ViewModel == null) return;
@@ -111,162 +265,58 @@ namespace Ty.Component.ImageControl
 
         }
 
-
-        public DynamicShape DynamicShape
-        {
-            get { return (DynamicShape)GetValue(DynamicShapeProperty); }
-            set { SetValue(DynamicShapeProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DynamicShapeProperty =
-            DependencyProperty.Register("DynamicShape", typeof(DynamicShape), typeof(ImageView), new PropertyMetadata(default(DynamicShape), (d, e) =>
-             {
-                 ImageView control = d as ImageView;
-
-                 if (control == null) return;
-
-                 DynamicShape config = e.NewValue as DynamicShape;
-
-             }));
-
-        public Visual ImageVisual
-        {
-            get { return (Visual)GetValue(ImageVisualProperty); }
-            set { SetValue(ImageVisualProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ImageVisualProperty =
-            DependencyProperty.Register("ImageVisual", typeof(Visual), typeof(ImageView), new PropertyMetadata(default(Visual), (d, e) =>
-             {
-                 ImageView control = d as ImageView;
-
-                 if (control == null) return;
-
-                 Visual config = e.NewValue as Visual;
-
-             }));
-
-        //声明和注册路由事件
-        public static readonly RoutedEvent BegionShowPartViewRoutedEvent =
-            EventManager.RegisterRoutedEvent("BegionShowPartView", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageView));
-        //CLR事件包装
-        public event RoutedEventHandler BegionShowPartView
-        {
-            add { this.AddHandler(BegionShowPartViewRoutedEvent, value); }
-            remove { this.RemoveHandler(BegionShowPartViewRoutedEvent, value); }
-        }
-
-        //激发路由事件,借用Click事件的激发方法
-
-        protected void OnBegionShowPartView()
-        {
-            RoutedEventArgs args = new RoutedEventArgs(BegionShowPartViewRoutedEvent, this);
-            this.RaiseEvent(args);
-        }
-
+        /// <summary>
+        /// 鼠标抬起事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InkCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //if (!_isMatch)
-            //{
-            //    _dynamic.Visibility = Visibility.Collapsed;
-            //    return;
-            //};
-
-            //_isMatch = false;
-
+            //  Do：检查选择区域是否可用
             if (!_dynamic.IsMatch())
             {
                 _dynamic.Visibility = Visibility.Collapsed;
                 return;
             };
+
+            //  Do：结束矩形区域检测
             _dynamic.BegionMatch(false);
 
-            //_isMatch = false;
-
+            //  Do：如果是选择局部放大
             if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
             {
                 RectangleGeometry rect = new RectangleGeometry(new Rect(0, 0, this.canvas.ActualWidth, this.canvas.ActualHeight));
 
+                //  Do：设置覆盖的蒙版
                 var geo = Geometry.Combine(rect, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
-                //var geo = Geometry.Combine(this.rectangle_clip.RenderedGeometry, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
 
                 DynamicShape shape = new DynamicShape(this._dynamic);
 
+                //  Do：设置形状、用来提供给局部放大页面
                 this.DynamicShape = shape;
 
+                //  Do：设置提供局部放大在全局的范围的视图
                 this.ImageVisual = this.canvas;
 
                 this.OnBegionShowPartView();
 
+                //  Do：设置当前蒙版的剪切区域
                 this.rectangle_clip.Clip = geo;
 
                 _dynamic.Visibility = Visibility.Collapsed;
-
             }
             else
             {
+                //  Do：不是局部放大功能则显示弹出窗口
                 this.popup.IsOpen = true;
             }
 
-
+            //  Do：将数据初始化
             start = new Point(-1, -1);
 
         }
 
-        public void HideRectangleClip()
-        {
-            this.rectangle_clip.Visibility = Visibility.Collapsed;
 
-            this.Visibility = Visibility.Visible;
-        }
-
-        public void ShowRectangleClip()
-        {
-            this.rectangle_clip.Width = this.canvas.ActualWidth;
-
-            this.rectangle_clip.Height = this.canvas.ActualHeight;
-
-            this.rectangle_clip.Visibility = Visibility.Visible;
-
-            this.Visibility = Visibility.Hidden;
-            
-        }
-
-        public void Clear()
-        {
-            if(this.ViewModel==null) return;
-
-            this._dynamic.Visibility = Visibility.Collapsed;
-
-            foreach (var sample in this.ViewModel.SampleCollection)
-            {
-                foreach (var item in sample.RectangleLayer)
-                {
-                    item.Clear(this.canvas);
-                }
-            }
-
-            this.HideRectangleClip();
-
-        }
-
-
-  
-
-        /// <summary> 重新刷新数据 </summary>
-        public void RefreshAll()
-        {
-            foreach (var items in this.ViewModel.SampleCollection)
-            {
-                foreach (var item in items.RectangleLayer)
-                {
-                    item.Clear(this.canvas);
-
-                    item.Draw(this.canvas);
-                }
-            }
-        }
+        #endregion
     }
 }

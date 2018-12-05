@@ -19,44 +19,56 @@ using System.Windows.Shapes;
 namespace Ty.Component.ImageControl
 {
     /// <summary>
-    /// ImageOprateCtrEntity.xaml 的交互逻辑
+    /// 图片浏览工具主页面
     /// </summary>
     public partial class ImageOprateCtrEntity : UserControl
     {
-
-        LinkedList<string> _collection = new LinkedList<string>();
-
-        LinkedListNode<string> current;
-
-
-        Timer timer = new Timer();
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ImageOprateCtrEntity()
         {
             InitializeComponent();
 
+            //  Do：初始化自动播放
             timer.Interval = 1000;
 
             timer.Elapsed += (l, k) =>
-              {
-                  Application.Current.Dispatcher.Invoke(() =>
-                  {
-                      timer.Interval = 1000 * this.Speed;
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    timer.Interval = 1000 * this.Speed;
 
-                      if (this.ImgPlayMode == ImgPlayMode.正序)
-                      {
-                          this.OnNextClick();
-                      }
-                      else if (this.ImgPlayMode == ImgPlayMode.倒叙)
-                      {
-                          this.OnLastClicked();
-                      }
-                  });
+                    if (this.ImgPlayMode == ImgPlayMode.正序)
+                    {
+                        this.OnNextClick();
+                    }
+                    else if (this.ImgPlayMode == ImgPlayMode.倒叙)
+                    {
+                        this.OnLastClicked();
+                    }
+                });
 
-              };
+            };
 
         }
 
+        #region - 成员属性 -
+
+        //  Do：所有图片路径集合
+        LinkedList<string> _collection = new LinkedList<string>();
+
+        //  Do：当前图片路径
+        LinkedListNode<string> current;
+
+        //  Do：自动播放时间处理
+        Timer timer = new Timer();
+
+        public LinkedListNode<string> Current { get => current; set => current = value; }
+
+        /// <summary>
+        /// 绑定的ViewModel模型
+        /// </summary>
         public ImageControlViewModel ViewModel
         {
             get
@@ -69,21 +81,13 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        #endregion
 
-        private void control_imageView_BegionShowPartView(object sender, RoutedEventArgs e)
-        {
-            this.control_ImagePartView.Visibility = Visibility.Visible;
+        #region - 依赖属性 -
 
-            this.control_imageView.ShowRectangleClip();
-        }
-
-        private void control_ImagePartView_Closed(object sender, RoutedEventArgs e)
-        {
-            this.control_imageView.HideRectangleClip();
-        }
-
-
-
+        /// <summary>
+        /// 所有图片的路径集合
+        /// </summary>
         public List<string> ImagePaths
         {
             get { return (List<string>)GetValue(ImagePathsProperty); }
@@ -93,49 +97,36 @@ namespace Ty.Component.ImageControl
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImagePathsProperty =
             DependencyProperty.Register("ImagePaths", typeof(List<string>), typeof(ImageOprateCtrEntity), new PropertyMetadata(default(List<string>), (d, e) =>
-             {
-                 ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
+            {
+                ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 List<string> config = e.NewValue as List<string>;
+                List<string> config = e.NewValue as List<string>;
 
-                 if (config == null) return;
+                if (config == null) return;
 
-                 if (config.Count == 0) return;
+                if (config.Count == 0) return;
 
-                 if (!File.Exists(config.First())) return;
+                if (!File.Exists(config.First())) return;
 
-                 foreach (var item in config)
-                 {
-                     control._collection.AddLast(item);
-                 }
+                //  Do：根据路径加载图片内存集合
+                foreach (var item in config)
+                {
+                    control._collection.AddLast(item);
+                }
 
-                 control.Current = control._collection.First;
+                control.Current = control._collection.First;
 
-                 //control.current = control._collection.Find(config.First());
-
-                 control.LoadImage(control.Current.Value);
-
-
-             }));
-
-        void LoadImage(string imagePath)
-        {
-            if (imagePath == null) return;
-
-            if (!File.Exists(imagePath)) return;
-
-            ImageControlViewModel viewModel = new ImageControlViewModel();
-
-            viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
-
-            //viewModel.ImgMarkOperateEvent += this.ImgMarkOperateEvent;
-
-            this.ViewModel = viewModel;
-        }
+                //  Do：加载默认图片
+                control.LoadImage(control.Current.Value);
 
 
+            }));
+
+        /// <summary>
+        /// 自动播放模式
+        /// </summary>
         public ImgPlayMode ImgPlayMode
         {
             get { return (ImgPlayMode)GetValue(ImgPlayModeProperty); }
@@ -145,58 +136,65 @@ namespace Ty.Component.ImageControl
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImgPlayModeProperty =
             DependencyProperty.Register("ImgPlayMode", typeof(ImgPlayMode), typeof(ImageOprateCtrEntity), new PropertyMetadata(ImgPlayMode.停止播放, (d, e) =>
-             {
-                 ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
+            {
+                ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 ImgPlayMode config = (ImgPlayMode)e.NewValue;
+                ImgPlayMode config = (ImgPlayMode)e.NewValue;
 
-                 if (config == ImgPlayMode.正序 || config == ImgPlayMode.倒叙)
-                 {
-                     control.timer.Start();
-                 }
-                 else if (config == ImgPlayMode.停止播放)
-                 {
-                     control.timer.Stop();
-                 }
+                //  Do：设置自动播放模式
+                if (config == ImgPlayMode.正序 || config == ImgPlayMode.倒叙)
+                {
+                    control.timer.Start();
+                }
+                else if (config == ImgPlayMode.停止播放)
+                {
+                    control.timer.Stop();
+                }
 
-             }));
+            }));
 
-
+        /// <summary>
+        /// 自动播放速度
+        /// </summary>
         public double Speed
         {
             get { return (double)GetValue(SpeedProperty); }
             set { SetValue(SpeedProperty, value); }
         }
 
-        public LinkedListNode<string> Current { get => current; set => current = value; }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SpeedProperty =
             DependencyProperty.Register("Speed", typeof(double), typeof(ImageOprateCtrEntity), new PropertyMetadata(1.0, (d, e) =>
-             {
-                 ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
+            {
+                ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 //int config = e.NewValue as int;
+            }));
 
-             }));
+        #endregion
 
+        #region - 路由事件 -
 
         //声明和注册路由事件
         public static readonly RoutedEvent LastClickedRoutedEvent =
             EventManager.RegisterRoutedEvent("LastClicked", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageOprateCtrEntity));
-        //CLR事件包装
+
+        /// <summary>
+        /// 上一页路由事件
+        /// </summary>
         public event RoutedEventHandler LastClicked
         {
             add { this.AddHandler(LastClickedRoutedEvent, value); }
             remove { this.RemoveHandler(LastClickedRoutedEvent, value); }
         }
 
-        //激发路由事件,借用Click事件的激发方法
-
+        /// <summary>
+        /// 激发上一页
+        /// </summary>
         public void OnLastClicked()
         {
             this.RefreshPart();
@@ -215,19 +213,22 @@ namespace Ty.Component.ImageControl
             this.RaiseEvent(args);
         }
 
-
         //声明和注册路由事件
         public static readonly RoutedEvent NextClickRoutedEvent =
             EventManager.RegisterRoutedEvent("NextClick", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageOprateCtrEntity));
-        //CLR事件包装
+
+        /// <summary>
+        /// 下一页路由事件
+        /// </summary>
         public event RoutedEventHandler NextClick
         {
             add { this.AddHandler(NextClickRoutedEvent, value); }
             remove { this.RemoveHandler(NextClickRoutedEvent, value); }
         }
 
-        //激发路由事件,借用Click事件的激发方法
-
+        /// <summary>
+        /// 激发下一页
+        /// </summary>
         public void OnNextClick()
         {
             this.RefreshPart();
@@ -245,26 +246,13 @@ namespace Ty.Component.ImageControl
             this.RaiseEvent(args);
         }
 
-        private void button_last_Click(object sender, RoutedEventArgs e)
-        {
+        #endregion
 
+        #region - 绑定命令 -
 
-            this.OnLastClicked();
-        }
-
-        private void button_next_Click(object sender, RoutedEventArgs e)
-        {
-
-
-            this.OnNextClick();
-        }
-
-        void RefreshPart()
-        {
-            this.control_ImagePartView.Visibility = Visibility.Collapsed;
-            this.control_imageView.Clear();
-        }
-
+        /// <summary>
+        /// 上一页绑定命令
+        /// </summary>
         private void CommandBinding_LastImage_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.RefreshPart();
@@ -272,11 +260,17 @@ namespace Ty.Component.ImageControl
             this.OnLastClicked();
         }
 
+        /// <summary>
+        /// 上一页绑定命令是否可以执行
+        /// </summary>
         private void CommandBinding_LastImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.ViewModel != null;
         }
 
+        /// <summary>
+        /// 下一页绑定命令
+        /// </summary>
         private void CommandBinding_NextImage_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.RefreshPart();
@@ -284,17 +278,117 @@ namespace Ty.Component.ImageControl
             this.OnNextClick();
         }
 
+        /// <summary>
+        /// 下一页绑定命令是否可以执行
+        /// </summary>
         private void CommandBinding_NextImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.ViewModel != null;
         }
 
-
+        /// <summary>
+        /// 全屏绑定命令
+        /// </summary>
         private void CommandBinding_FullScreen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.ShowFullScreen();
         }
 
+        /// <summary>
+        /// 全屏绑定命令是否可以执行
+        /// </summary>
+        private void CommandBinding_FullScreen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+        /// <summary>
+        /// 显示/隐藏图像滤镜处理
+        /// </summary>
+        private void CommandBinding_ShowStyleTool_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.btn_imageStyle.IsChecked = !this.btn_imageStyle.IsChecked;
+        }
+
+        /// <summary>
+        /// 显示/隐藏图像滤镜处理是否可以执行
+        /// </summary>
+        private void CommandBinding_ShowStyleTool_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+        /// <summary>
+        /// 保存绑定命令
+        /// </summary>
+        private void CommandBinding_Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+            foreach (var item in this.ViewModel.SampleCollection)
+            {
+                this.ImgMarkOperateEvent?.Invoke(item.Model);
+            }
+
+            Debug.WriteLine("保存");
+        }
+
+        /// <summary>
+        /// 保存绑定命令是否可以执行
+        /// </summary>
+        private void CommandBinding_Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ViewModel != null;
+        }
+
+        #endregion
+
+        #region - 成员方法 -
+
+        /// <summary>
+        /// 加载图片
+        /// </summary>
+        /// <param name="imagePath"> 图片路径 </param>
+        void LoadImage(string imagePath)
+        {
+            if (imagePath == null) return;
+
+            if (!File.Exists(imagePath)) return;
+
+            ImageControlViewModel viewModel = new ImageControlViewModel();
+
+            viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+
+            //viewModel.ImgMarkOperateEvent += this.ImgMarkOperateEvent;
+
+            this.ViewModel = viewModel;
+        }
+
+        //private void button_last_Click(object sender, RoutedEventArgs e)
+        //{
+
+
+        //    this.OnLastClicked();
+        //}
+
+        //private void button_next_Click(object sender, RoutedEventArgs e)
+        //{
+
+
+        //    this.OnNextClick();
+        //}
+
+        /// <summary>
+        /// 关闭时刷新局部放大页面
+        /// </summary>
+        void RefreshPart()
+        {
+            this.control_ImagePartView.Visibility = Visibility.Collapsed;
+            this.control_imageView.Clear();
+        }
+
+        /// <summary>
+        /// 显示全屏
+        /// </summary>
         void ShowFullScreen()
         {
             ImageFullScreenWindow window = new ImageFullScreenWindow();
@@ -306,78 +400,37 @@ namespace Ty.Component.ImageControl
             this.RecoverFromScreen();
         }
 
-        private void CommandBinding_FullScreen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = this.ViewModel != null;
-        }
-
-        private void CommandBinding_ShowStyleTool_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.btn_imageStyle.IsChecked = !this.btn_imageStyle.IsChecked;
-        }
-
-        private void CommandBinding_ShowStyleTool_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = this.ViewModel != null;
-        }
-
+        /// <summary>
+        /// 退出全屏模式清理
+        /// </summary>
         void ClearToScreen()
         {
             this.Content = null;
             this.btn_fullScreen.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// 刷新显示全屏
+        /// </summary>
         void RecoverFromScreen()
         {
             this.Content = this.grid_all;
             this.btn_fullScreen.Visibility = Visibility.Visible;
         }
 
-
-        ////声明和注册路由事件
-        //public static readonly RoutedEvent SaveClickRoutedEvent =
-        //    EventManager.RegisterRoutedEvent("SaveClick", RoutingStrategy.Bubble, typeof(EventHandler<ImgMarkRoutedEventArgs>), typeof(ImageOprateCtrEntity));
-        ////CLR事件包装
-        //public event RoutedEventHandler SaveClick
-        //{
-        //    add { this.AddHandler(SaveClickRoutedEvent, value); }
-        //    remove { this.RemoveHandler(SaveClickRoutedEvent, value); }
-        //}
-
-        ////激发路由事件,借用Click事件的激发方法
-
-        //protected void OnSaveClick()
-        //{
-        //    ImageMarkEngine engine = new ImageMarkEngine();
-
-        //    ImgMarkRoutedEventArgs args = new ImgMarkRoutedEventArgs(SaveClickRoutedEvent, this, engine);
-
-        //    this.RaiseEvent(args);
-        //}
-
-
-        private void CommandBinding_Save_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //this.OnSaveClick();
-
-            foreach (var item in this.ViewModel.SampleCollection)
-            {
-                this.ImgMarkOperateEvent?.Invoke(item.Model);
-            }
-
-            Debug.WriteLine("保存");
-        }
-
-        private void CommandBinding_Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = this.ViewModel != null;
-        }
-
+        /// <summary>
+        /// 重新页面刷新数据
+        /// </summary>
         public void RefreshAll()
         {
             this.control_imageView.RefreshAll();
         }
 
+        /// <summary>
+        /// 点击滤镜按钮 触发接口注册事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IconButton_Click(object sender, RoutedEventArgs e)
         {
             IconButton btn = e.OriginalSource as IconButton;
@@ -389,10 +442,35 @@ namespace Ty.Component.ImageControl
             this.ImgProcessEvent?.Invoke(imgPath, imgProcessType);
 
         }
+
+        /// <summary>
+        /// 显示局部放大页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void control_imageView_BegionShowPartView(object sender, RoutedEventArgs e)
+        {
+            this.control_ImagePartView.Visibility = Visibility.Visible;
+
+            this.control_imageView.ShowRectangleClip();
+        }
+
+        /// <summary>
+        /// 关闭局部放大页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void control_ImagePartView_Closed(object sender, RoutedEventArgs e)
+        {
+            this.control_imageView.HideRectangleClip();
+        }
+
+        #endregion
+
     }
 
 
-    /// <summary> 接口 </summary>
+    /// <summary> 外部接口实现 </summary>
     partial class ImageOprateCtrEntity : IImgOperate
     {
         public event ImgMarkHandler ImgMarkOperateEvent;

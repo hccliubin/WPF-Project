@@ -16,15 +16,23 @@ using System.Windows.Shapes;
 namespace Ty.Component.ImageControl
 {
     /// <summary>
-    /// ImagePartView.xaml 的交互逻辑
+    /// 局部放大控件
     /// </summary>
     public partial class ImagePartView : UserControl
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ImagePartView()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 关闭局部放大
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_close_Click(object sender, RoutedEventArgs e)
         {
 
@@ -33,6 +41,9 @@ namespace Ty.Component.ImageControl
             this.OnClosed();
         }
 
+        /// <summary>
+        /// 动态显示的形状
+        /// </summary>
         public DynamicShape DynamicShape
         {
             get { return (DynamicShape)GetValue(DynamicShapeProperty); }
@@ -51,13 +62,16 @@ namespace Ty.Component.ImageControl
 
                  var geo = Geometry.Combine(control.rectangle_clip.RenderedGeometry, new RectangleGeometry(config.Rect), GeometryCombineMode.Exclude, null);
 
-                 Rect rect = new Rect(config.Rect.X-5, config.Rect.Y-5, config.Rect.Width+5, config.Rect.Height+5);
+                 Rect rect = new Rect(config.Rect.X - 5, config.Rect.Y - 5, config.Rect.Width + 5, config.Rect.Height + 5);
                  control.visualbrush_part.Viewbox = rect;
                  //control.visualbrush_part.Viewbox = config.Rect;
                  control.rectangle_clip.Clip = geo;
 
              }));
 
+        /// <summary>
+        /// 动态显示区域在全图的位置视图
+        /// </summary>
         public Visual ImageVisual
         {
             get { return (Visual)GetValue(ImageVisualProperty); }
@@ -82,15 +96,19 @@ namespace Ty.Component.ImageControl
         //声明和注册路由事件
         public static readonly RoutedEvent ClosedRoutedEvent =
             EventManager.RegisterRoutedEvent("Closed", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(DynamicShape));
-        //CLR事件包装
+        
+        /// <summary>
+        /// 关闭局部放大事件
+        /// </summary>
         public event RoutedEventHandler Closed
         {
             add { this.AddHandler(ClosedRoutedEvent, value); }
             remove { this.RemoveHandler(ClosedRoutedEvent, value); }
         }
 
-        //激发路由事件,借用Click事件的激发方法
-
+        /// <summary>
+        /// 触发关闭路由事件
+        /// </summary>
         protected void OnClosed()
         {
             RoutedEventArgs args = new RoutedEventArgs(ClosedRoutedEvent, this);

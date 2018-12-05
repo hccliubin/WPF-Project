@@ -12,10 +12,17 @@ using Ty.Base.WpfBase;
 
 namespace Ty.Component.ImageControl
 {
+    /// <summary>
+    /// 图片标定信息绑定模型
+    /// </summary>
     public partial class ImageControlViewModel
     {
+        #region - 成员属性 -
+
         private ImageSource _imageSource;
-        /// <summary> 说明  </summary>
+        /// <summary>
+        /// 图片资源
+        /// </summary>
         public ImageSource ImageSource
         {
             get { return _imageSource; }
@@ -27,7 +34,7 @@ namespace Ty.Component.ImageControl
         }
 
         private ObservableCollection<SampleVieModel> _samplecollection = new ObservableCollection<SampleVieModel>();
-        /// <summary> 说明  </summary>
+        /// <summary> 样本标定集合  </summary>
         public ObservableCollection<SampleVieModel> SampleCollection
         {
             get { return _samplecollection; }
@@ -40,7 +47,7 @@ namespace Ty.Component.ImageControl
 
 
         private SampleVieModel _selectSample;
-        /// <summary> 说明  </summary>
+        /// <summary> 当前选择的样本标定  </summary>
         public SampleVieModel SelectSample
         {
             get { return _selectSample; }
@@ -51,9 +58,8 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
-        private Dictionary<string, string> _codeCollection=new Dictionary<string, string>();
-        /// <summary> 说明  </summary>
+        private Dictionary<string, string> _codeCollection = new Dictionary<string, string>();
+        /// <summary> 设置缺陷列表集合  </summary>
         public Dictionary<string, string> CodeCollection
         {
             get { return _codeCollection; }
@@ -65,8 +71,8 @@ namespace Ty.Component.ImageControl
         }
 
 
-        private Dictionary<string, string> _figureCollection=new Dictionary<string, string>();
-        /// <summary> 说明  </summary>
+        private Dictionary<string, string> _figureCollection = new Dictionary<string, string>();
+        /// <summary> 是指的图片详情信息列表  </summary>
         public Dictionary<string, string> FigureCollection
         {
             get { return _figureCollection; }
@@ -77,17 +83,27 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        #endregion
+
+        /// <summary>
+        /// 添加标定
+        /// </summary>
+        /// <param name="entity"></param>
         public void Add(SampleVieModel entity)
         {
             this.SampleCollection.Add(entity);
             
         }
 
+        /// <summary>
+        /// 命令触发参数方法
+        /// </summary>
+        /// <param name="obj"></param>
         public void RelayMethod(object obj)
         {
             string command = obj.ToString();
 
-            //  Do：应用
+            //  Do：测试
             if (command == "text")
             {
                 this.SampleCollection.Clear();
@@ -102,7 +118,7 @@ namespace Ty.Component.ImageControl
                     this.SampleCollection.Add(sample);
                 }
             }
-            //  Do：取消
+            //  Do：删除标定
             else if (command == "delete")
             {
                 if (this.SelectSample == null) return;
@@ -110,16 +126,14 @@ namespace Ty.Component.ImageControl
                 this.SelectSample.Flag = "\xe743";
                 this.SelectSample.Model.markOperateType = ImgMarkOperateType.Delete;
                 this.SelectSample.Visible = false;
-
-                //xe6b5 修改
             }
+            //  Do：更新标定
             else if (command == "update")
             {
                 if (this.SelectSample == null) return;
 
                 this.SelectSample.Flag = "\xe6b5";
                 this.SelectSample.Model.markOperateType = ImgMarkOperateType.Update;
-                //xe6b5 修改
             }
         }
 

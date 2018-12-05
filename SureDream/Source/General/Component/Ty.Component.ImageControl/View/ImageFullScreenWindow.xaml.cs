@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace Ty.Component.ImageControl
 {
     /// <summary>
-    /// ImageFullScreenWindow.xaml 的交互逻辑
+    /// 全屏显示窗口
     /// </summary>
     public partial class ImageFullScreenWindow : Window
     {
@@ -25,6 +25,9 @@ namespace Ty.Component.ImageControl
         }
 
 
+        /// <summary>
+        /// 全屏中放的控件
+        /// </summary>
         public UIElement CenterContent
         {
             set
@@ -33,6 +36,11 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        /// <summary>
+        /// 退出关闭命令
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.grid_all.Children.Clear();
@@ -40,6 +48,11 @@ namespace Ty.Component.ImageControl
             this.Close();
         }
 
+        /// <summary>
+        /// 是否可以退出关闭验证
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;

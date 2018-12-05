@@ -16,7 +16,7 @@ using Ty.Base.WpfBase.Service;
 namespace SureDream.Appliaction.Demo.ImageControl
 {
     /// <summary>
-    /// KeyValueWindow.xaml 的交互逻辑
+    /// 键值对输入窗口
     /// </summary>
     public partial class KeyValueWindow : Window
     {
@@ -26,7 +26,9 @@ namespace SureDream.Appliaction.Demo.ImageControl
         }
 
 
-
+        /// <summary>
+        /// 键值对实体集合
+        /// </summary>
         public List<KeyValueViewModel> Collection
         {
             get { return (List<KeyValueViewModel>)GetValue(CollectionProperty); }
@@ -45,13 +47,22 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
              }));
 
-
+        /// <summary>
+        /// 提交确定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
         }
 
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
@@ -59,12 +70,14 @@ namespace SureDream.Appliaction.Demo.ImageControl
         }
     }
 
-
+    /// <summary>
+    /// 键值对实体
+    /// </summary>
     public class KeyValueViewModel : NotifyPropertyChanged
     {
 
         private string _key;
-        /// <summary> 说明  </summary>
+        /// <summary> 键  </summary>
         public string Key
         {
             get { return _key; }
@@ -77,7 +90,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
 
         private string _value;
-        /// <summary> 说明  </summary>
+        /// <summary> 值  </summary>
         public string Value
         {
             get { return _value; }

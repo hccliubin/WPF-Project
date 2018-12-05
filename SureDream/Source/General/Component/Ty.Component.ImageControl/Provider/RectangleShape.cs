@@ -12,26 +12,43 @@ using System.Windows.Shapes;
 namespace Ty.Component.ImageControl
 {
 
+    /// <summary>
+    /// 矩形图基类
+    /// </summary>
     public class RectangleShape : Shape, IRectangleStroke
     {
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 代码
+        /// </summary>
         public string Code { get; set; }
 
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
         public RectangleShape() : base()
         {
 
             this.InitComponent();
         }
 
+        /// <summary>
+        /// 初始化组件
+        /// </summary>
         void InitComponent()
         {
+            //  Do：鼠标进入事件
             this.MouseEnter += (l, k) =>
             {
                 this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.2 };
                 this.StrokeThickness *= 3;
             };
 
+            //  Do：鼠标移除事件
             this.MouseLeave += (l, k) =>
             {
                 this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
@@ -40,6 +57,11 @@ namespace Ty.Component.ImageControl
             };
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="start"> 左上角点 </param>
+        /// <param name="end"> 右下角点 </param>
         public RectangleShape(Point start, Point end)
         {
             this.InitComponent();
@@ -55,6 +77,10 @@ namespace Ty.Component.ImageControl
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="rectangle"> 矩形形状 </param>
         public RectangleShape(RectangleShape rectangle)
         {
             this.InitComponent();
@@ -65,6 +91,13 @@ namespace Ty.Component.ImageControl
             this.Position = new Point(rectangle.Position.X, rectangle.Position.Y);
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="x"> 左上方 x坐标 </param>
+        /// <param name="y"> 左上方 y坐标</param>
+        /// <param name="width"> 宽度 </param>
+        /// <param name="height"> 高度 </param>
         public RectangleShape(double x,double y,double width,double height)
         {
             this.InitComponent();
@@ -76,10 +109,14 @@ namespace Ty.Component.ImageControl
         }
         
 
-
+        /// <summary>
+        /// 左上方点坐标
+        /// </summary>
         public Point Position { get; set; }
 
-
+        /// <summary>
+        /// 矩形区域形状
+        /// </summary>
         public Rect Rect
         {
             get
@@ -89,6 +126,9 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        /// <summary>
+        /// 定义模型
+        /// </summary>
         protected override Geometry DefiningGeometry
         {
             get
@@ -101,6 +141,9 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        /// <summary>
+        /// 渲染模型
+        /// </summary>
         public override Geometry RenderedGeometry
         {
             get
@@ -113,6 +156,10 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        /// <summary>
+        /// 绘制图形
+        /// </summary>
+        /// <param name="canvas"></param>
         public virtual void Draw(InkCanvas canvas)
         {
             InkCanvas.SetLeft(this, Position.X);
@@ -120,36 +167,67 @@ namespace Ty.Component.ImageControl
             canvas.Children.Add(this);
         }
 
+        /// <summary>
+        /// 清理图形
+        /// </summary>
+        /// <param name="canvas"></param>
         public void Clear(InkCanvas canvas)
         {
             canvas.Children.Remove(this);
         }
 
-
     }
 
 
+    /// <summary>
+    /// 动态变换的矩形形状
+    /// </summary>
     public class DynamicShape : RectangleShape
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public DynamicShape() : base()
         {
 
         }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         public DynamicShape(Point start, Point end) : base(start, end)
         {
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="rectangle"></param>
         public DynamicShape(RectangleShape rectangle) : base(rectangle)
         {
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public DynamicShape(double x, double y, double width, double height) : base(x,y,width,height)
         {
 
         }
 
+        /// <summary>
+        /// 鼠标移动时刷新图形
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         public void Refresh(Point start, Point end)
         {
             this.Width = Math.Abs(start.X - end.X);
@@ -162,12 +240,11 @@ namespace Ty.Component.ImageControl
             //Debug.WriteLine(this.Width + "*" + this.Height);
             //Debug.WriteLine(Position.X + "*" + Position.Y);
         }
+         
 
-
-        //public int WidthMatch { get; set; }
-        //public int HeightMatch { get; set; }
-
-
+        /// <summary>
+        /// 匹配的高度
+        /// </summary>
         public int HeightMatch
         {
             get { return (int)GetValue(HeightMatchProperty); }
@@ -187,6 +264,9 @@ namespace Ty.Component.ImageControl
              }));
 
 
+        /// <summary>
+        /// 匹配的宽度
+        /// </summary>
         public int WidthMatch
         {
             get { return (int)GetValue(WidthMatchProperty); }
@@ -206,7 +286,10 @@ namespace Ty.Component.ImageControl
              }));
 
 
-
+        /// <summary>
+        /// 是否匹配
+        /// </summary>
+        /// <returns></returns>
         public bool IsMatch()
         {
             return _initFlag && this.Width > this.WidthMatch && this.Height > this.HeightMatch;
@@ -214,6 +297,10 @@ namespace Ty.Component.ImageControl
 
         bool _initFlag = false;
 
+        /// <summary>
+        /// 通过_initFlag标识是否开始计算匹配
+        /// </summary>
+        /// <param name="flag"></param>
         public void BegionMatch(bool flag)
         {
             _initFlag = flag;
@@ -221,94 +308,76 @@ namespace Ty.Component.ImageControl
 
     }
 
+    /// <summary>
+    /// 缺陷形状
+    /// </summary>
     public class DefectShape : RectangleShape
     {
-
-        //public string Name { get; set; } 
-
-        //public string Code { get; set; } 
-
-
-
-        //public string Code
-        //{
-        //    get { return (string)GetValue(CodeProperty); }
-        //    set { SetValue(CodeProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty CodeProperty =
-        //    DependencyProperty.Register("Code", typeof(string), typeof(DefectShape), new PropertyMetadata(default(string), (d, e) =>
-        //     {
-        //         DefectShape control = d as DefectShape;
-
-        //         if (control == null) return;
-
-        //         string config = e.NewValue as string;
-
-        //     }));
-
-
-        //public string Name
-        //{
-        //    get { return (string)GetValue(NameProperty); }
-        //    set { SetValue(NameProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty NameProperty =
-        //    DependencyProperty.Register("Name", typeof(string), typeof(DefectShape), new PropertyMetadata(default(string), (d, e) =>
-        //     {
-        //         DefectShape control = d as DefectShape;
-
-        //         if (control == null) return;
-
-        //         string config = e.NewValue as string;
-
-        //     }));
-
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public DefectShape() : base()
         {
 
         }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public DefectShape(Point start, Point end) : base(start, end)
         {
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public DefectShape(RectangleShape rectangle) : base(rectangle)
         {
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public DefectShape(double x, double y, double width, double height) : base(x, y, width, height)
         {
 
         }
     }
 
+    /// <summary>
+    /// 样本形状
+    /// </summary>
     public class SampleShape : RectangleShape
     {
-
-        //public string Name { get; set; }
-
-        //public string Code { get; set; }
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public SampleShape() : base()
         {
 
         }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public SampleShape(Point start, Point end) : base(start, end)
         {
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public SampleShape(RectangleShape rectangle) : base(rectangle)
         {
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public SampleShape(double x, double y, double width, double height) : base(x, y, width, height)
         {
 

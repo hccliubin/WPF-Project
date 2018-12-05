@@ -12,31 +12,41 @@ using Ty.Base.WpfBase;
 
 namespace Ty.Component.ImageControl
 {
+    /// <summary>
+    /// 标定绑定模型
+    /// </summary>
     public partial class SampleVieModel
     {
-        ImgMarkEntity _model = new ImgMarkEntity();
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="imgMarkEntity"> 标定实体 </param>
         public SampleVieModel(ImgMarkEntity imgMarkEntity)
         {
+            //  Do：注册明林
             RelayCommand = new RelayCommand(RelayMethod);
 
+            //  Do：初始化标定信息
             Model = imgMarkEntity;
-
             this.Flag = "\xe76c";
-
             this.Name = imgMarkEntity.Name;
             this.Code = imgMarkEntity.Code;
             this.Type = "0";
-
             DefectShape defect = new DefectShape(imgMarkEntity.X, imgMarkEntity.Y, imgMarkEntity.Width, imgMarkEntity.Height);
 
+            //  Do：添加到图层列表
             this.RectangleLayer.Add(defect);
-
-            //sample.Flag = "\xeac5";
         }
 
+        #region - 成员属性 -
+
+        ImgMarkEntity _model = new ImgMarkEntity();
+
+        /// <summary> 标定实体模型 </summary>
+        public ImgMarkEntity Model { get => _model; set => _model = value; }
+
         private bool _visible = true;
-        /// <summary> 说明  </summary>
+        /// <summary> 是否可见  </summary>
         public bool Visible
         {
             get { return _visible; }
@@ -51,7 +61,7 @@ namespace Ty.Component.ImageControl
         }
 
         private RectangleLayer _rectangleLayerLayer = new RectangleLayer();
-        /// <summary> 说明  </summary>
+        /// <summary> 当前图层  </summary>
         public RectangleLayer RectangleLayer
         {
             get { return _rectangleLayerLayer; }
@@ -62,18 +72,7 @@ namespace Ty.Component.ImageControl
             }
         }
 
-        public void Add(RectangleShape shape)
-        {
-            this._model.X = (int)shape.Position.X;
-            this._model.Y = (int)shape.Position.Y;
-
-            this._model.Width = (int)shape.Width;
-            this._model.Height = (int)shape.Height;
-
-            this.RectangleLayer.Add(shape);
-        }
-
-        /// <summary> 说明  </summary>
+        /// <summary> 名称  </summary>
         public string Name
         {
             get { return this.Model.Name; }
@@ -85,7 +84,7 @@ namespace Ty.Component.ImageControl
         }
 
         private string _flag;
-        /// <summary> 说明  </summary>
+        /// <summary> 显示的符号Icon标识 </summary>
         public string Flag
         {
             get { return _flag; }
@@ -97,7 +96,7 @@ namespace Ty.Component.ImageControl
         }
 
         private string _type;
-        /// <summary> 说明  </summary>
+        /// <summary> 标定类型 0=缺陷 1=样本  </summary>
         public string Type
         {
             get { return _type; }
@@ -108,8 +107,7 @@ namespace Ty.Component.ImageControl
             }
         }
 
-        
-        /// <summary> 说明  </summary>
+        /// <summary> 代码  </summary>
         public string Code
         {
             get { return _model.Code; }
@@ -120,8 +118,28 @@ namespace Ty.Component.ImageControl
             }
         }
 
-        public ImgMarkEntity Model { get => _model; set => _model = value; }
+        #endregion
 
+
+        /// <summary>
+        /// 添加形状
+        /// </summary>
+        /// <param name="shape"> 形状 </param>
+        public void Add(RectangleShape shape)
+        {
+            this._model.X = (int)shape.Position.X;
+            this._model.Y = (int)shape.Position.Y;
+
+            this._model.Width = (int)shape.Width;
+            this._model.Height = (int)shape.Height;
+
+            this.RectangleLayer.Add(shape);
+        }
+
+        /// <summary>
+        /// 命令触发的参数方法
+        /// </summary>
+        /// <param name="obj"></param>
         public void RelayMethod(object obj)
         {
             string command = obj.ToString();

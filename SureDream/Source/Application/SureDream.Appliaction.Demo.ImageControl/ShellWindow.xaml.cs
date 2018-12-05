@@ -23,13 +23,11 @@ using Ty.Component.ImageControl;
 namespace SureDream.Appliaction.Demo.ImageControl
 {
     /// <summary>
-    /// ShellWindow.xaml 的交互逻辑
+    /// 主窗口
     /// </summary>
     public partial class ShellWindow : Window
     {
-
-        MainViewModel _vm = new MainViewModel();
-
+        //  Message：接口实现用例
         IImgOperate _imgOperate = new ImageOprateCtrEntity();
 
         bool _isload = false;
@@ -38,10 +36,12 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             InitializeComponent();
 
+            //  Do：加载图片浏览主键
             this.grid_center.Children.Add(_imgOperate.BuildEntity());
 
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
+            //  Do：注册添加标定事件
             _imgOperate.ImgMarkOperateEvent += l =>
               {
                   string fn = System.IO.Path.GetFileNameWithoutExtension(this._imgOperate.BuildEntity().Current.Value);
@@ -60,6 +60,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
               };
 
+            //  Do：注册风格化处理事件
             _imgOperate.ImgProcessEvent += (l, k) =>
               {
                   Debug.WriteLine("图片路径：" + l);
@@ -71,6 +72,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
         }
 
+        //  Message：加载图片
         private void CommandBinding_Search_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -104,6 +106,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = true;
         }
 
+        //  Message：上一页
         private void CommandBinding_Previous_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.PreviousImg();
@@ -115,6 +118,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
+        //  Message：下一页
         private void CommandBinding_Next_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.NextImg();
@@ -130,6 +134,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
+        //  Do：全屏
         private void CommandBinding_FullScreen_CanExecut(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this._isload && !_isfullscreen;
@@ -141,6 +146,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             _imgOperate.SetFullScreen(true);
         }
 
+        //  Do：退出全屏
         private void CommandBinding_UnFullScreen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.SetFullScreen(false);
@@ -151,6 +157,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload && _isfullscreen;
         }
 
+        //  Message：显示缺陷
         private void CommandBinding_ShowLocates_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.ShowLocates();
@@ -161,21 +168,25 @@ namespace SureDream.Appliaction.Demo.ImageControl
             _imgOperate.ShowDefects();
         }
 
+        //  Message：显示全部标定
         private void CommandBinding_ShowMarks_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.ShowMarks();
         }
 
+        //  Message：加速播放
         private void CommandBinding_ImgPlaySpeedUp_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.ImgPlaySpeedUp();
         }
 
+        //  Message：减速播放
         private void CommandBinding_ImgPlaySpeedDown_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.ImgPlaySpeedDown();
         }
 
+        //  Message：显示样本
         private void CommandBinding_ShowLocates_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this._isload;
@@ -201,6 +212,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
+        //  Message：加载历史标定信息
         private void CommandBinding_LoadMarkEntitys_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -226,20 +238,9 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
+        //  Message：加载缺陷代码查询列表
         private void CommandBinding_LoadCodes_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
-            //Dictionary<string, string> dic = new Dictionary<string, string>();
-
-            //var count = r.Next(5, 10);
-
-            //for (int i = 0; i < count; i++)
-            //{
-            //    dic.Add((i + 1).ToString(), "D10" + i.ToString());
-            //}
-
-
-            //_imgOperate.LoadCodes(dic);
 
             List<KeyValueViewModel> colleciotn = new List<KeyValueViewModel>();
 
@@ -278,18 +279,9 @@ namespace SureDream.Appliaction.Demo.ImageControl
         }
 
         Random r = new Random();
+        //  Message：添加图片详情信息
         private void CommandBinding_AddImgFigure_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //Dictionary<string, string> dic = new Dictionary<string, string>();
-
-            //var count = r.Next(5, 10);
-
-            //for (int i = 0; i < count; i++)
-            //{
-            //    dic.Add((i + 1).ToString(), "D10" + i.ToString());
-            //}
-
-            //_imgOperate.AddImgFigure(dic);
 
             List<KeyValueViewModel> colleciotn = new List<KeyValueViewModel>();
 
@@ -328,6 +320,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
+        //  Message：设置播放模式
         private void CommandBinding_SetImgPlay_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _imgOperate.SetImgPlay((ImgPlayMode)this.cb_playmode.SelectedItem);
@@ -338,6 +331,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
+        //  Message：加载图片
         private void CommandBinding_LoadImg_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -361,13 +355,12 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = true;
         }
 
-        private void btn_search_Click(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-        public string GetMarkFileName(string imgName)
+        /// <summary>
+        /// 获取标定信息存放路径
+        /// </summary>
+        /// <param name="imgName"></param>
+        /// <returns></returns>
+        string GetMarkFileName(string imgName)
         {
             string file = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
 
@@ -378,63 +371,5 @@ namespace SureDream.Appliaction.Demo.ImageControl
             return tempFiles;
         }
     }
-
-
-    partial class MainViewModel
-    {
-
-        private List<ImgMarkEntity> _collection = new List<ImgMarkEntity>();
-        /// <summary> 说明  </summary>
-        public List<ImgMarkEntity> Collection
-        {
-            get { return _collection; }
-            set
-            {
-                _collection = value;
-                RaisePropertyChanged("Collection");
-            }
-        }
-
-        public string tempFiles;
-        public void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "init")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-    }
-
-    partial class MainViewModel : INotifyPropertyChanged
-    {
-        public RelayCommand RelayCommand { get; set; }
-
-        public MainViewModel()
-        {
-            RelayCommand = new RelayCommand(RelayMethod);
-
-            RelayMethod("init");
-        }
-        #region - MVVM -
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-    }
+    
 }

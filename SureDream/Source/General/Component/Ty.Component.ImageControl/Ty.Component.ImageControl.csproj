@@ -48,10 +48,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service\ImgOperate.cs" />
     <Compile Include="Model\ImgMarkEntity.cs" />
     <Compile Include="Service\IImgOperate.cs" />
-    <Compile Include="Provider\ImgMarkRoutedEventArgs.cs" />
     <Compile Include="ViewModel\SampleVieModel.cs" />
     <Compile Include="ViewModel\ImageControlViewModel.cs" />
     <Compile Include="Provider\IconButton.cs" />
@@ -68,11 +66,9 @@
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Provider\ImageViewCommands.cs" />
-    <Compile Include="Model\ImageMarkEngine.cs" />
     <Compile Include="Provider\RectangleShape.cs" />
     <Compile Include="Provider\RectangleLayer.cs" />
     <Compile Include="Provider\IRectangleStroke.cs" />
-    <Compile Include="Provider\RectangleStroke.cs" />
     <Page Include="View\ImageFullScreenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,10 +108,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="类图.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="层级结构.dgml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
