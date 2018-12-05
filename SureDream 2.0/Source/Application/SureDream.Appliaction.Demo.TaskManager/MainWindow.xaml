@@ -198,8 +198,8 @@
                             <GroupBox Header="获取分析员在某段时间内工作内容统计结果">
                                 <WrapPanel Orientation="Horizontal">
                                     <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
-                                    <DatePicker SelectedDate="{Binding StartTime}" SelectedDateFormat="Short"/>
-                                    <DatePicker SelectedDate="{Binding EndTime}" SelectedDateFormat="Short"/>
+                                    <DatePicker SelectedDate="{Binding StartTime}" SelectedDateFormat="Short" Height="30"/>
+                                    <DatePicker SelectedDate="{Binding EndTime}" SelectedDateFormat="Short" Height="30"/>
                                     <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_result"/>
                                 </WrapPanel>
 
@@ -226,8 +226,8 @@
                             <GroupBox Header="获取分析员某段时间内所有任务">
                                 <WrapPanel Orientation="Horizontal">
                                     <ComboBox SelectedItem="{Binding SelectAnalyst}" ItemsSource="{Binding Path=AnalystCollection}" DisplayMemberPath="Name" />
-                                    <DatePicker SelectedDate="{Binding StartTime}" SelectedDateFormat="Short"/>
-                                    <DatePicker SelectedDate="{Binding EndTime}" SelectedDateFormat="Short"/>
+                                    <DatePicker SelectedDate="{Binding StartTime}" SelectedDateFormat="Short" Height="30"/>
+                                    <DatePicker SelectedDate="{Binding EndTime}" SelectedDateFormat="Short" Height="30"/>
                                     <Button Content="获取..." Command="{Binding RelayCommand}" CommandParameter="btn_find_alltasks"/>
                                     <ListBox ItemsSource="{Binding FindTaskCollection}"/>
                                 </WrapPanel>

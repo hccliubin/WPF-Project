@@ -225,12 +225,18 @@ namespace SureDream.Appliaction.Demo.TaskManager
                     this.RawIdCollection.Add("贵广线_上行_佛山站_肇庆站_" + i);
                 }
 
-                this.SiteCollection.Add(new Site() { ID = "1001", Name = "北京站" });
-                this.SiteCollection.Add(new Site() { ID = "1002", Name = "上海站" });
-                this.SiteCollection.Add(new Site() { ID = "1003", Name = "天津站" });
-                this.SiteCollection.Add(new Site() { ID = "1004", Name = "佛山站" });
-                this.SiteCollection.Add(new Site() { ID = "1005", Name = "广州站" });
-                this.SiteCollection.Add(new Site() { ID = "1006", Name = "肇庆站" });
+                List<Pole> _poles = new List<Pole>();
+                for (int i = 1; i < 10; i++)
+                {
+                    _poles.Add(new Pole() { ID = i.ToString(), Name = i.ToString() });
+                }
+
+                this.SiteCollection.Add(new Site() { ID = "1001", Name = "北京站", Poles = _poles });
+                this.SiteCollection.Add(new Site() { ID = "1002", Name = "上海站", Poles = _poles });
+                this.SiteCollection.Add(new Site() { ID = "1003", Name = "天津站", Poles = _poles });
+                this.SiteCollection.Add(new Site() { ID = "1004", Name = "佛山站", Poles = _poles });
+                this.SiteCollection.Add(new Site() { ID = "1005", Name = "广州站", Poles = _poles });
+                this.SiteCollection.Add(new Site() { ID = "1006", Name = "肇庆站", Poles = _poles });
 
                 this.AnalystCollection.Add(new Analyst() { ID = "2001", Name = "刘德华" });
                 this.AnalystCollection.Add(new Analyst() { ID = "2002", Name = "张国荣" });

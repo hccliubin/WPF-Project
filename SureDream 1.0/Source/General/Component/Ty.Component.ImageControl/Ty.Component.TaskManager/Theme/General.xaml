@@ -1,8 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Ty.Component.TaskManager">
-
-    <local:TrueForAllEqulsConverter x:Key="Resource.Converter.TrueForAllEqulsConverter"/>
-    <local:AppendToStringConverter x:Key="Resource.Converter.AppendToStringConverter"/>
-
-</ResourceDictionary>

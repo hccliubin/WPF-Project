@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Ty.Component.TaskManager.RawTaskControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ty.Component.TaskManager"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--自定义资源引用-->
+                <ResourceDictionary Source="/Ty.Component.TaskManager;component/Theme/General.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="10,5"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid Style="{StaticResource DefaultDataGrid}" SelectedItem="{Binding Current}" ItemsSource="{Binding Path=Collection}">
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding RawTaskID}" />-->
+                <DataGridTextColumn Header="原始数据包"  Width="3*"  Binding="{Binding RawTaskID}" />
+                <!--<DataGridTextColumn Header="装置类别"  Width="*"  Binding="{Binding MachineType}" />
+                <DataGridTextColumn Header="实际检测日期"  Width="2*"  Binding="{Binding RealDate}" />
+                <DataGridTextColumn Header="标杆范围"  Width="2*"  Binding="{Binding SiteRange}" />-->
+                <!--<DataGridTemplateColumn  Header="总体分析进度"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ProgressBar Maximum="10" Margin="5" Value="{Binding Progress}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTemplateColumn  Header="操作"  Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Content="分工" Grid.Column="0"
+                                        HorizontalAlignment="Center" Height="25"
+                                        VerticalAlignment="Center" Command="{Binding RelayCommand}"  CommandParameter="btn_divied"/>
+                                <Button Content="查看" Grid.Column="1"   
+                                        HorizontalAlignment="Center" Height="25"
+                                        VerticalAlignment="Center" Command="{Binding RelayCommand}" CommandParameter="btn_showTask" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

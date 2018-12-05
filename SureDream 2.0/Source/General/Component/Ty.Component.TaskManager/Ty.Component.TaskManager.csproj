@@ -4,28 +4,25 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6479B8E1-88FC-42BB-A1B0-888415D16C9C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>SureDream.Appliaction.Demo.TaskManager</RootNamespace>
-    <AssemblyName>SureDream.Appliaction.Demo.TaskManager</AssemblyName>
+    <ProjectGuid>{9D43226E-1FE7-4818-BAF5-CFBE40FE401E}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Ty.Component.TaskManager</RootNamespace>
+    <AssemblyName>Ty.Component.TaskManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Product\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Product\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -50,29 +47,28 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="KeyValueWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="RawTaskControl.xaml.cs">
+      <DependentUpon>RawTaskControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KeyValueWindow.xaml.cs">
-      <DependentUpon>KeyValueWindow.xaml</DependentUpon>
+    <Compile Include="Service\TaskManagement.cs" />
+    <Compile Include="ViewModel\RawTaskViewModel.cs" />
+    <Compile Include="DividedWindow.xaml.cs">
+      <DependentUpon>DividedWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Model\Site.cs" />
+    <Compile Include="Model\Analyst.cs" />
+    <Compile Include="Provider\ConvertProvider.cs" />
+    <Compile Include="Service\ITaskManagement.cs" />
+    <Compile Include="Provider\TaskListCommitHandler.cs" />
+    <Compile Include="Provider\TaskDeleteHandler.cs" />
+    <Compile Include="Model\Task.cs" />
+    <Compile Include="ShowTaskWindow.xaml.cs">
+      <DependentUpon>ShowTaskWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\TaskViewControl.xaml.cs">
+      <DependentUpon>TaskViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,17 +93,33 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="App.config" />
+    <Page Include="DividedWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RawTaskControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowTaskWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\General.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TaskViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
+    <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435FEB82-599F-48E3-8891-755ACF8E4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\General\Component\Ty.Component.TaskManager\Ty.Component.TaskManager.csproj">
-      <Project>{9d43226e-1fe7-4818-baf5-cfbe40fe401e}</Project>
-      <Name>Ty.Component.TaskManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
