@@ -24,7 +24,7 @@ namespace Ty.Component.TaskManager
             }
         }
 
-        private string _taskName;
+        private string _taskName = "检测任务";
         /// <summary> 说明  </summary>
         public string TaskName
         {

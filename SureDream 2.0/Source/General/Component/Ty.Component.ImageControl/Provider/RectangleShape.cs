@@ -303,6 +303,8 @@ namespace Ty.Component.ImageControl
         /// <param name="flag"></param>
         public void BegionMatch(bool flag)
         {
+            this.Width = 0;
+            this.Height = 0;
             _initFlag = flag;
         }
 

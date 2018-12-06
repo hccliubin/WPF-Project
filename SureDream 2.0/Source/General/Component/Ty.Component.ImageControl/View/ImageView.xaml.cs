@@ -279,8 +279,7 @@ namespace Ty.Component.ImageControl
                 return;
             };
 
-            //  Do：结束矩形区域检测
-            _dynamic.BegionMatch(false);
+        
 
             //  Do：如果是选择局部放大
             if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
@@ -309,14 +308,27 @@ namespace Ty.Component.ImageControl
             {
                 //  Do：不是局部放大功能则显示弹出窗口
                 this.popup.IsOpen = true;
+
             }
 
             //  Do：将数据初始化
             start = new Point(-1, -1);
+           
 
         }
 
 
         #endregion
+        /// <summary>
+        /// 弹出框关闭事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void popup_Closed(object sender, EventArgs e)
+        {
+            //  Do：结束矩形区域检测
+            _dynamic.BegionMatch(false);
+        }
+
     }
 }

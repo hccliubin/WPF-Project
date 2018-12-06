@@ -22,8 +22,6 @@ namespace Ty.Component.TaskManager
         public DividedWindow()
         {
             InitializeComponent();
-
-
         }
 
         public RawTaskViewModel ViewModel { get { return this.DataContext as RawTaskViewModel; } }
@@ -32,6 +30,7 @@ namespace Ty.Component.TaskManager
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string err;
+
             if (!ViewModel.IsVaild(out err))
             {
                 return;
@@ -45,7 +44,7 @@ namespace Ty.Component.TaskManager
         {
             if (ViewModel.IsEdit())
             {
-                MessageBox.Show("当前页面是否存在未保存的编辑，请点击确定提交保存项！");
+                MessageBox.Show("当前页面存在未保存的编辑，请点击确定提交保存项！","提示！");
                 e.Cancel = true;
             }
 

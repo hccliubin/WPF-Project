@@ -166,7 +166,7 @@ namespace Ty.Component.TaskManager
                 string err;
                 if (!this.IsVaild(out err))
                 {
-                    var result = MessageBox.Show(err, "是否继续保存？", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    var result = MessageBox.Show(err + "是否继续保存？", "提示！", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
                     if (result == MessageBoxResult.No) return;
                 }
@@ -253,17 +253,80 @@ namespace Ty.Component.TaskManager
         }
 
         /// <summary>
-        /// 检查当前数据是否完整
+        /// 检查当前数据是否完整(检查一：所有站和杆号是否分配，检查二：是否重复分配)
         /// </summary>
         /// <returns></returns>
         public bool IsVaild(out string err)
         {
             err = string.Empty;
 
+            #region - 检查区间站 -
+            {
+                //  ToDo：检查站区是否全部分配
+                var startToEnd = this.TaskCollection.Select(l => new Tuple<int, int>(Math.Min(this.SiteCollection.IndexOf(l.StartSite),
+                          this.SiteCollection.IndexOf(l.EndSite)), Math.Max(this.SiteCollection.IndexOf(l.StartSite), this.SiteCollection.IndexOf(l.EndSite)))).OrderBy(l => l.Item1).ToList();
+
+
+                List<Site> results = new List<Site>();
+
+                for (int i = 0; i < this.SiteCollection.Count; i++)
+                {
+                    if (!startToEnd.Exists(l => l.Item1 <= i && l.Item2 >= i))
+                    {
+                        results.Add(this.SiteCollection[i]);
+                    }
+                }
+
+                if (results != null && results.Count > 0)
+                {
+                    string param = results.Select(l => l.Name).Aggregate((l, k) => l + "," + k);
+
+                    err = $"存在未分配的区间站[{param.Trim(',')}]";
+                    return false;
+                }
+
+                string value = string.Empty;
+
+                //  Do：返回前一个结束站台与后一个起始站台的差 如果为正数则返回前一个站台区间
+                startToEnd.Aggregate((l, k) =>
+                {
+                    //  Message：同一站台不检查数据重复
+                    if(l.Item1 == l.Item2)
+                    {
+                        return k;
+                    }
+
+                    if ((l.Item2 - k.Item1) > 0)
+                    {
+                        value += this.SiteCollection[l.Item2].Name + ",";
+                        return k;
+                    }
+                    else if ((l.Item2 - k.Item1) == 0 && l.Item1 == k.Item2)
+                    {
+                        value += this.SiteCollection[l.Item2].Name + ",";
+                        return k;
+                    }
+                    else
+                    {
+                        return k;
+                    }
+                });
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    err = $"任务列表中存在重复分配的区间站[{value.Trim(',')}]";
+                    return false;
+                }
+
+            }
+
+
+            #endregion
+
+            #region - 检查杆号 -
+
             //  ToDo：检查数据完整性 同一站台杆号是否都选择完全
             var sites = this.TaskCollection.Where(l => l.StartSite.ID == l.EndSite.ID).GroupBy(l => l.StartSite.ID);
-
-            if (sites != null && sites.Count() > 0)
             {
                 foreach (var site in sites)
                 {
@@ -273,7 +336,7 @@ namespace Ty.Component.TaskManager
                     int minValue = site.First().StartSite.Poles.Min(l => int.Parse(l.Name));
 
                     //  Do：获取当前站的所有任务信息
-                    var collection = this.TaskCollection.Where(l => l.StartSite.ID == site.Key&&l.EndSite.ID== site.Key);
+                    var collection = this.TaskCollection.Where(l => l.StartSite.ID == site.Key && l.EndSite.ID == site.Key);
 
                     //  Do：提取当前站的杆号起始和结束杆号信息并从小到大排序
                     var startToEnd = collection.Select(l => new Tuple<int, int>(Math.Min(int.Parse(l.StartPole.Name),
@@ -290,10 +353,9 @@ namespace Ty.Component.TaskManager
                     {
                         string param = result.Select(l => l.ToString()).Aggregate((l, k) => l.ToString() + "," + k.ToString());
 
-                        err = $"存在未分配的杆号{param.Trim(',')},请检查";
+                        err = $"[{site.First().StartSite.Name}]存在未分配的杆号[{param.Trim(',')}]";
                         return false;
                     }
-
 
                     string value = string.Empty;
 
@@ -306,21 +368,28 @@ namespace Ty.Component.TaskManager
                             value += l.ToString() + ",";
                             return k;
                         }
+                        else if ((l.Item2 - k.Item1) == 0 && l.Item1 == k.Item2)
+                        {
+                            value += l.ToString() + ",";
+                            return k;
+                        }
                         else
                         {
                             return k;
                         }
                     });
 
+
                     if (!string.IsNullOrEmpty(value))
                     {
-                        err = $"任务列表中存在重复分配的杆号{value.Trim(',')},请检查";
+                        err = $"[{site.First().StartSite.Name}]任务列表中存在重复分配的杆号[{value.Trim(',')}]";
                         return false;
                     }
 
                 }
             }
 
+            #endregion
 
             return true;
         }

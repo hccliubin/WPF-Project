@@ -25,7 +25,7 @@
                 <Style TargetType="{x:Type ComboBox}">
                     <Setter Property="Width" Value="100"/>
                     <Setter Property="Height" Value="30"/>
-                    <Setter Property="Margin" Value="5,0"/>
+                    <Setter Property="Margin" Value="5,5"/>
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
@@ -55,8 +55,8 @@
 
             <StackPanel VerticalAlignment="Top" >
                 <StackPanel Orientation="Horizontal">
-                    <RadioButton Content="检测任务" FontSize="15" IsChecked="{Binding AddItem.TaskName,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=检测任务}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
-                    <RadioButton Content="分析任务" FontSize="15" IsChecked="{Binding AddItem.TaskName,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=分析任务}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
+                    <RadioButton Content="检测任务" FontSize="10" IsChecked="{Binding AddItem.TaskName,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=检测任务}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
+                    <RadioButton Content="分析任务" FontSize="10" IsChecked="{Binding AddItem.TaskName,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=分析任务}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
                 </StackPanel>
 
                 <TextBlock  Text="区间站："/>

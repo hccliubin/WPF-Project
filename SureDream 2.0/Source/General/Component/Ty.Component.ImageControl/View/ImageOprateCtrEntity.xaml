@@ -133,7 +133,7 @@
         <Grid Grid.Column="1"  Background="White">
             <GroupBox Header="标定信息列表" Margin="2,0">
                 <ListBox x:Name="listbox_samples" Grid.Column="2" ToolTip="按Ctrl+S保存"
-                     Grid.RowSpan="2"  SelectedItem="{Binding SelectSample}"
+                     Grid.RowSpan="2"  SelectedItem="{Binding SelectSample}" 
                      BorderThickness="0" ContextMenu="{StaticResource Resource.ContextMenu.SampleCollection}"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
                      ItemsSource="{Binding SampleCollection}">
@@ -145,11 +145,37 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
+                                <Border x:Name="boder" Grid.ColumnSpan="3"/>
+                                
                                 <CheckBox IsChecked="{Binding Visible}" HorizontalAlignment="Center" VerticalAlignment="Center"  HorizontalContentAlignment="Center"  VerticalContentAlignment="Center"/>
 
                                 <TextBlock Style="{StaticResource FIcon}" Text="{Binding Flag}" Grid.Column="1"/>
                                 <TextBlock  Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding Code}" Grid.Column="2"/>
+                                
                             </Grid>
+                            <DataTemplate.Triggers>
+                                
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RectangleLayer[0].IsMouseOver}" Value="True"/>
+                                        <Condition Binding="{Binding Type}" Value="0"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Background" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Stroke}" TargetName="boder"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RectangleLayer[0].IsMouseOver}" Value="True"/>
+                                        <Condition Binding="{Binding Type}" Value="1"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Background" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Stroke}" TargetName="boder"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+
+                            </DataTemplate.Triggers>
                         </DataTemplate>
 
                     </ListBox.Resources>

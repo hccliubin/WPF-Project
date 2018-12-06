@@ -43,6 +43,9 @@
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Close" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
     </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="ApplicationCommands.Close"/>
+    </Window.InputBindings>
 
     <Grid>
         

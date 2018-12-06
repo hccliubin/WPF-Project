@@ -8,7 +8,7 @@
         xmlns:taskmanager="clr-namespace:Ty.Component.TaskManager;assembly=Ty.Component.TaskManager"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200">
+        Title="MainWindow" Height="800" Width="1200">
 
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
@@ -17,6 +17,7 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10,5"/>
+            <Setter Property="Background" Value="Orange"/>
         </Style>
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="MinWidth" Value="100"/>
@@ -70,7 +71,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.5*"/>
@@ -179,21 +180,21 @@
                                 </WrapPanel>
                             </GroupBox>
 
-                            <GroupBox Header="根据给定的指标列表统计任务">
+                            <!--<GroupBox Header="根据给定的指标列表统计任务">
                                 <WrapPanel Orientation="Horizontal">
                                     <ComboBox/>
                                     <Button Content="统计" Command="{Binding RelayCommand}" CommandParameter="btn_add_site"/>
                                 </WrapPanel>
-                            </GroupBox>
+                            </GroupBox>-->
 
-                            <GroupBox Header="获取某次跑车数据分析得到的缺陷统计结果">
+                            <!--<GroupBox Header="获取某次跑车数据分析得到的缺陷统计结果">
                                 <WrapPanel Orientation="Horizontal">
                                     <ComboBox/>
                                     <Button Content="一级获取..."/>
                                     <Button Content="二级缺陷获取.."/>
                                     <Button Content="全部缺陷获取.."/>
                                 </WrapPanel>
-                            </GroupBox>
+                            </GroupBox>-->
 
                             <GroupBox Header="获取分析员在某段时间内工作内容统计结果">
                                 <WrapPanel Orientation="Horizontal">

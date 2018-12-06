@@ -54,7 +54,7 @@
 
         <Popup x:Name="popup" PopupAnimation="Slide" IsOpen="False"
                                Placement="MousePoint" AllowsTransparency="True"
-                               StaysOpen="False" HorizontalAlignment="Left" 
+                               StaysOpen="False" HorizontalAlignment="Left"  Closed="popup_Closed"
                                VerticalAlignment="Bottom">
             <Grid Height="120">
                 <Grid.Background>
