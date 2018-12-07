@@ -264,7 +264,7 @@ namespace Ty.Component.TaskManager
             {
                 //  ToDo：检查站区是否全部分配
                 var startToEnd = this.TaskCollection.Select(l => new Tuple<int, int>(Math.Min(this.SiteCollection.IndexOf(l.StartSite),
-                          this.SiteCollection.IndexOf(l.EndSite)), Math.Max(this.SiteCollection.IndexOf(l.StartSite), this.SiteCollection.IndexOf(l.EndSite)))).OrderBy(l => l.Item1).ToList();
+                          this.SiteCollection.IndexOf(l.EndSite)), Math.Max(this.SiteCollection.IndexOf(l.StartSite), this.SiteCollection.IndexOf(l.EndSite)))).OrderBy(l => l.Item1).OrderBy(l=>l.Item2).ToList();
 
 
                 List<Site> results = new List<Site>();
@@ -340,7 +340,7 @@ namespace Ty.Component.TaskManager
 
                     //  Do：提取当前站的杆号起始和结束杆号信息并从小到大排序
                     var startToEnd = collection.Select(l => new Tuple<int, int>(Math.Min(int.Parse(l.StartPole.Name),
-                        int.Parse(l.EndPole.Name)), Math.Max(int.Parse(l.StartPole.Name), int.Parse(l.EndPole.Name)))).OrderBy(l => l.Item1).ToList();
+                        int.Parse(l.EndPole.Name)), Math.Max(int.Parse(l.StartPole.Name), int.Parse(l.EndPole.Name)))).OrderBy(l => l.Item1).OrderBy(l => l.Item2).ToList();
 
                     //int maxValue = startToEnd.Max(l => l.Item2);
 
