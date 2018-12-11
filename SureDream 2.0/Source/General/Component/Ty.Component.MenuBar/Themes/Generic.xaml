@@ -753,10 +753,10 @@
                             <!--Icon/Text-->
                             <StackPanel Orientation="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, 
                                 Path=Orientation}" VerticalAlignment="Center" 
-                        Margin="{TemplateBinding Padding}"
+                        Margin="{TemplateBinding Padding}" 
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
 
-                                <Image  x:Name="icon"  Source="{TemplateBinding ImageSource}" Margin="{TemplateBinding FIconMargin}"/>
+                                <Image  x:Name="icon" Source="{TemplateBinding ImageSource}" Margin="{TemplateBinding FIconMargin}"/>
 
                                 <TextBlock VerticalAlignment="Center"  x:Name="txt" 
                            TextDecorations="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContentDecorations}" 

@@ -53,13 +53,19 @@ namespace Ty.Component.ImageControl
         /// 图片风格化处理事件
         /// </summary>
         event ImgProcessHandler ImgProcessEvent;
+
+
+        event Action PreviousImgEvent;
+
+        event Action NextImgEvent;
+
         #endregion
 
         #region 设置方法
         /// <summary>
         /// 展示全部缺陷标注
         /// </summary>
-         void ShowDefects();
+        void ShowDefects();
 
         /// <summary>
         /// 展示全部区域定位标注

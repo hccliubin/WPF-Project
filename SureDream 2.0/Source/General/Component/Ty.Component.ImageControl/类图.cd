@@ -31,7 +31,7 @@
       <Compartment Name="Events" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>BAAAAQAEAIAAgAAgAgAACAEAECAAAABwAAgACABAAAA=</HashCode>
+      <HashCode>BAAAAQAEAIAAgAAgAgAACAEAECAAgABwAAgACABAAAA=</HashCode>
       <FileName>View\ImageView.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -109,10 +109,10 @@
       <FileName>Provider\RectangleShape.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="Ty.Component.ImageControl.IImgOperate" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="3.5" />
+  <Interface Name="Ty.Component.ImageControl.IImgOperate">
+    <Position X="0.5" Y="3.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AEAAiAAAAAAIBAAAQAAAACCAAgAAAAAAAABACiBgCAA=</HashCode>
+      <HashCode>AEAAiAAAAAAIBAAAQAAAECCAAgAAAAAAAABACqBgCAA=</HashCode>
       <FileName>Service\IImgOperate.cs</FileName>
     </TypeIdentifier>
   </Interface>

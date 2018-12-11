@@ -24,9 +24,6 @@ namespace SureDream.Appliaction.Demo.TaskManager
         {
             InitializeComponent();
         }
-
-
-
         public List<KeyValueViewModel> Collection
         {
             get { return (List<KeyValueViewModel>)GetValue(CollectionProperty); }

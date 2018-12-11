@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D43226E-1FE7-4818-BAF5-CFBE40FE401E}</ProjectGuid>
+    <ProjectGuid>{0599EBA9-25B0-444B-AC7D-C90E02B1887D}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>Ty.Component.TaskManager</RootNamespace>
-    <AssemblyName>Ty.Component.TaskManager</AssemblyName>
+    <RootNamespace>Ty.Component.TaskAssignment</RootNamespace>
+    <AssemblyName>Ty.Component.TaskAssignment</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,34 +48,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DividedTaskControl.xaml.cs">
-      <DependentUpon>DividedTaskControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RawTaskControl.xaml.cs">
-      <DependentUpon>RawTaskControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Service\TaskManagement.cs" />
-    <Compile Include="TaskAllocation.cs" />
-    <Compile Include="ViewModel\RawTaskViewModel.cs" />
-    <Compile Include="DividedWindow.xaml.cs">
-      <DependentUpon>DividedWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Site.cs" />
-    <Compile Include="Model\Analyst.cs" />
-    <Compile Include="Provider\ConvertProvider.cs" />
-    <Compile Include="Service\ITaskManagement.cs" />
-    <Compile Include="Provider\TaskListCommitHandler.cs" />
-    <Compile Include="Provider\TaskDeleteHandler.cs" />
-    <Compile Include="Model\Task.cs" />
-    <Compile Include="ShowTaskWindow.xaml.cs">
-      <DependentUpon>ShowTaskWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\TaskViewControl.xaml.cs">
-      <DependentUpon>TaskViewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TaskViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="ConvertProvider.cs" />
+    <Compile Include="Model\TaskAllocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,6 +63,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RawTaskViewModel.cs" />
+    <Compile Include="TaskAssignmentControl.xaml.cs">
+      <DependentUpon>TaskAssignmentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskLookUpControl.xaml.cs">
+      <DependentUpon>TaskLookUpControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -97,36 +80,23 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Page Include="DividedTaskControl.xaml">
+    <Page Include="TaskAssignmentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DividedWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RawTaskControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ShowTaskWindow.xaml">
+    <Page Include="TaskLookUpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\General.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\TaskViewControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
-      <Project>{435FEB82-599F-48E3-8891-755ACF8E4117}</Project>
+      <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
   </ItemGroup>
