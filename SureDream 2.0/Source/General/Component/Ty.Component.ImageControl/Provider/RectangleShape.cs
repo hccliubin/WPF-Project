@@ -18,6 +18,10 @@ namespace Ty.Component.ImageControl
     public class RectangleShape : Shape, IRectangleStroke
     {
 
+        public string Code { get; set; }
+        public string Name { get; set; }
+
+
         /// <summary>
         /// 无参数构造函数
         /// </summary>
@@ -243,25 +247,6 @@ namespace Ty.Component.ImageControl
 
         }
         #endregion
-        public int UsedIn4C { get; set; }
-        public int UsedIn3C { get; set; }
-        public int UsedIn2C { get; set; }
-        public int UsedIn1C { get; set; }
-        public int IsDelete { get; set; }
-        public int OrderNo { get; set; }
-        public string Unit { get; set; }
-        public int UsedIn5C { get; set; }
-        public int ValueType { get; set; }
-        public int ParamState { get; set; }
-        public string Code { get; set; }
-        public string RootCode { get; set; }
-        public string NamePY { get; set; }
-        public string Name { get; set; }
-        public string ParentID { get; set; }
-        public string ID { get; set; }
-        public string DefaultRate { get; set; }
-        public int UsedIn6C { get; set; }
-
 
     }
 
