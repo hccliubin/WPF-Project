@@ -14,19 +14,25 @@
 
 
     <!--<RoutedUICommand x:Key="Resource.Command.AddDefect" Text="添加缺陷"/>-->
-    <RoutedUICommand x:Key="Resource.Command.AddSample" Text="添加标定"/>
-    <RoutedUICommand x:Key="Resource.Command.AddScrean" Text="放大视图"/>
+    <!--<RoutedUICommand x:Key="Resource.Command.AddSample" Text="添加标定"/>
+    <RoutedUICommand x:Key="Resource.Command.AddScrean" Text="放大视图"/>-->
 
-    <ContextMenu x:Key="Resource.ContextMenu.DynamicMenu">
+    <!--<ContextMenu x:Key="Resource.ContextMenu.DynamicMenu">
         <MenuItem Command="{StaticResource Resource.Command.AddSample}" Header="添加缺陷" CommandParameter="Defect"/>
         <MenuItem Command="{StaticResource Resource.Command.AddSample}" Header="添加标定"  CommandParameter="Sample"/>
         <MenuItem Command="{StaticResource Resource.Command.AddScrean}" Header="放大视图"/>
+        --><!--<MenuItem Header="放大视图"/>--><!--
+    </ContextMenu>-->
+
+    <ContextMenu x:Key="Resource.ContextMenu.DeleteShape">
+        <MenuItem Command="{Binding RelayCommand}" Header="删除" CommandParameter="menu_delete"/>
         <!--<MenuItem Header="放大视图"/>-->
     </ContextMenu>
 
     <Style TargetType="{x:Type local:DefectShape}">
         <Setter Property="StrokeThickness" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@StrokeThickness}"/>
         <Setter Property="Stroke" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Stroke}"/>
+        <Setter Property="ContextMenu" Value="{StaticResource Resource.ContextMenu.DeleteShape}"/>
         <Setter Property="Fill">
             <Setter.Value>
                 <SolidColorBrush Color="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Fill}" Opacity="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DefectRectangle/@Opacity}"/>
@@ -80,6 +86,7 @@
                 <Setter Property="StrokeDashCap" Value="Triangle"/>-->
         <Setter Property="StrokeThickness" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@StrokeThickness}"/>
         <Setter Property="Stroke" Value="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Stroke}"/>
+        <Setter Property="ContextMenu" Value="{StaticResource Resource.ContextMenu.DeleteShape}"/>
         <Setter Property="Fill">
             <Setter.Value>
                 <SolidColorBrush Color="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Fill}" Opacity="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SampleRectangle/@Opacity}"/>
@@ -114,7 +121,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type TextBlock}">
+    <Style x:Key="Resource.Stype.TextBlock.CenterDefault" TargetType="{x:Type TextBlock}">
         <Setter Property="MinWidth" Value="80"/>
         <Setter Property="Width" Value="Auto"/>
         <Setter Property="Height" Value="Auto"/>
@@ -123,7 +130,7 @@
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
-    <Style TargetType="{x:Type ComboBox}">
+    <Style  x:Key="Resource.Stype.ComboBox.CenterDefault" TargetType="{x:Type ComboBox}">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="30"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>

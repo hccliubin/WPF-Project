@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -103,6 +104,10 @@ namespace Ty.Component.ImageControl
         {
             string command = obj.ToString();
 
+        
+            Debug.WriteLine(command);
+
+
             //  Do：测试
             if (command == "text")
             {
@@ -135,6 +140,29 @@ namespace Ty.Component.ImageControl
                 this.SelectSample.Flag = "\xe6b5";
                 this.SelectSample.Model.markOperateType = ImgMarkOperateType.Update;
             }
+
+            //  Do：删除标定
+            else if (command == "menu_delete")
+            {
+                this.SelectSample = this.SampleCollection.ToList().Find(l => l.RectangleLayer.First().IsSelected);
+
+                if (this.SelectSample == null) return;
+
+                this.SelectSample.Model.markOperateType = ImgMarkOperateType.Delete;
+
+                //  Do：触发删除事件
+                this._iImgOperate.OnImgMarkOperateEvent(this.SelectSample.Model);
+
+
+                this.SelectSample.RectangleLayer.First().Clear();
+
+                this.SampleCollection.Remove(this.SelectSample);
+
+               
+
+                //this.SelectSample.Flag = "\xe6b5";
+                //this.SelectSample.Model.markOperateType = ImgMarkOperateType.Update;
+            }
         }
 
     }
@@ -144,8 +172,12 @@ namespace Ty.Component.ImageControl
 
         public RelayCommand RelayCommand { get; set; }
 
-        public ImageControlViewModel()
+        ImageOprateCtrEntity _iImgOperate;
+
+        public ImageControlViewModel(ImageOprateCtrEntity iImgOperate)
         {
+            _iImgOperate = iImgOperate;
+
             RelayCommand = new RelayCommand(RelayMethod);
 
         }

@@ -17,24 +17,17 @@ namespace Ty.Component.ImageControl
     /// </summary>
     public class RectangleShape : Shape, IRectangleStroke
     {
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 代码
-        /// </summary>
-        public string Code { get; set; }
 
         /// <summary>
         /// 无参数构造函数
         /// </summary>
         public RectangleShape() : base()
         {
-
             this.InitComponent();
         }
+
+
+        public bool IsSelected { get; set; }
 
         /// <summary>
         /// 初始化组件
@@ -44,17 +37,48 @@ namespace Ty.Component.ImageControl
             //  Do：鼠标进入事件
             this.MouseEnter += (l, k) =>
             {
-                this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.2 };
-                this.StrokeThickness *= 3;
+                if (this.IsSelected) return;
+
+                this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.5 };
+                //this.StrokeThickness *= 3;
             };
 
             //  Do：鼠标移除事件
             this.MouseLeave += (l, k) =>
             {
+                if (this.IsSelected) return;
+
                 this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
-                this.StrokeThickness /= 3;
+                //this.StrokeThickness /= 3;
 
             };
+
+            this.MouseDown += (l, k) =>
+              {
+                  InkCanvas canvas = this.Parent as InkCanvas;
+
+                  foreach (var item in canvas.Children)
+                  {
+                      if (item is RectangleShape)
+                      {
+                          RectangleShape shape = item as RectangleShape;
+
+                          if(shape.IsSelected)
+                          {
+                              shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
+                              shape.StrokeThickness /= 5;
+                              shape.IsSelected = false;
+                          }
+                      }
+                  }
+
+                  this.IsSelected = true;
+                  this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
+                  this.StrokeThickness *= 5;
+
+              };
+
+
         }
 
         /// <summary>
@@ -98,7 +122,7 @@ namespace Ty.Component.ImageControl
         /// <param name="y"> 左上方 y坐标</param>
         /// <param name="width"> 宽度 </param>
         /// <param name="height"> 高度 </param>
-        public RectangleShape(double x,double y,double width,double height)
+        public RectangleShape(double x, double y, double width, double height)
         {
             this.InitComponent();
 
@@ -107,7 +131,7 @@ namespace Ty.Component.ImageControl
 
             this.Position = new Point(x, y);
         }
-        
+
 
         /// <summary>
         /// 左上方点坐标
@@ -176,6 +200,69 @@ namespace Ty.Component.ImageControl
             canvas.Children.Remove(this);
         }
 
+        public void Clear()
+        {
+            InkCanvas canvas=  this.Parent as InkCanvas;
+
+            canvas.Children.Remove(this);
+        }
+    }
+
+    public class DataRectangleShape : RectangleShape
+    {
+        #region - 构造函数 -
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public DataRectangleShape() : base()
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public DataRectangleShape(Point start, Point end) : base(start, end)
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public DataRectangleShape(RectangleShape rectangle) : base(rectangle)
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public DataRectangleShape(double x, double y, double width, double height) : base(x, y, width, height)
+        {
+
+        }
+        #endregion
+        public int UsedIn4C { get; set; }
+        public int UsedIn3C { get; set; }
+        public int UsedIn2C { get; set; }
+        public int UsedIn1C { get; set; }
+        public int IsDelete { get; set; }
+        public int OrderNo { get; set; }
+        public string Unit { get; set; }
+        public int UsedIn5C { get; set; }
+        public int ValueType { get; set; }
+        public int ParamState { get; set; }
+        public string Code { get; set; }
+        public string RootCode { get; set; }
+        public string NamePY { get; set; }
+        public string Name { get; set; }
+        public string ParentID { get; set; }
+        public string ID { get; set; }
+        public string DefaultRate { get; set; }
+        public int UsedIn6C { get; set; }
+
+
     }
 
 
@@ -218,7 +305,7 @@ namespace Ty.Component.ImageControl
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public DynamicShape(double x, double y, double width, double height) : base(x,y,width,height)
+        public DynamicShape(double x, double y, double width, double height) : base(x, y, width, height)
         {
 
         }
@@ -240,7 +327,7 @@ namespace Ty.Component.ImageControl
             //Debug.WriteLine(this.Width + "*" + this.Height);
             //Debug.WriteLine(Position.X + "*" + Position.Y);
         }
-         
+
 
         /// <summary>
         /// 匹配的高度
@@ -313,7 +400,7 @@ namespace Ty.Component.ImageControl
     /// <summary>
     /// 缺陷形状
     /// </summary>
-    public class DefectShape : RectangleShape
+    public class DefectShape : DataRectangleShape
     {
         /// <summary>
         /// 构造函数
@@ -351,7 +438,7 @@ namespace Ty.Component.ImageControl
     /// <summary>
     /// 样本形状
     /// </summary>
-    public class SampleShape : RectangleShape
+    public class SampleShape : DataRectangleShape
     {
         /// <summary>
         /// 构造函数

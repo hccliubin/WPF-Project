@@ -59,10 +59,10 @@
     <Grid x:Name="grid_all">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="0"/>
         </Grid.ColumnDefinitions>
         <Grid>
-            <local:ImageView x:Name="control_imageView" Background="{Binding ElementName=control,Path=Background}"
+            <local:ImageView x:Name="control_imageView" Background="{Binding ElementName=control,Path=Background}" ImageOprateCtrEntity="{Binding ElementName=control}"
                          BegionShowPartView="control_imageView_BegionShowPartView"/>
 
             <local:ImagePartView  x:Name="control_ImagePartView" Background="{Binding ElementName=control,Path=Background}"

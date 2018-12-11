@@ -199,7 +199,8 @@ namespace Ty.Component.ImageControl
             sample.Code = this.cb_code.Text;
 
             //  Do：根据选择的样本类型来生成缺陷/样本
-            if (this.r_defect.IsChecked.HasValue && this.r_defect.IsChecked.Value)
+            if (this.ImageOprateCtrEntity.MarkType == MarkType.Defect)
+            //if (this.r_defect.IsChecked.HasValue && this.r_defect.IsChecked.Value)
             {
                 DefectShape resultStroke = new DefectShape(this._dynamic);
                 sample.Flag = "\xe688";
@@ -221,6 +222,10 @@ namespace Ty.Component.ImageControl
             }
 
             this.ViewModel.Add(sample);
+
+            //  Do：触发新增事件
+            this.ImageOprateCtrEntity.OnImgMarkOperateEvent(sample.Model);
+
 
             this.popup.IsOpen = false;
         }
@@ -279,7 +284,7 @@ namespace Ty.Component.ImageControl
                 return;
             };
 
-        
+
 
             //  Do：如果是选择局部放大
             if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
@@ -313,12 +318,13 @@ namespace Ty.Component.ImageControl
 
             //  Do：将数据初始化
             start = new Point(-1, -1);
-           
+
 
         }
 
 
         #endregion
+
         /// <summary>
         /// 弹出框关闭事件
         /// </summary>
@@ -329,6 +335,26 @@ namespace Ty.Component.ImageControl
             //  Do：结束矩形区域检测
             _dynamic.BegionMatch(false);
         }
+
+
+        public ImageOprateCtrEntity ImageOprateCtrEntity
+        {
+            get { return (ImageOprateCtrEntity)GetValue(MarkTypeProperty); }
+            set { SetValue(MarkTypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MarkTypeProperty =
+            DependencyProperty.Register("ImageOprateCtrEntity", typeof(ImageOprateCtrEntity), typeof(ImageView), new PropertyMetadata(null, (d, e) =>
+             {
+                 ImageView control = d as ImageView;
+
+                 if (control == null) return;
+
+                 //MarkType config = e.NewValue as MarkType;
+
+             }));
+
 
     }
 }

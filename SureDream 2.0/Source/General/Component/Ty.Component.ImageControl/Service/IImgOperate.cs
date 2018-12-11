@@ -54,7 +54,6 @@ namespace Ty.Component.ImageControl
         /// </summary>
         event ImgProcessHandler ImgProcessEvent;
 
-
         event Action PreviousImgEvent;
 
         event Action NextImgEvent;
@@ -121,6 +120,40 @@ namespace Ty.Component.ImageControl
         /// </summary>
          void ImgPlaySpeedDown();
         #endregion
+
+        /// <summary>
+        /// 设置一个标识位，标识该图片属于检测分析还是样本标定 默认
+        /// </summary>
+        /// <param name="markType"></param>
+        void SetMarkType(MarkType markType);
+
+        /// <summary>
+        /// 缺陷集合与样本集合模型要修改
+        /// </summary>
+        /// <param name="entity"></param>
+        void MarkOperate(ImgMarkEntity entity);
+
+        /// <summary>
+        /// 获取当前选中图片已标定的矩形框
+        /// </summary>
+        /// <returns></returns>
+        ImgMarkEntity GetSelectMarkEntity();
+
+    }
+
+    /// <summary>
+    /// 标识位，标识该图片属于检测分析还是样本标定
+    /// </summary>
+    public enum MarkType
+    {
+        /// <summary>
+        /// 样本标定
+        /// </summary>
+        Sample = 0,
+        /// <summary>
+        /// 检测分析
+        /// </summary>
+        Defect
     }
 
 }

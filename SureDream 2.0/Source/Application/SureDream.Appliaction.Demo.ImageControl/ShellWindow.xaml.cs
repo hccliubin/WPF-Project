@@ -41,14 +41,16 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
-            //  Do：注册添加标定事件
+            //  Do：注册编辑标定事件
             _imgOperate.ImgMarkOperateEvent += l =>
               {
                   string fn = System.IO.Path.GetFileNameWithoutExtension(this._imgOperate.BuildEntity().Current.Value);
 
                   string file = this.GetMarkFileName(fn);
 
-                  Debug.WriteLine("添加：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
+                  string str = l.markOperateType.ToString();
+
+                  Debug.WriteLine(str+"：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
 
                   temp.Add(l);
 
@@ -56,7 +58,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
                   File.WriteAllText(file, result);
 
-                  MessageBox.Show("添加：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}", "保存成功");
+                  MessageBox.Show(str + "：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}", "保存成功");
 
               };
 
@@ -69,6 +71,23 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
                   MessageBox.Show(k.ToString());
               };
+
+            _imgOperate.PreviousImgEvent += () =>
+              {
+
+                  Debug.WriteLine("PreviousImgEvent");
+
+
+              };
+
+            _imgOperate.NextImgEvent += () =>
+            {
+
+                Debug.WriteLine("NextImgEvent");
+
+
+            };
+
 
         }
 

@@ -71,22 +71,22 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="样本名称："  Grid.Row="0"/>
-                    <TextBlock Text="缺陷类型：" Grid.Row="1"/>
+                    <TextBlock Style="{StaticResource Resource.Stype.TextBlock.CenterDefault}" Text="样本名称："  Grid.Row="0"/>
+                    <TextBlock Style="{StaticResource Resource.Stype.TextBlock.CenterDefault}" Text="缺陷类型：" Grid.Row="1"/>
 
-                    <ComboBox Grid.Column="1" Grid.Row="0"/>
-                    <ComboBox x:Name="cb_code" Grid.Column="1" SelectedIndex="0" Grid.Row="1" ItemsSource="{Binding CodeCollection}"/>
+                    <ComboBox Style="{StaticResource Resource.Stype.ComboBox.CenterDefault}" Grid.Column="1" Grid.Row="0"/>
+                    <ComboBox  Style="{StaticResource Resource.Stype.ComboBox.CenterDefault}" x:Name="cb_code" Grid.Column="1" SelectedIndex="0" Grid.Row="1" ItemsSource="{Binding CodeCollection}"/>
 
                     <Button Content="保存" Height="30" Width="100" Grid.Row="3" Grid.Column="1" Click="Button_Click"/>
                 </Grid>
             </Grid>
         </Popup>
 
-        <ListBox Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="60" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <RadioButton x:Name="r_defect" Content="缺陷" Background="Red"  Foreground="White" Width="50" IsChecked="True"/>
-            <RadioButton x:Name="r_sample" Content="样本" Background="Blue"  Foreground="White" Width="50" />
-            <RadioButton x:Name="r_screen" Content="放大" Foreground="White" Width="50" />
-            <!--<CheckBox x:Name="c_showScreen" Content="视图" IsChecked="False"/>-->
+        <ListBox Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="20" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <!--<RadioButton x:Name="r_defect" Content="缺陷" Background="Red"  Foreground="White" Width="50" IsChecked="True"/>
+            <RadioButton x:Name="r_sample" Content="样本" Background="Blue"  Foreground="White" Width="50" />-->
+            <!--<RadioButton x:Name="r_screen" Content="放大" Foreground="White" Width="50" />-->
+            <CheckBox x:Name="r_screen" Content="放大" Foreground="White" Width="50" />
             <ListBox.Background>
                 <SolidColorBrush Color="LightGray" Opacity="0.5"/>
             </ListBox.Background>

@@ -208,6 +208,8 @@ namespace Ty.Component.ImageControl
 
             this.LoadImage(Current.Value);
 
+            //  Do：触发删除事件
+            this.PreviousImgEvent?.Invoke();
 
             RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
             this.RaiseEvent(args);
@@ -241,6 +243,9 @@ namespace Ty.Component.ImageControl
             }
 
             this.LoadImage(Current.Value);
+
+            //  Do：触发下一页
+            this.NextImgEvent?.Invoke();
 
             RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
             this.RaiseEvent(args);
@@ -354,7 +359,7 @@ namespace Ty.Component.ImageControl
 
             if (!File.Exists(imagePath)) return;
 
-            ImageControlViewModel viewModel = new ImageControlViewModel();
+            ImageControlViewModel viewModel = new ImageControlViewModel(this);
 
             viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
 
@@ -467,15 +472,52 @@ namespace Ty.Component.ImageControl
 
         #endregion
 
+
+        //public MarkType MarkType
+        //{
+        //    get { return (MarkType)GetValue(MarkTypeProperty); }
+        //    set { SetValue(MarkTypeProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty MarkTypeProperty =
+        //    DependencyProperty.Register("MarkType", typeof(MarkType), typeof(ImageOprateCtrEntity), new PropertyMetadata(default(MarkType), (d, e) =>
+        //     {
+        //         ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
+
+        //         if (control == null) return;
+
+        //         //MarkType config = e.NewValue as MarkType;
+
+        //         control.control_imageView.MarkType = (MarkType)e.NewValue;
+
+        //     }));
+
+
     }
 
 
     /// <summary> 外部接口实现 </summary>
     partial class ImageOprateCtrEntity : IImgOperate
     {
+        public MarkType MarkType { get; set; }
+
         public event ImgMarkHandler ImgMarkOperateEvent;
 
+        /// <summary>
+        /// 触发新增事件（此方法）
+        /// </summary>
+        /// <param name="entity"></param>
+        internal void OnImgMarkOperateEvent(ImgMarkEntity entity)
+        {
+            this.ImgMarkOperateEvent?.Invoke(entity);
+        }
+
         public event ImgProcessHandler ImgProcessEvent;
+
+        public event Action PreviousImgEvent;
+
+        public event Action NextImgEvent;
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
         {
@@ -614,6 +656,57 @@ namespace Ty.Component.ImageControl
             {
                 item.Visible = markCodes.Exists(l => l == item.Code);
             }
+        }
+
+        public void MarkOperate(ImgMarkEntity entity)
+        {
+            //  Do：新增
+            if (entity.markOperateType == ImgMarkOperateType.Insert)
+            {
+                SampleVieModel vm = new SampleVieModel(entity);
+
+                this.ViewModel.SampleCollection.Add(vm);
+            }
+            else
+            {
+                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+
+                if (find == null)
+                {
+                    Debug.WriteLine("不存在标记：" + entity.Name);
+                    return;
+                }
+
+                this.ViewModel.SampleCollection.Remove(find);
+
+                //  Do：修改
+                if (entity.markOperateType == ImgMarkOperateType.Update)
+                {
+                    SampleVieModel vm = new SampleVieModel(entity);
+
+                    this.ViewModel.SampleCollection.Add(vm);
+
+                }
+            }
+
+        }
+
+        public void SetMarkType(MarkType markType)
+        {
+            this.MarkType = markType;
+        }
+
+        public ImgMarkEntity GetSelectMarkEntity()
+        {
+            var result = this.ViewModel.SampleCollection.ToList().Find(l => l.RectangleLayer.First().IsSelected);
+
+            if(result==null)
+            {
+                Debug.WriteLine("没有选中项！");
+                return null;
+            }
+
+            return result.Model;
         }
     }
 }
