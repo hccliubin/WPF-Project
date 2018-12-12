@@ -22,7 +22,7 @@ namespace Ty.Component.ImageControl
         /// 图片控件加载标定使用代码和代码名称
         /// </summary>
         /// <param name="codeDic">key：代码（唯一） value：代码名称</param>
-        void LoadCodes(Dictionary<string, string> codeDic);
+        void LoadCodes(List<MarkTagEntity> codeDic);
 
         /// <summary>
         /// 加载图片

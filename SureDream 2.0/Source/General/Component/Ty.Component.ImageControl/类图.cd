@@ -6,7 +6,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAABAAAgAAAAAAgAEQAAAAAAAAAgAAAAAAAYAA=</HashCode>
+      <HashCode>AAAAAAAABAAAgAAAIAAgAERwDgAAAAAAgABIoQBAcAI=</HashCode>
       <FileName>Model\ImgMarkEntity.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -18,7 +18,7 @@
       <Compartment Name="Events" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>JERQmAgACAAYJkABwJDCACCJkgCxAAQAAQhACihgCAA=</HashCode>
+      <HashCode>JERQmAiACQAYJkABwJDCECSJkgCxAAQQAQhACqhkCAA=</HashCode>
       <FileName>View\ImageOprateCtrEntity.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -31,7 +31,7 @@
       <Compartment Name="Events" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>BAAAAQAEAIAAgAAgAgAACAEAECAAgABwAAgACABAAAA=</HashCode>
+      <HashCode>BAAAAQAEAIAAgAAgAgAACEEAECAAgABwAAgACABAAAA=</HashCode>
       <FileName>View\ImageView.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -80,7 +80,7 @@
   <Class Name="Ty.Component.ImageControl.RectangleShape" Collapsed="true">
     <Position X="4.75" Y="5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAggAiAAAgAAQAACAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AQAAAAAAAAAAkgAiAAAgAAQAACAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Provider\RectangleShape.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -112,14 +112,14 @@
   <Interface Name="Ty.Component.ImageControl.IImgOperate">
     <Position X="0.5" Y="3.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AEAAiAAAAAAIBAAAQAAAECCAAgAAAAAAAABACqBgCAA=</HashCode>
+      <HashCode>AEAAiAAAAQAIBAAAQAAAECSAAgAAAAAAAABACqBkCAA=</HashCode>
       <FileName>Service\IImgOperate.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Ty.Component.ImageControl.IRectangleStroke" Collapsed="true">
     <Position X="8.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Provider\IRectangleStroke.cs</FileName>
     </TypeIdentifier>
   </Interface>

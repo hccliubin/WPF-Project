@@ -13,6 +13,10 @@ namespace Ty.Component.TaskAssignment
     public class TaskAllocation
     {
         /// <summary>
+        /// 数据包ID
+        /// </summary>
+        public string PacketId { get; set; }
+        /// <summary>
         /// 站区
         /// </summary>
         public ObservableCollection<Station> Stations { get; set; }

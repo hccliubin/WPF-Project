@@ -50,7 +50,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
                   string str = l.markOperateType.ToString();
 
-                  Debug.WriteLine(str+"：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
+                  Debug.WriteLine(str + "：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
 
                   temp.Add(l);
 
@@ -389,6 +389,29 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
             return tempFiles;
         }
+
+        //  Message：删除选中项
+        private void CommandBinding_DeleteSelect_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var entity = _imgOperate.GetSelectMarkEntity();
+
+            entity.markOperateType = ImgMarkOperateType.Delete;
+
+            _imgOperate.MarkOperate(entity);
+        }
+
+        private void CommandBinding_DeleteSelect_CanExecut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = _imgOperate.GetSelectMarkEntity() != null;
+        }
+
+        //  Message：设置标识位
+        private void Cb_marktype_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MarkType mark = (MarkType)this.cb_marktype.SelectedItem;
+
+            _imgOperate.SetMarkType(mark);
+        }
     }
-    
+
 }

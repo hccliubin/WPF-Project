@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ty.Component.TaskAssignment.TaskAllocation">
+    <Position X="2.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAABAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TaskAllocation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ty.Component.TaskAssignment.Station">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgEAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TaskAllocation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ty.Component.TaskAssignment.Rod">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Model\TaskAllocation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ty.Component.TaskAssignment.Analyst">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Model\TaskAllocation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

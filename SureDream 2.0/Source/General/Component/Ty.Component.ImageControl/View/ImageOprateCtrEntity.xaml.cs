@@ -472,28 +472,6 @@ namespace Ty.Component.ImageControl
 
         #endregion
 
-
-        //public MarkType MarkType
-        //{
-        //    get { return (MarkType)GetValue(MarkTypeProperty); }
-        //    set { SetValue(MarkTypeProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty MarkTypeProperty =
-        //    DependencyProperty.Register("MarkType", typeof(MarkType), typeof(ImageOprateCtrEntity), new PropertyMetadata(default(MarkType), (d, e) =>
-        //     {
-        //         ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
-
-        //         if (control == null) return;
-
-        //         //MarkType config = e.NewValue as MarkType;
-
-        //         control.control_imageView.MarkType = (MarkType)e.NewValue;
-
-        //     }));
-
-
     }
 
 
@@ -545,7 +523,7 @@ namespace Ty.Component.ImageControl
             this.Speed = this.Speed / 2;
         }
 
-        public void LoadCodes(Dictionary<string, string> codeDic)
+        public void LoadCodes(List<MarkTagEntity> codeDic)
         {
             if (this.ViewModel == null)
             {
@@ -658,6 +636,10 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        /// <summary>
+        /// 样本缺陷模型可编辑
+        /// </summary>
+        /// <param name="entity"></param>
         public void MarkOperate(ImgMarkEntity entity)
         {
             //  Do：新增
@@ -677,6 +659,8 @@ namespace Ty.Component.ImageControl
                     return;
                 }
 
+                find.RectangleLayer.First().Clear();
+
                 this.ViewModel.SampleCollection.Remove(find);
 
                 //  Do：修改
@@ -691,13 +675,22 @@ namespace Ty.Component.ImageControl
 
         }
 
+        /// <summary>
+        /// 设置标识位
+        /// </summary>
+        /// <param name="markType"></param>
         public void SetMarkType(MarkType markType)
         {
             this.MarkType = markType;
         }
 
+        /// <summary>
+        /// 获取当前选择项
+        /// </summary>
+        /// <returns></returns>
         public ImgMarkEntity GetSelectMarkEntity()
         {
+            if (this.ViewModel == null) return null;
             var result = this.ViewModel.SampleCollection.ToList().Find(l => l.RectangleLayer.First().IsSelected);
 
             if(result==null)

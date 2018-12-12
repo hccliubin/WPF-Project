@@ -6,8 +6,10 @@
         xmlns:local="clr-namespace:SureDream.Appliaction.Demo.TaskAssignment"
         xmlns:taskassignment="clr-namespace:Ty.Component.TaskAssignment;assembly=Ty.Component.TaskAssignment"
         mc:Ignorable="d"
-        Title="TaskAssignmentWindow" Height="450" Width="1000">
+        Title="TaskAssignmentWindow" Height="450" Width="1100">
     <Grid>
-        <taskassignment:TaskAssignmentControl Grid.RowSpan="2"/>
+        <taskassignment:TaskAssignmentControl Grid.RowSpan="2" 
+                                              SaveClick="TaskAssignmentControl_SaveClick"
+                                             SameStation="TaskAssignmentControl_SameStation" />
     </Grid>
 </Window>

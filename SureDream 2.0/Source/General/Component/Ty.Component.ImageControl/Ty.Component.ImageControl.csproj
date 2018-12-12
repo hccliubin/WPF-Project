@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ImgMarkEntity.cs" />
+    <Compile Include="Model\MarkTagEntity.cs" />
     <Compile Include="Service\IImgOperate.cs" />
     <Compile Include="ViewModel\SampleVieModel.cs" />
     <Compile Include="ViewModel\ImageControlViewModel.cs" />

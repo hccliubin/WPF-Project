@@ -25,13 +25,29 @@ namespace Ty.Component.TaskAssignment
         {
             InitializeComponent();
 
+            this.DataContextChanged += TaskAssignmentControl_DataContextChanged;
+
+        }
+
+        private void TaskAssignmentControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RawTaskViewModel vm = e.NewValue as RawTaskViewModel;
+
+            vm.SaveEvent += Vm_SaveEvent;
+
+        }
+
+        private void Vm_SaveEvent(RawTaskViewModel obj)
+        {
+            this.OnSaveClick();
+
+            obj.SaveEvent -= Vm_SaveEvent;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.OnSaveClick();
         }
-       
 
         //声明和注册路由事件
         public static readonly RoutedEvent SaveClickRoutedEvent =
@@ -51,38 +67,45 @@ namespace Ty.Component.TaskAssignment
             this.RaiseEvent(args);
         }
 
+        private void StackPanel_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if((bool)e.NewValue)
+            {
+                this.OnSameStation();
+            }
+        }
 
 
+        //声明和注册路由事件
+        public static readonly RoutedEvent SameStationRoutedEvent =
+            EventManager.RegisterRoutedEvent("SameStation", RoutingStrategy.Bubble, typeof(EventHandler<SameStationRoutedEventArgs>), typeof(TaskAssignmentControl));
+        //CLR事件包装
+        public event RoutedEventHandler SameStation
+        {
+            add { this.AddHandler(SameStationRoutedEvent, value); }
+            remove { this.RemoveHandler(SameStationRoutedEvent, value); }
+        }
 
-        //public TaskAllocation TaskAllocation
-        //{
-        //    get { return (TaskAllocation)GetValue(TaskAllocationProperty); }
-        //    set { SetValue(TaskAllocationProperty, value); }
-        //}
+        //激发路由事件,借用Click事件的激发方法
 
-        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty TaskAllocationProperty =
-        //    DependencyProperty.Register("TaskAllocation", typeof(TaskAllocation), typeof(TaskAssignmentControl), new PropertyMetadata(default(TaskAllocation), (d, e) =>
-        //     {
-        //         TaskAssignmentControl control = d as TaskAssignmentControl;
+        protected void OnSameStation()
+        {
+            SameStationRoutedEventArgs args = new SameStationRoutedEventArgs(SameStationRoutedEvent, this);
 
-        //         if (control == null) return;
+            args.Station = this.cb_first.SelectedItem as Station;
 
-        //         TaskAllocation config = e.NewValue as TaskAllocation;
+            this.RaiseEvent(args);
+        }
 
-        //         if (config == null) return;
+    }
 
-        //         control.RefreshConfig();
+    public class SameStationRoutedEventArgs: RoutedEventArgs
+    {
+        public Station Station { get; set; }
 
+        public SameStationRoutedEventArgs(RoutedEvent routedEvent, object source):base(routedEvent, source)
+        {
 
-
-
-        //     }));
-
-        //public void RefreshConfig()
-        //{
-        //    this._vm.SiteCollection = this.TaskAllocation.Stations;
-        //    this._vm.AnalystCollection = this.TaskAllocation.Analysts;
-        //}
+        }
     }
 }

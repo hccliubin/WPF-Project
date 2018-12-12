@@ -15,17 +15,18 @@ namespace Ty.Component.TaskAssignment
     public partial class RawTaskViewModel : NotifyPropertyChanged
     {
 
-        //private string _rawTaskID;
-        ///// <summary> 说明  </summary>
-        //public string RawTaskID
-        //{
-        //    get { return _rawTaskID; }
-        //    set
-        //    {
-        //        _rawTaskID = value;
-        //        RaisePropertyChanged("RawTaskID");
-        //    }
-        //}
+
+        private string _packetId;
+        /// <summary> 说明  </summary>
+        public string PacketId
+        {
+            get { return _packetId; }
+            set
+            {
+                _packetId = value;
+                RaisePropertyChanged("PacketId");
+            }
+        }
 
         private ObservableCollection<Analyst> _analystCollection = new ObservableCollection<Analyst>();
         /// <summary> 说明  </summary>
@@ -50,6 +51,7 @@ namespace Ty.Component.TaskAssignment
                 RaisePropertyChanged("SiteCollection");
             }
         }
+
 
         private ObservableCollection<TaskViewModel> _taskCollection = new ObservableCollection<TaskViewModel>();
         /// <summary> 说明  </summary>
@@ -101,6 +103,8 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
+        public event Action<RawTaskViewModel> SaveEvent;
+
         protected override void RelayMethod(object obj)
         {
             string command = obj.ToString();
@@ -144,6 +148,8 @@ namespace Ty.Component.TaskAssignment
 
                 AddItem.StartDate = DateTime.Now;
 
+                //AddItem.Progress = 4;
+
                 this.TaskCollection.Add(AddItem);
 
                 AddItem = this.AddItem.Clone();
@@ -177,6 +183,9 @@ namespace Ty.Component.TaskAssignment
 
                     if (result == MessageBoxResult.No) return;
                 }
+
+                //  Message：触发保存事件
+                this.SaveEvent?.Invoke(this);
 
 
                 //var adds = this.TaskCollection.Where(l => l.EditFlag == 1).Select(l => ConvertToTask(l)).ToList();
@@ -409,8 +418,11 @@ namespace Ty.Component.TaskAssignment
 
         public void RefreshConfig(TaskAllocation entity)
         {
+            this.PacketId = entity.PacketId;
             this.SiteCollection = entity.Stations;
+
             this.AnalystCollection = entity.Analysts;
+            this.AddItem.Analyst = entity.Analysts.FirstOrDefault();
         }
     }
 

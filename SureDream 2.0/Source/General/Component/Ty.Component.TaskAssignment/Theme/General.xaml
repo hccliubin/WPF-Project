@@ -15,7 +15,10 @@
     <local:AppendToStringConverter x:Key="Resource.Converter.AppendToStringConverter"/>
     <local:ConvertPoleFromSiteConverter x:Key="Resource.Converter.ConvertPoleFromSiteConverter"/>
     <local:IsEqualValueConverter x:Key="Resource.Converter.IsEqualValueConverter"/>
-    
+
+    <local:ProgressToValueConverter x:Key="Resource.Converter.ProgressToValueConverter"/>
+    <local:ProgressToColorConverter x:Key="Resource.Converter.ProgressToColorConverter"/>
+    <local:StationDataSourceValuesConverter x:Key="Resource.Converter.StationDataSourceValuesConverter"/>
 
     <!--调整列头宽度样式-->
     <Style x:Key="DefaultColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
@@ -41,7 +44,7 @@
         <Setter Property="MinHeight" Value="25" />
         <!--<Setter Property="Height" Value="80" />-->
         <Setter Property="Foreground" Value="Black" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="10,4,4,7" />
         <Setter Property="Margin" Value="0,0,0,0" />
@@ -115,7 +118,7 @@
     <!--行样式-->
     <Style x:Key="DefaultDataGridRow" TargetType="{x:Type DataGridRow}">
         <Setter Property="Foreground" Value="{DynamicResource TitleTextForeground}" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Margin" Value="0,0,0,0" />
 
         <Style.Triggers>
@@ -164,7 +167,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Template">
@@ -195,7 +198,8 @@
     <Style x:Key="DefaultDataGridCell" TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="#707070"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="0" />
@@ -216,7 +220,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" />
+                            <Setter Property="Foreground" Value="#707070" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -226,13 +230,13 @@
 
     <!--表格DataGrid样式-->
     <Style x:Key="DefaultDataGrid" TargetType="{x:Type DataGrid}">
-        <Setter Property="MinRowHeight" Value="30" />
-        <Setter Property="ColumnHeaderHeight" Value="40" />
+        <Setter Property="MinRowHeight" Value="38" />
+        <Setter Property="ColumnHeaderHeight" Value="38" />
         <Setter Property="Background" Value="{DynamicResource S_WhiteNotice}" />
         <Setter Property="BorderBrush" Value="{DynamicResource  S_GrayNotice}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource S_GrayNotice}" />
-        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource S_GrayNotice}" />
+        <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource DefaultDataGridColumnHeader}" />
         <Setter Property="RowHeaderStyle" Value="{StaticResource DefaultDataGridRowHeader}" />
         <Setter Property="CellStyle" Value="{StaticResource DefaultDataGridCell}" />
