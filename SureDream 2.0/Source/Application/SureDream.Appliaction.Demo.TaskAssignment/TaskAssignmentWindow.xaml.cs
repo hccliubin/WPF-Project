@@ -27,18 +27,18 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
             InitializeComponent();
         }
 
-        private void TaskAssignmentControl_SaveClick(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("保存中...");
-            this.Close();
-        }
+        //private void TaskAssignmentControl_SaveClick(object sender, RoutedEventArgs e)
+        //{
+        //    MessageBox.Show("保存中...");
+        //    this.Close();
+        //}
 
 
-        private void TaskAssignmentControl_SameStation(object sender, RoutedEventArgs e)
-        {
-            SameStationRoutedEventArgs args = e as SameStationRoutedEventArgs;
+        //private void TaskAssignmentControl_SameStation(object sender, RoutedEventArgs e)
+        //{
+        //    SameStationRoutedEventArgs args = e as SameStationRoutedEventArgs;
 
-            Debug.WriteLine(args.Station.StationName);
-        }
+        //    Debug.WriteLine(args.Station.StationName);
+        //}
     }
 }

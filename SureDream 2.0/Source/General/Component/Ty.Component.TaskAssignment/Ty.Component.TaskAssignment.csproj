@@ -64,15 +64,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RawTaskViewModel.cs" />
+    <Compile Include="TaskDivisionViewModel.cs" />
     <Compile Include="TaskAssignmentControl.xaml.cs">
       <DependentUpon>TaskAssignmentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TaskInterface.cs" />
     <Compile Include="TaskLookUpControl.xaml.cs">
       <DependentUpon>TaskLookUpControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskService.cs" />
-    <Compile Include="TaskViewModel.cs" />
+    <Compile Include="TaskModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

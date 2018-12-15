@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,47 +26,47 @@ namespace Ty.Component.TaskAssignment
         {
             InitializeComponent();
 
-            this.DataContextChanged += TaskAssignmentControl_DataContextChanged;
+            //this.DataContextChanged += TaskAssignmentControl_DataContextChanged;
 
         }
 
-        private void TaskAssignmentControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            RawTaskViewModel vm = e.NewValue as RawTaskViewModel;
+        //private void TaskAssignmentControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    TaskDivisionViewModel vm = e.NewValue as TaskDivisionViewModel;
 
-            vm.SaveEvent += Vm_SaveEvent;
+        //    vm.SaveEvent += Vm_SaveEvent;
 
-        }
+        //}
 
-        private void Vm_SaveEvent(RawTaskViewModel obj)
-        {
-            this.OnSaveClick();
+        //private void Vm_SaveEvent(ObservableCollection<TaskModel> obj)
+        //{
+        //    this.OnSaveClick();
 
-            obj.SaveEvent -= Vm_SaveEvent;
-        }
+        //    obj.SaveEvent -= Vm_SaveEvent;
+        //}
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.OnSaveClick();
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    this.OnSaveClick();
+        //}
 
-        //声明和注册路由事件
-        public static readonly RoutedEvent SaveClickRoutedEvent =
-            EventManager.RegisterRoutedEvent("SaveClick", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(TaskAssignmentControl));
-        //CLR事件包装
-        public event RoutedEventHandler SaveClick
-        {
-            add { this.AddHandler(SaveClickRoutedEvent, value); }
-            remove { this.RemoveHandler(SaveClickRoutedEvent, value); }
-        }
+        ////声明和注册路由事件
+        //public static readonly RoutedEvent SaveClickRoutedEvent =
+        //    EventManager.RegisterRoutedEvent("SaveClick", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(TaskAssignmentControl));
+        ////CLR事件包装
+        //public event RoutedEventHandler SaveClick
+        //{
+        //    add { this.AddHandler(SaveClickRoutedEvent, value); }
+        //    remove { this.RemoveHandler(SaveClickRoutedEvent, value); }
+        //}
 
-        //激发路由事件,借用Click事件的激发方法
+        ////激发路由事件,借用Click事件的激发方法
 
-        protected void OnSaveClick()
-        {
-            RoutedEventArgs args = new RoutedEventArgs(SaveClickRoutedEvent, this);
-            this.RaiseEvent(args);
-        }
+        //protected void OnSaveClick()
+        //{
+        //    RoutedEventArgs args = new RoutedEventArgs(SaveClickRoutedEvent, this);
+        //    this.RaiseEvent(args);
+        //}
 
         private void StackPanel_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -92,7 +93,7 @@ namespace Ty.Component.TaskAssignment
         {
             SameStationRoutedEventArgs args = new SameStationRoutedEventArgs(SameStationRoutedEvent, this);
 
-            args.Station = this.cb_first.SelectedItem as Station;
+            args.Station = this.cb_first.SelectedItem as TyeBaseSiteEntity;
 
             this.RaiseEvent(args);
         }
@@ -101,7 +102,7 @@ namespace Ty.Component.TaskAssignment
 
     public class SameStationRoutedEventArgs: RoutedEventArgs
     {
-        public Station Station { get; set; }
+        public TyeBaseSiteEntity Station { get; set; }
 
         public SameStationRoutedEventArgs(RoutedEvent routedEvent, object source):base(routedEvent, source)
         {

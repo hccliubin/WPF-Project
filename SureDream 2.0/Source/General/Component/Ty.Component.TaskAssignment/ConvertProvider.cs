@@ -75,31 +75,32 @@ namespace Ty.Component.TaskAssignment
         {
             if (values == null) return null;
 
-            if (values.Length == 3)
+            if (values.Length == 4)
             {
-                Station start = values[0] as Station;
-                Station end = values[1] as Station;
+                TyeBaseSiteEntity start = values[0] as TyeBaseSiteEntity;
+                TyeBaseSiteEntity end = values[1] as TyeBaseSiteEntity;
 
                 if (start == null || end == null) return null;
 
                 if (start.ID != end.ID) return null;
 
-                string stationName = start.StationName;
+                string stationName = start.SiteName;
 
-                List<Rod> rods = start.Rods.ToList();
+                List<TyeBasePillarEntity> rods = (values[3] as ObservableCollection<TyeBasePillarEntity>).ToList();
 
-                ObservableCollection<TaskViewModel> collection = values[2] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskModel> collection = values[2] as ObservableCollection<TaskModel>;
 
 
                 //  Message：查找当前站的所有任务信息
-                var finds = collection.ToList().FindAll(l => l.StartSite.StationName == stationName && l.EndSite.StationName == stationName);
+                var finds = collection.ToList().FindAll(l => l.StartSite.SiteName == stationName && l.EndSite.SiteName == stationName);
 
                 if (finds == null) return rods;
 
                 foreach (var item in finds)
                 {
-                    var startIndex = rods.FindIndex(l => l.RodName == item.StartPole.RodName);
-                    var endIndex = rods.FindIndex(l => l.RodName == item.EndPole.RodName);
+                    var startIndex = rods.FindIndex(l => l.PoleCode == item.StartPole.PoleCode);
+
+                    var endIndex = rods.FindIndex(l => l.PoleCode == item.EndPole.PoleCode);
 
                     if (startIndex < 0 || endIndex < 0) continue;
 
@@ -110,36 +111,34 @@ namespace Ty.Component.TaskAssignment
                     else
                     {
                         rods.RemoveRange(startIndex, endIndex - startIndex);
-
                     }
-
                 }
 
                 return rods;
             }
-            else if (values.Length == 4)
+            else if (values.Length == 5)
             {
-                Station start = values[0] as Station;
-                Station end = values[1] as Station;
+                TyeBaseSiteEntity start = values[0] as TyeBaseSiteEntity;
+                TyeBaseSiteEntity end = values[1] as TyeBaseSiteEntity;
 
                 if (start == null || end == null) return null;
 
                 if (start.ID != end.ID) return null;
 
-                string stationName = start.StationName;
+                string stationName = start.SiteName;
 
-                Rod r = values[2] as Rod;
+                TyeBasePillarEntity r = values[2] as TyeBasePillarEntity;
 
                 if (r == null) return null;
 
-                List<Rod> rods = start.Rods.ToList();
+                List<TyeBasePillarEntity> rods = (values[4] as ObservableCollection<TyeBasePillarEntity>).ToList();
 
-                ObservableCollection<TaskViewModel> collection = values[3] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskModel> collection = values[3] as ObservableCollection<TaskModel>;
 
-                var index = rods.FindIndex(l => l.RodName == r.RodName);
+                var index = rods.FindIndex(l => l.PoleCode == r.PoleCode);
 
                 //  Message：查找当前站的所有任务信息
-                var finds = collection.ToList().FindAll(l => l.StartSite.StationName == stationName && l.EndSite.StationName == stationName);
+                var finds = collection.ToList().FindAll(l => l.StartSite.SiteName == stationName && l.EndSite.SiteName == stationName);
 
                 if (finds == null)
                 {
@@ -150,8 +149,8 @@ namespace Ty.Component.TaskAssignment
 
                 foreach (var item in finds)
                 {
-                    var startIndex = rods.FindIndex(l => l.RodName == item.StartPole.RodName);
-                    var endIndex = rods.FindIndex(l => l.RodName == item.EndPole.RodName);
+                    var startIndex = rods.FindIndex(l => l.PoleCode == item.StartPole.PoleCode);
+                    var endIndex = rods.FindIndex(l => l.PoleCode == item.EndPole.PoleCode);
 
                     if (startIndex < 0 || endIndex < 0) continue;
 
@@ -194,16 +193,18 @@ namespace Ty.Component.TaskAssignment
 
             if (parameter == null) return null;
 
+            bool r = ((int)values).ToString() == parameter.ToString();
 
-
-            return values.ToString() == parameter.ToString();
+            return r;
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
         {
             if ((bool)value)
             {
-                return parameter;
+                TaskTypeEnum taskTypeEnum = (TaskTypeEnum)int.Parse(parameter.ToString());
+
+                return taskTypeEnum;
             }
             else
             {
@@ -243,17 +244,19 @@ namespace Ty.Component.TaskAssignment
 
             var v = double.Parse(values.ToString());
 
-            if (v < 3)
+            BrushConverter brushConverter = new BrushConverter();
+
+            if (v <= 1)
             {
-                return System.Windows.Media.Brushes.Red;
+                return (System.Windows.Media.Brush)brushConverter.ConvertFromString("#ea6884");
             }
-            else if (v >= 3 && v <= 6)
+            else if (v > 1 && v < 9)
             {
-                return System.Windows.Media.Brushes.Orange;
+                return (System.Windows.Media.Brush)brushConverter.ConvertFromString("#f1b086");
             }
             else
             {
-                return System.Windows.Media.Brushes.Green;
+                return (System.Windows.Media.Brush)brushConverter.ConvertFromString("#95cb83");
             }
         }
 
@@ -274,23 +277,23 @@ namespace Ty.Component.TaskAssignment
 
             if (values.Count() == 2)
             {
-                ObservableCollection<Station> first = values[0] as ObservableCollection<Station>;
+                ObservableCollection<TyeBaseSiteEntity> first = values[0] as ObservableCollection<TyeBaseSiteEntity>;
 
-                ObservableCollection<TaskViewModel> second = values[1] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskModel> second = values[1] as ObservableCollection<TaskModel>;
 
                 if (first == null || second == null) return null;
 
-                List<Station> stations = first.ToList();
+                List<TyeBaseSiteEntity> stations = first.ToList();
 
                 //  Message：查找所有不是同一个站的
-                var collection = second.ToList().FindAll(l => l.StartSite.StationName != l.EndSite.StationName);
+                var collection = second.ToList().FindAll(l => l.StartSite.SiteName != l.EndSite.SiteName);
 
                 if (collection == null) return stations;
 
                 foreach (var item in collection)
                 {
-                    var startIndex = stations.FindIndex(l => l.StationName == item.StartSite.StationName);
-                    var endIndex = stations.FindIndex(l => l.StationName == item.EndSite.StationName);
+                    var startIndex = stations.FindIndex(l => l.SiteName == item.StartSite.SiteName);
+                    var endIndex = stations.FindIndex(l => l.SiteName == item.EndSite.SiteName);
 
                     if (startIndex < 0 || endIndex < 0) continue;
 
@@ -300,34 +303,36 @@ namespace Ty.Component.TaskAssignment
                 return stations;
 
             }
-            else if (values.Count() == 3)
+            else if (values.Count() == 4)
             {
-                ObservableCollection<Station> first = values[0] as ObservableCollection<Station>;
+                ObservableCollection<TyeBaseSiteEntity> first = values[0] as ObservableCollection<TyeBaseSiteEntity>;
 
-                ObservableCollection<TaskViewModel> second = values[1] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskModel> second = values[1] as ObservableCollection<TaskModel>;
 
-                Station third = values[2] as Station;
+                TyeBaseSiteEntity third = values[2] as TyeBaseSiteEntity;
+
+                Dictionary<string, ObservableCollection<TyeBasePillarEntity>> PilarCache = values[3] as Dictionary<string, ObservableCollection<TyeBasePillarEntity>>;
 
                 if (first == null || second == null || third == null) return null;
 
-                List<Station> stations = first.ToList();
+                List<TyeBaseSiteEntity> stations = first.ToList();
 
-                var index = stations.FindIndex(l => l.StationName == third.StationName);
+                var index = stations.FindIndex(l => l.SiteName == third.SiteName);
 
                 //  Message：查找所有不是同一个站的
-                var collection = second.ToList().FindAll(l => l.StartSite.StationName != l.EndSite.StationName);
+                var collection = second.ToList().FindAll(l => l.StartSite.SiteName != l.EndSite.SiteName);
 
                 if (collection == null) return stations.Skip(index);
 
-                List<Station> delete = new List<Station>();
+                List<TyeBaseSiteEntity> delete = new List<TyeBaseSiteEntity>();
 
                 delete.AddRange(stations.Take(index));
 
                 foreach (var item in collection)
                 {
-                    var startIndex = stations.FindIndex(l => l.StationName == item.StartSite.StationName);
+                    var startIndex = stations.FindIndex(l => l.SiteName == item.StartSite.SiteName);
 
-                    var endIndex = stations.FindIndex(l => l.StationName == item.EndSite.StationName);
+                    var endIndex = stations.FindIndex(l => l.SiteName == item.EndSite.SiteName);
 
                     if (startIndex < 0 || endIndex < 0) continue;
 
@@ -352,28 +357,27 @@ namespace Ty.Component.TaskAssignment
 
                 }
 
-                stations.RemoveAll(l => delete.Exists(k => k.StationName == l.StationName));
+                stations.RemoveAll(l => delete.Exists(k => k.SiteName == l.SiteName));
+
 
                 //  Message：判断选择是否可以选择同一个站
-                var localstation = second.ToList().FindAll(l => l.StartSite.StationName==third.StationName&& third.StationName == l.EndSite.StationName);
+                var localstation = second.ToList().FindAll(l => l.StartSite.SiteName == third.SiteName && third.SiteName == l.EndSite.SiteName);
 
-                var startToEnd = localstation.Select(l => new Tuple<int, int>(Math.Min(third.Rods.IndexOf(l.StartPole),
-                       third.Rods.IndexOf(l.EndPole)), Math.Max(third.Rods.IndexOf(l.StartPole), third.Rods.IndexOf(l.EndPole)))).OrderBy(l => l.Item1).OrderBy(l => l.Item2).ToList();
+                if (PilarCache.ContainsKey(third.SiteName) == false) return stations;
 
-                var exist = third.Rods.ToList().Exists(k => !startToEnd.Exists(l => l.Item1 <= third.Rods.IndexOf(k) && l.Item2 >= third.Rods.IndexOf(k)));
+
+                List<TyeBasePillarEntity> poles = PilarCache[third.SiteName].ToList();
+
+                var startToEnd = localstation.Select(l => new Tuple<int, int>(Math.Min(poles.IndexOf(l.StartPole),
+                       poles.IndexOf(l.EndPole)), Math.Max(poles.IndexOf(l.StartPole), poles.IndexOf(l.EndPole)))).OrderBy(l => l.Item1).OrderBy(l => l.Item2).ToList();
+
+                var exist = poles.ToList().Exists(k => !startToEnd.Exists(l => l.Item1 <= poles.IndexOf(k) && l.Item2 >= poles.IndexOf(k)));
 
                 //  Message：如果所有杆号都分配了则排除当前
-                if(!exist)
+                if (!exist)
                 {
-                    stations.RemoveAll(l=>l.StationName==third.StationName);
+                    stations.RemoveAll(l => l.SiteName == third.SiteName);
                 }
-                //for (int i = 0; i < third.Rods.Count; i++)
-                //{
-                //    if (!startToEnd.Exists(l => l.Item1 <= i && l.Item2 >= i))
-                //    {
-
-                //    }
-                //}
 
                 return stations;
             }

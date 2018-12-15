@@ -8,8 +8,6 @@
         mc:Ignorable="d"
         Title="TaskAssignmentWindow" Height="450" Width="1100">
     <Grid>
-        <taskassignment:TaskAssignmentControl Grid.RowSpan="2" 
-                                              SaveClick="TaskAssignmentControl_SaveClick"
-                                             SameStation="TaskAssignmentControl_SameStation" />
+        <taskassignment:TaskAssignmentControl Grid.RowSpan="2" />
     </Grid>
 </Window>

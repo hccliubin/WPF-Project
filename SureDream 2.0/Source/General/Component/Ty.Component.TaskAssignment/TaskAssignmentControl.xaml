@@ -11,19 +11,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--自定义资源引用-->
-                
+
                 <ResourceDictionary Source="/Ty.Component.TaskAssignment;component/Theme/General.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonBackground" Color="#7ca4e8"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonForground" Color="White"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonBordBrush" Color="#3c70c8"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.NormalForground" Color="#bababa"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.GridForground" Color="#707070"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonDeleteBackground" Color="#ffcdd1"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonDeleteForeground" Color="#fa7f87"/>
-            <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonDSumitBackground" Color="#fe9b00"/>
-            
+
+
             <Style TargetType="ComboBox" x:Key="Resource.Style.ComboBox.Default">
                 <Setter Property="Width" Value="120"/>
                 <Setter Property="Height" Value="26"/>
@@ -35,9 +28,9 @@
                 <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
                 <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
                 <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-                <Setter Property="Foreground" Value="{StaticResource Resource.SolidColorBrush.ButtonForground}"></Setter>
-                <Setter Property="Background" Value="{StaticResource Resource.SolidColorBrush.ButtonBackground}"></Setter>
-                <Setter Property="BorderBrush" Value="{StaticResource Resource.SolidColorBrush.ButtonBordBrush}"></Setter>
+                <Setter Property="Foreground" Value="{StaticResource Resource.SolidColorBrush.ButtonForground}"/>
+                <Setter Property="Background" Value="{StaticResource Resource.SolidColorBrush.ButtonBackground}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Resource.SolidColorBrush.ButtonBordBrush}"/>
 
                 <Setter Property="Template">
                     <Setter.Value>
@@ -67,7 +60,7 @@
 
                                 <Border Grid.Column="1">
 
-                                    <ToggleButton BorderThickness="0" Margin="5" 
+                                    <ToggleButton x:Name="tb" BorderThickness="0" Margin="5" 
                                                   Background="Transparent"  
                                                   IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
                                                   ClickMode="Press">
@@ -79,7 +72,7 @@
                                 </Border>
 
                                 <Popup  IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide">
-                                    <Border CornerRadius="1" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown" SnapsToDevicePixels="True">
+                                    <Border CornerRadius="1" Background="{TemplateBinding Background}" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown" SnapsToDevicePixels="True">
                                         <!--<Border.Effect>
                                             <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="0" Opacity="0.5"/>
                                         </Border.Effect>-->
@@ -87,7 +80,7 @@
 
                                             <!-- StackPanel 用于显示子级，方法是将 IsItemsHost 设置为 True -->
 
-                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" Background="White"/>
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
 
                                         </ScrollViewer>
                                     </Border>
@@ -99,6 +92,7 @@
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="false">
                                     <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Background" Value="Transparent" TargetName="tb"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -110,7 +104,7 @@
             <Style x:Key="Resource.Style.RadioButton.Default" TargetType="{x:Type RadioButton}">
                 <Setter Property="Background" Value="Transparent"></Setter>
                 <Setter Property="Foreground" Value="{StaticResource Resource.SolidColorBrush.ButtonBordBrush}"></Setter>
-                <Setter Property="FontFamily" Value="{StaticResource FontFamily}" />
+                <!--<Setter Property="FontFamily" Value="{StaticResource FontFamily}" />-->
                 <Setter Property="Padding" Value="0"></Setter>
                 <Setter Property="base:ControlAttachProperty.FIconMargin" Value="1, 1, 3, 1"></Setter>
                 <Setter Property="base:ControlAttachProperty.FIconSize" Value="10"></Setter>
@@ -120,7 +114,7 @@
                         <ControlTemplate TargetType="{x:Type RadioButton}">
                             <Grid x:Name="grid" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    
+
                                     <Ellipse x:Name="ellipse" Width="8" Height="8" Stroke="{TemplateBinding Foreground}" Margin="8"/>
                                     <ContentPresenter VerticalAlignment="Center"/>
                                 </StackPanel>
@@ -182,11 +176,11 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <StackPanel VerticalAlignment="Top" Width="305" Height="365" Margin="20"  Grid.RowSpan="2" Background="LightBlue" >
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton Content="分析任务" Style="{StaticResource Resource.Style.RadioButton.Default}"/>
+            <StackPanel VerticalAlignment="Top" Width="290" Height="365" Margin="20,0,0,0"  Grid.RowSpan="2" Background="#d8dfe4" >
+                <StackPanel Orientation="Horizontal" Margin="0,10">
+                    <RadioButton Content="分析任务" IsChecked="{Binding AddItem.TaskTypeEnum,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=1}" Style="{StaticResource Resource.Style.RadioButton.Default}"/>
 
-                    <RadioButton Content="标定任务" Style="{StaticResource Resource.Style.RadioButton.Default}" Margin="50,0"/>
+                    <RadioButton Content="标定任务"  IsChecked="{Binding AddItem.TaskTypeEnum,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=2}" Style="{StaticResource Resource.Style.RadioButton.Default}" Margin="50,0"/>
                 </StackPanel>
 
                 <TextBlock  Text="区间站："/>
@@ -195,21 +189,25 @@
                     <ComboBox x:Name="cb_first" Style="{StaticResource Resource.Style.ComboBox.Default}" 
                               SelectedItem="{Binding AddItem.StartSite}" 
                               SelectedIndex="0"
-                              DisplayMemberPath="StationName">
+                              DisplayMemberPath="SiteName">
                         <ComboBox.ItemsSource>
                             <MultiBinding Converter="{StaticResource Resource.Converter.StationDataSourceValuesConverter}" ConverterParameter="—">
-                                <Binding Path="SiteCollection"/>
-                                <Binding Path="TaskCollection"/>
+                                <Binding Path="TyeBaseSiteList"/>
+                                <Binding Path="TaskModelList"/>
                             </MultiBinding>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <TextBlock Text="-"/>
-                    <ComboBox   Style="{StaticResource Resource.Style.ComboBox.Default}" SelectedItem="{Binding AddItem.EndSite}"  SelectedIndex="0"   DisplayMemberPath="StationName">
+                    <TextBlock Text="-"  FontSize="20" Margin="2,0"  Foreground="{StaticResource Resource.SolidColorBrush.ButtonBordBrush}"/>
+                    <ComboBox   Style="{StaticResource Resource.Style.ComboBox.Default}" 
+                                SelectedItem="{Binding AddItem.EndSite}"  
+                                SelectedIndex="0"   
+                                DisplayMemberPath="SiteName">
                         <ComboBox.ItemsSource>
                             <MultiBinding Converter="{StaticResource Resource.Converter.StationDataSourceValuesConverter}" ConverterParameter="—">
-                                <Binding Path="SiteCollection"/>
-                                <Binding Path="TaskCollection"/>
+                                <Binding Path="TyeBaseSiteList"/>
+                                <Binding Path="TaskModelList"/>
                                 <Binding Path="SelectedItem" ElementName="cb_first"/>
+                                <Binding Path="PilarCache"/>
 
                             </MultiBinding>
                         </ComboBox.ItemsSource>
@@ -221,28 +219,35 @@
                 <StackPanel  Orientation="Horizontal" IsEnabledChanged="StackPanel_IsEnabledChanged">
                     <StackPanel.IsEnabled>
                         <MultiBinding Converter="{StaticResource Resource.Converter.TrueForAllEqulsConverter}" ConverterParameter=" - ">
-                            <Binding Path="AddItem.StartSite.StationName"/>
-                            <Binding Path="AddItem.EndSite.StationName"/>
+                            <Binding Path="AddItem.StartSite.SiteName"/>
+                            <Binding Path="AddItem.EndSite.SiteName"/>
                         </MultiBinding>
                     </StackPanel.IsEnabled>
                     <!--ItemsSource="{Binding AddItem.StartSite.Poles}"-->
-                    <ComboBox x:Name="cb_startPole"   Style="{StaticResource Resource.Style.ComboBox.Default}" SelectedItem="{Binding AddItem.StartPole}"  SelectedIndex="0"  DisplayMemberPath="RodName">
+                    <ComboBox x:Name="cb_startPole"   
+                              Style="{StaticResource Resource.Style.ComboBox.Default}" 
+                              SelectedItem="{Binding AddItem.StartPole}"  
+                              SelectedIndex="0"  
+                              DisplayMemberPath="PoleCode">
                         <ComboBox.ItemsSource>
-                            <MultiBinding Converter="{StaticResource Resource.Converter.ConvertPoleFromSiteConverter}" ConverterParameter=" - ">
+                            <MultiBinding Converter="{StaticResource Resource.Converter.ConvertPoleFromSiteConverter}" ConverterParameter="一">
                                 <Binding Path="AddItem.StartSite"/>
                                 <Binding Path="AddItem.EndSite"/>
-                                <Binding Path="TaskCollection"/>
+                                <Binding Path="TaskModelList"/>
+                                <Binding Path="TyeBasePillarEntityList"/>
                             </MultiBinding>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <TextBlock Text="-"/>
-                    <ComboBox  SelectedItem="{Binding AddItem.EndPole}"  Style="{StaticResource Resource.Style.ComboBox.Default}" SelectedIndex="0"  DisplayMemberPath="RodName">
+                    <TextBlock Text="-"  FontSize="20" Margin="2,0" Foreground="{StaticResource Resource.SolidColorBrush.ButtonBordBrush}"/>
+                    <ComboBox  SelectedItem="{Binding AddItem.EndPole}"  
+                               Style="{StaticResource Resource.Style.ComboBox.Default}" SelectedIndex="0"  DisplayMemberPath="PoleCode">
                         <ComboBox.ItemsSource>
-                            <MultiBinding Converter="{StaticResource Resource.Converter.ConvertPoleFromSiteConverter}" ConverterParameter=" - ">
+                            <MultiBinding Converter="{StaticResource Resource.Converter.ConvertPoleFromSiteConverter}" ConverterParameter="一">
                                 <Binding Path="AddItem.StartSite"/>
                                 <Binding Path="AddItem.EndSite"/>
                                 <Binding Path="SelectedItem" ElementName="cb_startPole"/>
-                                <Binding Path="TaskCollection"/>
+                                <Binding Path="TaskModelList"/>
+                                <Binding Path="TyeBasePillarEntityList"/>
                             </MultiBinding>
                         </ComboBox.ItemsSource>
                     </ComboBox>
@@ -251,14 +256,17 @@
                 <TextBlock  Text="分析员："/>
 
                 <StackPanel  Orientation="Horizontal">
-                    <ComboBox  ItemsSource="{Binding AnalystCollection}"  Style="{StaticResource Resource.Style.ComboBox.Default}" SelectedItem="{Binding AddItem.Analyst}"  SelectedIndex="0" DisplayMemberPath="AnalystName"/>
+                    <ComboBox  ItemsSource="{Binding TyeAdminUserList}"  
+                               Style="{StaticResource Resource.Style.ComboBox.Default}" 
+                               SelectedItem="{Binding AddItem.Analyst}"  
+                               SelectedIndex="0" DisplayMemberPath="Name"/>
                 </StackPanel>
 
                 <TextBlock  Text="截止日期："/>
 
                 <StackPanel  Orientation="Horizontal">
-                    <DatePicker Width="150" Style="{StaticResource DefaultDatePicker}"
-                            Height="30"  Margin="5,0"
+                    <DatePicker Width="120" Style="{StaticResource DefaultDatePicker}"
+                            Height="26"  Margin="5,0"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center" 
                             SelectedDateFormat="Short" 
@@ -266,47 +274,83 @@
                 </StackPanel>
 
                 <Button Background="Transparent"  VerticalAlignment="Center" BorderBrush="LightGray"
-                        Command="{Binding RelayCommand}" Style="{x:Null}" Height="30"
-                        HorizontalAlignment="Stretch" Margin="0,20" BorderThickness="0,1,0,0"
+                        Command="{Binding RelayCommand}" Style="{x:Null}" Height="30" Content="添加"
+                        HorizontalAlignment="Stretch" Margin="0,10" BorderThickness="0,1,0,0"
                         CommandParameter="btn_add">
-
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="Resources/plus.png" Margin="0,-10" Stretch="None"/>
-                        <TextBlock Text="添加" Margin="5,-10" FontSize="15"/>
-                    </StackPanel>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0,1,0,0" BorderBrush="#888888">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Image Source="Resources/plus.png" Margin="0,-15" Stretch="None"/>
+                                        <TextBlock Foreground="{TemplateBinding Foreground}" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" Text="{TemplateBinding Content}"
+                                                   Margin="5,-15" FontSize="15"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.8"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
                 </Button>
-                
+
             </StackPanel>
 
             <Grid Grid.Column="1">
-                <DataGrid Style="{StaticResource DefaultDataGrid}" Width="750" SelectedItem="{Binding SelectItem}" ItemsSource="{Binding TaskCollection}">
+                <DataGrid Style="{StaticResource DefaultDataGrid}" ColumnHeaderHeight="38" Width="750" SelectedItem="{Binding SelectItem}" ItemsSource="{Binding TaskModelList}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding  TaskID}" />
-                        <DataGridTextColumn Header="分析员"  Width="*"  Binding="{Binding Analyst.AnalystName}" />
+                        <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding  SeriaNumber}" />
+                        <DataGridTextColumn Header="分析员"  Width="*"  Binding="{Binding Analyst.Name}" />
                         <DataGridTextColumn Header="区间站"  Width="2*">
                             <DataGridTextColumn.Binding>
                                 <MultiBinding Converter="{StaticResource Resource.Converter.AppendToStringConverter}" ConverterParameter=" - ">
-                                    <Binding Path="StartSite.StationName"/>
-                                    <Binding Path="EndSite.StationName"/>
+                                    <Binding Path="StartSite.SiteName"/>
+                                    <Binding Path="EndSite.SiteName"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="标杆范围"  Width="2*">
                             <DataGridTextColumn.Binding>
                                 <MultiBinding Converter="{StaticResource Resource.Converter.AppendToStringConverter}" ConverterParameter=" - ">
-                                    <Binding Path="StartPole.RodName"/>
-                                    <Binding Path="EndPole.RodName"/>
+                                    <Binding Path="StartPole.PoleCode"/>
+                                    <Binding Path="EndPole.PoleCode"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="截止日期"  Width="2*"  Binding="{Binding EndDate}" />
+                        <DataGridTextColumn Header="截止日期"  Width="2*"  Binding="{Binding EndDate,StringFormat='{}{0:yyyy-MM-dd}'}" />
+                        <DataGridTemplateColumn  Header="分析进度"  Width="2*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ProgressBar Maximum="10" Width="95" Margin="5.0" Height="8" Value="{Binding Progress}" Background="#d3d7da" Foreground="{Binding Progress,Converter={StaticResource Resource.Converter.ProgressToColorConverter}}" />
+                                        <TextBlock Text="{Binding Progress,Converter={StaticResource Resource.Converter.ProgressToValueConverter}}" 
+                                           Foreground="{Binding Progress,Converter={StaticResource Resource.Converter.ProgressToColorConverter}}" 
+                                           Grid.Column="1" MinWidth="30" Margin="2,0"/>
+
+                                        <!--<ProgressBar Maximum="10" Height="20" Value="{Binding Progress}"/>-->
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn  Header="操作"  Width="1.5*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
                                         <Button Content="删除" Grid.Column="0"
                                         HorizontalAlignment="Center" Height="20" Width="50"
-                                        VerticalAlignment="Center" BorderThickness="0"
+                                        VerticalAlignment="Center" BorderThickness="0" Template="{StaticResource Resource.ControlTemplate.Button.Default}"
                                         Background="{StaticResource Resource.SolidColorBrush.ButtonDeleteBackground}"
                                         Foreground="{StaticResource Resource.SolidColorBrush.ButtonDeleteForeground}"
                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:TaskAssignmentControl},Path=DataContext.RelayCommand}" 
@@ -320,7 +364,7 @@
 
             </Grid>
 
-     
+
         </Grid>
 
 
@@ -331,9 +375,13 @@
                 VerticalAlignment="Bottom" Command="{Binding RelayCommand}" CommandParameter="btn_sumit"/>-->
 
         <Button Content="保存" Grid.Row="1" Width="157" Height="34" FontSize="15" BorderThickness="0"
-                HorizontalAlignment="Right" Margin="10" Background="{StaticResource Resource.SolidColorBrush.ButtonDSumitBackground}" Foreground="White"
-                Command="{Binding RelayCommand}" CommandParameter="btn_sumit"
-                VerticalAlignment="Bottom"/>
+                HorizontalAlignment="Right" Margin="10" 
+                Background="{StaticResource Resource.SolidColorBrush.ButtonDSumitBackground}" 
+                Foreground="White"
+                Command="{Binding RelayCommand}" CommandParameter="btn_sumit" Template="{StaticResource Resource.ControlTemplate.Button.Default}"
+                VerticalAlignment="Bottom">
+
+        </Button>
 
     </Grid>
 </UserControl>

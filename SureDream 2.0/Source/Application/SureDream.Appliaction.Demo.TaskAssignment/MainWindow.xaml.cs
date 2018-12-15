@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,12 +70,12 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
             //  Do：应用
             if (command == "init")
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    RowIdEntity vm = new RowIdEntity();
-                    vm.ID = "贵广线_上行_佛山站_肇庆站_" + i;
-                    this.RawIdCollection.Add(vm);
-                }
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    RowIdEntity vm = new RowIdEntity();
+                //    vm.ID = "贵广线_上行_佛山站_肇庆站_" + i;
+                //    this.RawIdCollection.Add(vm);
+                //}
 
             }
             //  Do：取消
@@ -82,7 +83,20 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
             {
                 TaskAssignmentWindow window = new TaskAssignmentWindow();
                 window.DataContext = this.Current.Model;
+
+                Action<ObservableCollection<TaskModel>> action= l =>
+                {
+                    foreach (var item in l)
+                    {
+                        Debug.WriteLine(item.SeriaNumber);
+
+                    }
+
+                    window.Close();
+                };
+                this.Current.Model.SaveEvent += action;
                 window.ShowDialog();
+                this.Current.Model.SaveEvent -= action;
 
             }
             //  Do：取消
@@ -98,34 +112,45 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
             {
                 RowIdEntity entity = new RowIdEntity();
 
-                TaskAllocation task = new TaskAllocation();
+                ObservableCollection<TyeBaseSiteEntity> stations = new ObservableCollection<TyeBaseSiteEntity>();
 
-                ObservableCollection<Rod> _poles = new ObservableCollection<Rod>();
-                for (int i = 1; i < 10; i++)
-                {
-                    _poles.Add(new Rod() { ID = i, RodName = i.ToString() });
-                }
+                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "北京站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "上海站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "天津站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "佛山站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "广州站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "肇庆站" });
 
-                task.Stations = new ObservableCollection<Station>();
-                task.Stations.Add(new Station() { ID = 1001, StationName = "北京站", Rods = _poles });
-                task.Stations.Add(new Station() { ID = 1002, StationName = "上海站", Rods = _poles });
-                task.Stations.Add(new Station() { ID = 1003, StationName = "天津站", Rods = _poles });
-                task.Stations.Add(new Station() { ID = 1004, StationName = "佛山站", Rods = _poles });
-                task.Stations.Add(new Station() { ID = 1005, StationName = "广州站", Rods = _poles });
-                task.Stations.Add(new Station() { ID = 1006, StationName = "肇庆站", Rods = _poles });
+                ObservableCollection<TyeAdminUserEntity>  analysts = new ObservableCollection<TyeAdminUserEntity>();
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "刘德华" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "张国荣" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "贝克汉姆" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "齐达内" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "劳尔" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "马拉多纳" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "郝海东" });
 
-                task.Analysts = new ObservableCollection<Analyst>();
-                task.Analysts.Add(new Analyst() { ID = 2001, AnalystName = "刘德华" });
-                task.Analysts.Add(new Analyst() { ID = 2002, AnalystName = "张国荣" });
-                task.Analysts.Add(new Analyst() { ID = 2003, AnalystName = "贝克汉姆" });
-                task.Analysts.Add(new Analyst() { ID = 2004, AnalystName = "齐达内" });
-                task.Analysts.Add(new Analyst() { ID = 2005, AnalystName = "劳尔" });
-                task.Analysts.Add(new Analyst() { ID = 2006, AnalystName = "马拉多纳" });
-                task.Analysts.Add(new Analyst() { ID = 2007, AnalystName = "郝海东" });
-
-                entity.Model.RefreshConfig(task);
+                //entity.Model.RefreshConfig(task);
 
                 entity.ID = Guid.NewGuid().ToString();
+
+                entity.Model.SetTyeAdminUserEntity(analysts);
+                entity.Model.SetTyeBaseSiteEntity(stations);
+
+                entity.Model.SeletctSameSiteEvent += l =>
+                  {
+                      MessageBox.Show("选择了相同站:"+l.SiteName);
+
+                      
+
+                      ObservableCollection<TyeBasePillarEntity> _poles = new ObservableCollection<TyeBasePillarEntity>();
+                      for (int i = 1; i < 10; i++)
+                      {
+                          _poles.Add(new TyeBasePillarEntity() { ID = i.ToString(), PoleCode = i.ToString() });
+                      }
+
+                      entity.Model.SetTyeBasePillarEntity(_poles);
+                  };
 
                 this.RawIdCollection.Add(entity);
 
@@ -139,6 +164,6 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
     {
         public string ID { get; set; }
 
-        public RawTaskViewModel Model { get; set; } = new RawTaskViewModel();
+        public TaskDivisionViewModel Model { get; set; } = new TaskDivisionViewModel();
     }
 }
