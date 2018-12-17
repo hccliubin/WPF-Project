@@ -115,7 +115,7 @@ namespace Ty.Component.TaskAssignment
         }
 
 
-        private bool _isBuzy=false;
+        private bool _isBuzy = false;
         /// <summary> 等待框是否显示  </summary>
         public bool IsBuzy
         {
@@ -185,6 +185,10 @@ namespace Ty.Component.TaskAssignment
                 //  Do：复制一个新数据
                 AddItem = this.AddItem.Clone();
 
+                //  Message：刷新可选杆号
+                AddItem.StartSite = null;
+                AddItem.StartPole = null;
+
                 //  Do：注册选择相同站区事件
                 AddItem.SeletctSameSiteEvent += this.OnSeletctSameSiteEvent;
 
@@ -203,25 +207,34 @@ namespace Ty.Component.TaskAssignment
 
                 this.TaskModelList.Remove(this.SelectItem);
 
+                //  Message：刷新可选杆号
+                AddItem.StartSite = null;
+                AddItem.StartPole = null;
+
             }
             //  Do：保存
             else if (command == "btn_sumit")
             {
-                if (this.TaskModelList == null) return;
+                if (this.TaskModelList == null || this.TaskModelList.Count == 0)
+                {
+                    MessageWindow.ShowDialogWithSumit("列表中没有数据，请先分工");
+                    return;
+                }
 
 
                 string err;
+
                 if (!this.IsVaild(out err))
                 {
                     //var result = MessageBox.Show(err + "是否继续保存？", "提示！", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
-                    var result = MessageWindow.ShowDialog(err + "是否继续保存？");
-
-                    if (err.Length > 20)
+                    //err = "是否继续保存是否继续保存是否继续保存是否继续保存是否继续保存是否继续保存是否继续保存是否继续保存是否继续保存";
+                    if (err.Length > 40)
                     {
-                        err = err.Substring(0, 20) + "...";
+                        err = err.Substring(0, 40) + "...";
                     }
 
+                    var result = MessageWindow.ShowDialog(err + "是否继续保存？");
 
                     //if (result == MessageBoxResult.No) return;
 
@@ -231,12 +244,18 @@ namespace Ty.Component.TaskAssignment
                 this.IsBuzy = true;
 
 
-                 Task.Run(() =>
-                 {
-                     //  Message：触发保存事件
-                     this.SaveEvent?.Invoke(this.TaskModelList);
-                     this.IsBuzy = false;
-                 });
+                Task.Run(() =>
+                {
+                    ObservableCollection<TaskModel> models = new ObservableCollection<TaskModel>();
+
+                    foreach (var item in this.TaskModelList)
+                    {
+                        models.Add(item.ConvertTo());
+                    }
+                    //  Message：触发保存事件
+                    this.SaveEvent?.Invoke(models);
+                    this.IsBuzy = false;
+                });
 
             }
 
@@ -415,20 +434,6 @@ namespace Ty.Component.TaskAssignment
         }
 
         #endregion
-
-
-        //public event TaskDeleteHandler TaskDeleteEvent;
-
-        //public event TaskListCommitHandler TaskListCommitEvent;
-
-        //public void RefreshConfig(TaskAllocation entity)
-        //{
-        //    this.PacketId = entity.PacketId;
-        //    this.TyeAdminUserList = entity.Stations;
-
-        //    this.TyeBaseSiteList = entity.Analysts;
-        //    this.AddItem.Analyst = entity.Analysts.FirstOrDefault();
-        //}
     }
 
 
@@ -440,7 +445,7 @@ namespace Ty.Component.TaskAssignment
 
 
         /// <summary> 保存时注册该事件 </summary>
-        public event Action<ObservableCollection<TaskViewModel>> SaveEvent;
+        public event Action<ObservableCollection<TaskModel>> SaveEvent;
 
         /// <summary> 选择相同站时注册该事件 </summary>
         public event Action<TyeBaseSiteEntity> SeletctSameSiteEvent;
@@ -487,7 +492,7 @@ namespace Ty.Component.TaskAssignment
 
                 vm.TaskTypeEnum = (TaskTypeEnum)item.ProcessType;
                 //vm.SeriaNumber = item.SeriaNumber;
-                vm.Progress = item.ProcessedFileCount / item.TotalFileCount;
+                vm.Progress = item.TotalFileCount == 0 ? 0 : item.ProcessedFileCount / item.TotalFileCount;
                 vm.EndDate = item.TaskEndTime;
                 vm.StartDate = item.TaskStartTime;
 
@@ -537,6 +542,11 @@ namespace Ty.Component.TaskAssignment
         /// <summary> 设置杆号 当站选择相同时 历史站区缓存到内部列表中 </summary>
         public void SetTyeBasePillarEntity(ObservableCollection<TyeBasePillarEntity> Pillars)
         {
+            if (Pillars == null || Pillars.Count == 0)
+            {
+                this.TyeBasePillarEntityList = Pillars;
+                return;
+            }
             //  Message：添加到缓存列表，该杆号列表用来计算保存检查数据完整性
             string currentSite = Pillars.First().SiteID;
 

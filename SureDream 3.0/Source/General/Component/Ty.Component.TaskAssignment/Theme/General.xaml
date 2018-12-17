@@ -462,7 +462,7 @@
         </Style.Triggers>
     </Style>
 
-    <sys:String x:Key="DateFormat">yyyyMMdd</sys:String>
+    <sys:String x:Key="DateFormat">yyyy-MM-dd</sys:String>
 
     <Style x:Key="DefaultDatePicker" TargetType="{x:Type DatePicker}">
         <Setter Property="Foreground" Value="{StaticResource Resource.SolidColorBrush.ButtonForground}"/>

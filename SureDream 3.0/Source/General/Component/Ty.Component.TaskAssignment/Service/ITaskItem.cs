@@ -36,7 +36,7 @@ namespace Ty.Component.TaskAssignment
         /// <summary>
         /// 保存时触发的事件
         /// </summary>
-        event Action<ObservableCollection<TaskViewModel>> SaveEvent;
+        event Action<ObservableCollection<TaskModel>> SaveEvent;
 
         /// <summary>
         /// 当选中一个站区触发的事件

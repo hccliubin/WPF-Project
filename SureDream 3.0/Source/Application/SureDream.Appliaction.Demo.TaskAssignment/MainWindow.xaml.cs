@@ -101,7 +101,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
 
                 TaskModel model = new TaskModel();
                 model.ID = 100000;
-                model.AnalystID = 2005;
+                model.AnalystID = "2005";
                 model.TaskEndTime = DateTime.Now;
                 model.TaskStartTime = DateTime.Now;
                 model.StartSiteID = "1001";
@@ -112,7 +112,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
 
                 model = new TaskModel();
                 model.ID = 100000;
-                model.AnalystID = 2001;
+                model.AnalystID = "2001";
                 model.TaskEndTime = DateTime.Now;
                 model.TaskStartTime = DateTime.Now;
                 model.StartSiteID = "1001";
@@ -163,13 +163,13 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 TaskAssignmentWindow window = new TaskAssignmentWindow();
                 window.DataContext = this.Current.Model;
 
-                Action<ObservableCollection<TaskViewModel>> action = l =>
+                Action<ObservableCollection<TaskModel>> action = l =>
                  {
                      Thread.Sleep(3000);
 
                      foreach (var item in l)
                      {
-                             Debug.WriteLine(item.SeriaNumber);
+                         Debug.WriteLine(item.ID + "- " + item.StartSiteID + "- " + item.EndSiteID);
                      }
 
                      //  Message：调用主线程用Dispatcher
@@ -177,7 +177,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                      {
                          window.Close();
                      });
-                   
+
                  };
 
                 //  Message：注册保存事件

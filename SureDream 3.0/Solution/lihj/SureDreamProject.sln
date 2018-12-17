@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ty.Component.TaskAssignment
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Appliaction.Demo.TaskAssignment", "..\..\Source\Application\SureDream.Appliaction.Demo.TaskAssignment\SureDream.Appliaction.Demo.TaskAssignment.csproj", "{8ACB07E6-333D-4C46-83F0-D76300D26714}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{1EDC8934-0A01-49B5-93B6-59E70D1DACBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8ACB07E6-333D-4C46-83F0-D76300D26714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACB07E6-333D-4C46-83F0-D76300D26714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ACB07E6-333D-4C46-83F0-D76300D26714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EDC8934-0A01-49B5-93B6-59E70D1DACBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EDC8934-0A01-49B5-93B6-59E70D1DACBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EDC8934-0A01-49B5-93B6-59E70D1DACBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EDC8934-0A01-49B5-93B6-59E70D1DACBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{435FEB82-599F-48E3-8891-755ACF8E4117} = {1893C403-901C-4669-AA9A-18BCCBF69541}
 		{0599EBA9-25B0-444B-AC7D-C90E02B1887D} = {A098864B-523B-4F78-B8D0-277440E7255F}
 		{8ACB07E6-333D-4C46-83F0-D76300D26714} = {F0B44989-BF14-41A4-83E8-95BC99504412}
+		{1EDC8934-0A01-49B5-93B6-59E70D1DACBB} = {C9A42D93-5C1C-4C89-A487-A7BC36CBD040}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5EF2E071-0F99-4784-A498-CEC7A6A02A3B}

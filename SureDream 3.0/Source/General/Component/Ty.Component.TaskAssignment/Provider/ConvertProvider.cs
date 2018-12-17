@@ -43,7 +43,7 @@ namespace Ty.Component.TaskAssignment
 
             var sss = values.ToList();
 
-            if (values.Where(l => l == null).Count() > 0 || values.Where(l => l.ToString() == "{DependencyProperty.UnsetValue}").Count() > 0) return parameter.ToString();
+            if (values.Where(l => l == null).Count() > 0 || values.Where(l => l.ToString() == "{DependencyProperty.UnsetValue}").Count() > 0) return "全部";
 
 
             return values.ToList().Aggregate((l, k) => l.ToString() + parameter.ToString() + k.ToString());

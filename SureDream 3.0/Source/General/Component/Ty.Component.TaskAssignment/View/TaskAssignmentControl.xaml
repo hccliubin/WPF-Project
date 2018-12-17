@@ -115,10 +115,10 @@
                             <Grid x:Name="grid" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
                                 <ContentPresenter>
                                     <ContentPresenter.Content>
-                                        <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Background="Transparent" Height="40"  VerticalAlignment="Center">
                                             <Ellipse x:Name="ellipse" Width="8" Height="8" Stroke="{TemplateBinding Foreground}" Margin="8"/>
                                             <!--<ContentPresenter VerticalAlignment="Center"/>-->
-                                            <TextBlock Text="{TemplateBinding Content}"/>
+                                            <TextBlock Text="{TemplateBinding Content}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </ContentPresenter.Content>
                                 </ContentPresenter>
@@ -174,14 +174,14 @@
             </Grid.RowDefinitions>
 
             <StackPanel VerticalAlignment="Top" Width="290" Height="400" Margin="20,0,0,0"  Grid.RowSpan="2" Background="#d8dfe4" >
-                <StackPanel Orientation="Horizontal" Margin="0,10">
-                    <RadioButton Content="分析任务" 
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="分析任务" Width="150" 
                                  IsChecked="{Binding AddItem.TaskTypeEnum,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=1}" 
                                  Style="{StaticResource Resource.Style.RadioButton.Default}"/>
 
-                    <RadioButton Content="标定任务"  
+                    <RadioButton Content="标定任务"   Width="150" 
                                  IsChecked="{Binding AddItem.TaskTypeEnum,Converter={StaticResource Resource.Converter.IsEqualValueConverter},ConverterParameter=2}" 
-                                 Style="{StaticResource Resource.Style.RadioButton.Default}" Margin="50,0"/>
+                                 Style="{StaticResource Resource.Style.RadioButton.Default}"/>
                 </StackPanel>
 
                 <TextBlock  Text="区间站："/>
@@ -284,7 +284,7 @@
                             <Grid>
                                 <Border Background="{TemplateBinding Background}" BorderThickness="0,1,0,0" BorderBrush="#888888">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Image Source="Resources/plus.png" Margin="0,-15" Stretch="None"/>
+                                        <Image Source="../Resources/plus.png" Margin="0,-15" Stretch="None"/>
                                         <TextBlock Foreground="{TemplateBinding Foreground}" 
                                        HorizontalAlignment="Center" 
                                        VerticalAlignment="Center" Text="{TemplateBinding Content}"
@@ -309,7 +309,7 @@
             <Grid Grid.Column="1">
                 <DataGrid Style="{StaticResource DefaultDataGrid}" ColumnHeaderHeight="38" Width="750" SelectedItem="{Binding SelectItem}" ItemsSource="{Binding TaskModelList}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding  SeriaNumber}" />
+                        <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding SeriaNumber}" />
                         <DataGridTextColumn Header="分析员"  Width="*"  Binding="{Binding Analyst.Name}" />
                         <DataGridTextColumn Header="区间站"  Width="2*">
                             <DataGridTextColumn.Binding>

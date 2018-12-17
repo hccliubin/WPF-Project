@@ -19,8 +19,8 @@ namespace Ty.Component.TaskAssignment
         public int ProcessedFileCount { get; set; }
         public DateTime? TaskEndTime { get; set; }
         public DateTime? TaskStartTime { get; set; }
-        public int LeaderID { get; set; }
-        public int AnalystID { get; set; }
+        public string LeaderID { get; set; }
+        public string AnalystID { get; set; }
         public int ProcessType { get; set; }
         public string TaskType { get; set; }
         public string TaskName { get; set; }

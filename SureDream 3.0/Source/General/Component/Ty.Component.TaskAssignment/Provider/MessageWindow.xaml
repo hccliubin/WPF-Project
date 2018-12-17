@@ -44,11 +44,18 @@
                     Width="120" Height="35" FontSize="20" VerticalAlignment="Center"
                     Foreground="{StaticResource Resource.SolidColorBrush.ButtonForground}" 
                     Background="{StaticResource Resource.SolidColorBrush.ButtonBackground}" Template="{StaticResource Resource.ControlTemplate.Button.Default}"/>
-            <Button Content="取消" Click="btn_cancel_Click" 
+           
+            <Button x:Name="btn_cancel_1" Content="取消" Click="btn_cancel_Click" 
                     Width="120" Height="35" FontSize="20"  VerticalAlignment="Center"
                     Foreground="{StaticResource Resource.SolidColorBrush.ButtonForground}" 
                     Background="{StaticResource Resource.SolidColorBrush.ButtonBackground}" 
-                    Margin="50,0,0,0" 
+                    Margin="50,0" 
+                    Template="{StaticResource Resource.ControlTemplate.Button.Default}"/>
+
+            <Button x:Name="btn_ok" Content="确定" Click="btn_sumit_Click" 
+                    Width="120" Height="35" FontSize="20"  VerticalAlignment="Center"
+                    Foreground="{StaticResource Resource.SolidColorBrush.ButtonForground}" 
+                    Background="{StaticResource Resource.SolidColorBrush.ButtonBackground}" 
                     Template="{StaticResource Resource.ControlTemplate.Button.Default}"/>
         </StackPanel>
 

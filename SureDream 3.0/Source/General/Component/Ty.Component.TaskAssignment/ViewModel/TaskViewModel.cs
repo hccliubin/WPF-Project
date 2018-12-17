@@ -196,7 +196,7 @@ namespace Ty.Component.TaskAssignment
             vm.StartSite = this.StartSite;
             vm.StartSite.ID = this.StartSite.ID;
             vm.StartSite.SiteName = this.StartSite.SiteName;
-            vm.TaskID = Guid.NewGuid().ToString();
+            //vm.TaskID = Guid.NewGuid().ToString();
             vm.TaskTypeEnum = this.TaskTypeEnum;
             vm.SeriaNumber = this.SeriaNumber;
             vm.Progress = this.Progress;
@@ -214,7 +214,7 @@ namespace Ty.Component.TaskAssignment
         public TaskModel ConvertTo()
         {
             TaskModel model = new TaskModel();
-            model.AnalystID = int.Parse(this.Analyst.ID);
+            model.AnalystID = this.Analyst.ID;
             model.TaskEndTime = this.EndDate;
             model.TaskStartTime = this.StartDate;
             model.StartSiteID = this.StartSite?.ID;
@@ -224,7 +224,7 @@ namespace Ty.Component.TaskAssignment
             //model.Progress = this.Progress;
             model.EndSiteID = this.EndSite?.ID;
             model.EndPoleID = this.EndPole?.ID;
-            model.StartSiteID = this.StartPole?.ID;
+            model.EndSiteID = this.EndSite?.ID;
             return model;
         }
         

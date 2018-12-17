@@ -45,6 +45,26 @@ namespace Ty.Component.TaskAssignment
 
             window.tb_message.Text = message;
 
+            window.btn_cancel_1.Visibility = Visibility.Visible;
+            window.btn_sumit.Visibility = Visibility.Visible;
+            window.btn_ok.Visibility = Visibility.Collapsed;
+
+            var r = window.ShowDialog();
+
+            return r.HasValue && r.Value;
+        }
+
+        /// <summary> 显示消息框 </summary>
+        public static bool ShowDialogWithSumit(string message)
+        {
+            MessageWindow window = new MessageWindow();
+
+            window.tb_message.Text = message;
+
+            window.btn_cancel_1.Visibility = Visibility.Collapsed;
+            window.btn_sumit.Visibility = Visibility.Collapsed;
+            window.btn_ok.Visibility = Visibility.Visible;
+
             var r = window.ShowDialog();
 
             return r.HasValue && r.Value;
