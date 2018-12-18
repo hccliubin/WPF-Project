@@ -153,6 +153,20 @@ namespace Ty.Component.TaskAssignment
                 //  Do：注册选择相同站区事件
                 AddItem.SeletctSameSiteEvent += this.OnSeletctSameSiteEvent;
 
+                //  this.TaskModelList.CollectionChanged += (l, k) =>
+                //{
+                //    ObservableCollection<TaskViewModel> collection = new ObservableCollection<TaskViewModel>();
+
+                //    foreach (var item in this.TaskModelList)
+                //    {
+                //        collection.Add(item);
+                //    }
+
+                //    this.TaskModelList = collection;
+
+                //};
+
+
             }
             //  Do：添加
             else if (command == "btn_add")
@@ -186,8 +200,7 @@ namespace Ty.Component.TaskAssignment
                 AddItem = this.AddItem.Clone();
 
                 //  Message：刷新可选杆号
-                AddItem.StartSite = null;
-                AddItem.StartPole = null;
+                this.RefreshCanSelection();
 
                 //  Do：注册选择相同站区事件
                 AddItem.SeletctSameSiteEvent += this.OnSeletctSameSiteEvent;
@@ -208,8 +221,7 @@ namespace Ty.Component.TaskAssignment
                 this.TaskModelList.Remove(this.SelectItem);
 
                 //  Message：刷新可选杆号
-                AddItem.StartSite = null;
-                AddItem.StartPole = null;
+                this.RefreshCanSelection();
 
             }
             //  Do：保存
@@ -259,6 +271,18 @@ namespace Ty.Component.TaskAssignment
 
             }
 
+        }
+
+        void RefreshCanSelection()
+        {
+            ObservableCollection<TaskViewModel> collection = new ObservableCollection<TaskViewModel>();
+
+            foreach (var item in this.TaskModelList)
+            {
+                collection.Add(item);
+            }
+
+            this.TaskModelList = collection;
         }
 
         public void OnSeletctSameSiteEvent(TyeBaseSiteEntity entity)
@@ -464,6 +488,26 @@ namespace Ty.Component.TaskAssignment
                 return;
             }
 
+            var sameStation = modelList.Where(l => l.StartSiteID == l.EndSiteID);
+
+            foreach (var item in sameStation)
+            {
+                ObservableCollection<TyeBasePillarEntity> observable = new ObservableCollection<TyeBasePillarEntity>();
+
+                if (item.Pillars == null)
+                {
+                    Debug.WriteLine("请先设置站区杆号列表" + item.ID);
+                    continue;
+                }
+
+                foreach (var item1 in item.Pillars)
+                {
+                    observable.Add(item1);
+                }
+
+                //  Message：设置杆号列表
+                this.SetTyeBasePillarEntity(observable);
+            }
 
             this.TaskModelList.Clear();
 
@@ -563,6 +607,9 @@ namespace Ty.Component.TaskAssignment
 
             this.TyeBasePillarEntityList = Pillars;
 
+            this.AddItem.StartPole = this.TyeBasePillarEntityList.FirstOrDefault();
+            this.AddItem.EndPole = this.TyeBasePillarEntityList.LastOrDefault();
+
         }
 
         /// <summary> 设置站信息 </summary>
@@ -571,6 +618,4 @@ namespace Ty.Component.TaskAssignment
             this.TyeBaseSiteList = sites;
         }
     }
-
-
 }

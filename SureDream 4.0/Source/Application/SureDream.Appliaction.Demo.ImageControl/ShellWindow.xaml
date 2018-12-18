@@ -29,6 +29,7 @@
         <RoutedUICommand x:Key="Resources.Command.AddImgFigure" Text="展示图片详细信息"/>
         <RoutedUICommand x:Key="Resources.Command.LoadCodes" Text="加载标定使用代码和代码名称"/>
         <RoutedUICommand x:Key="Resources.Command.DeleteSelect" Text="删除选中项"/>
+        <RoutedUICommand x:Key="Resources.Command.SetSelect" Text="设置选中项"/>
         <!--全局按钮样式-->
         <Style TargetType="{x:Type Button}">
             <Setter Property="MinWidth" Value="100"/>
@@ -70,8 +71,8 @@
         <CommandBinding Command="{StaticResource Resources.Command.SetImgPlay}" Executed="CommandBinding_SetImgPlay_Executed" CanExecute="CommandBinding_SetImgPlay_CanExecut" />
 
         <CommandBinding Command="{StaticResource Resources.Command.DeleteSelect}" Executed="CommandBinding_DeleteSelect_Executed" CanExecute="CommandBinding_DeleteSelect_CanExecut" />
+        <CommandBinding Command="{StaticResource Resources.Command.SetSelect}" Executed="CommandBinding_SetSelect_Executed" CanExecute="CommandBinding_SetSelect_CanExecut" />
 
-        
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -107,6 +108,7 @@
             <Button  Command="{Binding Source={StaticResource Resources.Command.LoadCodes}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.AddImgFigure}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.DeleteSelect}}"/>
+            <Button  Command="{Binding Source={StaticResource Resources.Command.SetSelect}}"/>
 
         </StackPanel>
 
@@ -126,6 +128,7 @@
             <ComboBox x:Name="cb_marktype" SelectedIndex="0" SelectionChanged="Cb_marktype_SelectionChanged" >
                 <imagecontrol:MarkType>Sample</imagecontrol:MarkType>
                 <imagecontrol:MarkType>Defect</imagecontrol:MarkType>
+                <imagecontrol:MarkType>None</imagecontrol:MarkType>
             </ComboBox>
         </StackPanel>
     </Grid>

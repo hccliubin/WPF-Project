@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SureDream.Appliaction.DemoApp.FirstUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SureDream.Appliaction.DemoApp"
+             xmlns:base="clr-namespace:Ty.Base.WpfBase;assembly=Ty.Base.WpfBase"
+             xmlns:com="clr-namespace:Ty.Component.MenuBar;assembly=Ty.Component.MenuBar"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="1000">
+    <Grid>
+        <StackPanel>
+            <com:MenuBarPanel  IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}">
+
+                <com:MenuBar Header="工具栏">
+                    <com:MenuImageButton ImageSource="../Image/Downloads.ico" Content="修改" LeftRightAlignment="Left"/>
+
+                    <com:MenuToggleImageButton ImageSource="../Image/Flash.ico"  LeftRightAlignment="Left" Click="MenuToggleButton_Click"/>
+                    <com:MenuIconButton FIcon="&#xe650;"    LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe654;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe655;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe656;"   LeftRightAlignment="Left"/>
+                    <com:MenuDefaultButton FIcon="&#xe657;"  Content="播放"  LeftRightAlignment="Right"/>
+                    <com:MenuDefaultButton FIcon="&#xe65a;" Content="暂停"  LeftRightAlignment="Right"/>
+                </com:MenuBar>
+
+                <com:MenuBar Header="4C">
+                    <com:MenuToggleButton FIcon="&#xe67f;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe680;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe682;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe689;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe68b;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe68f;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe692;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe698;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe69c;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe69d;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe69e;"  Content="添加" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe69f;"   Content="修改" LeftRightAlignment="Left"/>
+                    <com:MenuIconButton FIcon="&#xe6a0;"   Content="删除"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe6a5;"  Content="放大"  LeftRightAlignment="Left"/>
+                    <com:MenuToggleButton FIcon="&#xe6ae;"  Content="缩小" LeftRightAlignment="Left"/>
+                    <com:MenuDefaultButton FIcon="&#xe68d;"   Content="播放"  LeftRightAlignment="Right"/>
+                    <com:MenuDefaultButton FIcon="&#xe68e;" Content="暂停"  LeftRightAlignment="Right"/>
+                </com:MenuBar>
+
+            </com:MenuBarPanel>
+            <CheckBox x:Name="toggle_enble" Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

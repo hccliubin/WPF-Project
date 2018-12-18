@@ -210,7 +210,7 @@ namespace Ty.Component.ImageControl
                 resultStroke.Draw(this.canvas);
                 sample.Add(resultStroke);
             }
-            else
+            else if(this.ImageOprateCtrEntity.MarkType == MarkType.Sample)
             {
                 SampleShape resultStroke = new SampleShape(this._dynamic);
                 sample.Flag = "\xeaf3";
@@ -239,6 +239,8 @@ namespace Ty.Component.ImageControl
         {
             if (this.ViewModel == null) return;
 
+            if ((this.ImageOprateCtrEntity.MarkType == MarkType.None)) return;
+
             _dynamic.BegionMatch(true);
 
             start = e.GetPosition(sender as InkCanvas);
@@ -255,6 +257,8 @@ namespace Ty.Component.ImageControl
         private void InkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.ViewModel == null) return;
+
+            if ((this.ImageOprateCtrEntity.MarkType == MarkType.None)) return;
 
             if (e.LeftButton != MouseButtonState.Pressed) return;
 
@@ -277,6 +281,8 @@ namespace Ty.Component.ImageControl
         /// <param name="e"></param>
         private void InkCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            if ((this.ImageOprateCtrEntity.MarkType == MarkType.None)) return;
+
             //  Do：检查选择区域是否可用
             if (!_dynamic.IsMatch())
             {

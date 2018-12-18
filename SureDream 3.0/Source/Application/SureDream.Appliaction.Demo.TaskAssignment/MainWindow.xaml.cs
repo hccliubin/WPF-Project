@@ -100,7 +100,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 ObservableCollection<TaskModel> collection = new ObservableCollection<TaskModel>();
 
                 TaskModel model = new TaskModel();
-                model.ID = 100000;
+                model.ID = "100000";
                 model.AnalystID = "2005";
                 model.TaskEndTime = DateTime.Now;
                 model.TaskStartTime = DateTime.Now;
@@ -111,7 +111,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 collection.Add(model);
 
                 model = new TaskModel();
-                model.ID = 100000;
+                model.ID = "100000";
                 model.AnalystID = "2001";
                 model.TaskEndTime = DateTime.Now;
                 model.TaskStartTime = DateTime.Now;
@@ -130,10 +130,12 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 //  Message：如果有相同的站需要优先设置杆号列表
 
                 ObservableCollection<TyeBasePillarEntity> poles = new ObservableCollection<TyeBasePillarEntity>();
+
                 for (int i = 1; i < 10; i++)
                 {
                     poles.Add(new TyeBasePillarEntity() { ID = i.ToString(), PoleCode = i.ToString(), SiteID = "1001" });
                 }
+
                 entity.Model.SetTyeBasePillarEntity(poles);
 
                 //  Message：调用此方法前需要优先设置分析员和站信息列表
@@ -151,6 +153,13 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
 
                     entity.Model.SetTyeBasePillarEntity(_poles);
                 };
+
+                entity.Model.SaveEvent += l =>
+                  {
+
+                      Debug.WriteLine("说明");
+
+                  };
 
                 this.RawIdCollection.Add(entity);
 
@@ -202,20 +211,21 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 ObservableCollection<TyeBaseSiteEntity> stations = new ObservableCollection<TyeBaseSiteEntity>();
 
                 stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "北京站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "上海站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "天津站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "佛山站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "广州站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "肇庆站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1002", SiteName = "上海站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1003", SiteName = "天津站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1004", SiteName = "佛山站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1005", SiteName = "广州站" });
+                stations.Add(new TyeBaseSiteEntity() { ID = "1006", SiteName = "肇庆站" });
 
+                //  Message：设置分析人员列表
                 ObservableCollection<TyeAdminUserEntity> analysts = new ObservableCollection<TyeAdminUserEntity>();
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "刘德华" });
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "张国荣" });
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "贝克汉姆" });
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "齐达内" });
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "劳尔" });
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "马拉多纳" });
-                analysts.Add(new TyeAdminUserEntity() { ID = "1001", Name = "郝海东" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2001", Name = "刘德华" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2002", Name = "张国荣" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2003", Name = "贝克汉姆" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2004", Name = "齐达内" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2005", Name = "劳尔" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2006", Name = "马拉多纳" });
+                analysts.Add(new TyeAdminUserEntity() { ID = "2007", Name = "郝海东" });
 
                 //entity.Model.RefreshConfig(task);
 
@@ -236,6 +246,13 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
 
                       entity.Model.SetTyeBasePillarEntity(_poles);
                   };
+
+                entity.Model.SaveEvent += l =>
+                {
+
+                    Debug.WriteLine("说明");
+
+                };
 
                 this.RawIdCollection.Add(entity);
 

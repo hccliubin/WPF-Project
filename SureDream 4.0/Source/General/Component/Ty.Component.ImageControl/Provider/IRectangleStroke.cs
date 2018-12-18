@@ -34,6 +34,11 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 是否被选中
         /// </summary>
-        bool IsSelected { get; set; }
+        bool IsSelected { get; }
+
+        /// <summary>
+        /// 设置选中
+        /// </summary>
+        void SetSelected();
     }
 }

@@ -218,13 +218,15 @@ namespace Ty.Component.TaskAssignment
             model.TaskEndTime = this.EndDate;
             model.TaskStartTime = this.StartDate;
             model.StartSiteID = this.StartSite?.ID;
+            model.EndSiteID = this.EndSite?.ID;
+
             //model.ID = int.Parse(this.TaskID);
             model.ProcessType = (int)this.TaskTypeEnum;
             //model.SeriaNumber = this.SeriaNumber;
             //model.Progress = this.Progress;
-            model.EndSiteID = this.EndSite?.ID;
+           
+            model.StartPoleID = this.StartPole?.ID;
             model.EndPoleID = this.EndPole?.ID;
-            model.EndSiteID = this.EndSite?.ID;
             return model;
         }
         

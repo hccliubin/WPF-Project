@@ -8,6 +8,8 @@ namespace Ty.Component.TaskAssignment
 {
     public class TaskModel
     {
+        public List<TyeBasePillarEntity> Pillars { get; set; }
+
         public string EndPoleID { get; set; }
         public string StartPoleID { get; set; }
         public string EndSiteID { get; set; }
@@ -24,9 +26,9 @@ namespace Ty.Component.TaskAssignment
         public int ProcessType { get; set; }
         public string TaskType { get; set; }
         public string TaskName { get; set; }
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string LineDirection { get; set; }
         public string OriginDataPatchID { get; set; }
-
+  
     }
 }

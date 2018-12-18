@@ -22,7 +22,7 @@ namespace Ty.Component.ImageControl
         /// 图片控件加载标定使用代码和代码名称
         /// </summary>
         /// <param name="codeDic">key：代码（唯一） value：代码名称</param>
-        void LoadCodes(Dictionary<string,string> codeDic);
+        void LoadCodes(Dictionary<string, string> codeDic);
 
         /// <summary>
         /// 加载图片
@@ -47,7 +47,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 新增/修改/删除图片标定事件
         /// </summary>
-         event ImgMarkHandler ImgMarkOperateEvent;
+        event ImgMarkHandler ImgMarkOperateEvent;
 
         /// <summary>
         /// 图片风格化处理事件
@@ -69,56 +69,57 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 展示全部区域定位标注
         /// </summary>
-         void ShowLocates();
+        void ShowLocates();
 
         /// <summary>
         /// 展示全部标注，包括缺陷和定位标注
         /// </summary>
-         void ShowMarks();
+        void ShowMarks();
 
         /// <summary>
         /// 展示指定编码标注
         /// </summary>
         /// <param name="markCodes"></param>
-         void ShowMarks(List<string> markCodes);
+        void ShowMarks(List<string> markCodes);
 
         /// <summary>
         /// 是否全屏展示
         /// </summary>
         /// <param name="isFullScreen">true：全屏展示 false：正常展示</param>
-         void SetFullScreen(bool isFullScreen);
+        void SetFullScreen(bool isFullScreen);
 
         /// <summary>
         /// 图片详细信息展示
         /// </summary>
         /// <param name="imgFigures">要展示的指标和相应值</param>
-         void AddImgFigure(Dictionary<string, string> imgFigures);
+        void AddImgFigure(Dictionary<string, string> imgFigures);
 
         /// <summary>
         /// 前一张
         /// </summary>
-         void PreviousImg();
+        void PreviousImg();
 
         /// <summary>
         /// 下一张
         /// </summary>
-         void NextImg();
+        void NextImg();
 
         /// <summary>
         /// 设置图片播放
         /// </summary>
         /// <param name="imgPlayMode">正序，倒叙，停止播放</param>
-         void SetImgPlay(ImgPlayMode imgPlayMode);
+        void SetImgPlay(ImgPlayMode imgPlayMode);
 
         /// <summary>
         /// 加快图片播放速度
         /// </summary>
-         void ImgPlaySpeedUp();
+        void ImgPlaySpeedUp();
 
         /// <summary>
         /// 减慢图片播放速度
         /// </summary>
-         void ImgPlaySpeedDown();
+        void ImgPlaySpeedDown();
+
         #endregion
 
         /// <summary>
@@ -139,6 +140,12 @@ namespace Ty.Component.ImageControl
         /// <returns></returns>
         ImgMarkEntity GetSelectMarkEntity();
 
+        /// <summary>
+        /// 设置当前选中图片已标定的矩形框
+        /// </summary>
+        /// <returns></returns>
+        void SetSelectMarkEntity(Predicate<ImgMarkEntity> match);
+
     }
 
     /// <summary>
@@ -153,7 +160,11 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 检测分析
         /// </summary>
-        Defect
+        Defect,
+        /// <summary>
+        /// 增加一个标志位，为true时，鼠标变成十字形，画区域框，增加标定；为false时，鼠标变为默认箭头形，不能画区域框，不能增加标定
+        /// </summary>
+        None
     }
 
 }

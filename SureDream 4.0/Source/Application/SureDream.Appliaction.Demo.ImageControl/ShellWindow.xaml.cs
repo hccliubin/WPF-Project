@@ -412,6 +412,17 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
             _imgOperate.SetMarkType(mark);
         }
+
+        //  Message：设置选中项
+        private void CommandBinding_SetSelect_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            _imgOperate.SetSelectMarkEntity(l => string.IsNullOrEmpty(l.Code));
+        }
+
+        private void CommandBinding_SetSelect_CanExecut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this._isload;
+        }
     }
 
 }

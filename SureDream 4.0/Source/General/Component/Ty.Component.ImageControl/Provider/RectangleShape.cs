@@ -31,8 +31,31 @@ namespace Ty.Component.ImageControl
         }
 
 
-        public bool IsSelected { get; set; }
+        public bool IsSelected { get; private set; }
 
+        public void SetSelected()
+        {
+            InkCanvas canvas = this.Parent as InkCanvas;
+
+            foreach (var item in canvas.Children)
+            {
+                if (item is RectangleShape)
+                {
+                    RectangleShape shape = item as RectangleShape;
+
+                    if (shape.IsSelected)
+                    {
+                        shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
+                        shape.StrokeThickness /= 5;
+                        shape.IsSelected = false;
+                    }
+                }
+            }
+
+            this.IsSelected = true;
+            this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
+            this.StrokeThickness *= 5;
+        }
         /// <summary>
         /// 初始化组件
         /// </summary>
@@ -59,27 +82,7 @@ namespace Ty.Component.ImageControl
 
             this.MouseDown += (l, k) =>
               {
-                  InkCanvas canvas = this.Parent as InkCanvas;
-
-                  foreach (var item in canvas.Children)
-                  {
-                      if (item is RectangleShape)
-                      {
-                          RectangleShape shape = item as RectangleShape;
-
-                          if(shape.IsSelected)
-                          {
-                              shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
-                              shape.StrokeThickness /= 5;
-                              shape.IsSelected = false;
-                          }
-                      }
-                  }
-
-                  this.IsSelected = true;
-                  this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
-                  this.StrokeThickness *= 5;
-
+                  SetSelected();
               };
 
 
@@ -206,7 +209,7 @@ namespace Ty.Component.ImageControl
 
         public void Clear()
         {
-            InkCanvas canvas=  this.Parent as InkCanvas;
+            InkCanvas canvas = this.Parent as InkCanvas;
 
             canvas.Children.Remove(this);
         }

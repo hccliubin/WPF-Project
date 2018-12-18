@@ -447,6 +447,8 @@ namespace Ty.Component.ImageControl
         {
             IconButton btn = e.OriginalSource as IconButton;
 
+            if (this.Current == null) return;
+
             string imgPath = this.Current.Value;
 
             ImgProcessType imgProcessType = (ImgProcessType)Enum.Parse(typeof(ImgProcessType), btn.ToolTip.ToString());
@@ -689,6 +691,21 @@ namespace Ty.Component.ImageControl
         public void SetMarkType(MarkType markType)
         {
             this.MarkType = markType;
+
+            if(markType== MarkType.None)
+            {
+                //  Message：设置光标和区域放大
+                this.control_imageView.canvas.Cursor = Cursors.Arrow;
+
+                this.control_imageView.r_screen.IsEnabled = false;
+            }
+            else
+            {
+                //  Message：设置光标和区域放大
+                this.control_imageView.canvas.Cursor = Cursors.Cross;
+
+                this.control_imageView.r_screen.IsEnabled = true;
+            }
         }
 
         /// <summary>
@@ -707,6 +724,25 @@ namespace Ty.Component.ImageControl
             }
 
             return result.Model;
+        }
+
+        /// <summary>
+        /// 设置当前选中图片已标定的矩形框
+        /// </summary>
+        /// <returns></returns>
+        public void SetSelectMarkEntity(Predicate<ImgMarkEntity> match)
+        {
+            if (this.ViewModel == null) return;
+
+            var result = this.ViewModel.SampleCollection.ToList().Find(l=>match(l.Model));
+
+            if (result == null)
+            {
+                Debug.WriteLine("没有找到匹配项");
+                return;
+            }
+
+            result.RectangleLayer.First().SetSelected();
         }
     }
 }
