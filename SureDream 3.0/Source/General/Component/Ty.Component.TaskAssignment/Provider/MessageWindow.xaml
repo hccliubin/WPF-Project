@@ -39,7 +39,7 @@
 
         <TextBlock Text="操作提示" HorizontalAlignment="Left"  FontSize="15" Margin="20,0" VerticalAlignment="Center" />
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button x:Name="btn_sumit" Click="btn_sumit_Click" Content="保存" 
                     Width="120" Height="35" FontSize="20" VerticalAlignment="Center"
                     Foreground="{StaticResource Resource.SolidColorBrush.ButtonForground}" 
@@ -49,7 +49,7 @@
                     Width="120" Height="35" FontSize="20"  VerticalAlignment="Center"
                     Foreground="{StaticResource Resource.SolidColorBrush.ButtonForground}" 
                     Background="{StaticResource Resource.SolidColorBrush.ButtonBackground}" 
-                    Margin="50,0" 
+                    Margin="50,0,0,0" 
                     Template="{StaticResource Resource.ControlTemplate.Button.Default}"/>
 
             <Button x:Name="btn_ok" Content="确定" Click="btn_sumit_Click" 

@@ -108,7 +108,7 @@ namespace Ty.Component.TaskAssignment
                     }
                     else
                     {
-                        rods.RemoveRange(startIndex, endIndex - startIndex);
+                        rods.RemoveRange(startIndex, endIndex - startIndex + 1);
                     }
                 }
 
@@ -124,54 +124,90 @@ namespace Ty.Component.TaskAssignment
                 //  Message：结束站
                 TyeBaseSiteEntity end = values[1] as TyeBaseSiteEntity;
 
-                if (start == null || end == null) return null;
-
-                if (start.ID != end.ID) return null;
-
-                string stationID = start.ID;
-
                 //  Message：上一个杆号
                 TyeBasePillarEntity r = values[2] as TyeBasePillarEntity;
 
+                List<TyeBasePillarEntity> lastList = (values[3] as List<TyeBasePillarEntity>);
+
+                if (start == null || end == null) return null;
+
+                if (lastList == null) return null;
+
                 if (r == null) return null;
 
+                if (start.ID != end.ID) return null;
+
+                if (values[4] == null) return null;
+
+                string stationID = start.ID;
+
                 //  Message：当前站所有杆号
-                List<TyeBasePillarEntity> rods = (values[4] as ObservableCollection<TyeBasePillarEntity>).ToList();
+                List<TyeBasePillarEntity> allrods = (values[4] as ObservableCollection<TyeBasePillarEntity>).Where(l => l.SiteID == stationID).ToList();
 
-                //  Message：任务列表
-                ObservableCollection<TaskViewModel> collection = values[3] as ObservableCollection<TaskViewModel>;
+                //  Message：上一个杆号可选择列表
+                List<TyeBasePillarEntity> rods = lastList.ToList();
 
-                var index = rods.FindIndex(l => l.PoleCode == r.PoleCode);
 
-                //  Message：查找当前站的所有任务信息
-                var finds = collection.ToList().FindAll(l => l.StartSite.ID == stationID && l.EndSite.ID == stationID);
+                int index = rods.FindIndex(l => l.ID == r.ID);
 
-                if (finds == null)
-                {
-                    return rods.Skip(index);
-                }
-
+                //  Message：从当前选择的开始截取
                 rods = rods.Skip(index).ToList();
 
-                foreach (var item in finds)
+                for (int i = 0; i < rods.Count; i++)
                 {
-                    if (item.StartPole == null || item.EndPole == null) continue;
+                    if (i == 0) continue;
 
-                    var startIndex = rods.FindIndex(l => l.PoleCode == item.StartPole.PoleCode);
+                    int lastIndex = allrods.ToList().FindIndex(l => l.ID == rods[i - 1].ID);
 
-                    var endIndex = rods.FindIndex(l => l.PoleCode == item.EndPole.PoleCode);
+                    int currentIndex = allrods.ToList().FindIndex(l => l.ID == rods[i].ID);
 
-                    if (startIndex < 0 || endIndex < 0) continue;
-
-                    if (startIndex == endIndex)
+                    if ((currentIndex - lastIndex) > 1)
                     {
-                        rods.RemoveAt(startIndex);
-                    }
-                    else
-                    {
-                        rods.RemoveRange(startIndex, rods.Count - startIndex);
+                        rods = rods.Take(rods.FindIndex(l => l.ID == rods[i - 1].ID) + 1).ToList();
+                        break;
                     }
                 }
+
+                //if (r == null) return null;
+
+                ////  Message：当前站所有杆号
+                //List<TyeBasePillarEntity> rods = (values[4] as ObservableCollection<TyeBasePillarEntity>).ToList();
+
+                ////  Message：任务列表
+                //ObservableCollection<TaskViewModel> collection = values[3] as ObservableCollection<TaskViewModel>;
+
+                //var index = rods.FindIndex(l => l.PoleCode == r.PoleCode);
+
+                ////  Message：查找当前站的所有任务信息
+                //var finds = collection.ToList().FindAll(l => l.StartSite.ID == stationID && l.EndSite.ID == stationID);
+
+
+                //if (finds == null)
+                //{
+                //    return rods.Skip(index);
+                //}
+
+                //rods = rods.Skip(index).ToList();
+
+                //foreach (var item in finds)
+                //{
+                //    if (item.StartPole == null || item.EndPole == null) continue;
+
+                //    var startIndex = rods.FindIndex(l => l.PoleCode == item.StartPole.PoleCode);
+
+                //    var endIndex = rods.FindIndex(l => l.PoleCode == item.EndPole.PoleCode);
+
+                //    if (startIndex < 0 || endIndex < 0) continue;
+
+                //    if (startIndex == endIndex)
+                //    {
+                //        rods.RemoveAt(startIndex);
+                //    }
+                //    else
+                //    {
+                //        rods.RemoveRange(startIndex, rods.Count - startIndex);
+                //    }
+                //}
 
                 return rods;
 
@@ -312,7 +348,7 @@ namespace Ty.Component.TaskAssignment
 
                         if (startIndex < 0 || endIndex < 0) continue;
 
-                        delete.AddRange(stations.Skip(startIndex).Take(endIndex - startIndex+1));
+                        delete.AddRange(stations.Skip(startIndex).Take(endIndex - startIndex + 1));
 
                         ////  Message：如果是最后一个站移除
                         //if (endIndex == stations.Count - 1)
@@ -388,19 +424,31 @@ namespace Ty.Component.TaskAssignment
             }
 
             //  Message：结束站可选值
-            else if (values.Count() == 4)
+            else if (values.Count() == 5)
             {
+                //  Message：所有站列表
                 ObservableCollection<TyeBaseSiteEntity> allList = values[0] as ObservableCollection<TyeBaseSiteEntity>;
 
+                //  Message：起始站列表
                 List<TyeBaseSiteEntity> startList = values[2] as List<TyeBaseSiteEntity>;
 
+                //  Message：起始站
                 TyeBaseSiteEntity startSite = values[1] as TyeBaseSiteEntity;
+
+                //  Message：任务列表
+                ObservableCollection<TaskViewModel> taskList = values[3] as ObservableCollection<TaskViewModel>;
+
+                //  Message：站杆号选择列表
+                Dictionary<string, ObservableCollection<TyeBasePillarEntity>> PilarCache = values[4] as Dictionary<string, ObservableCollection<TyeBasePillarEntity>>;
 
                 if (allList == null) return null;
                 if (startList == null) return null;
                 if (startSite == null) return null;
+                if (taskList == null) return null;
+                if (PilarCache == null) return null;
 
                 List<TyeBaseSiteEntity> stations = startList.ToList();
+
 
                 int index = stations.FindIndex(l => l.ID == startSite.ID);
 
@@ -422,6 +470,28 @@ namespace Ty.Component.TaskAssignment
                     }
                 }
 
+                //  Message：查找同一个起始和结束站的
+                var collection = taskList.ToList().FindAll(l => l.StartSite.ID == l.EndSite.ID).GroupBy(l => l.StartSite);
+
+                foreach (var item in collection)
+                {
+                    int indexCurrent = stations.FindIndex(l => l.ID == item.Key.ID);
+
+                    if (indexCurrent < 0) continue;
+
+                    if (startSite.ID != item.Key.ID)
+                    {
+                        //  Message：从当前选择的开始截取
+                        stations = stations.Take(indexCurrent).ToList();
+                    }
+                    else
+                    {
+                        //  Message：从当前选择的开始截取
+                        stations = stations.Take(1).ToList();
+                    }
+
+                }
+
                 return stations;
                 ////  Message：所有站列表
                 //ObservableCollection<TyeBaseSiteEntity> first = values[0] as ObservableCollection<TyeBaseSiteEntity>;
@@ -432,8 +502,6 @@ namespace Ty.Component.TaskAssignment
                 ////  Message：起始站值
                 //TyeBaseSiteEntity third = values[2] as TyeBaseSiteEntity;
 
-                ////  Message：站杆号选择列表
-                //Dictionary<string, ObservableCollection<TyeBasePillarEntity>> PilarCache = values[3] as Dictionary<string, ObservableCollection<TyeBasePillarEntity>>;
 
                 //if (first == null || second == null || third == null) return null;
 

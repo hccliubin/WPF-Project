@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F0B44989-BF14-41A4-83E8-95BC99504412}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{1893C403-901C-4669-AA9A-18BCCBF69541}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gereral", "Gereral", "{DB155184-ECA0-4D07-93BF-4AEDD2D90A88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module", "Module", "{7DFEF15E-C8BF-43F8-B0FF-821765BED9F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tester", "Tester", "{C9A42D93-5C1C-4C89-A487-A7BC36CBD040}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Component", "Component", "{A098864B-523B-4F78-B8D0-277440E7255F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ty.Base.WpfBase", "..\..\Source\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj", "{435FEB82-599F-48E3-8891-755ACF8E4117}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ty.Component.MediaControl", "..\..\Source\General\Component\Ty.Component.MediaControl\Ty.Component.MediaControl.csproj", "{73CDFD21-2014-470C-B250-740852BD4EEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SureDream.Appliaction.Demo.MediaControl", "..\..\Source\Application\SureDream.Appliaction.Demo.MediaControl\SureDream.Appliaction.Demo.MediaControl.csproj", "{2372EF20-227E-44BE-BD85-0FACFC8EFF7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{435FEB82-599F-48E3-8891-755ACF8E4117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{435FEB82-599F-48E3-8891-755ACF8E4117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{435FEB82-599F-48E3-8891-755ACF8E4117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{435FEB82-599F-48E3-8891-755ACF8E4117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73CDFD21-2014-470C-B250-740852BD4EEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73CDFD21-2014-470C-B250-740852BD4EEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73CDFD21-2014-470C-B250-740852BD4EEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73CDFD21-2014-470C-B250-740852BD4EEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2372EF20-227E-44BE-BD85-0FACFC8EFF7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2372EF20-227E-44BE-BD85-0FACFC8EFF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2372EF20-227E-44BE-BD85-0FACFC8EFF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2372EF20-227E-44BE-BD85-0FACFC8EFF7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A098864B-523B-4F78-B8D0-277440E7255F} = {DB155184-ECA0-4D07-93BF-4AEDD2D90A88}
+		{435FEB82-599F-48E3-8891-755ACF8E4117} = {1893C403-901C-4669-AA9A-18BCCBF69541}
+		{73CDFD21-2014-470C-B250-740852BD4EEA} = {A098864B-523B-4F78-B8D0-277440E7255F}
+		{2372EF20-227E-44BE-BD85-0FACFC8EFF7F} = {F0B44989-BF14-41A4-83E8-95BC99504412}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EF2E071-0F99-4784-A498-CEC7A6A02A3B}
+	EndGlobalSection
+EndGlobal

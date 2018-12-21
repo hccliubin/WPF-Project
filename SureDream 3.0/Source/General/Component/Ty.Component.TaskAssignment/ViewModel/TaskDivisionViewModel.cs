@@ -283,6 +283,16 @@ namespace Ty.Component.TaskAssignment
             }
 
             this.TaskModelList = collection;
+
+            //  Message：刷新序号
+            this.TaskModelList.CollectionChanged += (l, k) =>
+            {
+
+                for (int i = 0; i < this.TaskModelList.Count; i++)
+                {
+                    this.TaskModelList[i].SeriaNumber = (i + 1).ToString().PadLeft(2, '0');
+                }
+            };
         }
 
         public void OnSeletctSameSiteEvent(TyeBaseSiteEntity entity)

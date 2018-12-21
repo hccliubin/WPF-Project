@@ -208,8 +208,8 @@
                             <MultiBinding Converter="{StaticResource Resource.Converter.StationDataSourceValuesConverter}" ConverterParameter="—">
                                 <Binding Path="TyeBaseSiteList"/>
                                 <Binding Path="SelectedItem" ElementName="cb_first"/>
-                                <!--<Binding Path="TaskModelList"/>-->
                                 <Binding Path="ItemsSource" ElementName="cb_first"/>
+                                <Binding Path="TaskModelList"/>
                                 <Binding Path="PilarCache"/>
 
                             </MultiBinding>
@@ -250,7 +250,8 @@
                                 <Binding Path="AddItem.StartSite"/>
                                 <Binding Path="AddItem.EndSite"/>
                                 <Binding Path="SelectedItem" ElementName="cb_startPole"/>
-                                <Binding Path="TaskModelList"/>
+                                <Binding Path="ItemsSource" ElementName="cb_startPole"/>
+                                <!--<Binding Path="TaskModelList"/>-->
                                 <Binding Path="TyeBasePillarEntityList"/>
                             </MultiBinding>
                         </ComboBox.ItemsSource>

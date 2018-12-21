@@ -45,8 +45,9 @@ namespace Ty.Component.ImageControl
 
                     if (shape.IsSelected)
                     {
-                        shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
-                        shape.StrokeThickness /= 5;
+                        shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)shape.Fill).Color, Opacity = 0.1 };
+                        shape.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)shape.Stroke).Color, Opacity = 1 };
+                        shape.StrokeThickness /= 3;
                         shape.IsSelected = false;
                     }
                 }
@@ -54,7 +55,7 @@ namespace Ty.Component.ImageControl
 
             this.IsSelected = true;
             this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
-            this.StrokeThickness *= 5;
+            this.StrokeThickness *= 3;
         }
         /// <summary>
         /// 初始化组件
@@ -66,7 +67,8 @@ namespace Ty.Component.ImageControl
             {
                 if (this.IsSelected) return;
 
-                this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.5 };
+                this.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)this.Stroke).Color, Opacity = 0.5 };
+
                 //this.StrokeThickness *= 3;
             };
 
@@ -75,7 +77,8 @@ namespace Ty.Component.ImageControl
             {
                 if (this.IsSelected) return;
 
-                this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.1 };
+                this.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)this.Stroke).Color, Opacity = 1 };
+
                 //this.StrokeThickness /= 3;
 
             };

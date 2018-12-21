@@ -54,6 +54,7 @@ namespace Ty.Component.ImageControl
         public ImgMarkEntity()
         {
             markOperateType = ImgMarkOperateType.Insert;
+
             ID = Guid.NewGuid().ToString();
         }
 
@@ -79,6 +80,21 @@ namespace Ty.Component.ImageControl
         public int UsedIn6C { get; set; }
 
         #endregion
+
+        /// <summary>
+        /// 公里号
+        /// </summary>
+        public long KmMark { get; set; }
+
+        /// <summary>
+        /// 杆号
+        /// </summary>
+        public string Pole { get; set; }
+
+        /// <summary>
+        /// 站区
+        /// </summary>
+        public string StationArea { get; set; }
     }
 
     /// <summary>
