@@ -1,0 +1,45 @@
+﻿<Window x:Class="SureDream.Appliaction.Demo.TaskAssignment.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SureDream.Appliaction.Demo.TaskAssignment"
+        xmlns:taskassignment="clr-namespace:Ty.Component.TaskAssignment;assembly=Ty.Component.TaskAssignment"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="232*"/>
+        </Grid.RowDefinitions>
+        <Button Width="100" Height="30" HorizontalAlignment="Left" Content="添加..." Margin="10,0" Command="{Binding RelayCommand}" CommandParameter="btn_add"/>
+
+        <DataGrid SelectedItem="{Binding Current}" Grid.Row="1" ItemsSource="{Binding Path=RawIdCollection}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.RowSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="原始数据包"  Width="3*"  Binding="{Binding ID}"/>
+
+                <DataGridTemplateColumn  Header="操作"  Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Content="分工" Grid.Column="0"
+                                        HorizontalAlignment="Center" Height="25" Width="100"
+                                        VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MainWindow},Path=DataContext.RelayCommand}"  CommandParameter="btn_divied"/>
+                                <Button Content="查看" Grid.Column="1"   
+                                        HorizontalAlignment="Center" Height="25" Width="100"
+                                        VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MainWindow},Path=DataContext.RelayCommand}" CommandParameter="btn_showTask" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
