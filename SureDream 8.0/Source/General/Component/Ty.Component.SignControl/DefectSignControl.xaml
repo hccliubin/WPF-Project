@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Ty.Component.SignControl.DefectSignControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ty.Component.SignControl"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" Height="250"  d:DesignWidth="1000" Margin="10,0">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Ty.Component.SignControl;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid local:GridHelper.ShowBorder="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition  Width="1.2*" />
+            <ColumnDefinition />
+            <ColumnDefinition  Width="1.2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="数据库类型" Grid.Row="0" Grid.Column="0"/>
+        <local:SearchCombobox x:Name="com" Grid.Row="0" Grid.Column="1" SelectedIndex="0"/>
+
+
+        <TextBlock Text="数据采集方式" Grid.Row="1" Grid.Column="0"/>
+        <local:SearchCombobox  Grid.Row="1" Grid.Column="1" SelectedIndex="0" />
+
+        <TextBlock Text="铁路局" Grid.Row="2" Grid.Column="0"/>
+        <local:SearchCombobox Grid.Row="2" Grid.Column="1"/>
+
+        <TextBlock Text="供电专业专用线路名称" Grid.Row="3" Grid.Column="0"/>
+        <local:SearchCombobox Grid.Row="3" Grid.Column="1"/>
+
+        <TextBlock Text="供电专业专用站/区间" Grid.Row="4" Grid.Column="0"/>
+        <local:SearchCombobox Grid.Row="4" Grid.Column="1"/>
+
+        <TextBlock Text="基本单元" Grid.Row="0" Grid.Column="2"/>
+        <local:SearchCombobox Grid.Row="0" Grid.Column="3"/>
+
+        <TextBlock Text="设备设施种类" Grid.Row="1" Grid.Column="2"/>
+        <local:SearchCombobox Grid.Row="1" Grid.Column="3"/>
+
+        <TextBlock Text="设备参数项目" Grid.Row="2" Grid.Column="2"/>
+        <local:SearchCombobox Grid.Row="2" Grid.Column="3"/>
+
+        <TextBlock Text="设备参数属相" Grid.Row="3" Grid.Column="2"/>
+        <local:SearchCombobox Grid.Row="3" Grid.Column="3"/>
+
+        <TextBlock Text="设备参数值" Grid.Row="4" Grid.Column="2"/>
+        <TextBlock Text="30KN" Grid.Row="4" Grid.Column="3"/>
+    </Grid> 
+</UserControl>

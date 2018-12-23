@@ -1,0 +1,9 @@
+﻿<Application x:Class="SureDream.Appliaction.Demo.SignControl.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SureDream.Appliaction.Demo.SignControl"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
