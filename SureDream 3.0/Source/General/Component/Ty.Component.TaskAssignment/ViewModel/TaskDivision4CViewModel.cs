@@ -14,7 +14,7 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// 数据包ViewModel
     /// </summary>
-    public partial class TaskDivisionViewModel : NotifyPropertyChanged
+    public partial class TaskDivision4CViewModel : NotifyPropertyChanged
     {
         #region - 成员属性 -
 
@@ -54,9 +54,9 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
-        private ObservableCollection<TaskViewModel> _taskModelList = new ObservableCollection<TaskViewModel>();
+        private ObservableCollection<TaskView4CModel> _taskModelList = new ObservableCollection<TaskView4CModel>();
         /// <summary> 当前的任务列表  </summary>
-        public ObservableCollection<TaskViewModel> TaskModelList
+        public ObservableCollection<TaskView4CModel> TaskModelList
         {
             get { return _taskModelList; }
             set
@@ -66,21 +66,9 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
-        private ObservableCollection<TaskViewModel> _deleteCollection = new ObservableCollection<TaskViewModel>();
-        /// <summary> 删除的任务列表 目前没用到  </summary>
-        public ObservableCollection<TaskViewModel> DeleteCollection
-        {
-            get { return _deleteCollection; }
-            set
-            {
-                _deleteCollection = value;
-                RaisePropertyChanged("DeleteCollection");
-            }
-        }
-
-        private TaskViewModel _selectItem;
+        private TaskView4CModel _selectItem;
         /// <summary> 选择的任务项  </summary>
-        public TaskViewModel SelectItem
+        public TaskView4CModel SelectItem
         {
             get { return _selectItem; }
             set
@@ -90,9 +78,9 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
-        private TaskViewModel _addItem = new TaskViewModel();
+        private TaskView4CModel _addItem = new TaskView4CModel();
         /// <summary> 要添加的左侧数据项  </summary>
-        public TaskViewModel AddItem
+        public TaskView4CModel AddItem
         {
             get { return _addItem; }
             set
@@ -153,19 +141,6 @@ namespace Ty.Component.TaskAssignment
                 //  Do：注册选择相同站区事件
                 AddItem.SeletctSameSiteEvent += this.OnSeletctSameSiteEvent;
 
-                //  this.TaskModelList.CollectionChanged += (l, k) =>
-                //{
-                //    ObservableCollection<TaskViewModel> collection = new ObservableCollection<TaskViewModel>();
-
-                //    foreach (var item in this.TaskModelList)
-                //    {
-                //        collection.Add(item);
-                //    }
-
-                //    this.TaskModelList = collection;
-
-                //};
-
 
             }
             //  Do：添加
@@ -211,13 +186,6 @@ namespace Ty.Component.TaskAssignment
             {
                 if (this.SelectItem == null) return;
 
-                if (this.SelectItem.EditFlag == 0)
-                {
-                    //  Do：修改和历史数据则标识为删除，当确认时触发删除事件
-                    this.DeleteCollection.Add(this.SelectItem);
-
-                }
-
                 this.TaskModelList.Remove(this.SelectItem);
 
                 //  Message：刷新可选杆号
@@ -258,7 +226,7 @@ namespace Ty.Component.TaskAssignment
 
                 Task.Run(() =>
                 {
-                    ObservableCollection<TaskModel> models = new ObservableCollection<TaskModel>();
+                    ObservableCollection<TaskModel_4C> models = new ObservableCollection<TaskModel_4C>();
 
                     foreach (var item in this.TaskModelList)
                     {
@@ -275,7 +243,7 @@ namespace Ty.Component.TaskAssignment
 
         void RefreshCanSelection()
         {
-            ObservableCollection<TaskViewModel> collection = new ObservableCollection<TaskViewModel>();
+            ObservableCollection<TaskView4CModel> collection = new ObservableCollection<TaskView4CModel>();
 
             foreach (var item in this.TaskModelList)
             {
@@ -300,20 +268,6 @@ namespace Ty.Component.TaskAssignment
             this.SeletctSameSiteEvent?.Invoke(entity);
         }
 
-        /// <summary>
-        /// 当前页面是否存在未保存的编辑
-        /// </summary>
-        /// <returns></returns>
-        public bool IsEdit()
-        {
-            var adds = this.TaskModelList.Where(l => l.EditFlag == 1);
-
-            if (adds.Count() > 0) return true;
-
-            if (this.DeleteCollection.Count > 0) return true;
-
-            return false;
-        }
 
         /// <summary>
         /// 检查当前数据是否完整(检查一：所有站和杆号是否分配，检查二：是否重复分配)
@@ -474,18 +428,18 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// viewmodel（仅供参考）接口定义部分
     /// </summary>
-    public partial class TaskDivisionViewModel : NotifyPropertyChanged, ITaskItem
+    public partial class TaskDivision4CViewModel : NotifyPropertyChanged, ITaskItemFor4C
     {
 
 
         /// <summary> 保存时注册该事件 </summary>
-        public event Action<ObservableCollection<TaskModel>> SaveEvent;
+        public event Action<ObservableCollection<TaskModel_4C>> SaveEvent;
 
         /// <summary> 选择相同站时注册该事件 </summary>
         public event Action<TyeBaseSiteEntity> SeletctSameSiteEvent;
 
 
-        public void SetTaskModelList(ObservableCollection<TaskModel> modelList)
+        public void SetTaskModelList(ObservableCollection<TaskModel_4C> modelList)
         {
             if (this.TyeAdminUserList == null || this.TyeAdminUserList.Count == 0)
             {
@@ -523,7 +477,7 @@ namespace Ty.Component.TaskAssignment
 
             foreach (var item in modelList)
             {
-                TaskViewModel vm = new TaskViewModel();
+                TaskView4CModel vm = new TaskView4CModel();
                 vm.TaskID = item.ID.ToString();
                 vm.Analyst = this.TyeAdminUserList.ToList().Find(l => l.ID == item.AnalystID.ToString());
 
@@ -546,7 +500,7 @@ namespace Ty.Component.TaskAssignment
 
                 vm.TaskTypeEnum = (TaskTypeEnum)item.ProcessType;
                 //vm.SeriaNumber = item.SeriaNumber;
-                vm.Progress = item.TotalFileCount == 0 ? 0 : item.ProcessedFileCount / item.TotalFileCount;
+                vm.Progress = item.TotalFileCount == 0 ? 0 : double.Parse(item.ProcessedFileCount.ToString()) / double.Parse(item.TotalFileCount.ToString());
                 vm.EndDate = item.TaskEndTime;
                 vm.StartDate = item.TaskStartTime;
 

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ty.Component.TaskAssignment.TyeLineEntity">
+    <Position X="0.75" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TyeLineEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Ty.Component.TaskAssignment.ITaskItem">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Service\ITaskItem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

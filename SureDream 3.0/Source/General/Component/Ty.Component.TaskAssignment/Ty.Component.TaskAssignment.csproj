@@ -50,11 +50,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTaskModel.cs" />
     <Compile Include="Model\TaskTypeEnum.cs" />
     <Compile Include="Model\TyeBasePillarEntity.cs" />
     <Compile Include="Model\TyeBaseSiteEntity.cs" />
     <Compile Include="Model\TyeAdminUserEntity.cs" />
     <Compile Include="Model\TaskModel.cs" />
+    <Compile Include="Model\TyeLineEntity.cs" />
     <Compile Include="Provider\MessageWindow.xaml.cs">
       <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
@@ -75,15 +77,25 @@
     <Compile Include="Provider\RingBox.xaml.cs">
       <DependentUpon>RingBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\TaskDivisionViewModel.cs" />
-    <Compile Include="View\TaskAssignmentControl.xaml.cs">
-      <DependentUpon>TaskAssignmentControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Service\ITaskItem.cs" />
-    <Compile Include="View\TaskLookUpControl.xaml.cs">
-      <DependentUpon>TaskLookUpControl.xaml</DependentUpon>
+    <Compile Include="Service\ITaskItemFor2C.cs" />
+    <Compile Include="ViewModel\Task2CViewModel.cs" />
+    <Compile Include="ViewModel\TaskDivision2CViewModel.cs" />
+    <Compile Include="ViewModel\TaskDivision4CViewModel.cs" />
+    <Compile Include="View\Task2CAssignmentControl.xaml.cs">
+      <DependentUpon>Task2CAssignmentControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\TaskViewModel.cs" />
+    <Compile Include="View\Task2CLookUpControl.xaml.cs">
+      <DependentUpon>Task2CLookUpControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Task4CAssignmentControl.xaml.cs">
+      <DependentUpon>Task4CAssignmentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service\ITaskItemFor4C.cs" />
+    <Compile Include="View\Task4CLookUpControl.xaml.cs">
+      <DependentUpon>Task4CLookUpControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\TaskView4CModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -102,11 +114,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\TaskAssignmentControl.xaml">
+    <Page Include="View\Task2CAssignmentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Task2CLookUpControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Task4CAssignmentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TaskLookUpControl.xaml">
+    <Page Include="View\Task4CLookUpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

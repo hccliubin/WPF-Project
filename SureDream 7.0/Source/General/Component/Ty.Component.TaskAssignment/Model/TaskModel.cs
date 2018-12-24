@@ -9,7 +9,7 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// 分配任务表实体类
     /// <summary>
-    public class TaskModel
+    public class TaskModel_2C
     {
         private string _id;
         /// <summary>

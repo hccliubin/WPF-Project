@@ -56,11 +56,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TaskAssignmentWindow.xaml.cs">
-      <DependentUpon>TaskAssignmentWindow.xaml</DependentUpon>
+    <Compile Include="Task2CWindow.xaml.cs">
+      <DependentUpon>Task2CWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TaskLookUpWindow.xaml.cs">
-      <DependentUpon>TaskLookUpWindow.xaml</DependentUpon>
+    <Compile Include="TaskTypeWindow.xaml.cs">
+      <DependentUpon>TaskTypeWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -74,11 +74,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TaskAssignmentWindow.xaml">
+    <Page Include="Task2CWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TaskLookUpWindow.xaml">
+    <Page Include="TaskTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,7 +11,7 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// viewmodel（仅供参考） TaskDivisionViewModel 使用到的接口
     /// </summary>
-    public interface ITaskItem
+    public interface ITaskItemFor2C : ITaskItem
     {
         void SetTaskModelList(ObservableCollection<TaskModel_2C> modelList);
 
@@ -25,11 +25,11 @@ namespace Ty.Component.TaskAssignment
         /// 设置战区列表
         /// </summary>
         /// <param name="sites"></param>
-        void SetTyeLineEntity(ObservableCollection<TyeLineEntity> sites); 
+        void SetTyeLineEntity(ObservableCollection<TyeLineEntity> sites);
 
         /// <summary>
         /// 保存时触发的事件
         /// </summary>
-        event Action<ObservableCollection<TaskModel_2C>> SaveEvent; 
+        event Action<ObservableCollection<TaskModel_2C>> SaveEvent;
     }
 }

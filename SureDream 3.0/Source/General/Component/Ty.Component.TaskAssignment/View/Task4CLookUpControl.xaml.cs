@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,15 +16,13 @@ using System.Windows.Shapes;
 namespace Ty.Component.TaskAssignment
 {
     /// <summary>
-    /// TaskAssignmentControl.xaml 的交互逻辑
+    /// TaskLookUpControl.xaml 的交互逻辑
     /// </summary>
-    public partial class TaskAssignmentControl : UserControl
+    public partial class Task4CLookUpControl : UserControl
     {
-        
-        public TaskAssignmentControl()
+        public Task4CLookUpControl()
         {
             InitializeComponent();
         }
     }
-
 }

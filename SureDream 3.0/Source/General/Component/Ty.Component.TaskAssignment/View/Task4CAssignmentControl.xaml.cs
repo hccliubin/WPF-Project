@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,18 +11,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SureDream.Appliaction.Demo.TaskAssignment
+namespace Ty.Component.TaskAssignment
 {
     /// <summary>
-    /// TaskLookUpWindow.xaml 的交互逻辑
+    /// TaskAssignmentControl.xaml 的交互逻辑
     /// </summary>
-    public partial class TaskLookUpWindow : Window
+    public partial class Task4CAssignmentControl : UserControl
     {
-        public TaskLookUpWindow()
+        
+        public Task4CAssignmentControl()
         {
             InitializeComponent();
         }
     }
+
 }

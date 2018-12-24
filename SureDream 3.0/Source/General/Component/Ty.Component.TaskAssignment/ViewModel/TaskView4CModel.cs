@@ -12,7 +12,7 @@ using Ty.Base.WpfBase.Service;
 namespace Ty.Component.TaskAssignment
 {
     /// <summary> 具体任务项 </summary>
-    public class TaskViewModel : NotifyPropertyChanged
+    public class TaskView4CModel : NotifyPropertyChanged
     {
         #region - 成员属性 -
 
@@ -62,7 +62,52 @@ namespace Ty.Component.TaskAssignment
                 _analyst = value;
                 RaisePropertyChanged("Analyst");
             }
-        } 
+        }
+
+        private TyeBaseSiteEntity _startSite;
+        /// <summary> 起始站  </summary>
+        public TyeBaseSiteEntity StartSite
+        {
+            get { return _startSite; }
+            set
+            {
+                _startSite = value;
+                RaisePropertyChanged("StartSite");
+
+                if (this.EndSite == null) return;
+
+                if (value == null) return;
+
+                //  Do：当站相同时触发事件
+                if (value.SiteName == this.EndSite.SiteName)
+                {
+                    this.SeletctSameSiteEvent?.Invoke(value);
+                }
+            }
+        }
+
+        private TyeBaseSiteEntity _endSite;
+        /// <summary> 结束站  </summary>
+        public TyeBaseSiteEntity EndSite
+        {
+            get { return _endSite; }
+            set
+            {
+                _endSite = value;
+
+                RaisePropertyChanged("EndSite");
+
+                if (this.StartSite == null) return;
+
+                if (value == null) return;
+
+                //  Do：当站相同时触发事件
+                if (value.SiteName == this.StartSite.SiteName)
+                {
+                    this.SeletctSameSiteEvent?.Invoke(value);
+                }
+            }
+        }
 
         private DateTime? _startDate = DateTime.Now;
         /// <summary> 起始日期  </summary>
@@ -88,27 +133,27 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
-        private TyeLineEntity _startLine;
+        private TyeBasePillarEntity _startPole;
         /// <summary> 起始杆号  </summary>
-        public TyeLineEntity StartLine
+        public TyeBasePillarEntity StartPole
         {
-            get { return _startLine; }
+            get { return _startPole; }
             set
             {
-                _startLine = value;
-                RaisePropertyChanged("StartLine");
+                _startPole = value;
+                RaisePropertyChanged("StartPole");
             }
         }
 
-        private TyeLineEntity _endLine;
+        private TyeBasePillarEntity _endPole;
         /// <summary> 结束杆号  </summary>
-        public TyeLineEntity EndLine
+        public TyeBasePillarEntity EndPole
         {
-            get { return _endLine; }
+            get { return _endPole; }
             set
             {
-                _endLine = value;
-                RaisePropertyChanged("EndLine");
+                _endPole = value;
+                RaisePropertyChanged("EndPole");
             }
         }
 
@@ -122,47 +167,54 @@ namespace Ty.Component.TaskAssignment
                 _progress = value;
                 RaisePropertyChanged("Progress");
             }
-        } 
+        }
 
         #endregion
 
         /// <summary> 复制 </summary>
-        public TaskViewModel Clone()
+        public TaskView4CModel Clone()
         {
-            TaskViewModel vm = new TaskViewModel();
+            TaskView4CModel vm = new TaskView4CModel();
             //vm.TaskID = this.TaskID;
             vm.Analyst = new TyeAdminUserEntity();
             vm.Analyst.ID = this.Analyst.ID;
             vm.Analyst.Name = this.Analyst.Name;
             vm.EndDate = this.EndDate;
-            vm.StartDate = this.StartDate;   
+            vm.StartDate = this.StartDate;
+            vm.StartSite = this.StartSite;
+            vm.StartSite.ID = this.StartSite.ID;
+            vm.StartSite.SiteName = this.StartSite.SiteName;
             //vm.TaskID = Guid.NewGuid().ToString();
             vm.TaskTypeEnum = this.TaskTypeEnum;
             vm.SeriaNumber = this.SeriaNumber;
             vm.Progress = this.Progress;
-            vm.StartLine = this.StartLine;
-            vm.EndLine = this.EndLine;  
+            vm.EndSite = this.EndSite;
+            vm.EndSite.SiteName = this.EndSite.SiteName;
+            vm.EndSite.ID = this.EndSite.ID;
 
             return vm;
-        } 
+        }
+
+        /// <summary> 选择站模型相同时注册该事件 </summary>
+        public event Action<TyeBaseSiteEntity> SeletctSameSiteEvent;
 
         /// <summary> 转换为输出类型 </summary>
-        public TaskModel ConvertTo()
+        public TaskModel_4C ConvertTo()
         {
-            TaskModel model = new TaskModel();
+            TaskModel_4C model = new TaskModel_4C();
             model.AnalystID = this.Analyst.ID;
             model.TaskEndTime = this.EndDate;
             model.TaskStartTime = this.StartDate;
-            //model.StartSiteID = this.StartSite?.ID;
-            //model.EndSiteID = this.EndSite?.ID;
+            model.StartSiteID = this.StartSite?.ID;
+            model.EndSiteID = this.EndSite?.ID;
 
             //model.ID = int.Parse(this.TaskID);
             model.ProcessType = (int)this.TaskTypeEnum;
             //model.SeriaNumber = this.SeriaNumber;
             //model.Progress = this.Progress;
-            model.TaskEndTime = this._endDate;
-            model.StartPoleID = this.StartLine?.ID;
-            model.EndPoleID = this.EndLine?.ID;
+           
+            model.StartPoleID = this.StartPole?.ID;
+            model.EndPoleID = this.EndPole?.ID;
             return model;
         }
         

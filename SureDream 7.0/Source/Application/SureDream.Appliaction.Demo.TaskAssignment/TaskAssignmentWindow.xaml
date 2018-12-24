@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="TaskAssignmentWindow" Height="330" Width="1100">
     <Grid>
-        <taskassignment:TaskAssignmentControl Grid.RowSpan="2" />
+        <taskassignment:Task2CAssignmentControl Grid.RowSpan="2" />
     </Grid>
 </Window>

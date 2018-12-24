@@ -18,9 +18,9 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// TaskLookUpControl.xaml 的交互逻辑
     /// </summary>
-    public partial class TaskLookUpControl : UserControl
+    public partial class Task2CLookUpControl : UserControl
     {
-        public TaskLookUpControl()
+        public Task2CLookUpControl()
         {
             InitializeComponent();
         }

@@ -103,9 +103,9 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 analysts.Add(new TyeAdminUserEntity() { ID = "2007", Name = "郝海东" });
 
                 //  Message：加载历史任务信息
-                ObservableCollection<TaskModel> collection = new ObservableCollection<TaskModel>();
+                ObservableCollection<TaskModel_2C> collection = new ObservableCollection<TaskModel_2C>();
 
-                TaskModel model = new TaskModel();
+                TaskModel_2C model = new TaskModel_2C();
                 model.ID = "100000";
                 model.AnalystID = "2005";
                 model.TaskEndTime = DateTime.Now;
@@ -118,7 +118,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 model.Remark = "1001,1002";
                 collection.Add(model);
 
-                model = new TaskModel();
+                model = new TaskModel_2C();
                 model.ID = "100001";
                 model.AnalystID = "2001";
                 model.TaskEndTime = DateTime.Now;
@@ -157,7 +157,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 TaskAssignmentWindow window = new TaskAssignmentWindow();
                 window.DataContext = this.Current.Model;
 
-                Action<ObservableCollection<TaskModel>> action = l =>
+                Action<ObservableCollection<TaskModel_2C>> action = l =>
                  {
                      Thread.Sleep(3000);
 
@@ -221,7 +221,7 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 analysts.Add(new TyeAdminUserEntity() { ID = "2007", Name = "郝海东" });
 
                 //  Message：加载历史任务信息
-                ObservableCollection<TaskModel> collection = new ObservableCollection<TaskModel>();
+                ObservableCollection<TaskModel_2C> collection = new ObservableCollection<TaskModel_2C>();
                 
 
                 entity.Model.SetTyeAdminUserEntity(analysts);
@@ -250,6 +250,6 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
     {
         public string ID { get; set; }
 
-        public ITaskItem Model { get; set; } = new TaskDivisionViewModel();
+        public ITaskItem Model { get; set; } = new TaskDivision2CViewModel();
     }
 }

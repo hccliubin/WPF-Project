@@ -14,7 +14,7 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// 数据包ViewModel
     /// </summary>
-    public partial class TaskDivisionViewModel : NotifyPropertyChanged
+    public partial class TaskDivision2CViewModel : NotifyPropertyChanged
     {
         #region - 成员属性 - 
         private ObservableCollection<TyeAdminUserEntity> _tyeAdminUserList = new ObservableCollection<TyeAdminUserEntity>();
@@ -41,9 +41,9 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
-        private ObservableCollection<TaskViewModel> _taskModelList = new ObservableCollection<TaskViewModel>();
+        private ObservableCollection<Task2CViewModel> _taskModelList = new ObservableCollection<Task2CViewModel>();
         /// <summary> 当前的任务列表  </summary>
-        public ObservableCollection<TaskViewModel> TaskModelList
+        public ObservableCollection<Task2CViewModel> TaskModelList
         {
             get { return _taskModelList; }
             set
@@ -54,9 +54,9 @@ namespace Ty.Component.TaskAssignment
         }
 
 
-        private TaskViewModel _selectItem;
+        private Task2CViewModel _selectItem;
         /// <summary> 选择的任务项  </summary>
-        public TaskViewModel SelectItem
+        public Task2CViewModel SelectItem
         {
             get { return _selectItem; }
             set
@@ -66,9 +66,9 @@ namespace Ty.Component.TaskAssignment
             }
         }
 
-        private TaskViewModel _addItem = new TaskViewModel();
+        private Task2CViewModel _addItem = new Task2CViewModel();
         /// <summary> 要添加的左侧数据项  </summary>
-        public TaskViewModel AddItem
+        public Task2CViewModel AddItem
         {
             get { return _addItem; }
             set
@@ -177,7 +177,7 @@ namespace Ty.Component.TaskAssignment
 
                 Task.Run(() =>
                 {
-                    ObservableCollection<TaskModel> models = new ObservableCollection<TaskModel>();
+                    ObservableCollection<TaskModel_2C> models = new ObservableCollection<TaskModel_2C>();
 
                     foreach (var item in this.TaskModelList)
                     {
@@ -194,7 +194,7 @@ namespace Ty.Component.TaskAssignment
 
         void RefreshCanSelection()
         {
-            ObservableCollection<TaskViewModel> collection = new ObservableCollection<TaskViewModel>();
+            ObservableCollection<Task2CViewModel> collection = new ObservableCollection<Task2CViewModel>();
 
             foreach (var item in this.TaskModelList)
             {
@@ -300,15 +300,15 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// viewmodel（仅供参考）接口定义部分
     /// </summary>
-    public partial class TaskDivisionViewModel : NotifyPropertyChanged, ITaskItem
+    public partial class TaskDivision2CViewModel : NotifyPropertyChanged, ITaskItem
     {
 
 
         /// <summary> 保存时注册该事件 </summary>
-        public event Action<ObservableCollection<TaskModel>> SaveEvent;
+        public event Action<ObservableCollection<TaskModel_2C>> SaveEvent;
 
 
-        public void SetTaskModelList(ObservableCollection<TaskModel> modelList)
+        public void SetTaskModelList(ObservableCollection<TaskModel_2C> modelList)
         {
             if (this.TyeAdminUserList == null || this.TyeAdminUserList.Count == 0)
             {
@@ -326,7 +326,7 @@ namespace Ty.Component.TaskAssignment
 
             foreach (var item in modelList)
             {
-                TaskViewModel vm = new TaskViewModel();
+                Task2CViewModel vm = new Task2CViewModel();
 
                 vm.TaskID = item.ID.ToString();
                 vm.Analyst = this.TyeAdminUserList.ToList().Find(l => l.ID == item.AnalystID.ToString());

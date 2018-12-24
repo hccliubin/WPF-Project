@@ -19,6 +19,9 @@
     <local:ProgressToValueConverter x:Key="Resource.Converter.ProgressToValueConverter"/>
     <local:ProgressToColorConverter x:Key="Resource.Converter.ProgressToColorConverter"/>
     <local:StationDataSourceValuesConverter x:Key="Resource.Converter.StationDataSourceValuesConverter"/>
+    <local:ConvertLineConverter x:Key="Resource.Converter.ConvertLineConverter"/>
+    <local:LineToToolTipConverter x:Key="Resource.Converter.LineToToolTipConverter"/>
+    
 
     <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonBackground" Color="#7ca4e8"/>
     <SolidColorBrush x:Key="Resource.SolidColorBrush.ButtonForground" Color="White"/>

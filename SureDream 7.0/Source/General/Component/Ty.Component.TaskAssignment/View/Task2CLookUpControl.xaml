@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ty.Component.TaskAssignment.TaskLookUpControl"
+﻿<UserControl x:Class="Ty.Component.TaskAssignment.Task2CLookUpControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,25 +18,17 @@
         <DataGrid  Style="{StaticResource DefaultDataGrid}" ColumnHeaderHeight="38" SelectedItem="{Binding SelectItem}" ItemsSource="{Binding Path=TaskModelList}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="序号"  Width="*"  Binding="{Binding SeriaNumber}" />
-                <DataGridTextColumn Header="分析员"  Width="*"  Binding="{Binding Analyst.Name}" />
-                <DataGridTextColumn Header="区间站"  Width="2*">
+                <DataGridTextColumn Header="分析员"  Width="*"  Binding="{Binding Analyst.Name}" /> 
+                <DataGridTextColumn Header="段范围"  Width="*">
                     <DataGridTextColumn.Binding>
                         <MultiBinding Converter="{StaticResource Resource.Converter.AppendToStringConverter}" ConverterParameter=" - ">
-                            <Binding Path="StartSite.SiteName"/>
-                            <Binding Path="EndSite.SiteName"/>
+                            <Binding Path="StartLine.Name"/>
+                            <Binding Path="EndLine.Name"/>
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="标杆范围"  Width="2*">
-                    <DataGridTextColumn.Binding>
-                        <MultiBinding Converter="{StaticResource Resource.Converter.AppendToStringConverter}" ConverterParameter=" - ">
-                            <Binding Path="StartPole.PoleCode"/>
-                            <Binding Path="EndPole.PoleCode"/>
-                        </MultiBinding>
-                    </DataGridTextColumn.Binding>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="截止日期"  Width="2*" Binding="{Binding EndDate,StringFormat='{}{0:yyyy-MM-dd}'}" />
-                <DataGridTemplateColumn  Header="分析进度"  Width="2*">
+                <DataGridTextColumn Header="截止日期"  Width="*" Binding="{Binding EndDate,StringFormat='{}{0:yyyy-MM-dd}'}" />
+                <DataGridTemplateColumn  Header="分析进度"  Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>

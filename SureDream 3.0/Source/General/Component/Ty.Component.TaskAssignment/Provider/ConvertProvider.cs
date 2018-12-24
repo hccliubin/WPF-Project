@@ -84,7 +84,7 @@ namespace Ty.Component.TaskAssignment
                 List<TyeBasePillarEntity> rods = (values[3] as ObservableCollection<TyeBasePillarEntity>).ToList();
 
                 //  Message：任务列表哦
-                ObservableCollection<TaskViewModel> collection = values[2] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskView4CModel> collection = values[2] as ObservableCollection<TaskView4CModel>;
 
 
                 //  Message：查找当前站的所有任务信息
@@ -325,7 +325,7 @@ namespace Ty.Component.TaskAssignment
                 ObservableCollection<TyeBaseSiteEntity> first = values[0] as ObservableCollection<TyeBaseSiteEntity>;
 
                 //  Message：任务列表
-                ObservableCollection<TaskViewModel> second = values[1] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskView4CModel> second = values[1] as ObservableCollection<TaskView4CModel>;
 
                 if (first == null || second == null) return null;
 
@@ -436,7 +436,7 @@ namespace Ty.Component.TaskAssignment
                 TyeBaseSiteEntity startSite = values[1] as TyeBaseSiteEntity;
 
                 //  Message：任务列表
-                ObservableCollection<TaskViewModel> taskList = values[3] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<TaskView4CModel> taskList = values[3] as ObservableCollection<TaskView4CModel>;
 
                 //  Message：站杆号选择列表
                 Dictionary<string, ObservableCollection<TyeBasePillarEntity>> PilarCache = values[4] as Dictionary<string, ObservableCollection<TyeBasePillarEntity>>;
@@ -572,6 +572,137 @@ namespace Ty.Component.TaskAssignment
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 转换杆号可选项删选
+    /// </summary>
+    public class ConvertLineConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return null;
+
+            //  Message：起始杆号可选项删选
+            if (values.Length == 2)
+            {
+                //  Message：当前站杆号列表
+                ObservableCollection<TyeLineEntity> rods = (values[0] as ObservableCollection<TyeLineEntity>);
+
+                //  Message：任务列表哦
+                ObservableCollection<Task2CViewModel> collection = values[1] as ObservableCollection<Task2CViewModel>;
+
+                if (rods == null) return null;
+
+                if (collection == null) return null;
+
+                var result = rods.ToList();
+
+                //  Message：查找当前站的所有任务信息
+                var finds = collection.ToList();
+
+                if (finds == null) return result;
+
+                foreach (var item in finds)
+                {
+                    result.RemoveAll(l => item.Lines.Exists(k => k.ID == l.ID));
+
+                    //var startIndex = result.FindIndex(l => l.ID == item.StartLine.ID);
+
+                    //var endIndex = result.FindIndex(l => l.ID == item.EndLine.ID);
+
+                    //if (startIndex < 0 || endIndex < 0) continue;
+
+                    //if (startIndex == endIndex)
+                    //{
+                    //    result.RemoveAt(startIndex);
+                    //}
+                    //else
+                    //{
+                    //    result.RemoveRange(startIndex, endIndex - startIndex + 1);
+                    //}
+                }
+
+                return result;
+            }
+
+            //  Message：结束杆号可选项删选
+            else if (values.Length == 3)
+            {
+                ////  Message：起始站
+                //TyeBaseSiteEntity start = values[0] as TyeBaseSiteEntity;
+
+                ////  Message：结束站
+                //TyeBaseSiteEntity end = values[1] as TyeBaseSiteEntity;
+
+                //  Message：上一个杆号
+                TyeLineEntity lastselect = values[0] as TyeLineEntity;
+
+                List<TyeLineEntity> lastList = (values[1] as List<TyeLineEntity>);
+
+                ObservableCollection<TyeLineEntity> allLine = (values[2] as ObservableCollection<TyeLineEntity>);
+
+
+                if (lastselect == null || lastList == null || allLine == null) return null;
+
+                var result = lastList.ToList();
+
+                int index = result.FindIndex(l => l.ID == lastselect.ID);
+
+                //  Message：从当前选择的开始截取
+                result = result.Skip(index).ToList();
+
+                for (int i = 0; i < result.Count; i++)
+                {
+                    if (i == 0) continue;
+
+                    int lastIndex = allLine.ToList().FindIndex(l => l.ID == result[i - 1].ID);
+
+                    int currentIndex = allLine.ToList().FindIndex(l => l.ID == result[i].ID);
+
+                    if ((currentIndex - lastIndex) > 1)
+                    {
+                        result = result.Take(result.FindIndex(l => l.ID == result[i - 1].ID) + 1).ToList();
+                        break;
+                    }
+                }
+
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 相加中间用parameter间隔
+    /// </summary>
+    public class LineToToolTipConverter : IValueConverter
+    {
+
+        public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return null;
+
+            List<TyeLineEntity> sss = values as List<TyeLineEntity>;
+
+            if (sss == null) return null;
+
+            return sss.Select(l=>l.Name).Aggregate((l, k) => l + ","+ k);
+        }
+
+        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

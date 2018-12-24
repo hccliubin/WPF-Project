@@ -12,11 +12,6 @@ namespace Ty.Component.TaskAssignment
     /// </summary>
     public class TyeAdminUserEntity : NotifyPropertyChanged
     {
-        public TyeAdminUserEntity()
-        {
-
-        }
-
         public string ID { get; set; }
         public string LeaderID { get; set; }
         public string Name { get; set; }

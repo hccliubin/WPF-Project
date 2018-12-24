@@ -13,7 +13,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ty.Base.WpfBase.Service;
 using Ty.Component.TaskAssignment;
@@ -21,28 +20,25 @@ using Ty.Component.TaskAssignment;
 namespace SureDream.Appliaction.Demo.TaskAssignment
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// Task2CWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Task2CWindow : Window
     {
-
-        MainViewModel _vm = new MainViewModel();
-
-        public MainWindow()
+        Task2CViewModel _vm = new Task2CViewModel();
+        public Task2CWindow()
         {
             InitializeComponent();
 
             this.DataContext = _vm;
         }
-
     }
 
-    class MainViewModel : NotifyPropertyChanged
+    class Task2CViewModel : NotifyPropertyChanged
     {
 
-        private RowIdEntity _current;
+        private RowId2CEntity _current;
         /// <summary> 说明  </summary>
-        public RowIdEntity Current
+        public RowId2CEntity Current
         {
             get { return _current; }
             set
@@ -53,9 +49,9 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
         }
 
 
-        private ObservableCollection<RowIdEntity> _rawIdCollection = new ObservableCollection<RowIdEntity>();
+        private ObservableCollection<RowId2CEntity> _rawIdCollection = new ObservableCollection<RowId2CEntity>();
         /// <summary> 说明  </summary>
-        public ObservableCollection<RowIdEntity> RawIdCollection
+        public ObservableCollection<RowId2CEntity> RawIdCollection
         {
             get { return _rawIdCollection; }
             set
@@ -73,18 +69,24 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
             if (command == "init")
             {
 
-                RowIdEntity entity = new RowIdEntity();
+                RowId2CEntity entity = new RowId2CEntity();
                 entity.ID = "初始化加载的任务列表示例";
 
                 //  Message：设置站列表
-                ObservableCollection<TyeBaseSiteEntity> stations = new ObservableCollection<TyeBaseSiteEntity>();
+                ObservableCollection<TyeLineEntity> stations = new ObservableCollection<TyeLineEntity>();
 
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "北京站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1002", SiteName = "上海站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1003", SiteName = "天津站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1004", SiteName = "佛山站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1005", SiteName = "广州站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1006", SiteName = "肇庆站" });
+                stations.Add(new TyeLineEntity() { ID = "1001", Name = "第1段" });
+                stations.Add(new TyeLineEntity() { ID = "1002", Name = "第2段" });
+                stations.Add(new TyeLineEntity() { ID = "1003", Name = "第3段" });
+                stations.Add(new TyeLineEntity() { ID = "1004", Name = "第4段" });
+                stations.Add(new TyeLineEntity() { ID = "1005", Name = "第5段" });
+                stations.Add(new TyeLineEntity() { ID = "1006", Name = "第6段" });
+                stations.Add(new TyeLineEntity() { ID = "1007", Name = "第7段" });
+                stations.Add(new TyeLineEntity() { ID = "1008", Name = "第8段" });
+                stations.Add(new TyeLineEntity() { ID = "1009", Name = "第9段" });
+                stations.Add(new TyeLineEntity() { ID = "1010", Name = "第10段" });
+                stations.Add(new TyeLineEntity() { ID = "1011", Name = "第11段" });
+                stations.Add(new TyeLineEntity() { ID = "1012", Name = "第12段" });
 
                 //  Message：设置分析人员列表
                 ObservableCollection<TyeAdminUserEntity> analysts = new ObservableCollection<TyeAdminUserEntity>();
@@ -97,72 +99,49 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 analysts.Add(new TyeAdminUserEntity() { ID = "2007", Name = "郝海东" });
 
                 //  Message：加载历史任务信息
-                ObservableCollection<TaskModel_4C> collection = new ObservableCollection<TaskModel_4C>();
+                ObservableCollection<TaskModel_2C> collection = new ObservableCollection<TaskModel_2C>();
 
-                TaskModel_4C model = new TaskModel_4C();
+                TaskModel_2C model = new TaskModel_2C();
                 model.ID = "100000";
                 model.AnalystID = "2005";
                 model.TaskEndTime = DateTime.Now;
                 model.TaskStartTime = DateTime.Now;
                 model.StartSiteID = "1001";
                 model.ProcessType = 1;
+                model.ProcessedFileCount = 44;
                 model.TotalFileCount = 100;
                 model.EndSiteID = "1004";
+                model.Remark = "第1段,第2段,第3段,第4段";
                 collection.Add(model);
 
-                model = new TaskModel_4C();
-                model.ID = "100000";
+                model = new TaskModel_2C();
+                model.ID = "100001";
                 model.AnalystID = "2001";
                 model.TaskEndTime = DateTime.Now;
                 model.TaskStartTime = DateTime.Now;
                 model.StartSiteID = "1001";
-                model.ProcessType = 2;
+                model.ProcessedFileCount = 95;
                 model.TotalFileCount = 100;
                 model.EndSiteID = "1001";
 
                 model.StartPoleID = "1";
                 model.EndPoleID = "3";
-
+                model.Remark = "第5段,第9段";
                 collection.Add(model);
 
                 entity.Model.SetTyeAdminUserEntity(analysts);
-                entity.Model.SetTyeBaseSiteEntity(stations);
-                //  Message：如果有相同的站需要优先设置杆号列表
-
-                ObservableCollection<TyeBasePillarEntity> poles = new ObservableCollection<TyeBasePillarEntity>();
-
-                for (int i = 1; i < 10; i++)
-                {
-                    poles.Add(new TyeBasePillarEntity() { ID = i.ToString(), PoleCode = i.ToString(), SiteID = "1001" });
-                }
-
-                entity.Model.SetTyeBasePillarEntity(poles);
+                entity.Model.SetTyeLineEntity(stations);
 
                 //  Message：调用此方法前需要优先设置分析员和站信息列表
                 entity.Model.SetTaskModelList(collection);
 
-                entity.Model.SeletctSameSiteEvent += l =>
-                {
-                    MessageBox.Show("选择了相同站:" + l.SiteName);
-
-                    ObservableCollection<TyeBasePillarEntity> _poles = new ObservableCollection<TyeBasePillarEntity>();
-                    for (int i = 1; i < 10; i++)
-                    {
-                        _poles.Add(new TyeBasePillarEntity() { ID = i.ToString(), PoleCode = i.ToString(), SiteID = l.ID });
-                    }
-
-                    entity.Model.SetTyeBasePillarEntity(_poles);
-                };
-
                 entity.Model.SaveEvent += l =>
-                  {
-                      foreach (var item in l)
-                      {
-                          Debug.WriteLine("站区："+item.StartSiteID + "-" + item.EndSiteID);
-                          Debug.WriteLine("杆号：" + item.StartSiteID + "-" + item.EndSiteID);
-                      }
-
-                  };
+                {
+                    foreach (var item in l)
+                    {
+                        Debug.WriteLine(item.Remark);
+                    }
+                };
 
                 this.RawIdCollection.Add(entity);
 
@@ -175,26 +154,26 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 Window window = new Window();
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 window.Width = 1100;
-                window.Height = 450;
-                window.Content = new Task4CAssignmentControl();
+                window.Height = 400;
+                window.Content = new Task2CAssignmentControl();
                 window.DataContext = this.Current.Model;
 
-                Action<ObservableCollection<TaskModel_4C>> action = l =>
-                 {
-                     Thread.Sleep(3000);
+                Action<ObservableCollection<TaskModel_2C>> action = l =>
+                {
+                    Thread.Sleep(3000);
 
-                     foreach (var item in l)
-                     {
-                         Debug.WriteLine(item.ID + "- " + item.StartSiteID + "- " + item.EndSiteID);
-                     }
+                    foreach (var item in l)
+                    {
+                        Debug.WriteLine(item.ID + "- " + item.StartSiteID + "- " + item.EndSiteID);
+                    }
 
-                     //  Message：调用主线程用Dispatcher
-                     Application.Current.Dispatcher.Invoke(() =>
-                     {
-                         window.Close();
-                     });
+                    //  Message：调用主线程用Dispatcher
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        window.Close();
+                    });
 
-                 };
+                };
 
                 //  Message：注册保存事件
                 this.Current.Model.SaveEvent += action;
@@ -205,32 +184,36 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
             //  Do：查看
             else if (command == "btn_showTask")
             {
-                //TaskLookUpWindow window = new TaskLookUpWindow();
-                //window.DataContext = this.Current.Model;
-                //window.ShowDialog();
                 Window window = new Window();
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                window.Width = 1000;
-                window.Height = 450;
-                window.Content = new Task4CLookUpControl();
+                window.Width = 1100;
+                window.Height = 400;
+                window.Content = new Task2CLookUpControl();
                 window.DataContext = this.Current.Model;
                 window.ShowDialog();
-
 
             }
             //  Do：添加
             else if (command == "btn_add")
             {
-                RowIdEntity entity = new RowIdEntity();
+                RowId2CEntity entity = new RowId2CEntity();
+                entity.ID = "初始化加载的任务列表示例";
 
-                ObservableCollection<TyeBaseSiteEntity> stations = new ObservableCollection<TyeBaseSiteEntity>();
+                //  Message：设置站列表
+                ObservableCollection<TyeLineEntity> stations = new ObservableCollection<TyeLineEntity>();
 
-                stations.Add(new TyeBaseSiteEntity() { ID = "1001", SiteName = "北京站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1002", SiteName = "上海站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1003", SiteName = "天津站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1004", SiteName = "佛山站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1005", SiteName = "广州站" });
-                stations.Add(new TyeBaseSiteEntity() { ID = "1006", SiteName = "肇庆站" });
+                stations.Add(new TyeLineEntity() { ID = "1001", Name = "第1段" });
+                stations.Add(new TyeLineEntity() { ID = "1002", Name = "第2段" });
+                stations.Add(new TyeLineEntity() { ID = "1003", Name = "第3段" });
+                stations.Add(new TyeLineEntity() { ID = "1004", Name = "第4段" });
+                stations.Add(new TyeLineEntity() { ID = "1005", Name = "第5段" });
+                stations.Add(new TyeLineEntity() { ID = "1006", Name = "第6段" });
+                stations.Add(new TyeLineEntity() { ID = "1007", Name = "第7段" });
+                stations.Add(new TyeLineEntity() { ID = "1008", Name = "第8段" });
+                stations.Add(new TyeLineEntity() { ID = "1009", Name = "第9段" });
+                stations.Add(new TyeLineEntity() { ID = "1010", Name = "第10段" });
+                stations.Add(new TyeLineEntity() { ID = "1011", Name = "第11段" });
+                stations.Add(new TyeLineEntity() { ID = "1012", Name = "第12段" });
 
                 //  Message：设置分析人员列表
                 ObservableCollection<TyeAdminUserEntity> analysts = new ObservableCollection<TyeAdminUserEntity>();
@@ -242,25 +225,15 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
                 analysts.Add(new TyeAdminUserEntity() { ID = "2006", Name = "马拉多纳" });
                 analysts.Add(new TyeAdminUserEntity() { ID = "2007", Name = "郝海东" });
 
-                //entity.Model.RefreshConfig(task);
+                //  Message：加载历史任务信息
+                ObservableCollection<TaskModel_2C> collection = new ObservableCollection<TaskModel_2C>();
 
-                entity.ID = Guid.NewGuid().ToString();
 
                 entity.Model.SetTyeAdminUserEntity(analysts);
-                entity.Model.SetTyeBaseSiteEntity(stations);
+                entity.Model.SetTyeLineEntity(stations);
 
-                entity.Model.SeletctSameSiteEvent += l =>
-                  {
-                      MessageBox.Show("选择了相同站:" + l.SiteName);
-
-                      ObservableCollection<TyeBasePillarEntity> _poles = new ObservableCollection<TyeBasePillarEntity>();
-                      for (int i = 1; i < 10; i++)
-                      {
-                          _poles.Add(new TyeBasePillarEntity() { ID = i.ToString(), PoleCode = i.ToString(), SiteID = l.ID });
-                      }
-
-                      entity.Model.SetTyeBasePillarEntity(_poles);
-                  };
+                //  Message：调用此方法前需要优先设置分析员和站信息列表
+                entity.Model.SetTaskModelList(collection);
 
                 entity.Model.SaveEvent += l =>
                 {
@@ -271,16 +244,17 @@ namespace SureDream.Appliaction.Demo.TaskAssignment
 
                 this.RawIdCollection.Add(entity);
 
+
             }
 
         }
 
     }
 
-    class RowIdEntity
+    class RowId2CEntity
     {
         public string ID { get; set; }
 
-        public ITaskItemFor4C Model { get; set; } = new TaskDivision4CViewModel();
+        public ITaskItemFor2C Model { get; set; } = new TaskDivision2CViewModel();
     }
 }

@@ -72,7 +72,7 @@ namespace Ty.Component.TaskAssignment
                 ObservableCollection<TyeLineEntity> rods = (values[0] as ObservableCollection<TyeLineEntity>);
 
                 //  Message：任务列表哦
-                ObservableCollection<TaskViewModel> collection = values[1] as ObservableCollection<TaskViewModel>;
+                ObservableCollection<Task2CViewModel> collection = values[1] as ObservableCollection<Task2CViewModel>;
 
                 if (rods == null) return null;
 

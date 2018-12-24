@@ -19,10 +19,10 @@ namespace Ty.Component.TaskAssignment
     /// <summary>
     /// TaskAssignmentControl.xaml 的交互逻辑
     /// </summary>
-    public partial class TaskAssignmentControl : UserControl
+    public partial class Task2CAssignmentControl : UserControl
     {
         
-        public TaskAssignmentControl()
+        public Task2CAssignmentControl()
         {
             InitializeComponent();
         }
