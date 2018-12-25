@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ty.Component.TaskAssignment.TaskModel_4C">
+    <Position X="2.5" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TaskModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ty.Component.TaskAssignment.TaskModel_2C">
+    <Position X="2.5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Model\TaskModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ty.Component.TaskAssignment.BaseTaskModel">
+    <Position X="5.5" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>CACAIBAAAAAAgAAABCBAIQAgAgggAgAAAAAAJAAADAA=</HashCode>
+      <FileName>BaseTaskModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Ty.Component.TaskAssignment.ITaskItemFor4C">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAgAAAAABAABAABAAgAAAAAAA=</HashCode>
+      <FileName>Service\ITaskItemFor4C.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Ty.Component.TaskAssignment.ITaskItemFor2C">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Service\ITaskItemFor2C.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
