@@ -31,7 +31,6 @@
         <TextBlock Text="数据库类型" Grid.Row="0" Grid.Column="0"/>
         <local:SearchCombobox x:Name="com" Grid.Row="0" Grid.Column="1" SelectedIndex="0"/>
 
-
         <TextBlock Text="数据采集方式" Grid.Row="1" Grid.Column="0"/>
         <local:SearchCombobox  Grid.Row="1" Grid.Column="1" SelectedIndex="0" />
 

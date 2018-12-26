@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CDTY.DataAnalysis.Entity">
+      <HintPath>..\..\..\Product\Dll\CDTY.DataAnalysis.Entity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -93,9 +96,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\General\Component\Ty.Component.SignControl\Ty.Component.SignControl.csproj">
-      <Project>{0F941A11-F700-4327-9960-EDE4182F93FA}</Project>
-      <Name>Ty.Component.SignControl</Name>
+    <ProjectReference Include="..\..\General\Component\Ty.Component.SignsControl\Ty.Component.SignsControl.csproj">
+      <Project>{a68083e6-3ba3-4e90-88d1-2e3cf4abda4f}</Project>
+      <Name>Ty.Component.SignsControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

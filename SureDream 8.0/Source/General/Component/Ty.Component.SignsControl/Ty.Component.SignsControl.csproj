@@ -4,20 +4,21 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F941A11-F700-4327-9960-EDE4182F93FA}</ProjectGuid>
+    <ProjectGuid>{A68083E6-3BA3-4E90-88D1-2E3CF4ABDA4F}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>Ty.Component.SignControl</RootNamespace>
-    <AssemblyName>Ty.Component.SignControl</AssemblyName>
+    <RootNamespace>Ty.Component.SignsControl</RootNamespace>
+    <AssemblyName>Ty.Component.SignsControl</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Product\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CDTY.DataAnalysis.Entity">
+      <HintPath>..\..\..\..\Product\Dll\CDTY.DataAnalysis.Entity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -47,20 +51,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GridHelper.cs" />
-    <Compile Include="ISign.cs" />
-    <Compile Include="DefectSignControl.xaml.cs">
-      <DependentUpon>DefectSignControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DefectViewModel.cs" />
+    <Compile Include="IDefectSign.cs" />
     <Compile Include="SearchCombobox.cs" />
-    <Compile Include="SignSignControl.xaml.cs">
-      <DependentUpon>SignSignControl.xaml</DependentUpon>
-    </Compile>
-    <Page Include="DefectSignControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SignSignControl.xaml">
+    <Page Include="DefectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,6 +64,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefectControl.xaml.cs">
+      <DependentUpon>DefectControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -91,6 +88,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
+      <Project>{435FEB82-599F-48E3-8891-755ACF8E4117}</Project>
+      <Name>Ty.Base.WpfBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
