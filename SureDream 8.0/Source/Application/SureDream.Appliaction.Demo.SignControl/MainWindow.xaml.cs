@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,17 +28,59 @@ namespace SureDream.Appliaction.Demo.SignControl
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Loaded += MainWindow_Loaded;
+
+            set(l => l.ORGID);
+
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        void set(Expression<Func<jw_add_data, string>> fff)
         {
 
-            DefectViewModel defectViewModel = new DefectViewModel();
+            Debug.WriteLine(fff);
+
+        }
+        Window window = new Window();
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            IDefectSign defectViewModel = new DefectViewModel();
             defectViewModel.Load(this.GetEntity());
 
-            Window window = new Window();
+            defectViewModel.ConfirmData += l =>
+            {
+
+                Debug.WriteLine(l);
+
+            };
+
+            window.Width = 1200;
+            window.Height = 500;
+
+            //  Do：取消
+            defectViewModel.CancelClick += () =>
+            {
+                window.Hide();
+            };
+
+            //  Do：q确定
+            defectViewModel.SumitClick += () =>
+            {
+                window.Hide();
+
+                Debug.WriteLine(defectViewModel.ToString());
+            };
+
             window.Content = new DefectControl();
             window.DataContext = defectViewModel;
+
+        }
+
+        /// <summary> 缺陷管理 </summary>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
             window.ShowDialog();
         }
 
@@ -47,9 +91,12 @@ namespace SureDream.Appliaction.Demo.SignControl
             //window.ShowDialog();
         }
 
+        /// <summary> 获取测试数据 </summary>
         DefectMenuEntity GetEntity()
         {
             DefectMenuEntity entity = new DefectMenuEntity();
+
+            entity.PHMCodes = "B 01 01 012 01 000001 01 01 01 01";
 
             //  Message：数据采集方式
             List<TyeEncodeCategoryconfigEntity> tyeEncodeCategoryconfigEntities = new List<TyeEncodeCategoryconfigEntity>();
@@ -59,7 +106,7 @@ namespace SureDream.Appliaction.Demo.SignControl
                 TyeEncodeCategoryconfigEntity tyeEncodeCategoryconfigEntity = new TyeEncodeCategoryconfigEntity();
 
                 tyeEncodeCategoryconfigEntity.ID = i.ToString();
-                tyeEncodeCategoryconfigEntity.Code = i.ToString();
+                tyeEncodeCategoryconfigEntity.Code = "Data" + i.ToString();
                 tyeEncodeCategoryconfigEntity.Name = "N00" + i.ToString();
 
                 tyeEncodeCategoryconfigEntities.Add(tyeEncodeCategoryconfigEntity);
@@ -75,6 +122,7 @@ namespace SureDream.Appliaction.Demo.SignControl
             {
                 TyeBaseLineEntity tyeBaseLineEntity = new TyeBaseLineEntity();
                 tyeBaseLineEntity.ID = i.ToString();
+                tyeBaseLineEntity.LineCode = "Line" + i.ToString();
                 tyeBaseLineEntity.LineName = "LN00" + i.ToString();
                 tyeBaseLineEntities.Add(tyeBaseLineEntity);
             }
@@ -87,6 +135,7 @@ namespace SureDream.Appliaction.Demo.SignControl
             {
                 TyeBaseSiteEntity tyeBaseSiteEntity = new TyeBaseSiteEntity();
                 tyeBaseSiteEntity.ID = i.ToString();
+                tyeBaseSiteEntity.SiteCode = "Site" + i.ToString();
                 tyeBaseSiteEntity.SiteName = "SN00" + i.ToString();
                 tyeBaseSiteEntities.Add(tyeBaseSiteEntity);
             }
@@ -101,10 +150,11 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             ObservableCollection<TyeEncodeDeviceEntity> tyeEncodeDeviceEntities = new ObservableCollection<TyeEncodeDeviceEntity>();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 40; i++)
             {
                 TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
                 tyeEncodeDeviceEntity.ID = i.ToString();
+                tyeEncodeDeviceEntity.Code= "Defect" + i.ToString();
                 tyeEncodeDeviceEntity.Name = "DN00" + i.ToString();
                 tyeEncodeDeviceEntities.Add(tyeEncodeDeviceEntity);
             }
@@ -119,10 +169,26 @@ namespace SureDream.Appliaction.Demo.SignControl
 
                 defectCommonUsed.ID = i.ToString();
                 defectCommonUsed.Name = "DN00" + i.ToString();
-                defectCommonUsed.Describletion = i.ToString().PadLeft(3, '0') + "        01020304        接触线张力xx脱落   (F14)      历史使用次数" + i.ToString() + "次";
+                defectCommonUsed.Code = "DefectCommonUsed" + i.ToString();
+                defectCommonUsed.NamePY = "NamePY" + i.ToString();
+                defectCommonUsed.Describletion = i.ToString().PadLeft(3, '0') + " " + defectCommonUsed.Code + " 01020304 " + defectCommonUsed.NamePY + " 接触线张力xx脱落 (F14) 次数" + i.ToString() + "次";
                 defectCommonUsed.CountUse = i;
                 defectCommonUsed.OrderNo = i;
                 defectCommonUseds.Add(defectCommonUsed);
+            }
+
+            ObservableCollection<TyeEncodeDeviceEntity> defectOrMarkCodes = new ObservableCollection<TyeEncodeDeviceEntity>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                TyeEncodeDeviceEntity defectOrMarkCode = new TyeEncodeDeviceEntity();
+
+                defectOrMarkCode.ID = i.ToString();
+                defectOrMarkCode.Name = "DN00" + i.ToString();
+                defectOrMarkCode.Code = "CommonHistoricalDefectsOrMark" + i.ToString();
+                defectOrMarkCode.NamePY = "NamePY" + i.ToString();
+                defectOrMarkCode.OrderNo = i;
+                defectOrMarkCodes.Add(defectOrMarkCode);
             }
 
             entity.CommonHistoricalDefectsOrMark = defectCommonUseds;
@@ -139,5 +205,20 @@ namespace SureDream.Appliaction.Demo.SignControl
             return entity;
 
         }
+    }
+
+   
+    public class jw_add_data
+    {
+       
+        public string ID { get; set; }
+       
+        public string ORGID { get; set; }
+        
+        public string ORGNAME { get; set; }
+        
+        public string ORGTYPE { get; set; }
+        
+
     }
 }

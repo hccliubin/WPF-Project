@@ -157,6 +157,8 @@ namespace Ty.Component.ImageControl
 
             }
         }
+
+
     }
 
     partial class SampleVieModel : INotifyPropertyChanged

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CDTY.DataAnalysis.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -95,6 +96,70 @@ namespace Ty.Component.ImageControl
         /// 站区
         /// </summary>
         public string StationArea { get; set; }
+
+
+        #region - 缺陷标定管理新增 -
+        
+        /// <summary> 选择的责任工区  </summary>
+        public TyeEncodeCategoryconfigEntity SelectResponsibilityWorkArea { get; set; }
+        
+        /// <summary> 选择的责任车间  </summary>
+        public TyeEncodeCategoryconfigEntity SelectResponsibilityWorkshop { get; set; }
+        
+        /// <summary> 选择的单元  </summary>
+        public TyeEncodeCategoryconfigEntity SelectBasicUnit { get; set; }
+        
+        /// <summary> 选择的站  </summary>
+        public TyeBaseSiteEntity SelectDedicatedStation { get; set; }
+        
+        /// <summary> 选择的段  </summary>
+        public TyeBaseLineEntity SelectDedicatedLine { get; set; }
+        
+        /// <summary> 选择的铁路局顺序码  </summary>
+        public TyeEncodeCategoryconfigEntity SelectRailwaySsequence { get; set; }
+        
+        /// <summary> 选择的数据采集方式  </summary>
+        public TyeEncodeCategoryconfigEntity SelectDataAcquisitionMode { get; set; }
+
+        /// <summary>
+        /// PHM编码（基本由界面属性组合而成）
+        /// </summary>
+        public string PHMCodes { get; set; }
+
+        /// <summary>
+        /// 当前用户
+        /// </summary>
+
+        public TyeAdminUserEntity tyeAdminUserEntity { set; get; }
+
+        /// <summary>
+        /// 检测日期
+        /// <summary>
+
+        public DateTime? DetectDate { get; set; }
+
+        /// <summary>
+        /// 公里标
+        /// <summary>
+
+        public string KmLog { get; set; }
+
+        /// <summary>
+        /// 检测车辆
+        /// </summary>
+        public string DetectionVehicles { get; set; }
+
+        /// <summary>
+        /// 选择的缺陷
+        /// </summary>
+        public TyeEncodeDeviceEntity SelectDefectOrMarkCodes { get; set; }
+
+        /// <summary>
+        /// 选择的历史信息
+        /// </summary>
+        public DefectCommonUsed SelectCommonHistoricalDefectsOrMark { get; set; }
+
+        #endregion
     }
 
     /// <summary>

@@ -47,21 +47,21 @@
                     </ToolTip.Background>
                     <Grid>
                         <Grid Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid.RowDefinitions>
+                            <!--<Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
-                            </Grid.RowDefinitions>
+                            </Grid.RowDefinitions>-->
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             
-                            <TextBlock Text="标定名称："  Grid.Row="0"/>
+                            <!--<TextBlock Text="标定名称："  Grid.Row="0"/>-->
                             <TextBlock Text="缺陷代码：" Grid.Row="1"/>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Width="Auto" Text="{Binding Path=Name}"/>
-                            <TextBlock Grid.Column="1" Grid.Row="1"   Width="Auto" Text="{Binding Path=Code}"/>
+                            <!--<TextBlock Grid.Column="1" Grid.Row="0" Width="Auto" Text="{Binding Path=Name}"/>-->
+                            <TextBlock Grid.Column="1" Grid.Row="1"   Width="Auto" Text="{Binding Path=Code,Mode=TwoWay}"/>
                         </Grid>
                     </Grid>
                 </ToolTip>

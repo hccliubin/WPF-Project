@@ -161,6 +161,14 @@ namespace Ty.Component.ImageControl
                 }
             }
         }
+
+        /// <summary>
+        /// 隐藏动态框
+        /// </summary>
+        public void ClearDynamic()
+        {
+            this._dynamic.Visibility = Visibility.Collapsed;
+        }
         #endregion
 
         #region - 成员事件 -
@@ -230,6 +238,52 @@ namespace Ty.Component.ImageControl
             this.popup.IsOpen = false;
         }
 
+        internal void AddMark(ImgMarkEntity imgMarkEntity)
+        {
+            SampleVieModel sample = new SampleVieModel();
+
+            //sample.Name = imgMarkEntity.Name;
+
+            //sample.Code = imgMarkEntity.PHMCodes;
+
+            sample.Model = imgMarkEntity;
+
+            //  Do：根据选择的样本类型来生成缺陷/样本
+            if (this.ImageOprateCtrEntity.MarkType == MarkType.Defect)
+            {
+                DefectShape resultStroke = new DefectShape(this._dynamic);
+                sample.Flag = "\xe688";
+                sample.Type = "0";
+                sample.Code= imgMarkEntity.PHMCodes;
+                resultStroke.Name = sample.Name;
+                resultStroke.Code = sample.Code;
+                resultStroke.Draw(this.canvas);
+                sample.Add(resultStroke);
+            }
+            else if (this.ImageOprateCtrEntity.MarkType == MarkType.Sample)
+            {
+                SampleShape resultStroke = new SampleShape(this._dynamic);
+                sample.Flag = "\xeaf3";
+                sample.Type = "1";
+                sample.Code = imgMarkEntity.PHMCodes;
+                resultStroke.Name = sample.Name;
+                resultStroke.Code = sample.Code;
+                resultStroke.Draw(this.canvas);
+                sample.Add(resultStroke);
+            }
+
+           
+
+
+            this.ViewModel.Add(sample);
+
+            //  Do：触发新增事件
+            this.ImageOprateCtrEntity.OnImgMarkOperateEvent(sample.Model);
+
+            //  Do：清除动态框
+            _dynamic.BegionMatch(false);
+        }
+
         /// <summary>
         /// 鼠标按下事件
         /// </summary>
@@ -283,6 +337,7 @@ namespace Ty.Component.ImageControl
         {
             if ((this.ImageOprateCtrEntity.MarkType == MarkType.None)) return;
 
+
             //  Do：检查选择区域是否可用
             if (!_dynamic.IsMatch())
             {
@@ -290,7 +345,7 @@ namespace Ty.Component.ImageControl
                 return;
             };
 
-
+            if (this.start.X <= 0) return;
 
             //  Do：如果是选择局部放大
             if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
@@ -317,8 +372,11 @@ namespace Ty.Component.ImageControl
             }
             else
             {
-                //  Do：不是局部放大功能则显示弹出窗口
-                this.popup.IsOpen = true;
+
+                this.ImageOprateCtrEntity.OnDrawMarkedMouseUp();
+
+                ////  Do：不是局部放大功能则显示弹出窗口
+                //this.popup.IsOpen = true;
 
             }
 

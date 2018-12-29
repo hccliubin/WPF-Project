@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -51,10 +52,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefectViewModel.cs" />
-    <Compile Include="IDefectSign.cs" />
-    <Compile Include="SearchCombobox.cs" />
-    <Page Include="DefectControl.xaml">
+    <Compile Include="ViewModel\DefectViewModel.cs" />
+    <Compile Include="Service\IDefectSign.cs" />
+    <Compile Include="Provider\SearchCombobox.cs" />
+    <Page Include="Themes\Scroll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DefectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -64,7 +69,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefectControl.xaml.cs">
+    <Compile Include="View\DefectControl.xaml.cs">
       <DependentUpon>DefectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -94,6 +99,9 @@
       <Project>{435FEB82-599F-48E3-8891-755ACF8E4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\框.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

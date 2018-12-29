@@ -141,6 +141,7 @@ namespace Ty.Component.SignsControl
             TextBox tb = sender as TextBox;
             if (tb.IsFocused)
             {
+                tb.Focus();
                 this.IsDropDownOpen = true;
                 if (editText == this.Text)
                     return;
@@ -163,6 +164,9 @@ namespace Ty.Component.SignsControl
                     bindingList.Add(item);
             }
         }
+
+
+
         /// <summary>
         /// 过滤符合条件的数据项，添加到数据源项中
         /// </summary>
@@ -172,6 +176,7 @@ namespace Ty.Component.SignsControl
             string temp1 = "";
 
             string temp2 = "";
+
             if (MyItemsSource == null) return;
 
             foreach (var item in MyItemsSource)
@@ -186,16 +191,44 @@ namespace Ty.Component.SignsControl
                 {
                     temp2 = item.GetType().GetProperty(this.SelectedValuePath).GetValue(item, null).ToString();
                 }
-                if (temp1.Contains(txt) || temp2.StartsWith(txt))
+
+                if (this.FilterMatch == null)
                 {
-                    if (!bindingList.Contains(item))
-                        bindingList.Add(item);
+                    if (temp1.Contains(txt) || temp2.StartsWith(txt))
+                    {
+                        if (!bindingList.Contains(item))
+                            bindingList.Add(item);
+                    }
+                    else if (bindingList.Contains(item))
+                    {
+                        bindingList.Remove(item);
+                    }
                 }
-                else if (bindingList.Contains(item))
+                else
                 {
-                    bindingList.Remove(item);
+                    if (this.FilterMatch(item, txt))
+                    {
+                        if (!bindingList.Contains(item))
+                            bindingList.Add(item);
+                    }
+                    else
+                    {
+                        bindingList.Remove(item);
+                    }
                 }
+
             }
         }
+
+        public Func<object,string,bool> FilterMatch
+        {
+            get { return (Func<object, string, bool>)GetValue(FilterMatchProperty); }
+            set { SetValue(FilterMatchProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FilterMatchProperty =
+            DependencyProperty.Register("FilterMatch", typeof(Func<object, string, bool>), typeof(SearchCombobox), new PropertyMetadata());
+
     }
 }

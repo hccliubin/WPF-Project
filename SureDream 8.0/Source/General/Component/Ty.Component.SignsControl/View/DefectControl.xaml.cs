@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Ty.Component.SignsControl
 {
     /// <summary>
-    /// DefectControl.xaml 的交互逻辑
+    /// 缺陷管理控件
     /// </summary>
     public partial class DefectControl : UserControl
     {

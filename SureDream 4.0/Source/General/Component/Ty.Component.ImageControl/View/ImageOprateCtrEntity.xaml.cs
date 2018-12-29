@@ -366,6 +366,8 @@ namespace Ty.Component.ImageControl
 
             if (!File.Exists(imagePath)) return;
 
+            this.RefreshPart();
+
             ImageControlViewModel viewModel = new ImageControlViewModel(this);
 
             viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
@@ -373,6 +375,8 @@ namespace Ty.Component.ImageControl
             //viewModel.ImgMarkOperateEvent += this.ImgMarkOperateEvent;
 
             this.ViewModel = viewModel;
+
+          
         }
 
         //private void button_last_Click(object sender, RoutedEventArgs e)
@@ -505,6 +509,15 @@ namespace Ty.Component.ImageControl
         public event Action PreviousImgEvent;
 
         public event Action NextImgEvent;
+
+        public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
+
+        internal void OnDrawMarkedMouseUp()
+        {
+            ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
+
+            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity,this.MarkType);
+        }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
         {
@@ -743,6 +756,16 @@ namespace Ty.Component.ImageControl
             }
 
             result.RectangleLayer.First().SetSelected();
+        }
+
+        public void AddMark(ImgMarkEntity imgMarkEntity)
+        {
+            this.control_imageView.AddMark(imgMarkEntity);
+        }
+
+        public void CancelAddMark()
+        {
+            this.control_imageView.ClearDynamic();
         }
     }
 }

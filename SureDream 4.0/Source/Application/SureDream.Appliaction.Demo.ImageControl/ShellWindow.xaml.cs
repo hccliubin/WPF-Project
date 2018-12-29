@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using CDTY.DataAnalysis.Entity;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -87,6 +88,47 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
 
             };
+
+            _imgOperate.DrawMarkedMouseUp += (l, k) =>
+              {
+                  Debug.WriteLine(l);
+                  Debug.WriteLine(k);
+
+                  //  Do：选择的责任工区
+                  l.SelectResponsibilityWorkArea = new TyeEncodeCategoryconfigEntity();
+                  //  Do：选择的责任车间
+                  l.SelectResponsibilityWorkshop = new TyeEncodeCategoryconfigEntity();
+                  //  Do：选择的单元
+                  l.SelectBasicUnit = new TyeEncodeCategoryconfigEntity();
+                  //  Do：选择的站
+                  l.SelectDedicatedStation = new TyeBaseSiteEntity();
+                  //  Do：选择的段
+                  l.SelectDedicatedLine = new TyeBaseLineEntity();
+                  //  Do：选择的铁路局顺序码
+                  l.SelectRailwaySsequence = new TyeEncodeCategoryconfigEntity();
+                  //  Do：选择的数据采集方式
+                  l.SelectDataAcquisitionMode = new TyeEncodeCategoryconfigEntity();
+                  //  Do：PHM编码（基本由界面属性组合而成）
+                  l.PHMCodes = "PHM编码（基本由界面属性组合而成）";
+                  //  Do：当前用户
+                  l.tyeAdminUserEntity = new TyeAdminUserEntity();
+                  //  Do：检测日期
+                  l.DetectDate = DateTime.Now;
+                  //  Do：公里标
+                  l.KmLog = "公里标";
+                  //  Do：检测车辆
+                  l.DetectionVehicles = "检测车辆";
+
+                  //  Do：选择的缺陷
+                  l.SelectDefectOrMarkCodes = new TyeEncodeDeviceEntity() ;
+
+                  //  Do：选择的历史信息
+                  l.SelectCommonHistoricalDefectsOrMark = new DefectCommonUsed();
+
+                  //_imgOperate.AddMark(l);
+
+                  _imgOperate.CancelAddMark();
+              };
 
 
         }

@@ -21,15 +21,49 @@ namespace Ty.Component.ImageControl
         public string Code { get; set; }
         public string Name { get; set; }
 
-
+        protected double NormalStrokeThickness { get; set; }
         /// <summary>
         /// 无参数构造函数
         /// </summary>
         public RectangleShape() : base()
         {
+
             this.InitComponent();
+
         }
 
+        void RefreshStrokeThickness()
+        {
+            if ((this is DynamicShape)) return;
+
+            if (this.IsSelected)
+            {
+                if (this.IsMouseOver)
+                {
+                    this.StrokeThickness = this.NormalStrokeThickness * 5 * 8;
+                }
+                else
+                {
+                    this.StrokeThickness = this.NormalStrokeThickness * 5 * 5;
+                }
+
+                this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.3 };
+            }
+            else
+            {
+
+                this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.0 };
+
+                if (this.IsMouseOver)
+                {
+                    this.StrokeThickness = this.NormalStrokeThickness * 5 * 3;
+                }
+                else
+                {
+                    this.StrokeThickness = this.NormalStrokeThickness * 5 ;
+                }
+            }
+        }
 
         public bool IsSelected { get; private set; }
 
@@ -45,42 +79,41 @@ namespace Ty.Component.ImageControl
 
                     if (shape.IsSelected)
                     {
-                        shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)shape.Fill).Color, Opacity = 0.1 };
-                        shape.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)shape.Stroke).Color, Opacity = 1 };
-                        shape.StrokeThickness /= 3;
+                        //shape.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)shape.Fill).Color, Opacity = 0.1 };
+                        //shape.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)shape.Stroke).Color, Opacity = 1 };
+                        //shape.StrokeThickness /= 3;
                         shape.IsSelected = false;
+
+                        shape.RefreshStrokeThickness();
                     }
                 }
             }
 
             this.IsSelected = true;
-            this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
-            this.StrokeThickness *= 3;
+            //this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
+            //this.StrokeThickness *= 3;
+
+            this.RefreshStrokeThickness();
         }
         /// <summary>
         /// 初始化组件
         /// </summary>
         void InitComponent()
         {
+            this.NormalStrokeThickness = this.StrokeThickness;
+
+
             //  Do：鼠标进入事件
             this.MouseEnter += (l, k) =>
             {
-                if (this.IsSelected) return;
-
-                this.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)this.Stroke).Color, Opacity = 0.5 };
-
-                //this.StrokeThickness *= 3;
+                this.RefreshStrokeThickness();
             };
 
             //  Do：鼠标移除事件
             this.MouseLeave += (l, k) =>
             {
-                if (this.IsSelected) return;
 
-                this.Stroke = new SolidColorBrush() { Color = ((SolidColorBrush)this.Stroke).Color, Opacity = 1 };
-
-                //this.StrokeThickness /= 3;
-
+                this.RefreshStrokeThickness();
             };
 
             this.MouseDown += (l, k) =>
@@ -286,7 +319,7 @@ namespace Ty.Component.ImageControl
         /// <param name="rectangle"></param>
         public DynamicShape(RectangleShape rectangle) : base(rectangle)
         {
-
+           
         }
 
         /// <summary>
@@ -308,6 +341,9 @@ namespace Ty.Component.ImageControl
         /// <param name="end"></param>
         public void Refresh(Point start, Point end)
         {
+
+
+
             this.Width = Math.Abs(start.X - end.X);
             this.Height = Math.Abs(start.Y - end.Y);
 

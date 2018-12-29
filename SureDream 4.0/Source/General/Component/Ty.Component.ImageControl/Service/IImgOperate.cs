@@ -54,9 +54,21 @@ namespace Ty.Component.ImageControl
         /// </summary>
         event ImgProcessHandler ImgProcessEvent;
 
+        /// <summary>
+        /// 上一张
+        /// </summary>
         event Action PreviousImgEvent;
 
+        /// <summary>
+        /// 下一张
+        /// </summary>
         event Action NextImgEvent;
+
+        /// <summary>
+        /// 绘制矩形框结束
+        /// </summary>
+
+        event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
 
         #endregion
 
@@ -145,6 +157,17 @@ namespace Ty.Component.ImageControl
         /// </summary>
         /// <returns></returns>
         void SetSelectMarkEntity(Predicate<ImgMarkEntity> match);
+
+
+        /// <summary>
+        /// 添加标定(在DrawMarkedMouseUp事件时添加标定)
+        /// </summary>
+        void AddMark(ImgMarkEntity imgMarkEntity);
+
+        /// <summary>
+        /// 取消添加标定(在DrawMarkedMouseUp事件时取消标定)
+        /// </summary>
+        void CancelAddMark();
 
     }
 
