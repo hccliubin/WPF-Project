@@ -119,8 +119,6 @@ namespace Ty.Component.SignsControl
             }
         }
 
-
-
         private TyeEncodeDeviceEntity _selectDefectOrMarkCodes;
         /// <summary> 选择的缺陷  </summary>
         public TyeEncodeDeviceEntity SelectDefectOrMarkCodes
@@ -142,6 +140,8 @@ namespace Ty.Component.SignsControl
             {
                 _selectCommonHistoricalDefectsOrMark = value;
                 RaisePropertyChanged("SelectCommonHistoricalDefectsOrMark");
+
+                this.RefreshPHMCode();
             }
         }
 
@@ -157,6 +157,20 @@ namespace Ty.Component.SignsControl
                 _pHMCodes = value;
 
                 RaisePropertyChanged("PHMCodes");
+            }
+        }
+
+
+
+        private string _dbType;
+        /// <summary> 数据库类型  </summary>
+        public string DbType
+        {
+            get { return _dbType; }
+            set
+            {
+                _dbType = value;
+                RaisePropertyChanged("DbType");
             }
         }
 
@@ -299,11 +313,14 @@ namespace Ty.Component.SignsControl
 
         void RefreshPHMCode()
         {
+            this.Codes[0] = this.DbType;
             this.Codes[1] = this.SelectDataAcquisitionMode?.Code;
             this.Codes[2] = this.SelectRailwaySsequence?.Code;
             this.Codes[3] = this.SelectDedicatedLine?.LineCode;
             this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
             this.Codes[5] = this.SelectBasicUnit?.Code;
+
+            this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
 
             this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
         }
@@ -357,20 +374,25 @@ namespace Ty.Component.SignsControl
             //    this.HistCollection.Add(item);
             //}
 
-            var count = entity.PHMCodes.Split(' ');
-
-            if (count.Length != 10)
+            if(string.IsNullOrEmpty(entity.PHMCodes))
             {
                 Debug.WriteLine("PHMCodes格式不正确，请检查：" + entity.PHMCodes);
                 return;
             }
 
-            for (int i = 0; i < 10; i++)
+            this.DbType = entity.PHMCodes;
+
+
+
+            //var count = entity.PHMCodes.Split(' ');
+
+            //  Message：初始化7位Code
+            for (int i = 0; i < 7; i++)
             {
-                this.Codes.Add(count[i]);
+                this.Codes.Add(string.Empty);
             }
 
-            this.PHMCodes = entity.PHMCodes;
+            //this.PHMCodes = entity.PHMCodes;
 
         }
 

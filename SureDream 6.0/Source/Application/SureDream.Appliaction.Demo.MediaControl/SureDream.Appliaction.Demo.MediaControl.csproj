@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\General\Component\Ty.Component.MediaControl\Ty.Component.MediaControl.csproj">
+      <Project>{73cdfd21-2014-470c-b250-740852bd4eea}</Project>
+      <Name>Ty.Component.MediaControl</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

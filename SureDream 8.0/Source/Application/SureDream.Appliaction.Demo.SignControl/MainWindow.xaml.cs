@@ -31,17 +31,9 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             this.Loaded += MainWindow_Loaded;
 
-            set(l => l.ORGID);
-
-
         }
 
-        void set(Expression<Func<jw_add_data, string>> fff)
-        {
-
-            Debug.WriteLine(fff);
-
-        }
+    
         Window window = new Window();
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -96,7 +88,7 @@ namespace SureDream.Appliaction.Demo.SignControl
         {
             DefectMenuEntity entity = new DefectMenuEntity();
 
-            entity.PHMCodes = "B 01 01 012 01 000001 01 01 01 01";
+            entity.PHMCodes = "A";
 
             //  Message：数据采集方式
             List<TyeEncodeCategoryconfigEntity> tyeEncodeCategoryconfigEntities = new List<TyeEncodeCategoryconfigEntity>();
@@ -206,19 +198,5 @@ namespace SureDream.Appliaction.Demo.SignControl
 
         }
     }
-
-   
-    public class jw_add_data
-    {
-       
-        public string ID { get; set; }
-       
-        public string ORGID { get; set; }
-        
-        public string ORGNAME { get; set; }
-        
-        public string ORGTYPE { get; set; }
-        
-
-    }
+    
 }

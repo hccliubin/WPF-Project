@@ -135,7 +135,8 @@
                 <TextBlock Text="供电专业专用站/区间：" Grid.Row="3" Grid.Column="0"/>
                 <local:SearchCombobox  Grid.Row="3" Grid.Column="1"    SelectedIndex="0"
                                        SelectedItem="{Binding SelectDedicatedStation}"
-                                       MyItemsSource="{Binding DefectMenuEntity.DedicatedStation,Mode=TwoWay}"  DisplayMemberPath="SiteName"/>
+                                       MyItemsSource="{Binding DefectMenuEntity.DedicatedStation,Mode=TwoWay}"  
+                                       DisplayMemberPath="SiteName"/>
 
 
             </Grid>
