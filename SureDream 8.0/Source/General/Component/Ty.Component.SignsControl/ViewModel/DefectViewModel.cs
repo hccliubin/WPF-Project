@@ -19,9 +19,9 @@ namespace Ty.Component.SignsControl
     {
         #region - 成员属性 -
 
-        private TyeEncodeCategoryconfigEntity _selectResponsibilityWorkArea;
+        private TyeBaseDepartmentEntity _selectResponsibilityWorkArea;
         /// <summary> 选择的责任工区  </summary>
-        public TyeEncodeCategoryconfigEntity SelectResponsibilityWorkArea
+        public TyeBaseDepartmentEntity SelectResponsibilityWorkArea
         {
             get { return _selectResponsibilityWorkArea; }
             set
@@ -32,9 +32,9 @@ namespace Ty.Component.SignsControl
         }
 
 
-        private TyeEncodeCategoryconfigEntity _selectResponsibilityWorkshop;
+        private TyeBaseDepartmentEntity _selectResponsibilityWorkshop;
         /// <summary> 选择的责任车间  </summary>
-        public TyeEncodeCategoryconfigEntity SelectResponsibilityWorkshop
+        public TyeBaseDepartmentEntity SelectResponsibilityWorkshop
         {
             get { return _selectResponsibilityWorkshop; }
             set
@@ -45,9 +45,9 @@ namespace Ty.Component.SignsControl
         }
 
 
-        private TyeEncodeCategoryconfigEntity _selectBasicUnit;
+        private TyeBasePillarEntity _selectBasicUnit;
         /// <summary> 选择的单元  </summary>
-        public TyeEncodeCategoryconfigEntity SelectBasicUnit
+        public TyeBasePillarEntity SelectBasicUnit
         {
             get { return _selectBasicUnit; }
             set
@@ -90,9 +90,9 @@ namespace Ty.Component.SignsControl
         }
 
 
-        private TyeEncodeCategoryconfigEntity _selectRailwaySsequence;
+        private TyeBaseRailwaystationEntity _selectRailwaySsequence;
         /// <summary> 选择的铁路局顺序码  </summary>
-        public TyeEncodeCategoryconfigEntity SelectRailwaySsequence
+        public TyeBaseRailwaystationEntity SelectRailwaySsequence
         {
             get { return _selectRailwaySsequence; }
             set
@@ -105,9 +105,9 @@ namespace Ty.Component.SignsControl
         }
 
 
-        private TyeEncodeCategoryconfigEntity _selectDataAcquisitionMode;
+        private TyeBaseDatacollecttypeEntity _selectDataAcquisitionMode;
         /// <summary> 选择的数据采集方式  </summary>
-        public TyeEncodeCategoryconfigEntity SelectDataAcquisitionMode
+        public TyeBaseDatacollecttypeEntity SelectDataAcquisitionMode
         {
             get { return _selectDataAcquisitionMode; }
             set
@@ -241,9 +241,6 @@ namespace Ty.Component.SignsControl
         }
 
 
-    
-
-
 
         private Func<object, string, bool> _filterMatch;
         /// <summary> 匹配样本与缺陷检索时支持编码检索、名称检索与拼音检索  </summary>
@@ -318,7 +315,7 @@ namespace Ty.Component.SignsControl
             this.Codes[2] = this.SelectRailwaySsequence?.Code;
             this.Codes[3] = this.SelectDedicatedLine?.LineCode;
             this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
-            this.Codes[5] = this.SelectBasicUnit?.Code;
+            this.Codes[5] = this.SelectBasicUnit?.PoleMarkCode;
 
             this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
 
@@ -428,7 +425,7 @@ namespace Ty.Component.SignsControl
             sb.AppendFormat("{0} - {1}" + Environment.NewLine, "铁路局顺序码", this.SelectRailwaySsequence?.Name);
             sb.AppendFormat("{0} - {1}" + Environment.NewLine, "供电专业专用线路名称", this.SelectDedicatedLine?.LineName);
             sb.AppendFormat("{0} - {1}" + Environment.NewLine, "供电专业专用站\\区间 ", this.SelectDedicatedStation?.SiteName);
-            sb.AppendFormat("{0} - {1}" + Environment.NewLine, "基本单元", this.SelectBasicUnit?.Name);
+            sb.AppendFormat("{0} - {1}" + Environment.NewLine, "基本单元", this.SelectBasicUnit?.PoleMarkCode);
             sb.AppendFormat("{0} - {1}" + Environment.NewLine, "检测车辆", this.DetectionVehicles);
             sb.AppendFormat("{0} - {1}" + Environment.NewLine, "责任车间", this.SelectResponsibilityWorkshop?.Name);
             sb.AppendFormat("{0} - {1}" + Environment.NewLine, "责任工区", this.SelectResponsibilityWorkArea?.Name);

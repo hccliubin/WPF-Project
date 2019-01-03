@@ -162,7 +162,7 @@
 
                 <TextBlock Text="基本单元：" Grid.Row="0" Grid.Column="0"/>
                 <local:SearchCombobox   Grid.Row="0" Grid.Column="1"    SelectedIndex="0"
-                                        SelectedItem="{Binding SelectBasicUnit}"
+                                        SelectedItem="{Binding SelectBasicUnit}" DisplayMemberPath="PoleMarkCode"
                                         MyItemsSource="{Binding DefectMenuEntity.BasicUnit,Mode=TwoWay}"/>
 
                 <TextBlock Text="检测车辆：" Grid.Row="1" Grid.Column="0"/>

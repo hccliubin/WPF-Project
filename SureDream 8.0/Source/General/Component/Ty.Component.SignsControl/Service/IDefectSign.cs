@@ -51,7 +51,7 @@ namespace Ty.Component.SignsControl
         /// <summary>
         /// 选择的单元
         /// </summary>
-        TyeEncodeCategoryconfigEntity SelectBasicUnit { get; }
+        TyeBasePillarEntity SelectBasicUnit { get; }
 
         /// <summary>
         /// 选择的历史信息
@@ -60,7 +60,7 @@ namespace Ty.Component.SignsControl
         /// <summary>
         /// 选择的数据采集方式
         /// </summary>
-        TyeEncodeCategoryconfigEntity SelectDataAcquisitionMode { get; }
+        TyeBaseDatacollecttypeEntity SelectDataAcquisitionMode { get; }
         /// <summary>
         /// 选择的段
         /// </summary>
@@ -76,15 +76,15 @@ namespace Ty.Component.SignsControl
         /// <summary>
         /// 选择的铁路局顺序码
         /// </summary>
-        TyeEncodeCategoryconfigEntity SelectRailwaySsequence { get;}
+        TyeBaseRailwaystationEntity SelectRailwaySsequence { get;}
         /// <summary>
         /// 选择的责任工区
         /// </summary>
-        TyeEncodeCategoryconfigEntity SelectResponsibilityWorkArea { get;}
+        TyeBaseDepartmentEntity SelectResponsibilityWorkArea { get;}
         /// <summary>
         /// 选择的责任车间
         /// </summary>
-        TyeEncodeCategoryconfigEntity SelectResponsibilityWorkshop { get; }
+        TyeBaseDepartmentEntity SelectResponsibilityWorkshop { get; }
 
     }
 }

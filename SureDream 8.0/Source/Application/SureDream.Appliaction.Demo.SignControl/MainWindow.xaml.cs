@@ -91,13 +91,13 @@ namespace SureDream.Appliaction.Demo.SignControl
             entity.PHMCodes = "A";
 
             //  Message：数据采集方式
-            List<TyeEncodeCategoryconfigEntity> tyeEncodeCategoryconfigEntities = new List<TyeEncodeCategoryconfigEntity>();
+            List<TyeBaseDatacollecttypeEntity> tyeEncodeCategoryconfigEntities = new List<TyeBaseDatacollecttypeEntity>();
 
             for (int i = 0; i < 20; i++)
             {
-                TyeEncodeCategoryconfigEntity tyeEncodeCategoryconfigEntity = new TyeEncodeCategoryconfigEntity();
+                TyeBaseDatacollecttypeEntity tyeEncodeCategoryconfigEntity = new TyeBaseDatacollecttypeEntity();
 
-                tyeEncodeCategoryconfigEntity.ID = i.ToString();
+                //tyeEncodeCategoryconfigEntity.ID = i.ToString();
                 tyeEncodeCategoryconfigEntity.Code = "Data" + i.ToString();
                 tyeEncodeCategoryconfigEntity.Name = "N00" + i.ToString();
 
@@ -106,7 +106,20 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             entity.DataAcquisitionMode = tyeEncodeCategoryconfigEntities;
 
-            entity.RailwaySsequence = tyeEncodeCategoryconfigEntities;
+            List<TyeBaseRailwaystationEntity> RailwaySsequences = new List<TyeBaseRailwaystationEntity>();
+
+            for (int i = 0; i < 20; i++)
+            {
+                TyeBaseRailwaystationEntity tyeEncodeCategoryconfigEntity = new TyeBaseRailwaystationEntity();
+
+                //tyeEncodeCategoryconfigEntity.ID = i.ToString();
+                tyeEncodeCategoryconfigEntity.Code = "Data" + i.ToString();
+                tyeEncodeCategoryconfigEntity.Name = "N00" + i.ToString();
+
+                RailwaySsequences.Add(tyeEncodeCategoryconfigEntity);
+            }
+
+            entity.RailwaySsequence = RailwaySsequences;
 
             List<TyeBaseLineEntity> tyeBaseLineEntities = new List<TyeBaseLineEntity>();
 
@@ -134,11 +147,35 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             entity.DedicatedStation = tyeBaseSiteEntities;
 
-            entity.BasicUnit = tyeEncodeCategoryconfigEntities;
+            List<TyeBaseDepartmentEntity> responsibilityworkarea = new List<TyeBaseDepartmentEntity>();
 
-            entity.ResponsibilityWorkArea = tyeEncodeCategoryconfigEntities;
+            for (int i = 0; i < 10; i++)
+            {
+                TyeBaseDepartmentEntity tyeBaseSiteEntity = new TyeBaseDepartmentEntity();
+                tyeBaseSiteEntity.ID = i.ToString();
+                tyeBaseSiteEntity.Code = "Site" + i.ToString();
+                tyeBaseSiteEntity.Name = "SN00" + i.ToString();
+                responsibilityworkarea.Add(tyeBaseSiteEntity);
+            }
 
-            entity.ResponsibilityWorkshop = tyeEncodeCategoryconfigEntities;
+
+            List<TyeBasePillarEntity> basicunit = new List<TyeBasePillarEntity>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                TyeBasePillarEntity tyeBaseSiteEntity = new TyeBasePillarEntity();
+                tyeBaseSiteEntity.ID = i.ToString();
+                tyeBaseSiteEntity.PoleMarkCode = "Site" + i.ToString();
+                //tyeBaseSiteEntity. = "SN00" + i.ToString();
+                basicunit.Add(tyeBaseSiteEntity);
+            }
+
+
+            entity.BasicUnit = basicunit;
+
+            entity.ResponsibilityWorkArea = responsibilityworkarea;
+
+            entity.ResponsibilityWorkshop = responsibilityworkarea;
 
             ObservableCollection<TyeEncodeDeviceEntity> tyeEncodeDeviceEntities = new ObservableCollection<TyeEncodeDeviceEntity>();
 

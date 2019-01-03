@@ -101,13 +101,13 @@ namespace Ty.Component.ImageControl
         #region - 缺陷标定管理新增 -
         
         /// <summary> 选择的责任工区  </summary>
-        public TyeEncodeCategoryconfigEntity SelectResponsibilityWorkArea { get; set; }
+        public TyeBaseDepartmentEntity SelectResponsibilityWorkArea { get; set; }
         
         /// <summary> 选择的责任车间  </summary>
-        public TyeEncodeCategoryconfigEntity SelectResponsibilityWorkshop { get; set; }
+        public TyeBaseDepartmentEntity SelectResponsibilityWorkshop { get; set; }
         
         /// <summary> 选择的单元  </summary>
-        public TyeEncodeCategoryconfigEntity SelectBasicUnit { get; set; }
+        public TyeBasePillarEntity SelectBasicUnit { get; set; }
         
         /// <summary> 选择的站  </summary>
         public TyeBaseSiteEntity SelectDedicatedStation { get; set; }
@@ -116,10 +116,10 @@ namespace Ty.Component.ImageControl
         public TyeBaseLineEntity SelectDedicatedLine { get; set; }
         
         /// <summary> 选择的铁路局顺序码  </summary>
-        public TyeEncodeCategoryconfigEntity SelectRailwaySsequence { get; set; }
+        public TyeBaseRailwaystationEntity SelectRailwaySsequence { get; set; }
         
         /// <summary> 选择的数据采集方式  </summary>
-        public TyeEncodeCategoryconfigEntity SelectDataAcquisitionMode { get; set; }
+        public TyeBaseDatacollecttypeEntity SelectDataAcquisitionMode { get; set; }
 
         /// <summary>
         /// PHM编码（基本由界面属性组合而成）

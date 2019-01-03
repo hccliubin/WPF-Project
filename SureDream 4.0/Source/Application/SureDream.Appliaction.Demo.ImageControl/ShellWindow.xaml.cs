@@ -95,19 +95,19 @@ namespace SureDream.Appliaction.Demo.ImageControl
                   Debug.WriteLine(k);
 
                   //  Do：选择的责任工区
-                  l.SelectResponsibilityWorkArea = new TyeEncodeCategoryconfigEntity();
+                  l.SelectResponsibilityWorkArea = new TyeBaseDepartmentEntity();
                   //  Do：选择的责任车间
-                  l.SelectResponsibilityWorkshop = new TyeEncodeCategoryconfigEntity();
+                  l.SelectResponsibilityWorkshop = new TyeBaseDepartmentEntity();
                   //  Do：选择的单元
-                  l.SelectBasicUnit = new TyeEncodeCategoryconfigEntity();
+                  l.SelectBasicUnit = new TyeBasePillarEntity();
                   //  Do：选择的站
                   l.SelectDedicatedStation = new TyeBaseSiteEntity();
                   //  Do：选择的段
                   l.SelectDedicatedLine = new TyeBaseLineEntity();
                   //  Do：选择的铁路局顺序码
-                  l.SelectRailwaySsequence = new TyeEncodeCategoryconfigEntity();
+                  l.SelectRailwaySsequence = new TyeBaseRailwaystationEntity();
                   //  Do：选择的数据采集方式
-                  l.SelectDataAcquisitionMode = new TyeEncodeCategoryconfigEntity();
+                  l.SelectDataAcquisitionMode = new TyeBaseDatacollecttypeEntity();
                   //  Do：PHM编码（基本由界面属性组合而成）
                   l.PHMCodes = "PHM编码（基本由界面属性组合而成）";
                   //  Do：当前用户
@@ -125,9 +125,9 @@ namespace SureDream.Appliaction.Demo.ImageControl
                   //  Do：选择的历史信息
                   l.SelectCommonHistoricalDefectsOrMark = new DefectCommonUsed();
 
-                  //_imgOperate.AddMark(l);
+                  _imgOperate.AddMark(l);
 
-                  _imgOperate.CancelAddMark();
+                  //_imgOperate.CancelAddMark();
               };
 
 
