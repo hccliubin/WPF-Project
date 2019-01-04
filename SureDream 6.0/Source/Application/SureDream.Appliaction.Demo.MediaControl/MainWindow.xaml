@@ -61,6 +61,9 @@
                             <Button  x:Name="btn_play_localarea"  Content="播放(局域网)" Click="Btn_play_localarea_Click"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
+                            <Button  x:Name="btn_play_localftp"  Content="播放(ftp)" Click="Btn_play_localftp_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
                             <Button  x:Name="btn_play_http" Background="Orange"   Content="播放(Http)" Click="Btn_play_http_Click"/>
                         </StackPanel>
                     </StackPanel>

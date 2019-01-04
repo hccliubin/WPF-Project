@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 namespace Ty.Component.MediaControl
 {
     /// <summary>
-    /// MediaPlayerControl.xaml 的交互逻辑
+    /// 视频播放控件
     /// </summary>
     public partial class MediaPlayerControl : UserControl
     {
@@ -65,9 +65,23 @@ namespace Ty.Component.MediaControl
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                if (_mediaPlayMode == MediaPlayMode.RepeatFromTo)
+                {
+                    if (this._repeatFromTo == null) return;
+
+                    if(this.media_media.Position<_repeatFromTo.Item1)
+                    {
+                        this.media_media.Position = _repeatFromTo.Item1;
+                    }
+
+                    if (this.media_media.Position > _repeatFromTo.Item2)
+                    {
+                        this.media_media.Position = _repeatFromTo.Item1;
+                    }
+                }
+
                 this.media_slider.Value = this.media_media.Position.Ticks;
             });
-
         }
 
         private void Player_MediaFailed(object sender, ExceptionRoutedEventArgs e)
@@ -95,7 +109,6 @@ namespace Ty.Component.MediaControl
             this.Stop();
         }
 
-
         private void media_slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             if (this.media_media == null) return;
@@ -113,21 +126,6 @@ namespace Ty.Component.MediaControl
         private void slider_sound_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             this.media_media.Volume = this.slider_sound.Value;
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            this.Stop();
         }
 
         private void media_slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -189,8 +187,8 @@ namespace Ty.Component.MediaControl
             this.media_media.LoadedBehavior = MediaState.Manual;
         }
 
-
         Point start;
+
         /// <summary>
         /// 鼠标按下事件
         /// </summary>
@@ -278,9 +276,9 @@ namespace Ty.Component.MediaControl
                 window.ShowDialog();
 
 
-              
+
             }
-           
+
 
             //  Do：将数据初始化
             start = new Point(-1, -1);
@@ -298,19 +296,31 @@ namespace Ty.Component.MediaControl
 
         }
 
+        private void Btn_addspeed_Click(object sender, RoutedEventArgs e)
+        {
+            this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
+        }
 
+        private void Btn_multipspeed_Click(object sender, RoutedEventArgs e)
+        {
+            this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
+        }
 
-        //byte[] screenshot = MediaEL.GetScreenShot(1, 90);
-        //FileStream fileStream = new FileStream(@"Capture.jpg", FileMode.Create, FileAccess.ReadWrite);
-        //BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-        //binaryWriter.Write(screenshot);
-        //    binaryWriter.Close();
+        private void Btn_stop_Click(object sender, RoutedEventArgs e)
+        {
+            this.Stop();
+        }
     }
 
     public partial class MediaPlayerControl : IMediaPlayerService
     {
 
-        MediaPlayType _mediaPlayType;
+        MediaPlayType _mediaPlayType= MediaPlayType.Video;
+
+        MediaPlayMode _mediaPlayMode= MediaPlayMode.Normal;
+
+        Tuple<TimeSpan, TimeSpan> _repeatFromTo;
+
         /// <summary>
         /// 获取当前帧
         /// </summary>
@@ -367,27 +377,42 @@ namespace Ty.Component.MediaControl
             throw new NotImplementedException();
         }
 
+        List<string> _imageUrls = new List<string>();
+
         public void LoadImages(List<string> ImageUrls)
         {
-            throw new NotImplementedException();
+            this._mediaPlayType = MediaPlayType.ImageList;
+
+            _imageUrls = ImageUrls;
+
+            Uri uri = new Uri(ImageUrls.First(), UriKind.Absolute);
+
+            this.media_media.Source = uri;
+
+            this.Play();
         }
 
         public void RepeatFromTo(TimeSpan from, TimeSpan to)
         {
-           
-            this.media_media.Position = from;
+            if (from > to) return;
 
-            Task t = Task.Delay(to - from);
+            this._mediaPlayMode = MediaPlayMode.RepeatFromTo;
 
-            t.ContinueWith(l=>
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.media_media.Position = from;
+            _repeatFromTo = new Tuple<TimeSpan, TimeSpan>(from, to);
 
-                    t = Task.Delay(to - from);
-                });
-            });
+            //this.media_media.Position = from;
+
+            //Task t = Task.Delay(to - from);
+
+            //t.ContinueWith(l =>
+            //{
+            //    Application.Current.Dispatcher.Invoke(() =>
+            //    {
+            //        this.media_media.Position = from;
+
+            //        t = Task.Delay(to - from);
+            //    });
+            //});
         }
 
         public void ScreenShot(TimeSpan from, string saveFullName)
@@ -438,6 +463,11 @@ namespace Ty.Component.MediaControl
     enum MediaPlayType
     {
         Video = 0, ImageList, ImageFoder
+    }
+
+    enum MediaPlayMode
+    {
+        Normal = 0, RepeatFromTo
     }
 
     #region Extension Methods

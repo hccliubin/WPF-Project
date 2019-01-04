@@ -56,7 +56,9 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void Btn_play_localarea_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("说明");
+            string filePath = @"\\Desktop-bem7r0b\视频格式大全\6-9+有关梯度下降法的更多深入讨论.mp4";
+
+            this.media.Load(filePath);
         }
 
         private void Btn_play_http_Click(object sender, RoutedEventArgs e)
@@ -73,7 +75,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void Btn_play_repeat_Click(object sender, RoutedEventArgs e)
         {
-            this.media.RepeatFromTo(TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(120));
+            this.media.RepeatFromTo(TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(70));
         }
 
         private void Btn_play_screen_Click(object sender, RoutedEventArgs e)
@@ -120,6 +122,11 @@ namespace SureDream.Appliaction.Demo.MediaControl
             result += " - 总计：" + this.media.GetTotalFrame();
 
             MessageBox.Show(result);
+        }
+
+        private void Btn_play_localftp_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("ftp");
         }
     }
 }
