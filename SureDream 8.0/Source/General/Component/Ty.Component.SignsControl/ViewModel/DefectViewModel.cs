@@ -15,7 +15,7 @@ namespace Ty.Component.SignsControl
     /// <summary>
     /// 缺陷标定信息页面绑定实体
     /// </summary>
-    public partial class DefectViewModel 
+    public partial class DefectViewModel
     {
         #region - 成员属性 -
 
@@ -281,21 +281,32 @@ namespace Ty.Component.SignsControl
                   {
                       if (this.DefectMenuEntity.CommonHistoricalDefectsOrMark == null) return false;
 
-                      DefectCommonUsed defectCommonUsed = l as DefectCommonUsed;
+                      TyeEncodeDeviceEntity defectCommonUsed = l as TyeEncodeDeviceEntity;
 
                       if (defectCommonUsed == null) return false;
 
+                      if (string.IsNullOrEmpty(k)) return true;
+
+                      //  Message：匹配字段的规则
+                      Func<string, string, bool> match = (m, n) =>
+                          {
+                              if (string.IsNullOrEmpty(m)) return false;
+
+                              return  m.Contains(n);
+
+                          };
+
                       //  Message：匹配缺陷样本搜索规则
-                      return defectCommonUsed.Code.Contains(k) || defectCommonUsed.Name.Contains(k) || defectCommonUsed.NamePY.Contains(k);
+                      return match(defectCommonUsed.Code,k) || match(defectCommonUsed.Name, k) || match(defectCommonUsed.NamePY, k);
 
                   };
 
-             //   //  Message：更新PHMCodes
-             //   this.Codes.CollectionChanged += (l, k) =>
-             //{
-             //    this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
+                //   //  Message：更新PHMCodes
+                //   this.Codes.CollectionChanged += (l, k) =>
+                //{
+                //    this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
 
-             //};
+                //};
 
             }
 
@@ -371,7 +382,7 @@ namespace Ty.Component.SignsControl
             //    this.HistCollection.Add(item);
             //}
 
-            if(string.IsNullOrEmpty(entity.PHMCodes))
+            if (string.IsNullOrEmpty(entity.PHMCodes))
             {
                 Debug.WriteLine("PHMCodes格式不正确，请检查：" + entity.PHMCodes);
                 return;

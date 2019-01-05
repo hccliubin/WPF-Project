@@ -117,14 +117,14 @@
                                        ItemsSource="{Binding DefectMenuEntity.DataAcquisitionMode,Mode=TwoWay}"/>-->
 
                 <local:SearchCombobox  Grid.Row="0" Grid.Column="1"  SelectedIndex="0"
-                                       SelectedItem="{Binding SelectDataAcquisitionMode}"
+                                       SelectedItem="{Binding SelectDataAcquisitionMode}" SelectedValuePath="Code" DisplayMemberPath="Name"
                                        MyItemsSource="{Binding DefectMenuEntity.DataAcquisitionMode,Mode=TwoWay}">
                 </local:SearchCombobox>
 
 
                 <TextBlock Text="铁路局顺序码：" Grid.Row="1" Grid.Column="0"/>
                 <local:SearchCombobox  Grid.Row="1" Grid.Column="1"    SelectedIndex="0"
-                                       SelectedItem="{Binding SelectRailwaySsequence}"
+                                       SelectedItem="{Binding SelectRailwaySsequence}"  SelectedValuePath="Code" DisplayMemberPath="Name"
                                        MyItemsSource="{Binding DefectMenuEntity.RailwaySsequence,Mode=TwoWay}"/>
 
                 <TextBlock Text="供电专业专用线路名称：" Grid.Row="2" Grid.Column="0"/>
@@ -208,7 +208,7 @@
                                    MyItemsSource="{Binding DefectMenuEntity.DefectOrMarkCodes,Mode=TwoWay}" 
                                    MaxDropDownHeight="314" Style="{StaticResource Resource.Style.SearchCombobox.WithLogo}"
                                    base:ControlAttachProperty.Watermark="输入"
-                                   DisplayMemberPath="Name" SelectedItem="{Binding SelectDefectOrMarkCodes}"/>
+                                   DisplayMemberPath="Name"  SelectedValuePath="ID" SelectedItem="{Binding SelectDefectOrMarkCodes}"/>
 
             <ListBox Grid.Row="2"  
                      Background="Transparent" Margin="10,0"

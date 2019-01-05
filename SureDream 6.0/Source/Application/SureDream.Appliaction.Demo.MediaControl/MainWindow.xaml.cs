@@ -36,7 +36,9 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void Btn_play_mkv_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("说明");
+            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "media.mkv");
+
+            this.media.Load(filePath);
 
         }
 

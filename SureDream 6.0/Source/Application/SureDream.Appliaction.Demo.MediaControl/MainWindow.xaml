@@ -44,7 +44,7 @@
                             <Button x:Name="btn_play_avi" Background="Orange" Content="播放(avi)" Click="Btn_play_avi_Click"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button  x:Name="btn_play_mkv" Content="播放(mkv)" Click="Btn_play_mkv_Click"/>
+                            <Button  x:Name="btn_play_mkv" Content="播放(mkv)"  Background="Orange" Click="Btn_play_mkv_Click"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button  x:Name="btn_play_mp4" Background="Orange"  Content="播放(mp4)" Click="Btn_play_mp4_Click"/> 
@@ -58,7 +58,7 @@
                             <Button  x:Name="btn_play_local" Background="Orange"  Content="播放(本地)" Click="Btn_play_local_Click"/> 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button  x:Name="btn_play_localarea"  Content="播放(局域网)" Click="Btn_play_localarea_Click"/>
+                            <Button  x:Name="btn_play_localarea"  Background="Orange"  Content="播放(局域网)" Click="Btn_play_localarea_Click"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button  x:Name="btn_play_localftp"  Content="播放(ftp)" Click="Btn_play_localftp_Click"/>
