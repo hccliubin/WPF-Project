@@ -108,7 +108,7 @@ namespace Ty.Component.ImageControl
 
                 if (config.Count == 0) return;
 
-                if (!File.Exists(config.First())) return;
+                //if (!File.Exists(config.First())) return;
 
                 //  Do：根据路径加载图片内存集合
                 foreach (var item in config)
@@ -366,7 +366,7 @@ namespace Ty.Component.ImageControl
         {
             if (imagePath == null) return;
 
-            if (!File.Exists(imagePath)) return;
+            //if (!File.Exists(imagePath)) return;
 
             this.RefreshPart();
 

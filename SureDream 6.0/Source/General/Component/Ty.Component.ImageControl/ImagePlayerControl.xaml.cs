@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -136,8 +137,16 @@ namespace Ty.Component.ImageControl
             var dir = Directory.CreateDirectory(imageFoder);
 
             var files = dir.GetFiles();
-
             this.LoadImages(files.Select(l => l.FullName).ToList());
+
+        }
+
+        public void LoadFtpImageFolder(string imageFoder)
+        { 
+
+           var files=  FtpHelper.GetFileList(imageFoder).Select(l => System.IO.Path.Combine(imageFoder, l)).ToList();
+
+            this.LoadImages(files);
         }
 
         public void LoadImages(List<string> ImageUrls)
@@ -204,5 +213,6 @@ namespace Ty.Component.ImageControl
             throw new NotImplementedException();
         }
     }
+
 
 }

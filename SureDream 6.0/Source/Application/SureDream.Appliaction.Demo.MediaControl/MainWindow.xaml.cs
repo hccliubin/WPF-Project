@@ -279,6 +279,10 @@ namespace SureDream.Appliaction.Demo.MediaControl
         private void Btn_play_localftp_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("ftp");
+
+            string filePath = "ftp://192.168.0.104/media.mkv";
+
+            this.media.Load(filePath);
         }
 
         private void btn_imageplay_imagefoder_Click(object sender, RoutedEventArgs e)
@@ -299,6 +303,14 @@ namespace SureDream.Appliaction.Demo.MediaControl
         private void btn_imageplay_currentUrl_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(this.image.GetCurrentUrl());
+        }
+
+        private void btn_imageftpplay_imagefoder_Click(object sender, RoutedEventArgs e)
+        {
+
+            string filePath = @"ftp://192.168.0.104/images/";
+
+            this.image.LoadFtpImageFolder(filePath);
         }
     }
 }

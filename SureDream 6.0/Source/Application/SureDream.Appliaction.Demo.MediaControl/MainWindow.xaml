@@ -190,6 +190,14 @@
                                 </StackPanel>
                             </GroupBox>
 
+                            <GroupBox Header="10）播放ftp图片文件夹功能">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button  x:Name="btn_imageftpplay_imagefoder" Content="加载图片文件夹" Background="Orange"  Click="btn_imageftpplay_imagefoder_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+
                             <GroupBox Header="11）提供接口返回当前播放的Url">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
