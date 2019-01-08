@@ -69,7 +69,7 @@ namespace Ty.Component.MediaControl
                 {
                     if (this._repeatFromTo == null) return;
 
-                    if(this.media_media.Position<_repeatFromTo.Item1)
+                    if (this.media_media.Position < _repeatFromTo.Item1)
                     {
                         this.media_media.Position = _repeatFromTo.Item1;
                     }
@@ -315,9 +315,7 @@ namespace Ty.Component.MediaControl
     public partial class MediaPlayerControl : IMediaPlayerService
     {
 
-        MediaPlayType _mediaPlayType= MediaPlayType.Video;
-
-        MediaPlayMode _mediaPlayMode= MediaPlayMode.Normal;
+        MediaPlayMode _mediaPlayMode = MediaPlayMode.Normal;
 
         Tuple<TimeSpan, TimeSpan> _repeatFromTo;
 
@@ -336,22 +334,7 @@ namespace Ty.Component.MediaControl
 
         public string GetCurrentUrl()
         {
-            if (_mediaPlayType == MediaPlayType.Video)
-            {
-                return this.media_media.Source.AbsoluteUri;
-            }
-            else if (_mediaPlayType == MediaPlayType.ImageFoder)
-            {
-                return null;
-            }
-            else if (_mediaPlayType == MediaPlayType.ImageList)
-            {
-                return null;
-            }
-            else
-            {
-                return null;
-            }
+            return this.media_media.Source.AbsoluteUri;
         }
 
         public TimeSpan GetTotalFrame()
@@ -379,18 +362,18 @@ namespace Ty.Component.MediaControl
 
         List<string> _imageUrls = new List<string>();
 
-        public void LoadImages(List<string> ImageUrls)
-        {
-            this._mediaPlayType = MediaPlayType.ImageList;
+        //public void LoadImages(List<string> ImageUrls)
+        //{
+        //    this._mediaPlayType = MediaPlayType.ImageList;
 
-            _imageUrls = ImageUrls;
+        //    _imageUrls = ImageUrls;
 
-            Uri uri = new Uri(ImageUrls.First(), UriKind.Absolute);
+        //    Uri uri = new Uri(ImageUrls.First(), UriKind.Absolute);
 
-            this.media_media.Source = uri;
+        //    this.media_media.Source = uri;
 
-            this.Play();
-        }
+        //    this.Play();
+        //}
 
         public void RepeatFromTo(TimeSpan from, TimeSpan to)
         {
@@ -399,20 +382,6 @@ namespace Ty.Component.MediaControl
             this._mediaPlayMode = MediaPlayMode.RepeatFromTo;
 
             _repeatFromTo = new Tuple<TimeSpan, TimeSpan>(from, to);
-
-            //this.media_media.Position = from;
-
-            //Task t = Task.Delay(to - from);
-
-            //t.ContinueWith(l =>
-            //{
-            //    Application.Current.Dispatcher.Invoke(() =>
-            //    {
-            //        this.media_media.Position = from;
-
-            //        t = Task.Delay(to - from);
-            //    });
-            //});
         }
 
         public void ScreenShot(TimeSpan from, string saveFullName)
@@ -457,12 +426,6 @@ namespace Ty.Component.MediaControl
         {
             throw new NotImplementedException();
         }
-    }
-
-
-    enum MediaPlayType
-    {
-        Video = 0, ImageList, ImageFoder
     }
 
     enum MediaPlayMode

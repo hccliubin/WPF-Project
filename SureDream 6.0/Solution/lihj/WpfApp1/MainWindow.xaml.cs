@@ -30,7 +30,11 @@ namespace WpfApp1
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-           this.media.Source= new Uri("ftp://192.168.0.104/media.mkv", UriKind.Absolute);
+           //this.media.Source= new Uri(" ftp://Healthy:870210lhj@127.0.0.1/media.mp4", UriKind.RelativeOrAbsolute);
+
+
+           // //this.media.Source = new Uri("ftp://192.168.0.104/media.mkv", UriKind.Absolute);
+           // //ftp://Healthy:870210lhj@127.0.0.1/images/
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

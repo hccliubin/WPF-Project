@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="Red">
         <!--<Image Source="ftp://192.168.0.104/images/20190105050908.jpg"/>-->
 
-        <MediaElement x:Name="media"/>
+        <MediaElement Width="500" Height="400" x:Name="media" Source="ftp://Healthy:870210lhj@127.0.0.1/media.mp4"/>
+        <!--<MediaElement x:Name="media" Source="D:\FTP/media.mp4"/>-->
+      
         <!--Source="ftp://192.168.0.104/media.mkv"-->
         <!--<Button Click="Button_Click"/>-->
     </Grid>

@@ -32,6 +32,12 @@ namespace Ty.Component.ImageControl
 
             this.image_control.LastClicked += Image_control_IndexChangedClick;
 
+            //  Message：默认0.5s一张
+            this.image_control.Speed = this.image_control.Speed / 2;
+
+            //  Message：隐藏上一页下一页按钮
+            this.image_control.button_next.Visibility = Visibility.Collapsed;
+            this.image_control.button_last.Visibility = Visibility.Collapsed;
 
         }
 
@@ -106,6 +112,7 @@ namespace Ty.Component.ImageControl
         void Play()
         {
             this.image_control.SetImgPlay(ImgPlayMode.正序);
+
         }
 
         void Pause()
@@ -130,21 +137,30 @@ namespace Ty.Component.ImageControl
     }
 
 
-    public partial class ImagePlayerControl : IImagePlayer
+    public partial class ImagePlayerControl : IImagePlayerService
     {
         public void LoadImageFolder(string imageFoder)
         {
             var dir = Directory.CreateDirectory(imageFoder);
 
             var files = dir.GetFiles();
+
             this.LoadImages(files.Select(l => l.FullName).ToList());
 
         }
 
-        public void LoadFtpImageFolder(string imageFoder)
-        { 
+        public void LoadFtpImageFolder(List<string> imageFoders, string useName, string passWord)
+        {
+            FtpHelper.Login(useName, passWord);
 
-           var files=  FtpHelper.GetFileList(imageFoder).Select(l => System.IO.Path.Combine(imageFoder, l)).ToList();
+            List<string> files = new List<string>();
+
+            foreach (var item in imageFoders)
+            {
+                var file = FtpHelper.GetFileList(item).Select(l => System.IO.Path.Combine(item, l)).ToList();
+
+                files.AddRange(file);
+            }
 
             this.LoadImages(files);
         }
@@ -177,20 +193,6 @@ namespace Ty.Component.ImageControl
     }
 
 
-    interface IImagePlayer
-    {
-        /// <summary>
-        /// 9）播放图片集合功能（List<string> ImageUrls），将集合内的图片按顺序反复播放，默认间隔为0.5秒。
-        /// </summary>
-        /// <param name="ImageUrls"></param>
-        void LoadImages(List<string> ImageUrls);
-
-        /// <summary>
-        /// 10）播放图片文件夹功能，按照文件名按名称排序正序播放，默认间隔为0.5秒
-        /// </summary>
-        /// <param name="imageFoder"></param>
-        void LoadImageFolder(string imageFoder);
-    }
 
     public class TimeSpanConverter : IValueConverter
     {

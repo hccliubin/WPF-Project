@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Ty.Component.MediaControl
 {
-    interface IMediaPlayerService
+    public interface IMediaPlayerService
     {
         /// <summary>
         /// 视频路径
         /// </summary>
-        /// <param name="imagePath"></param>
-        void Load(string imagePath);
+        /// <param name="videoPath"></param>
+        void Load(string videoPath);
 
         /// <summary>
         /// 3）视频支持跳转，提供外部跳转接口。（帧/时间）
@@ -33,17 +33,17 @@ namespace Ty.Component.MediaControl
         /// <param name="from"></param>
         void ScreenShot(TimeSpan from,string saveFullName);
 
-        /// <summary>
-        /// 9）播放图片集合功能（List<string> ImageUrls），将集合内的图片按顺序反复播放，默认间隔为0.5秒。
-        /// </summary>
-        /// <param name="ImageUrls"></param>
-        void LoadImages(List<string> ImageUrls);
+        ///// <summary>
+        ///// 9）播放图片集合功能（List<string> ImageUrls），将集合内的图片按顺序反复播放，默认间隔为0.5秒。
+        ///// </summary>
+        ///// <param name="ImageUrls"></param>
+        //void LoadImages(List<string> ImageUrls);
 
-        /// <summary>
-        /// 10）播放图片文件夹功能，按照文件名按名称排序正序播放，默认间隔为0.5秒
-        /// </summary>
-        /// <param name="imageFoder"></param>
-        void LoadImageFolder(string imageFoder);
+        ///// <summary>
+        ///// 10）播放图片文件夹功能，按照文件名按名称排序正序播放，默认间隔为0.5秒
+        ///// </summary>
+        ///// <param name="imageFoder"></param>
+        //void LoadImageFolder(string imageFoder);
 
         /// <summary>
         /// 11）提供接口返回当前播放的Url，文件夹时返回文件Url
@@ -62,6 +62,7 @@ namespace Ty.Component.MediaControl
         /// </summary>
         /// <returns></returns>
         TimeSpan GetTotalFrame();
+        
 
     }
 }

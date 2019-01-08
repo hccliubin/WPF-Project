@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -23,6 +24,9 @@ namespace Ty.Component.ImageControl
     /// </summary>
     public partial class ImageOprateCtrEntity : UserControl
     {
+
+        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -30,28 +34,30 @@ namespace Ty.Component.ImageControl
         {
             InitializeComponent();
 
-            //  Do：初始化自动播放
-            timer.Interval = 1000;
 
-            timer.Elapsed += (l, k) =>
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    timer.Interval = 1000 * this.Speed;
+            ////  Do：初始化自动播放
+            //timer.Interval = 1000;
 
-                    if (this.ImgPlayMode == ImgPlayMode.正序)
-                    {
-                        this.OnNextClick();
-                    }
-                    else if (this.ImgPlayMode == ImgPlayMode.倒叙)
-                    {
-                        this.OnLastClicked();
-                    }
-                });
+            //timer.Elapsed += (l, k) =>
+            //{
+            //    Application.Current.Dispatcher.Invoke(() =>
+            //    {
+            //        timer.Interval = 1000 * this.Speed;
 
-            };
+            //        if (this.ImgPlayMode == ImgPlayMode.正序)
+            //        {
+            //            this.OnNextClick();
+            //        }
+            //        else if (this.ImgPlayMode == ImgPlayMode.倒叙)
+            //        {
+            //            this.OnLastClicked();
+            //        }
+            //    });
+
+            //};
 
         }
+     
 
         #region - 成员属性 -
 
@@ -61,8 +67,8 @@ namespace Ty.Component.ImageControl
         //  Do：当前图片路径
         LinkedListNode<string> current;
 
-        //  Do：自动播放时间处理
-        Timer timer = new Timer();
+        ////  Do：自动播放时间处理
+        //Timer timer = new Timer();
 
         public LinkedListNode<string> Current { get => current; set => current = value; }
 
@@ -133,6 +139,8 @@ namespace Ty.Component.ImageControl
             set { SetValue(ImgPlayModeProperty, value); }
         }
 
+
+
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImgPlayModeProperty =
             DependencyProperty.Register("ImgPlayMode", typeof(ImgPlayMode), typeof(ImageOprateCtrEntity), new PropertyMetadata(ImgPlayMode.停止播放, (d, e) =>
@@ -146,11 +154,11 @@ namespace Ty.Component.ImageControl
                 //  Do：设置自动播放模式
                 if (config == ImgPlayMode.正序 || config == ImgPlayMode.倒叙)
                 {
-                    control.timer.Start();
+                    control.Start();
                 }
                 else if (config == ImgPlayMode.停止播放)
                 {
-                    control.timer.Stop();
+                    control.Stop();
                 }
 
             }));
@@ -358,6 +366,61 @@ namespace Ty.Component.ImageControl
 
         #region - 成员方法 -
 
+        //Random random = new Random();
+
+        //  Message：播放任务
+        Task task;
+
+        //  Message：取消播放任务
+        CancellationTokenSource tokenSource;
+
+        /// <summary> 開始播放 </summary>
+        void Start()
+        {
+            //control.timer.Start();
+
+            Action action = null;
+
+            action = () =>
+            {
+                if (tokenSource.IsCancellationRequested) return;
+
+                //Thread.Sleep(100 * random.Next(10));
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (this.ImgPlayMode == ImgPlayMode.正序)
+                    {
+                        this.OnNextClick();
+                    }
+                    else if (this.ImgPlayMode == ImgPlayMode.倒叙)
+                    {
+                        this.OnLastClicked();
+                    }
+
+                    Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * this.Speed)), tokenSource.Token);
+
+                    nextTask.ContinueWith(l => action());
+
+                });
+
+            };
+
+            tokenSource = new CancellationTokenSource();
+
+            task = new Task(action, tokenSource.Token);
+
+            task.Start();
+        }
+
+        /// <summary> 停止播放 </summary>
+        void Stop()
+        {
+            //control.timer.Stop();
+
+            tokenSource.Cancel();
+        }
+
         /// <summary>
         /// 加载图片(上一张下一张切换用)
         /// </summary>
@@ -372,13 +435,13 @@ namespace Ty.Component.ImageControl
 
             ImageControlViewModel viewModel = new ImageControlViewModel(this);
 
-            viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+            viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
 
             //viewModel.ImgMarkOperateEvent += this.ImgMarkOperateEvent;
 
             this.ViewModel = viewModel;
 
-          
+
         }
 
         //private void button_last_Click(object sender, RoutedEventArgs e)
@@ -518,7 +581,7 @@ namespace Ty.Component.ImageControl
         {
             ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
 
-            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity,this.MarkType);
+            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this.MarkType);
         }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
@@ -707,7 +770,7 @@ namespace Ty.Component.ImageControl
         {
             this.MarkType = markType;
 
-            if(markType== MarkType.None)
+            if (markType == MarkType.None)
             {
                 //  Message：设置光标和区域放大
                 this.control_imageView.canvas.Cursor = Cursors.Arrow;
@@ -749,7 +812,7 @@ namespace Ty.Component.ImageControl
         {
             if (this.ViewModel == null) return;
 
-            var result = this.ViewModel.SampleCollection.ToList().Find(l=>match(l.Model));
+            var result = this.ViewModel.SampleCollection.ToList().Find(l => match(l.Model));
 
             if (result == null)
             {

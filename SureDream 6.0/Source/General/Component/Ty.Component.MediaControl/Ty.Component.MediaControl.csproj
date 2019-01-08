@@ -48,11 +48,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MediaPartControl.xaml">
+    <Page Include="VedioImagePlayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MediaPlayerControl.xaml">
+    <Page Include="View\MediaPartControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MediaPlayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -66,12 +70,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMediaPlayerService.cs" />
-    <Compile Include="MediaButton.cs" />
-    <Compile Include="MediaPartControl.xaml.cs">
+    <Compile Include="Service\IMediaPlayerService.cs" />
+    <Compile Include="Provider\MediaButton.cs" />
+    <Compile Include="Service\IVdeioImagePlayerService.cs" />
+    <Compile Include="VedioImagePlayerControl.xaml.cs">
+      <DependentUpon>VedioImagePlayerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MediaPartControl.xaml.cs">
       <DependentUpon>MediaPartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MediaPlayerControl.xaml.cs">
+    <Compile Include="View\MediaPlayerControl.xaml.cs">
       <DependentUpon>MediaPlayerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -87,12 +95,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RectangleShape.cs" />
+    <Compile Include="Provider\RectangleShape.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,6 +111,10 @@
     <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ty.Component.ImageControl\Ty.Component.ImageControl.csproj">
+      <Project>{aa6dde61-ae1d-4153-bd1b-213c8d8feb24}</Project>
+      <Name>Ty.Component.ImageControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

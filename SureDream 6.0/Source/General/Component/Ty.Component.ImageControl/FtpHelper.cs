@@ -16,9 +16,23 @@ namespace Ty.Component.ImageControl
         static private string username = "";   //ftp用户名
         static private string password = "";   //ftp密码
 
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="uname"> 用户名 </param>
+        /// <param name="pword"> 密码 </param>
+        public static void Login(string uname, string pword)
+        {
+            username = uname;
+            password = pword;
+
+        }
+
         //获取ftp上面的文件和文件夹
         public static string[] GetFileList(string dir)
         {
+
             string[] downloadFiles;
             StringBuilder result = new StringBuilder();
             FtpWebRequest request;

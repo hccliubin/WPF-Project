@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FtpHelper.cs" />
+    <Compile Include="IImagePlayerService.cs" />
     <Compile Include="ImagePlayerControl.xaml.cs">
       <DependentUpon>ImagePlayerControl.xaml</DependentUpon>
     </Compile>
