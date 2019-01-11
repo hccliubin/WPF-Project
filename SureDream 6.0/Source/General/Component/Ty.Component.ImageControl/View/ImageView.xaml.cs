@@ -83,7 +83,12 @@ namespace Ty.Component.ImageControl
         {
             get
             {
-                return (ImageControlViewModel)this.DataContext;
+                if (this.DataContext is ImageControlViewModel)
+                {
+                    return (ImageControlViewModel)this.DataContext;
+                }
+
+                return null;
             }
             set
             {
@@ -127,7 +132,7 @@ namespace Ty.Component.ImageControl
         /// </summary>
         public void Clear()
         {
-            if (this.ViewModel == null) return;
+             if (this.ViewModel == null) return;
 
             //  Do：清理动态形状
             this._dynamic.Visibility = Visibility.Collapsed;
@@ -139,7 +144,11 @@ namespace Ty.Component.ImageControl
                 {
                     item.Clear(this.canvas);
                 }
+
+                sample.RectangleLayer.Clear();
             }
+
+            this.ViewModel.SampleCollection.Clear();
 
             //  Do：隐藏蒙版
             this.HideRectangleClip();

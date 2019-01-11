@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ty.Component.MediaControl
 {
+    /// <summary>
+    /// 视频播放服务类
+    /// </summary>
     public interface IMediaPlayerService
     {
         /// <summary>

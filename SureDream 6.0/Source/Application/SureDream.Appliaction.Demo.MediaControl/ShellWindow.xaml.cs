@@ -24,13 +24,57 @@ namespace SureDream.Appliaction.Demo.MediaControl
     /// </summary>
     public partial class ShellWindow : Window
     {
+
+        ShellWindowViewModel _vm = new ShellWindowViewModel();
+
         public ShellWindow()
         {
             InitializeComponent();
 
+            this.DataContext = _vm;
+
             IImgOperate _imgOperate = this.media.ImagePlayerService.GetImgOperate();
 
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
+
+            this.media.ImagePlayerService.ImgPlayModeChanged += l =>
+              {
+                  Debug.WriteLine("ImgPlayModeChanged:" + this.media.ImagePlayerService.ImgPlayMode);
+                  Debug.WriteLine("ImgPlayModeChanged:" + l);
+              };
+
+            this.media.ImagePlayerService.SliderDragCompleted += (l, k) =>
+              {
+                  Debug.WriteLine("SliderDragCompleted:" + l);
+                  Debug.WriteLine("SliderDragCompleted:" + k);
+              };
+
+
+            this.media.ImagePlayerService.ImageIndexChanged += k =>
+              {
+                  Debug.WriteLine("ImageIndexChanged:" + k);
+
+                  //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
+
+                  //string current1 = _imgOperate.BuildEntity().Current.Value;
+
+                  string current = k;
+
+                  string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
+
+                  var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
+
+                  var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
+
+                  foreach (var item in collection)
+                  {
+                      string marks = File.ReadAllText(item);
+
+                      var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
+
+                      _imgOperate.LoadMarkEntitys(list);
+                  }
+              };
 
             //  Do：1、注册编辑标定事件 包括新增、删除
             _imgOperate.ImgMarkOperateEvent += l =>
@@ -65,60 +109,60 @@ namespace SureDream.Appliaction.Demo.MediaControl
                 MessageBox.Show(k.ToString());
             };
 
-            //  Do：3、注册上一页事件 需要在此处加载上一页的标定 ImgMarkEntity
-            _imgOperate.PreviousImgEvent += () =>
-            {
-                Debug.WriteLine("PreviousImgEvent");
+            ////  Do：3、注册上一页事件 需要在此处加载上一页的标定 ImgMarkEntity
+            //_imgOperate.PreviousImgEvent += () =>
+            //{
+            //    Debug.WriteLine("PreviousImgEvent");
 
-                //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
+            //    //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
 
-                string current = _imgOperate.BuildEntity().Current.Value;
+            //    string current = _imgOperate.BuildEntity().Current.Value;
 
-                string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
+            //    string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 
-                var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
+            //    var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
 
-                var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
+            //    var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
 
-                foreach (var item in collection)
-                {
-                    string marks = File.ReadAllText(item);
+            //    foreach (var item in collection)
+            //    {
+            //        string marks = File.ReadAllText(item);
 
-                    var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
+            //        var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
 
-                    _imgOperate.LoadMarkEntitys(list);
-                }
+            //        _imgOperate.LoadMarkEntitys(list);
+            //    }
 
-            };
+            //};
 
-            //  Do：4、注册上一页事件 需要在此处加载下一页的标定 ImgMarkEntity
-            _imgOperate.NextImgEvent += () =>
-            {
-                Debug.WriteLine("NextImgEvent");
+            ////  Do：4、注册上一页事件 需要在此处加载下一页的标定 ImgMarkEntity
+            //_imgOperate.NextImgEvent += () =>
+            //{
+            //    Debug.WriteLine("NextImgEvent");
 
-                //  Message：加载Mark
+            //    //  Message：加载Mark
 
-                //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
+            //    //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
 
-                string current = _imgOperate.BuildEntity().Current.Value;
+            //    string current = _imgOperate.BuildEntity().Current.Value;
 
-                string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
+            //    string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 
-                var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
+            //    var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
 
-                var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
+            //    var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
 
-                foreach (var item in collection)
-                {
-                    string marks = File.ReadAllText(item);
+            //    foreach (var item in collection)
+            //    {
+            //        string marks = File.ReadAllText(item);
 
-                    var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
+            //        var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
 
-                    _imgOperate.LoadMarkEntitys(list);
-                }
+            //        _imgOperate.LoadMarkEntitys(list);
+            //    }
+            //};
 
 
-            };
 
             //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
             _imgOperate.DrawMarkedMouseUp += (l, k) =>
@@ -302,11 +346,13 @@ namespace SureDream.Appliaction.Demo.MediaControl
         {
             List<string> folders = new List<string>();
 
-            string filePath = @"ftp://Healthy:870210lhj@127.0.0.1/images/";
+            string filePath = @"ftp://127.0.0.1/images2/";
 
-            folders.Add(filePath);
+            folders.Add(@"ftp://127.0.0.1/images/");
+            folders.Add(@"ftp://127.0.0.1/images1/");
+            folders.Add(@"ftp://127.0.0.1/images2/");
 
-            this.media.LoadFtpImageFolder(folders, "Healthy", "870210lhj");
+            this.media.LoadFtpImageFolder(folders, filePath, "Healthy", "870210lhj");
         }
 
         //  Message：播放图片集合
@@ -319,6 +365,33 @@ namespace SureDream.Appliaction.Demo.MediaControl
             List<string> imgs = forder.GetFiles().Select(l => l.FullName).ToList();
 
             this.media.LoadImages(imgs);
+
         }
+
+        private void Btn_imageplay_start1_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ImagePlayerService.SetImgPlay(ImgPlayMode.倒叙);
+        }
+
+        private void Btn_imageplay_stop_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ImagePlayerService.SetImgPlay(ImgPlayMode.停止播放);
+        }
+
+        private void Btn_imageplay_start_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ImagePlayerService.SetImgPlay(ImgPlayMode.正序);
+        }
+
+        private void Btn_imageplay_setposition_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ImagePlayerService.SetPositon(9);
+        }
+    }
+
+    class ShellWindowViewModel : NotifyPropertyChanged
+    {
+
+
     }
 }

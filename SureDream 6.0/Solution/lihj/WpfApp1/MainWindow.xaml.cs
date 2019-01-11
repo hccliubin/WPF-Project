@@ -26,6 +26,11 @@ namespace WpfApp1
             InitializeComponent();
 
             this.Loaded += MainWindow_Loaded;
+
+
+            string[] str = { "1", "3", "4", "5", "7" };
+
+           var co=  str.Take(str.ToList().IndexOf("4")).ToList();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

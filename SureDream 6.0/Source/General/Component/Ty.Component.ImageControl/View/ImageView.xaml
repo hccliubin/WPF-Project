@@ -82,7 +82,7 @@
             </Grid>
         </Popup>
 
-        <ListBox Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="20" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox x:Name="r_screenBox" Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="20" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <!--<RadioButton x:Name="r_defect" Content="缺陷" Background="Red"  Foreground="White" Width="50" IsChecked="True"/>
             <RadioButton x:Name="r_sample" Content="样本" Background="Blue"  Foreground="White" Width="50" />-->
             <!--<RadioButton x:Name="r_screen" Content="放大" Foreground="White" Width="50" />-->

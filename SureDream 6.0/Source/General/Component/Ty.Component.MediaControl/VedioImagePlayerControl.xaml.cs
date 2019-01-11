@@ -16,12 +16,9 @@ using Ty.Component.ImageControl;
 
 namespace Ty.Component.MediaControl
 {
-    /// <summary>
-    /// VedioImagePlayerControl.xaml 的交互逻辑
-    /// </summary>
+    /// <summary> 视频播放控件 </summary>
     public partial class VedioImagePlayerControl : UserControl, IVdeioImagePlayerService
     {
-
         public VedioImagePlayerControl()
         {
             InitializeComponent();
@@ -35,11 +32,13 @@ namespace Ty.Component.MediaControl
 
         public IImagePlayerService ImagePlayerService { get; set; }
 
+        /// <summary> 更新播放类型 </summary>
         void RefreshPlayType(MediaPlayType type)
         {
             this.control_media.Visibility = type == MediaPlayType.Video ? Visibility.Visible : Visibility.Collapsed;
             this.control_image.Visibility = type == MediaPlayType.Image ? Visibility.Visible : Visibility.Collapsed;
         }
+
 
         public void LoadVedio(string path)
         {
@@ -62,11 +61,11 @@ namespace Ty.Component.MediaControl
             this.ImagePlayerService.LoadImageFolder(path);
         }
 
-        public void LoadFtpImageFolder(List<string> paths,string user,string password)
+        public void LoadFtpImageFolder(List<string> paths,string start,string user,string password)
         {
             this.RefreshPlayType(MediaPlayType.Image);
 
-            this.ImagePlayerService.LoadFtpImageFolder(paths, user,password);
+            this.ImagePlayerService.LoadFtpImageFolder(paths, start, user,password);
         }
     }
 }

@@ -175,6 +175,25 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
+
+                                <GroupBox Header="12）图片播放控制">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="正序播放"  x:Name="btn_imageplay_start"  Background="Orange"  Click="Btn_imageplay_start_Click"/>
+                                            <Button Content="倒序播放"  x:Name="btn_imageplay_start1"  Background="Orange"  Click="Btn_imageplay_start1_Click" />
+                                            <Button Content="停止播放"  x:Name="btn_imageplay_stop"  Background="Orange"  Click="Btn_imageplay_stop_Click"/>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="12）设置图片帧位置">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="设置图片帧位置（测试位置9）"  Width="200" x:Name="btn_imageplay_setposition"  Background="Orange"  Click="Btn_imageplay_setposition_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

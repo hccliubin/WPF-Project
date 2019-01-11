@@ -84,6 +84,20 @@ namespace Ty.Component.ImageControl
             }
         }
 
+
+        private bool _isBuzy;
+        /// <summary> 说明  </summary>
+        public bool IsBuzy
+        {
+            get { return _isBuzy; }
+            set
+            {
+                _isBuzy = value;
+                RaisePropertyChanged("IsBuzy");
+            }
+        }
+
+
         #endregion
 
         /// <summary>

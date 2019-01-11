@@ -18,6 +18,15 @@ namespace Ty.Component.ImageControl
         public string ID { get; set; }
 
         /// <summary>
+        /// 图片路径 Add FROM LYQ BY LHJ
+        /// </summary>
+        public string ImagePath { get; set; }
+        /// <summary>
+        /// 区分标定信息的来源 Add FROM LYQ BY LHJ
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
         /// 标定矩形框左上角X坐标
         /// </summary>
         public int X { get; set; }
