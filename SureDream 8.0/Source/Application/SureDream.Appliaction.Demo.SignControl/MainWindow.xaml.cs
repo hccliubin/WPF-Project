@@ -179,7 +179,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             ObservableCollection<TyeEncodeDeviceEntity> tyeEncodeDeviceEntities = new ObservableCollection<TyeEncodeDeviceEntity>();
 
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 3000; i++)
             {
                 TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
                 tyeEncodeDeviceEntity.ID = i.ToString();
@@ -192,7 +192,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             List<DefectCommonUsed> defectCommonUseds = new List<DefectCommonUsed>();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 3000; i++)
             {
                 DefectCommonUsed defectCommonUsed = new DefectCommonUsed();
 
@@ -208,7 +208,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             ObservableCollection<TyeEncodeDeviceEntity> defectOrMarkCodes = new ObservableCollection<TyeEncodeDeviceEntity>();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 3000; i++)
             {
                 TyeEncodeDeviceEntity defectOrMarkCode = new TyeEncodeDeviceEntity();
 

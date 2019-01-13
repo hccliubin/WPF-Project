@@ -128,6 +128,9 @@ namespace Ty.Component.SignsControl
             {
                 _selectDefectOrMarkCodes = value;
                 RaisePropertyChanged("SelectDefectOrMarkCodes");
+
+
+                this.RefreshPHMCode();
             }
         }
 
@@ -142,6 +145,15 @@ namespace Ty.Component.SignsControl
                 RaisePropertyChanged("SelectCommonHistoricalDefectsOrMark");
 
                 this.RefreshPHMCode();
+
+                //  Message：把缺陷类别的选中项修改为历史缺陷类别的选中项
+                if (value == null) return;
+
+               var find = this.DefectMenuEntity.DefectOrMarkCodes.Where(l => l.ID == value.ID);
+
+                if (find == null || find.Count() == 0) return;
+
+                this.SelectDefectOrMarkCodes = find.First();
             }
         }
 
@@ -292,12 +304,12 @@ namespace Ty.Component.SignsControl
                           {
                               if (string.IsNullOrEmpty(m)) return false;
 
-                              return  m.Contains(n);
+                              return m.Contains(n);
 
                           };
 
                       //  Message：匹配缺陷样本搜索规则
-                      return match(defectCommonUsed.Code,k) || match(defectCommonUsed.Name, k) || match(defectCommonUsed.NamePY, k);
+                      return match(defectCommonUsed.Code, k) || match(defectCommonUsed.Name, k) || match(defectCommonUsed.NamePY, k);
 
                   };
 
@@ -328,7 +340,16 @@ namespace Ty.Component.SignsControl
             this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
             this.Codes[5] = this.SelectBasicUnit?.PoleMarkCode;
 
-            this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
+            //  Message：最近使用与历史使用显示面板问题，与PHMCode码生成有关 当历史缺陷类别没有选中项时，PHMCode码后几位用缺陷类别选中项的Code  当历史缺陷类别有选中项时，PHMCode码后面几位用历史缺陷类别选中项的code
+            if (this.SelectCommonHistoricalDefectsOrMark == null)
+            {
+                this.Codes[6] = this.SelectDefectOrMarkCodes?.Code;
+            }
+            else
+            {
+                this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
+            }
+
 
             this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
         }

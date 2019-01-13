@@ -83,5 +83,67 @@ namespace Ty.Component.ImageControl
         {
             get;
         }
+
+        /// <summary>
+        /// 7）提供截屏接口
+        /// </summary>
+        /// <param name="from"></param>
+        void ScreenShot(string saveFullName);
+
+        #region 设置方法
+        /// <summary>
+        /// 展示全部缺陷标注
+        /// </summary>
+        void ShowDefects();
+
+        /// <summary>
+        /// 展示全部区域定位标注
+        /// </summary>
+        void ShowLocates();
+
+        /// <summary>
+        /// 展示全部标注，包括缺陷和定位标注
+        /// </summary>
+        void ShowMarks();
+
+        /// <summary>
+        /// 展示指定编码标注
+        /// </summary>
+        /// <param name="markCodes"></param>
+        void ShowMarks(List<string> markCodes);
+
+        /// <summary>
+        /// 是否全屏展示
+        /// </summary>
+        /// <param name="isFullScreen">true：全屏展示 false：正常展示</param>
+        void SetFullScreen(bool isFullScreen);
+
+        /// <summary>
+        /// 图片详细信息展示
+        /// </summary>
+        /// <param name="imgFigures">要展示的指标和相应值</param>
+        void AddImgFigure(Dictionary<string, string> imgFigures);
+
+        /// <summary>
+        /// 前一张
+        /// </summary>
+        void PreviousImg();
+
+        /// <summary>
+        /// 下一张
+        /// </summary>
+        void NextImg(); 
+
+        /// <summary>
+        /// 加快图片播放速度
+        /// </summary>
+        void ImgPlaySpeedUp();
+
+        /// <summary>
+        /// 减慢图片播放速度
+        /// </summary>
+        void ImgPlaySpeedDown();
+
+        #endregion
     }
 }

@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:Ty.Component.MediaControl"
              mc:Ignorable="d"  Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,9 +34,10 @@
             </Style>
 
             <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Foreground" Value="#f1f1f1"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="16"/>
             </Style>
 
             <Style TargetType="{x:Type local:DynamicShape}">
@@ -51,7 +51,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
 
             <local:TimeSpanConverter x:Key="Convert.TimeSpan"/>
         </ResourceDictionary>
@@ -59,26 +59,10 @@
 
     <Grid>
         <DockPanel>
-            <Grid Height="60" DockPanel.Dock="Bottom"  Background="{DynamicResource TitleTextForeground}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <DockPanel Grid.Column="0"  Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Left">
-
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  Margin="5,0"   FIcon="&#xeada;" ToolTip="打開文件夾"/>-->
-                    <local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  FIcon="&#xe664;"/>
-                    <Slider x:Name="slider_sound" Style="{DynamicResource SliderStyle1}"  VerticalAlignment="Center" Thumb.DragCompleted="slider_sound_DragCompleted" Width="100" Minimum="0" Maximum="1" SmallChange="0.01" />
-                </DockPanel>
-
-                <DockPanel Grid.Column="2"  Margin="10,0" HorizontalAlignment="Right">
-                    <local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  FIcon="&#xe9d0;" ToolTip="全屏"/>
-                    <local:MediaButton x:Name="btn_rotateTransform" Style="{StaticResource Style.Slider.FButton}" Click="Btn_rotateTransform_Click"  FIconSize="18"  FIcon="&#xebce;" ToolTip="旋转"/>
-                </DockPanel>
-
-                <DockPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <DockPanel Height="50" DockPanel.Dock="Bottom"  Background="#242424"> 
+                
+                <!--播放按钮-->
+                <DockPanel Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center">
 
                     <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe6a3;" ToolTip="暫停" />-->
 
@@ -86,30 +70,32 @@
 
                     <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}" FIconSize="26" Margin="10,0" FIcon="&#xe684;" ToolTip="上一個"/>-->
 
-                    <ToggleButton x:Name="toggle_play"  Margin="10,0" Foreground="{DynamicResource S_GrayLight}" IsChecked="True" Click="ToggleButton_Click">
+                    <ToggleButton x:Name="toggle_play" Margin="30,0,0,0"  Foreground="{DynamicResource S_GrayLight}" IsChecked="True" Click="ToggleButton_Click">
                         <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type ToggleButton}">
                                 <Grid>
-                                    <Ellipse x:Name="ellipse" Height="40" Width="40" Fill="{DynamicResource S_AccentBrush}" IsHitTestVisible="False">
+                                    <!--<Ellipse x:Name="ellipse" Height="40" Width="40" Fill="{DynamicResource S_AccentBrush}" IsHitTestVisible="False">
 
                                     </Ellipse>
                                     <TextBlock Text="&#xe76e;" Style="{StaticResource FIcon}" x:Name="txt" Foreground="{TemplateBinding Foreground}"
                                    FontSize="20" 
-                                   ToolTip="显示"/>
+                                   ToolTip="显示"/>-->
+                                    <Image x:Name="image" Height="20" Width="20" Source="../Resources/暂停.png" ToolTip="播放"/>
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsChecked" Value="true">
-                                        <Setter Property="Text" Value="&#xe749;" TargetName="txt" />
-                                        <Setter Property="ToolTip" Value="隐藏" TargetName="txt" />
+                                        <Setter Property="Source" Value="../Resources/开始.png" TargetName="image" />
+                                        <Setter Property="ToolTip" Value="停止" TargetName="image" />
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Opacity" Value="0.6" TargetName="ellipse"/>
+                                        <Setter Property="Opacity" Value="0.8" TargetName="image"/>
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter Property="Fill" Value="{DynamicResource S_AccentBrush}" TargetName="ellipse"/>
+                                        <!--<Setter Property="Fill" Value="{DynamicResource S_AccentBrush}" TargetName="ellipse"/>-->
+                                        <Setter Property="Opacity" Value="0.86" TargetName="image"/>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="false">
-                                        <Setter Property="Opacity" Value="0.5" TargetName="txt"/>
+                                        <Setter Property="Opacity" Value="0.5" TargetName="image"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -121,158 +107,133 @@
 
                     <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe763;" ToolTip="暫停" />-->
 
+                    <!--<local:MediaButton x:Name="btn_rotateTransform" Style="{StaticResource Style.Slider.FButton}" Click="Btn_rotateTransform_Click"  FIconSize="18"  FIcon="&#xebce;" ToolTip="旋转"/>-->
+
+                    <local:ImageButton Margin="25,0"   x:Name="btn_rotateTransform" ImageSource="../Resources/循环播放.png" ToolTip="旋转"/>
+
+                    <Border BorderBrush="#f1f1f1" BorderThickness="1" Height="25" Padding="10,0">
+                        <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="0,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                    </Border>
+
+                    <Border BorderBrush="#f1f1f1" BorderThickness="1" Height="25" Padding="10,0" Margin="50,0" >
+                        <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                    </Border>
+                </DockPanel> 
+
+                <!--音量-->
+                <DockPanel Grid.Column="0" DockPanel.Dock="Right" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  Margin="5,0"   FIcon="&#xeada;" ToolTip="打開文件夾"/>-->
+                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  FIcon="&#xe664;"/>-->
+                    <local:ImageButton Margin="0,0,0,0"   ImageSource="../Resources/声音.png"  ToolTip="旋转"  />
+
+                    <Slider x:Name="slider_sound" Style="{DynamicResource SliderStyle1}"  VerticalAlignment="Center" Thumb.DragCompleted="slider_sound_DragCompleted" Width="100" Minimum="0" Maximum="1" SmallChange="0.01" />
                 </DockPanel>
-            </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--全屏旋转按钮-->
+                <!--
+                <DockPanel Grid.Column="2"  Margin="10,0" HorizontalAlignment="Right">
+                    <local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  FIcon="&#xe9d0;" ToolTip="全屏"/>
+                </DockPanel>-->
 
-
+                <!--进度条-->
                 <DockPanel>
-                    <DockPanel  DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" >
-                        <local:MediaButton x:Name="btn_multipspeed" Style="{StaticResource Style.Slider.FButton}" 
-                                           FIcon="&#xe9ba;"  FIconSize="15" 
-                                           ToolTip="減速" 
-                                           Width="20"  
-                                           DockPanel.Dock="Left"  
-                                           Click="Btn_multipspeed_Click"
-                                           VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="3,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                        <local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
-                        <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding ElementName=media_slider,Path=Maximum,Converter={StaticResource Convert.TimeSpan}}" Margin="3,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+                    <DockPanel  DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" > 
+                        <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                        <!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
+                        <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>-->
+                        <TextBlock Text="{Binding ElementName=media_slider,Path=Maximum,Converter={StaticResource Convert.TimeSpan}}" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
                         <Slider x:Name="media_slider" Style="{DynamicResource SliderStyle1}"   Minimum="0" Maximum="0" Value="0"  VerticalAlignment="Center" Thumb.DragStarted="media_slider_DragStarted" Thumb.DragCompleted="media_slider_DragCompleted"/>
                     </DockPanel>
+                </DockPanel>
+            </DockPanel>
+            
+            <!--视频控件-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-                    <!--<MediaElement x:Name="media_media" Source="http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_surround-fix.avi" LoadedBehavior="Manual"/>-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
-                            <Grid >
-                                <InkCanvas x:Name="canvas" PreviewMouseLeftButtonDown="InkCanvas_MouseDown" Background="Transparent"
-                       MouseMove="InkCanvas_MouseMove"  Cursor="Cross" ForceCursor="True" Grid.ColumnSpan="3" Grid.RowSpan="3"
+                <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
+                    <Grid >
+                        <InkCanvas x:Name="canvas" PreviewMouseLeftButtonDown="InkCanvas_MouseDown" Background="Transparent"
+                       MouseMove="InkCanvas_MouseMove"  Cursor="Arrow" ForceCursor="True" Grid.ColumnSpan="3" Grid.RowSpan="3"
                        EditingMode="None" PreviewMouseUp="InkCanvas_MouseUp" MouseUp="InkCanvas_MouseUp">
-                                    <InkCanvas.DefaultDrawingAttributes>
-                                        <DrawingAttributes Color="Transparent"/>
-                                    </InkCanvas.DefaultDrawingAttributes>
+                            <InkCanvas.DefaultDrawingAttributes>
+                                <DrawingAttributes Color="Transparent"/>
+                            </InkCanvas.DefaultDrawingAttributes>
 
-                                    <MediaElement x:Name="media_media" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                            <MediaElement x:Name="media_media" Grid.ColumnSpan="2" Grid.RowSpan="2"
                                       Source="{Binding ElementName=mediaBrower,Path=SelectFile}" 
                                       LoadedBehavior="Manual">
-                                        <MediaElement.RenderTransform>
-                                            <RotateTransform Angle="0"/>
-                                        </MediaElement.RenderTransform>
-                                    </MediaElement>
+                                <MediaElement.RenderTransform>
+                                    <RotateTransform Angle="0"/>
+                                </MediaElement.RenderTransform>
+                            </MediaElement>
 
-                                    <local:DynamicShape x:Name="_dynamic" 
+                            <local:DynamicShape x:Name="_dynamic" 
                                         Visibility="Collapsed" 
                                         WidthMatch="50"
                                         HeightMatch="50"/>
 
-                                    <Rectangle x:Name="rectangle_clip" Visibility="Collapsed" 
+                            <Rectangle x:Name="rectangle_clip" Visibility="Collapsed" 
                                Width="{Binding ElementName=canvas,Path=ActualWidth}" 
                                Height="{Binding ElementName=canvas,Path=ActualHeight}" 
 >
-                                        <Rectangle.Fill>
-                                            <SolidColorBrush Color="LightGray" Opacity="0.9"/>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="LightGray" Opacity="0.9"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
 
-                                </InkCanvas>
-                            </Grid>
-                        </Viewbox>
-
-            
-                
-                    
-                        
-                        <!--<Rectangle x:Name="rectangle_show" 
-                                   Stroke="Transparent" 
-                                   Grid.Column="1" Grid.Row="1"
-                                   HorizontalAlignment="Stretch"   
-                                   StrokeThickness="0.5" >
-
-                            <Rectangle.Fill>
-                                <VisualBrush x:Name="visualbrush_image" Visual="{Binding ElementName=canvas}" Stretch="Uniform">
-
-                                </VisualBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>-->
-
-                        <ListBox Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="20" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                            <!--<RadioButton x:Name="r_defect" Content="缺陷" Background="Red"  Foreground="White" Width="50" IsChecked="True"/>
-            <RadioButton x:Name="r_sample" Content="样本" Background="Blue"  Foreground="White" Width="50" />-->
-                            <!--<RadioButton x:Name="r_screen" Content="放大" Foreground="White" Width="50" />-->
-                            <CheckBox x:Name="r_screen" Content="放大" Foreground="White" Width="50"/>
-
-                            <ListBox.Background>
-                                <SolidColorBrush Color="LightGray" Opacity="0.5"/>
-                            </ListBox.Background>
-                        </ListBox>
+                        </InkCanvas>
                     </Grid>
-                </DockPanel>
+                </Viewbox>
 
-                <!--<Canvas Background="Red" Opacity="0.3" Panel.ZIndex="100">
-                    <TextBlock Text="你好可以" FontSize="50" Canvas.Left="20" Canvas.Top="20"/>
-                </Canvas>
-
-                <TextBlock Text="sfdsgsgd" Grid.Row="1" FontSize="80" Foreground="Black"/>-->
-
-
-
-                <GridSplitter  Grid.Column="1" Width="5" Background="Transparent"/>
-
-                <!--<local:MediaBrower x:Name="mediaBrower" MaxWidth="300" 
-                           MinWidth="200" 
-                           Grid.Column="2"  
-                           Visibility="{Binding ElementName=toggle_visible,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}" PlayClick="MediaBrower_PlayClick"/>-->
-
-                <!--<ToggleButton  Grid.Column="1"
-                       HorizontalAlignment="Center" Margin="-5,0,0,0"
-                       x:Name="toggle_visible"  Foreground="{DynamicResource S_GrayLight}" IsChecked="True">
+                <ToggleButton x:Name="r_screen" 
+                                      Content="放大" 
+                                      Grid.ColumnSpan="3" 
+                                      HorizontalAlignment="Right" 
+                                      VerticalAlignment="Top"
+                                      Checked="r_screen_Checked"
+                                      Unchecked="r_screen_Checked" Margin="10">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
                             <Grid>
-                                <TextBlock Text="&#xe9be;" Style="{StaticResource FIcon}"
-                                   x:Name="txt" Foreground="{TemplateBinding Foreground}"
+                                <!--<Ellipse x:Name="ellipse" Height="40" Width="40" Fill="{DynamicResource S_AccentBrush}" IsHitTestVisible="False">
+
+                                    </Ellipse>
+                                    <TextBlock Text="&#xe76e;" Style="{StaticResource FIcon}" x:Name="txt" Foreground="{TemplateBinding Foreground}"
                                    FontSize="20" 
-                                   ToolTip="显示"/>
+                                   ToolTip="显示"/>-->
+                                <Image x:Name="image" Height="30" Width="30" Source="../Resources/放大.png" ToolTip="放大"/>
+
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsChecked" Value="true">
-                                    <Setter Property="Text" Value="&#xe9bf;" TargetName="txt" />
-                                    <Setter Property="ToolTip" Value="隐藏" TargetName="txt" />
+                                    <Setter Property="Opacity" Value="0.5" TargetName="image" />
+                                    <Setter Property="ToolTip" Value="取消放大" TargetName="image" />
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" TargetName="txt"/>
+                                    <Setter Property="Opacity" Value="0.8" TargetName="image"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource S_GrayNotice}" TargetName="txt"/>
+                                    <!--<Setter Property="Fill" Value="{DynamicResource S_AccentBrush}" TargetName="ellipse"/>-->
+                                    <Setter Property="Opacity" Value="0.86" TargetName="image"/>
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Opacity" Value="0.5" TargetName="txt"/>
+                                    <Setter Property="Opacity" Value="0.5" TargetName="image"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </ToggleButton.Template>
-                </ToggleButton>-->
+                </ToggleButton>
             </Grid>
-
         </DockPanel>
     </Grid>
 </UserControl>

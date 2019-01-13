@@ -54,11 +54,13 @@
   <ItemGroup>
     <Compile Include="FtpHelper.cs" />
     <Compile Include="IImagePlayerService.cs" />
-    <Compile Include="ImagePlayerControl.xaml.cs">
+    <Compile Include="ImageButton.cs" />
+    <Compile Include="View\ImagePlayerControl.xaml.cs">
       <DependentUpon>ImagePlayerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\ImgMarkEntity.cs" />
     <Compile Include="Model\MarkTagEntity.cs" />
+    <Compile Include="Provider\ComponetProvider.cs" />
     <Compile Include="Service\IImgOperate.cs" />
     <Compile Include="ViewModel\SampleVieModel.cs" />
     <Compile Include="ViewModel\ImageControlViewModel.cs" />
@@ -79,7 +81,7 @@
     <Compile Include="Provider\RectangleShape.cs" />
     <Compile Include="Provider\RectangleLayer.cs" />
     <Compile Include="Provider\IRectangleStroke.cs" />
-    <Page Include="ImagePlayerControl.xaml">
+    <Page Include="View\ImagePlayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,6 +145,26 @@
   <ItemGroup>
     <Resource Include="Resources\ImageConfig.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\暂停.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\放大.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\进度条位置-声音.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\进度条位置-视频播放.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\开始.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\声音.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\循环播放.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

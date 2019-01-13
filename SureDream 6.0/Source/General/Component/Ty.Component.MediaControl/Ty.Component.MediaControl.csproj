@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +71,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageButton.cs" />
     <Compile Include="Service\IMediaPlayerService.cs" />
     <Compile Include="Provider\MediaButton.cs" />
     <Compile Include="Service\IVdeioImagePlayerService.cs" />
@@ -116,6 +118,27 @@
       <Project>{aa6dde61-ae1d-4153-bd1b-213c8d8feb24}</Project>
       <Name>Ty.Component.ImageControl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\暂停.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\放大.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\进度条位置-声音.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\进度条位置-视频播放.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\开始.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\声音.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\循环播放.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -169,7 +169,7 @@
                 <TextBlock  Grid.Row="1" Grid.Column="1" Foreground="White" Margin="3,0" Text="{Binding DefectMenuEntity.DetectionVehicles}"/>
 
                 <TextBlock Text="责任车间：" Grid.Row="2" Grid.Column="0"/>
-                <local:SearchCombobox   Grid.Row="2" Grid.Column="1"  Foreground="White"  SelectedIndex="0"
+                <local:SearchCombobox  Grid.Row="2" Grid.Column="1"  Foreground="White"  SelectedIndex="0"
                                         SelectedItem="{Binding SelectResponsibilityWorkshop}"
                                         MyItemsSource="{Binding DefectMenuEntity.ResponsibilityWorkshop,Mode=TwoWay}"/>
 

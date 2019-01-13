@@ -213,7 +213,11 @@ namespace Ty.Component.MediaControl
         private void InkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
 
-            if (e.LeftButton != MouseButtonState.Pressed) return;
+            if (!(this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)) return;
+
+
+
+                if (e.LeftButton != MouseButtonState.Pressed) return;
 
             if (this.start.X <= 0) return;
 
@@ -296,19 +300,33 @@ namespace Ty.Component.MediaControl
 
         }
 
-        private void Btn_addspeed_Click(object sender, RoutedEventArgs e)
-        {
-            this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
-        }
+        //private void Btn_addspeed_Click(object sender, RoutedEventArgs e)
+        //{
+        //    this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
+        //}
 
-        private void Btn_multipspeed_Click(object sender, RoutedEventArgs e)
-        {
-            this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
-        }
+        //private void Btn_multipspeed_Click(object sender, RoutedEventArgs e)
+        //{
+        //    this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
+        //}
 
         private void Btn_stop_Click(object sender, RoutedEventArgs e)
         {
             this.Stop();
+        }
+
+        private void r_screen_Checked(object sender, RoutedEventArgs e)
+        {
+            if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
+            {
+                //  Message：设置光标和区域放大
+                this.canvas.Cursor = Cursors.Cross;
+            }
+            else
+            { 
+                //  Message：设置光标和区域放大
+                this.canvas.Cursor = Cursors.Arrow;
+            }
         }
     }
 
@@ -375,6 +393,18 @@ namespace Ty.Component.MediaControl
         //    this.Play();
         //}
 
+        public double Volumn
+        {
+            get
+            {
+                return this.media_media.Volume;
+            }
+            set
+            {
+                this.slider_sound.Value = this.media_media.Volume=value;
+            }
+        }
+
         public void RepeatFromTo(TimeSpan from, TimeSpan to)
         {
             if (from > to) return;
@@ -385,19 +415,12 @@ namespace Ty.Component.MediaControl
         }
 
         public void ScreenShot(TimeSpan from, string saveFullName)
-        {
-            //byte[] screenshot = this.media_media.GetScreenShot(1, 90);
-            //FileStream fileStream = new FileStream(@"Capture.jpg", FileMode.Create, FileAccess.ReadWrite);
-            //BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-            //binaryWriter.Write(screenshot);
-            //binaryWriter.Close();
-
+        {  
             byte[] screenshot = this.media_media.GetScreenShot(1, 90);
             FileStream fileStream = new FileStream(saveFullName, FileMode.Create, FileAccess.ReadWrite);
             BinaryWriter binaryWriter = new BinaryWriter(fileStream);
             binaryWriter.Write(screenshot);
-            binaryWriter.Close();
-
+            binaryWriter.Close(); 
         }
 
         public void SetPositon(TimeSpan timeSpan)

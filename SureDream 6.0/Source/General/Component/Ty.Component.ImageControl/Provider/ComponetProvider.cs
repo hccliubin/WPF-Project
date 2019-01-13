@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace Ty.Component.ImageControl
+{
+    class ComponetProvider
+    {
+
+        public static ComponetProvider Instance = new ComponetProvider();
+
+        /// <summary>
+        /// 检查路径是否是有效的图片路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool IsValidImage(string path)
+        {
+            if (path == null) return false;
+
+           return path.ToLower().EndsWith(".jpg")|| path.ToLower().EndsWith(".png"); 
+        }
+
+        /// <summary>
+        /// 截屏
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="scale"></param>
+        /// <param name="quality"></param>
+        /// <returns></returns>
+        public byte[] GetScreenShot(UIElement source, double scale, int quality)
+        {
+            double actualHeight = source.RenderSize.Height;
+            double actualWidth = source.RenderSize.Width;
+            double renderHeight = actualHeight * scale;
+            double renderWidth = actualWidth * scale;
+            RenderTargetBitmap renderTarget = new RenderTargetBitmap((int)renderWidth,
+                (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
+            VisualBrush sourceBrush = new VisualBrush(source);
+            DrawingVisual drawingVisual = new DrawingVisual();
+            DrawingContext drawingContext = drawingVisual.RenderOpen();
+            using (drawingContext)
+            {
+                drawingContext.PushTransform(new ScaleTransform(scale, scale));
+                drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0),
+                    new Point(actualWidth, actualHeight)));
+            }
+            renderTarget.Render(drawingVisual);
+            JpegBitmapEncoder jpgEncoder = new JpegBitmapEncoder();
+            jpgEncoder.QualityLevel = quality;
+            jpgEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
+            Byte[] imageArray;
+            using (MemoryStream outputStream = new MemoryStream())
+            {
+                jpgEncoder.Save(outputStream);
+                imageArray = outputStream.ToArray();
+            }
+            return imageArray;
+        }
+    }
+}

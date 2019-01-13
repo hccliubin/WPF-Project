@@ -99,6 +99,8 @@ namespace Ty.Component.SignsControl
             this.IsEditable = true;
             this.IsTextSearchEnabled = false;
             this.ItemsSource = bindingList;
+
+            this.StaysOpenOnEdit = true;
         }
         /// <summary>
         /// 下拉框获取焦点，首次搜索文本编辑框
@@ -106,10 +108,14 @@ namespace Ty.Component.SignsControl
         /// <param name="e"></param>
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            if (t)
-                FindTextBox(this);
+
+            //if (this.IsDropDownOpen == false)
+            //    this.IsDropDownOpen = true;
+
+            if (t)  FindTextBox(this);
             else
                 t = false;
+
         }
         /// <summary>
         /// 搜索编辑文本框，添加文本改变事件
@@ -124,6 +130,10 @@ namespace Ty.Component.SignsControl
                 {
                     //注册文本改变事件
                     (child as TextBox).TextChanged += EditComboBox_TextChanged;
+
+                    (child as TextBox).Focus();
+
+                    (child as TextBox).Select((child as TextBox).Text.Length, 0);
                 }
                 else
                 {
@@ -141,12 +151,17 @@ namespace Ty.Component.SignsControl
             TextBox tb = sender as TextBox;
             if (tb.IsFocused)
             {
-                tb.Focus();
-                this.IsDropDownOpen = true;
                 if (editText == this.Text)
                     return;
                 editText = this.Text;
-                SetList(editText);
+
+                tb.Focus();
+
+                if (this.IsDropDownOpen == false)
+                    this.IsDropDownOpen = true;
+
+                Task.Run(() => SetList(editText));
+                
             }
         }
         /// <summary>
@@ -173,51 +188,76 @@ namespace Ty.Component.SignsControl
         /// <param name="txt"></param>
         private void SetList(string txt)
         {
-            string temp1 = "";
+            string temp1 = ""; 
+            string temp2 = ""; 
+            IEnumerable enumerable=null; 
+            string displayPath = null;
+            string selectPath = null; 
+            Func<object, string, bool> filter = null; 
+            List<object> temp = null;
 
-            string temp2 = "";
-
-            if (MyItemsSource == null) return;
-
-            foreach (var item in MyItemsSource)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                temp1 = item.GetType().GetProperty(this.DisplayMemberPath).GetValue(item, null).ToString();
+                enumerable = MyItemsSource;
+                displayPath = this.DisplayMemberPath;
+                selectPath = this.SelectedValuePath;
+                filter = this.FilterMatch;
+                temp = this.bindingList.ToList();
+            });
 
-                if (string.IsNullOrEmpty(this.SelectedValuePath))
+
+            if (enumerable == null) return;
+
+            foreach (var item in enumerable)
+            {
+                temp1 = item.GetType().GetProperty(displayPath).GetValue(item, null).ToString();
+
+                if (string.IsNullOrEmpty(selectPath))
                 {
                     temp2 = "";
                 }
                 else
                 {
-                    temp2 = item.GetType().GetProperty(this.SelectedValuePath).GetValue(item, null).ToString();
+                    temp2 = item.GetType().GetProperty(selectPath).GetValue(item, null).ToString();
                 }
 
-                if (this.FilterMatch == null)
+                if (filter == null)
                 {
                     if (temp1.Contains(txt) || temp2.StartsWith(txt))
                     {
-                        if (!bindingList.Contains(item))
-                            bindingList.Add(item);
+                        if (!temp.Contains(item))
+                            temp.Add(item);
                     }
-                    else if (bindingList.Contains(item))
+                    else if (temp.Contains(item))
                     {
-                        bindingList.Remove(item);
+                        temp.Remove(item);
                     }
                 }
                 else
                 {
-                    if (this.FilterMatch(item, txt))
+                    if (filter(item, txt))
                     {
-                        if (!bindingList.Contains(item))
-                            bindingList.Add(item);
+                        if (!temp.Contains(item))
+                            temp.Add(item);
                     }
                     else
                     {
-                        bindingList.Remove(item);
+                        temp.Remove(item);
                     }
                 }
 
             }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.bindingList.Clear();
+
+                foreach (var item in temp)
+                {
+                    this.bindingList.Add(item);
+                }
+            });
+
         }
 
         public Func<object,string,bool> FilterMatch
