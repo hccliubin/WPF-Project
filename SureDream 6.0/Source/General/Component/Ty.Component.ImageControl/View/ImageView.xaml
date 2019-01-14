@@ -29,6 +29,9 @@
                     <InkCanvas.DefaultDrawingAttributes>
                         <DrawingAttributes Color="Transparent"/>
                     </InkCanvas.DefaultDrawingAttributes>
+                    <InkCanvas.RenderTransform>
+                        <RotateTransform Angle="0"/>
+                    </InkCanvas.RenderTransform>
 
                     <Image Stretch="Uniform" Source="{Binding ImageSource}" />
 

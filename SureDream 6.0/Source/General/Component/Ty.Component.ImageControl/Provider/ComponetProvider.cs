@@ -63,5 +63,44 @@ namespace Ty.Component.ImageControl
             }
             return imageArray;
         }
+
+
+        /// <summary>
+        /// 利用VisualTreeHelper寻找指定依赖对象的父级对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public List<T> FindVisualParent<T>(DependencyObject obj) where T : DependencyObject
+        {
+            try
+            {
+                List<T> TList = new List<T> { };
+                DependencyObject parent = VisualTreeHelper.GetParent(obj);
+                if (parent != null && parent is T)
+                {
+                    TList.Add((T)parent);
+                    List<T> parentOfParent = FindVisualParent<T>(parent);
+                    if (parentOfParent != null)
+                    {
+                        TList.AddRange(parentOfParent);
+                    }
+                }
+                else if (parent != null)
+                {
+                    List<T> parentOfParent = FindVisualParent<T>(parent);
+                    if (parentOfParent != null)
+                    {
+                        TList.AddRange(parentOfParent);
+                    }
+                }
+                return TList;
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+                return null;
+            }
+        }
     }
 }

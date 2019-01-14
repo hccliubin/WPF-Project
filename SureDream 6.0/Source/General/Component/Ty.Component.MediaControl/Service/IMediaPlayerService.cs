@@ -65,7 +65,18 @@ namespace Ty.Component.MediaControl
         /// </summary>
         /// <returns></returns>
         TimeSpan GetTotalFrame();
-        
 
+        /// <summary>
+        /// 音量属性控制
+        /// </summary>
+        double Volumn
+        {
+            get;set;
+        }
+
+        /// <summary>
+        /// 旋转
+        /// </summary>
+        void Rotate();
     }
 }

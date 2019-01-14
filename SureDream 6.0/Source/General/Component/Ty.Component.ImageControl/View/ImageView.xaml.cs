@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -428,6 +429,23 @@ namespace Ty.Component.ImageControl
 
              }));
 
+
+        public void Rotate()
+        {
+            RotateTransform rotate = this.canvas.RenderTransform as RotateTransform;
+            rotate.CenterX = this.canvas.ActualWidth / 2;
+            rotate.CenterY = this.canvas.ActualHeight / 2;
+            rotate.Angle = rotate.Angle + 90;
+        }
+
+        public void ScreenShot(string saveFullName)
+        {
+            byte[] screenshot = ComponetProvider.Instance.GetScreenShot(this.canvas,1, 90);
+            FileStream fileStream = new FileStream(saveFullName, FileMode.Create, FileAccess.ReadWrite);
+            BinaryWriter binaryWriter = new BinaryWriter(fileStream);
+            binaryWriter.Write(screenshot);
+            binaryWriter.Close();
+        }
 
     }
 }

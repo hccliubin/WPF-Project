@@ -242,8 +242,11 @@ namespace Ty.Component.ImageControl
             //  Do：触发删除事件
             this.PreviousImgEvent?.Invoke();
 
-            RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
-            this.RaiseEvent(args);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
+                this.RaiseEvent(args);
+            });
         }
 
         //声明和注册路由事件
@@ -398,7 +401,7 @@ namespace Ty.Component.ImageControl
         /// <summary> 開始播放 </summary>
         void Start()
         {
-            //control.timer.Start();
+            //control.timer.Start(); 
 
             Action action = null;
 
@@ -419,7 +422,7 @@ namespace Ty.Component.ImageControl
                 {
                     playMode = this.ImgPlayMode;
                     speed = this.Speed;
-                    isBuzy = this.ViewModel.IsBuzy;
+                    isBuzy = this.ViewModel==null?false: this.ViewModel.IsBuzy;
                 });
 
 
@@ -650,6 +653,8 @@ namespace Ty.Component.ImageControl
             window.DataContext = this.ViewModel;
             this.ClearToScreen();
             window.CenterContent = this.grid_all;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            window.Owner = ComponetProvider.Instance.FindVisualParent<Window>(this).First();
             window.ShowDialog();
             this.RecoverFromScreen();
         }
@@ -851,11 +856,7 @@ namespace Ty.Component.ImageControl
             }
             else
             {
-                //ApplicationCommands.Close.Execute(null, this.FullWindow);
-
                 this.ShowFullScreen();
-
-
             }
         }
 
@@ -911,7 +912,9 @@ namespace Ty.Component.ImageControl
             }
             else
             {
-                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+                //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+
+                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model==entity);
 
                 if (find == null)
                 {
@@ -966,15 +969,15 @@ namespace Ty.Component.ImageControl
         public ImgMarkEntity GetSelectMarkEntity()
         {
             if (this.ViewModel == null) return null;
-            var result = this.ViewModel.SampleCollection.ToList().Find(l => l.RectangleLayer.First().IsSelected);
+            var result = this.ViewModel.SampleCollection.ToList().FindAll(l => l.RectangleLayer.First().IsSelected);
 
-            if (result == null)
+            if (result == null|| result.Count==0)
             {
                 Debug.WriteLine("没有选中项！");
                 return null;
             }
 
-            return result.Model;
+            return result.First().Model;
         }
 
         /// <summary>
@@ -1004,6 +1007,25 @@ namespace Ty.Component.ImageControl
         public void CancelAddMark()
         {
             this.control_imageView.ClearDynamic();
+        }
+
+        public void Rotate()
+        {
+            this.control_imageView.Rotate();
+        }
+
+        public void ScreenShot(string saveFullName)
+        {
+            this.control_imageView.ScreenShot(saveFullName);
+        }
+
+        public void DeleteSelectMark()
+        {
+            var entity= this.GetSelectMarkEntity();
+
+            entity.markOperateType = ImgMarkOperateType.Delete;
+
+            this.MarkOperate(entity);
         }
     }
 }

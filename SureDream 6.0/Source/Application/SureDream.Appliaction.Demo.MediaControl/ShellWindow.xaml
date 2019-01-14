@@ -182,7 +182,6 @@
                                             <Button Content="正序播放"  x:Name="btn_imageplay_start"  Background="Orange"  Click="Btn_imageplay_start_Click"/>
                                             <Button Content="倒序播放"  x:Name="btn_imageplay_start1"  Background="Orange"  Click="Btn_imageplay_start1_Click" />
                                             <Button Content="停止播放"  x:Name="btn_imageplay_stop"  Background="Orange"  Click="Btn_imageplay_stop_Click"/>
-
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
@@ -191,6 +190,38 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="设置图片帧位置（测试位置9）"  Width="200" x:Name="btn_imageplay_setposition"  Background="Orange"  Click="Btn_imageplay_setposition_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="12）设置图片旋转">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="设置图片旋转(90°)"  Width="200" x:Name="btn_imageplay_rotate"  Background="Orange"  Click="Btn_imageplay_rotate_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="12）设置图片全屏">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="设置图片全屏"  Width="200" x:Name="btn_imageplay_fullscreen"  Background="Orange"  Click="Btn_imageplay_fullscreen_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="12）设置图片截屏">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="设设置图片截屏"  Width="200" x:Name="btn_imageplay_shotcut"  Background="Orange"  Click="Btn_imageplay_shotcut_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="12）删除选中标定信息">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="删除选中标定信息"  Width="200" x:Name="btn_imageplay_deleteselect"  Background="Orange"  Click="Btn_imageplay_deleteselect_Click"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>

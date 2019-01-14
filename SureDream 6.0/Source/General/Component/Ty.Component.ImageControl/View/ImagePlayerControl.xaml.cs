@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -37,7 +38,7 @@ namespace Ty.Component.ImageControl
             this.image_control.button_next.Visibility = Visibility.Collapsed;
             this.image_control.button_last.Visibility = Visibility.Collapsed;
 
-            this.image_control.SetMarkType(MarkType.None);
+            //this.image_control.SetMarkType(MarkType.None);
 
         }
 
@@ -48,6 +49,8 @@ namespace Ty.Component.ImageControl
         private void Image_control_IndexChangedClick(object sender, RoutedEventArgs e)
         {
             if (_sliderFlag) return;
+
+            if (this.image_control.Current == null) return;
 
             //  Do：设置进度条位置
             var index = this.image_control.ImagePaths.FindIndex(l => l == this.image_control.Current.Value);
@@ -194,36 +197,45 @@ namespace Ty.Component.ImageControl
             //  Do：默认加载位置
             int startPostion = 0;
 
-            //  Do：是否存在startForder
-            bool exist = false;
-
-            foreach (var item in imageFoders)
+            Task.Run(()=>
             {
-                string url = item.Replace("ftp://", loginParam).Replace("FTP://", loginParam.ToUpper());
+                //  Do：是否存在startForder
+                bool exist = false;
 
-                var file = FtpHelper.GetFileList(item).Where(l => ComponetProvider.Instance.IsValidImage(l)).Select(l => System.IO.Path.Combine(url, l)).ToList();
-
-                if (item == startForder)
+                foreach (var item in imageFoders)
                 {
-                    exist = true;
+                    string url = item.Replace("ftp://", loginParam).Replace("FTP://", loginParam.ToUpper());
+
+                    var file = FtpHelper.GetFileList(item).Where(l => ComponetProvider.Instance.IsValidImage(l)).Select(l => System.IO.Path.Combine(url, l)).ToList();
+
+                    if (item == startForder)
+                    {
+                        exist = true;
+                    }
+
+                    if (!exist)
+                    {
+                        startPostion += file.Count;
+                    }
+
+
+                    //Thread.Sleep(500);
+
+                    files.AddRange(file);
                 }
 
-                if (!exist)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    startPostion += file.Count;
-                }
+                    this.LoadImages(files);
 
-                files.AddRange(file);
-            }
+                    //  Do：加载起始位置
+                    if (exist)
+                    {
+                        this.SetPositon(startPostion);
+                    }
 
-            this.LoadImages(files);
-
-            //  Do：加载起始位置
-            if (exist)
-            {
-                this.SetPositon(startPostion);
-            }
-
+                });
+            });
 
         }
 
@@ -344,11 +356,17 @@ namespace Ty.Component.ImageControl
 
         public void ScreenShot(string saveFullName)
         {
-            byte[] screenshot = ComponetProvider.Instance.GetScreenShot(this, 1, 90);
-            FileStream fileStream = new FileStream(saveFullName, FileMode.Create, FileAccess.ReadWrite);
-            BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-            binaryWriter.Write(screenshot);
-            binaryWriter.Close();
+            this.image_control.ScreenShot(saveFullName);
+        }
+
+        public void Rotate()
+        {
+            this.image_control.Rotate();
+        }
+
+        public void DeleteSelectMark()
+        {
+            this.image_control.DeleteSelectMark();
         }
     }
 

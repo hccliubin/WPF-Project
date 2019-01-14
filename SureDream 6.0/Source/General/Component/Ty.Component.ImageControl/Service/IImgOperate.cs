@@ -169,6 +169,22 @@ namespace Ty.Component.ImageControl
         /// </summary>
         void CancelAddMark();
 
+        /// <summary>
+        /// 旋转
+        /// </summary>
+        void Rotate();
+
+        /// <summary>
+        /// 截屏
+        /// </summary>
+        /// <param name="saveFullName"></param>
+        void ScreenShot(string saveFullName);
+
+        /// <summary>
+        /// 删除选中项
+        /// </summary>
+        void DeleteSelectMark();
+
     }
 
     /// <summary>

@@ -315,7 +315,12 @@ namespace SureDream.Appliaction.Demo.MediaControl
             folders.Add(@"ftp://127.0.0.1/images/");
             folders.Add(@"ftp://127.0.0.1/images1/");
             folders.Add(@"ftp://127.0.0.1/images2/");
-
+            folders.Add(@"ftp://127.0.0.1/images3/");
+            folders.Add(@"ftp://127.0.0.1/images4/");
+            folders.Add(@"ftp://127.0.0.1/images5/");
+            folders.Add(@"ftp://127.0.0.1/images6/");
+            folders.Add(@"ftp://127.0.0.1/images7/");
+            folders.Add(@"ftp://127.0.0.1/images8/");
             string start = @"ftp://27.0.0.1/images2/";
 
             this.image.LoadFtpImageFolder(folders, start,"Healthy","870210lhj");

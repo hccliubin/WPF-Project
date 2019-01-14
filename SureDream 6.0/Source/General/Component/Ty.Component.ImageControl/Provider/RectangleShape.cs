@@ -84,6 +84,10 @@ namespace Ty.Component.ImageControl
                         //shape.StrokeThickness /= 3;
                         shape.IsSelected = false;
 
+
+                        Debug.WriteLine("取消选中："+shape.Code);
+
+
                         shape.RefreshStrokeThickness();
                     }
                 }
@@ -92,7 +96,7 @@ namespace Ty.Component.ImageControl
             this.IsSelected = true;
             //this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
             //this.StrokeThickness *= 3;
-
+            Debug.WriteLine("选中：" + this.Code);
             this.RefreshStrokeThickness();
         }
         /// <summary>

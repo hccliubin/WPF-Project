@@ -64,22 +64,10 @@
                 <!--播放按钮-->
                 <DockPanel Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe6a3;" ToolTip="暫停" />-->
-
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe715;" ToolTip="播放" />-->
-
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}" FIconSize="26" Margin="10,0" FIcon="&#xe684;" ToolTip="上一個"/>-->
-
-                    <ToggleButton x:Name="toggle_play" Margin="30,0,0,0"  Foreground="{DynamicResource S_GrayLight}" IsChecked="True" Click="ToggleButton_Click">
+                    <ToggleButton x:Name="toggle_play" Margin="30,0"  Foreground="{DynamicResource S_GrayLight}" IsChecked="True" Click="ToggleButton_Click">
                         <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type ToggleButton}">
                                 <Grid>
-                                    <!--<Ellipse x:Name="ellipse" Height="40" Width="40" Fill="{DynamicResource S_AccentBrush}" IsHitTestVisible="False">
-
-                                    </Ellipse>
-                                    <TextBlock Text="&#xe76e;" Style="{StaticResource FIcon}" x:Name="txt" Foreground="{TemplateBinding Foreground}"
-                                   FontSize="20" 
-                                   ToolTip="显示"/>-->
                                     <Image x:Name="image" Height="20" Width="20" Source="../Resources/暂停.png" ToolTip="播放"/>
                                 </Grid>
                                 <ControlTemplate.Triggers>
@@ -101,15 +89,8 @@
                             </ControlTemplate>
                         </ToggleButton.Template>
                     </ToggleButton>
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe687;" ToolTip="下一個"/>-->
-
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe746;" ToolTip="暫停" />-->
-
-                    <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="26"  Margin="10,0"   FIcon="&#xe763;" ToolTip="暫停" />-->
-
-                    <!--<local:MediaButton x:Name="btn_rotateTransform" Style="{StaticResource Style.Slider.FButton}" Click="Btn_rotateTransform_Click"  FIconSize="18"  FIcon="&#xebce;" ToolTip="旋转"/>-->
-
-                    <local:ImageButton Margin="25,0"   x:Name="btn_rotateTransform" ImageSource="../Resources/循环播放.png" ToolTip="旋转"/>
+                    
+                    <!--<local:ImageButton Margin="25,0"   x:Name="btn_rotateTransform" ImageSource="../Resources/循环播放.png" ToolTip="旋转"/>
 
                     <Border BorderBrush="#f1f1f1" BorderThickness="1" Height="25" Padding="10,0">
                         <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="0,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
@@ -117,7 +98,7 @@
 
                     <Border BorderBrush="#f1f1f1" BorderThickness="1" Height="25" Padding="10,0" Margin="50,0" >
                         <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                    </Border>
+                    </Border>-->
                 </DockPanel> 
 
                 <!--音量-->

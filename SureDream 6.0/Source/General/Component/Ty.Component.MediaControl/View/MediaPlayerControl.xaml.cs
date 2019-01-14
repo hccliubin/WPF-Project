@@ -427,6 +427,14 @@ namespace Ty.Component.MediaControl
         {
             this.media_media.Position = timeSpan;
         }
+
+        public void Rotate()
+        {
+            RotateTransform rotate = this.media_media.RenderTransform as RotateTransform;
+            rotate.CenterX = this.media_media.ActualWidth / 2;
+            rotate.CenterY = this.media_media.ActualHeight / 2;
+            rotate.Angle = rotate.Angle + 90;
+        }
     }
 
     public class TimeSpanConverter : IValueConverter

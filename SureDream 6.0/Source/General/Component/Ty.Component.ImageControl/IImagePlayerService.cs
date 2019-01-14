@@ -144,6 +144,16 @@ namespace Ty.Component.ImageControl
         /// </summary>
         void ImgPlaySpeedDown();
 
+        /// <summary>
+        /// 旋转
+        /// </summary>
+        void Rotate();
+
+        /// <summary>
+        /// 删除选中项
+        /// </summary>
+        void DeleteSelectMark();
+
         #endregion
     }
 }

@@ -72,6 +72,11 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
                       var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
 
+                      //foreach (var c in list)
+                      //{
+                      //    c.Code = Guid.NewGuid().ToString();
+                      //}
+
                       _imgOperate.LoadMarkEntitys(list);
                   }
               };
@@ -344,13 +349,19 @@ namespace SureDream.Appliaction.Demo.MediaControl
         //  Message：播放ftp图片文件夹路径
         private void btn_imageftpplay_imagefoder_Click(object sender, RoutedEventArgs e)
         {
-            List<string> folders = new List<string>();
+            string filePath = @"ftp://127.0.0.1/images1/";
 
-            string filePath = @"ftp://127.0.0.1/images2/";
+            List<string> folders = new List<string>();
 
             folders.Add(@"ftp://127.0.0.1/images/");
             folders.Add(@"ftp://127.0.0.1/images1/");
             folders.Add(@"ftp://127.0.0.1/images2/");
+            folders.Add(@"ftp://127.0.0.1/images3/");
+            folders.Add(@"ftp://127.0.0.1/images4/");
+            folders.Add(@"ftp://127.0.0.1/images5/");
+            folders.Add(@"ftp://127.0.0.1/images6/");
+            folders.Add(@"ftp://127.0.0.1/images7/");
+            folders.Add(@"ftp://127.0.0.1/images8/");
 
             this.media.LoadFtpImageFolder(folders, filePath, "Healthy", "870210lhj");
         }
@@ -386,6 +397,45 @@ namespace SureDream.Appliaction.Demo.MediaControl
         private void Btn_imageplay_setposition_Click(object sender, RoutedEventArgs e)
         {
             this.media.ImagePlayerService.SetPositon(9);
+        }
+
+        //  Message：图片旋转
+        private void Btn_imageplay_rotate_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ImagePlayerService.Rotate();
+        }
+
+        private void Btn_imageplay_fullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ImagePlayerService.SetFullScreen(true);
+        }
+
+        private void Btn_imageplay_shotcut_Click(object sender, RoutedEventArgs e)
+        {
+            string fileName = DateTime.Now.ToString("yyyyMMddhhmmss");
+
+            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images", fileName + ".jpg");
+
+            this.media.ImagePlayerService.ScreenShot(filePath);
+
+            Process.Start(filePath);
+        }
+
+        private void Btn_imageplay_deleteselect_Click(object sender, RoutedEventArgs e)
+        {
+            //var mark= this.media.ImagePlayerService.GetImgOperate().GetSelectMarkEntity();
+
+
+            // this.media.ImagePlayerService.GetImgOperate().SetSelectMarkEntity()
+
+            this.media.ImagePlayerService.DeleteSelectMark();
+
+            //var entity =this.media.ImagePlayerService.GetImgOperate().GetSelectMarkEntity();
+
+            //entity.markOperateType = ImgMarkOperateType.Delete;
+
+            //this.media.ImagePlayerService.GetImgOperate().MarkOperate(entity);
+
         }
     }
 

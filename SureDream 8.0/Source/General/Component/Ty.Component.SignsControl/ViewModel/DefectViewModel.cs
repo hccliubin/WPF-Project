@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Ty.Base.WpfBase;
 
 namespace Ty.Component.SignsControl
@@ -277,6 +278,14 @@ namespace Ty.Component.SignsControl
             //  Do：保存
             if (command == "btn_sumit")
             {
+
+                if(this.SelectDefectOrMarkCodes==null)
+                {
+                    MessageBox.Show("请先选择缺陷类别！");
+
+                    return;
+                }
+
                 this.SumitClick?.Invoke();
 
             }

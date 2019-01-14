@@ -112,7 +112,7 @@ namespace Ty.Component.SignsControl
             //if (this.IsDropDownOpen == false)
             //    this.IsDropDownOpen = true;
 
-            if (t)  FindTextBox(this);
+            if (t) FindTextBox(this);
             else
                 t = false;
 
@@ -149,10 +149,12 @@ namespace Ty.Component.SignsControl
         private void EditComboBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
+
             if (tb.IsFocused)
             {
                 if (editText == this.Text)
                     return;
+
                 editText = this.Text;
 
                 tb.Focus();
@@ -161,7 +163,7 @@ namespace Ty.Component.SignsControl
                     this.IsDropDownOpen = true;
 
                 Task.Run(() => SetList(editText));
-                
+
             }
         }
         /// <summary>
@@ -188,13 +190,12 @@ namespace Ty.Component.SignsControl
         /// <param name="txt"></param>
         private void SetList(string txt)
         {
-            string temp1 = ""; 
-            string temp2 = ""; 
-            IEnumerable enumerable=null; 
+            string temp1 = "";
+            string temp2 = "";
+            IEnumerable enumerable = null;
             string displayPath = null;
-            string selectPath = null; 
-            Func<object, string, bool> filter = null; 
-            List<object> temp = null;
+            string selectPath = null;
+            Func<object, string, bool> filter = null;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -202,7 +203,6 @@ namespace Ty.Component.SignsControl
                 displayPath = this.DisplayMemberPath;
                 selectPath = this.SelectedValuePath;
                 filter = this.FilterMatch;
-                temp = this.bindingList.ToList();
             });
 
 
@@ -223,44 +223,54 @@ namespace Ty.Component.SignsControl
 
                 if (filter == null)
                 {
-                    if (temp1.Contains(txt) || temp2.StartsWith(txt))
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        if (!temp.Contains(item))
-                            temp.Add(item);
-                    }
-                    else if (temp.Contains(item))
-                    {
-                        temp.Remove(item);
-                    }
+                        if (temp1.Contains(txt) || temp2.StartsWith(txt))
+                        {
+                            if (!this.bindingList.Contains(item))
+                                this.bindingList.Add(item);
+                        }
+                        else if (this.bindingList.Contains(item))
+                        {
+                            this.bindingList.Remove(item);
+                        }
+                    });
+
                 }
                 else
                 {
-                    if (filter(item, txt))
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        if (!temp.Contains(item))
-                            temp.Add(item);
-                    }
-                    else
-                    {
-                        temp.Remove(item);
-                    }
+                        if (filter(item, txt))
+                        {
+                            if (!this.bindingList.Contains(item))
+                                this.bindingList.Add(item);
+                        }
+                        else
+                        {
+                            this.bindingList.Remove(item);
+                        }
+                    });
+
                 }
 
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                this.bindingList.Clear();
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    this.bindingList.Clear();
 
-                foreach (var item in temp)
-                {
-                    this.bindingList.Add(item);
-                }
-            });
+            //    foreach (var item in temp)
+            //    {
+            //        this.bindingList.Add(item);
+            //    }
+            //});
 
         }
 
-        public Func<object,string,bool> FilterMatch
+        public Func<object, string, bool> FilterMatch
         {
             get { return (Func<object, string, bool>)GetValue(FilterMatchProperty); }
             set { SetValue(FilterMatchProperty, value); }
