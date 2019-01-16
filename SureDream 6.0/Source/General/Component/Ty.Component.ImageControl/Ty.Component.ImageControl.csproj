@@ -52,6 +52,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SharedTool.cs" />
     <Compile Include="FtpHelper.cs" />
     <Compile Include="IImagePlayerService.cs" />
     <Compile Include="ImageButton.cs" />

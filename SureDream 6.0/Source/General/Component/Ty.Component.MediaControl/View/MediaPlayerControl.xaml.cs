@@ -109,13 +109,33 @@ namespace Ty.Component.MediaControl
             this.Stop();
         }
 
-        private void media_slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        //private void media_slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        //{
+        //    if (this.media_media == null) return;
+
+        //    this.media_media.Position = TimeSpan.FromTicks((long)this.media_slider.Value);
+
+        //    this._timer.Start();
+        //}
+
+        private void Media_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+
+            ////  Message：当是鼠标点击引起的改变是触发SetPositon
+            //if (Mouse.LeftButton != MouseButtonState.Pressed) return;
+            //if (!this.media_slider.IsMouseOver) return;
+
+            //int index = (int)((this.media_slider.Value / this.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+
+
+            //Debug.WriteLine("MouseButtonState.Pressed");
+
+            ////  Do：设置播放位置
+            //this.SetPositon(index);
+
             if (this.media_media == null) return;
 
             this.media_media.Position = TimeSpan.FromTicks((long)this.media_slider.Value);
-
-            this._timer.Start();
         }
 
         void InitSound()
@@ -123,15 +143,20 @@ namespace Ty.Component.MediaControl
             this.slider_sound.Value = this.media_media.Volume;
         }
 
-        private void slider_sound_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        //private void slider_sound_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        //{
+           
+        //}
+
+        private void Slider_sound_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             this.media_media.Volume = this.slider_sound.Value;
         }
 
-        private void media_slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
-        {
-            this._timer.Stop();
-        }
+        //private void media_slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        //{
+        //    this._timer.Stop();
+        //}
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -328,6 +353,8 @@ namespace Ty.Component.MediaControl
                 this.canvas.Cursor = Cursors.Arrow;
             }
         }
+
+        
     }
 
     public partial class MediaPlayerControl : IMediaPlayerService
@@ -373,12 +400,12 @@ namespace Ty.Component.MediaControl
             this.Play();
         }
 
-        public void LoadImageFolder(string imageFoder)
-        {
-            throw new NotImplementedException();
-        }
+        //public void LoadImageFolder(string imageFoder)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        List<string> _imageUrls = new List<string>();
+        //List<string> _imageUrls = new List<string>();
 
         //public void LoadImages(List<string> ImageUrls)
         //{

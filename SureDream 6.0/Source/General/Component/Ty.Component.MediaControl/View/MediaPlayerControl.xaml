@@ -108,7 +108,12 @@
                     <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  FIcon="&#xe664;"/>-->
                     <local:ImageButton Margin="0,0,0,0"   ImageSource="../Resources/声音.png"  ToolTip="旋转"  />
 
-                    <Slider x:Name="slider_sound" Style="{DynamicResource SliderStyle1}"  VerticalAlignment="Center" Thumb.DragCompleted="slider_sound_DragCompleted" Width="100" Minimum="0" Maximum="1" SmallChange="0.01" />
+                    <Slider x:Name="slider_sound" Style="{DynamicResource SliderStyle1}"  
+                            VerticalAlignment="Center" IsMoveToPointEnabled="True"
+                            ValueChanged="Slider_sound_ValueChanged" 
+                            Width="100" 
+                            Minimum="0" Maximum="1" SmallChange="0.01" />
+               
                 </DockPanel>
 
                 <!--全屏旋转按钮-->
@@ -124,7 +129,16 @@
                         <!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
                         <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>-->
                         <TextBlock Text="{Binding ElementName=media_slider,Path=Maximum,Converter={StaticResource Convert.TimeSpan}}" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
-                        <Slider x:Name="media_slider" Style="{DynamicResource SliderStyle1}"   Minimum="0" Maximum="0" Value="0"  VerticalAlignment="Center" Thumb.DragStarted="media_slider_DragStarted" Thumb.DragCompleted="media_slider_DragCompleted"/>
+                        <Slider x:Name="media_slider" 
+                                Style="{DynamicResource SliderStyle1}"   
+                                Minimum="0"
+                                Maximum="0" 
+                                Value="0"  IsMoveToPointEnabled="True"
+                                VerticalAlignment="Center" ValueChanged="Media_slider_ValueChanged"/>
+
+
+                        <!--Thumb.DragStarted="media_slider_DragStarted" 
+                                Thumb.DragCompleted="media_slider_DragCompleted"-->
                     </DockPanel>
                 </DockPanel>
             </DockPanel>

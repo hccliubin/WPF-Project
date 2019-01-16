@@ -124,7 +124,12 @@
                                 <!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
                         <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>-->
                                 <TextBlock Text="{Binding ElementName=media_slider,Path=Maximum,Converter={StaticResource Convert.TimeSpan}}" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
-                                <Slider x:Name="media_slider" Style="{DynamicResource SliderStyle1}"   Minimum="0" Maximum="0" Value="0"  VerticalAlignment="Center" Thumb.DragStarted="media_slider_DragStarted" Thumb.DragCompleted="media_slider_DragCompleted"/>
+                                
+                                <Slider x:Name="media_slider" 
+                                        Style="{DynamicResource SliderStyle1}"   
+                                        Minimum="0" Maximum="0" Value="0"  Thumb.DragStarted="media_slider_DragStarted" Thumb.DragCompleted="media_slider_DragCompleted"
+                                        VerticalAlignment="Center" IsMoveToPointEnabled="True" ValueChanged="Media_slider_ValueChanged"
+                                        />
                             </DockPanel>
                         </DockPanel>
                     </DockPanel>

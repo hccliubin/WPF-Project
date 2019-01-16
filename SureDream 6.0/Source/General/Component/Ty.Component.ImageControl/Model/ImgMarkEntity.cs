@@ -182,6 +182,21 @@ namespace Ty.Component.ImageControl
     }
 
     /// <summary>
+    /// 进度条改变模式
+    /// </summary>
+    public enum ImgSliderMode
+    {
+        /// <summary>
+        /// 系统
+        /// </summary>
+        System = 0,
+        /// <summary>
+        /// 用户
+        /// </summary>
+        User = 1
+    }
+
+    /// <summary>
     /// 图片处理类型
     /// </summary>
     public enum ImgProcessType
@@ -193,6 +208,9 @@ namespace Ty.Component.ImageControl
         锐化 = 4,
         边缘锐化 = 5,
     }
+
+
+
 
     /// <summary>
     /// 标定实体操作类型

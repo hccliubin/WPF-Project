@@ -9,7 +9,6 @@
              mc:Ignorable="d" Background="#353535"
              d:DesignHeight="450" d:DesignWidth="1000">
 
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -56,6 +55,7 @@
 
             <Style TargetType="{x:Type local:SearchCombobox}" BasedOn="{StaticResource Resource.Style.SearchCombobox.Default}"></Style>
         </ResourceDictionary>
+        
     </UserControl.Resources>
     <!--整个控件-->
     <Grid>
@@ -79,9 +79,9 @@
                <Run Text="{Binding Codes[4]}"  Foreground="#04a2e2"/>
                <Run Text="{Binding Codes[5]}"  Foreground="#04a2e2"/>
                <Run Text="{Binding Codes[6]}"  Foreground="#49fd73"/>
-               <Run Text="{Binding Codes[7]}"  Foreground="#49fd73"/>
+               <!--<Run Text="{Binding Codes[7]}"  Foreground="#49fd73"/>
                <Run Text="{Binding Codes[8]}"  Foreground="#49fd73"/>
-               <Run Text="{Binding Codes[9]}"  Foreground="#49fd73"/>
+               <Run Text="{Binding Codes[9]}"  Foreground="#49fd73"/>-->
         </TextBlock>
         <!--B 01 01 012 01 000001 01 01 01 01-->
         <Grid Grid.Column="0" Grid.Row="1" >
@@ -210,7 +210,7 @@
                                    base:ControlAttachProperty.Watermark="输入"
                                    DisplayMemberPath="Name"  SelectedValuePath="ID" SelectedItem="{Binding SelectDefectOrMarkCodes}"/>
 
-            <ListBox Grid.Row="2"  
+            <ListBox Grid.Row="2" x:Name="list_hist"
                      Background="Transparent" Margin="10,0"
                      Foreground="White" BorderThickness="0" SelectedItem="{Binding SelectCommonHistoricalDefectsOrMark}"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
@@ -251,5 +251,6 @@
                 <Button  Content="确认(Enter)" Command="{Binding RelayCommand}"  CommandParameter="btn_sumit"/>
             </StackPanel>
         </Grid>
+
     </Grid>
 </UserControl>

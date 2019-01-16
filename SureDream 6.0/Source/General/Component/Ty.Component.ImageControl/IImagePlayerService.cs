@@ -21,7 +21,14 @@ namespace Ty.Component.ImageControl
         /// 10）播放图片文件夹功能，按照文件名按名称排序正序播放，默认间隔为0.5秒
         /// </summary>
         /// <param name="imageFoder"></param>
-        void LoadImageFolder(string imageFoder);
+        void LoadImageFolder(List<string> imageFoders, string startForder);
+
+
+        /// <summary>
+        /// 10）播放图片文件夹功能，按照文件名按名称排序正序播放，默认间隔为0.5秒
+        /// </summary>
+        /// <param name="imageFoder"></param>
+        void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord,string ip);
 
         /// <summary>
         /// 播放 ftp图片文件夹
@@ -64,17 +71,17 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 图片索引发生变化时触发，P=当前URL
         /// </summary>
-        event Action<string> ImageIndexChanged;
+        event Action<string,ImgSliderMode> ImageIndexChanged;
 
         /// <summary>
         /// 播放类型变化时触发
         /// </summary>
         event Action<ImgPlayMode> ImgPlayModeChanged;
 
-        /// <summary>
-        /// 拖拽进度条触发 P1= 索引 P2=路径
-        /// </summary>
-        event Action<int,string> SliderDragCompleted;
+        ///// <summary>
+        ///// 拖拽进度条触发 P1= 索引 P2=路径
+        ///// </summary>
+        //event Action<int,string> SliderDragCompleted;
 
         /// <summary>
         /// 获取当前播放状态

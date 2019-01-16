@@ -258,9 +258,9 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void Btn_play_imagefoder_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+            //string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
 
-            this.media.LoadImageFolder(filePath);
+            //this.media.LoadImageFolder(filePath);
         }
 
         private void Btn_play_currentUrl_Click(object sender, RoutedEventArgs e)
@@ -292,7 +292,16 @@ namespace SureDream.Appliaction.Demo.MediaControl
         {
             string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
 
-            this.image.LoadImageFolder(filePath);
+            List<string> folders = new List<string>();
+
+            folders.Add(filePath);
+            folders.Add(filePath);
+            folders.Add(filePath);
+            folders.Add(filePath);
+            folders.Add(filePath);
+
+            this.image.LoadImageFolder(folders, filePath);
+            
         }
 
         private void btn_imageplay_currentframe_Click(object sender, RoutedEventArgs e)

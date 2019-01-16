@@ -144,10 +144,18 @@
                                     </StackPanel>
                                 </GroupBox>
 
-                                <GroupBox Header="10）播放图片文件夹功能">
+                                <GroupBox Header="10）播放本地图片文件夹列表功能">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <Button  x:Name="btn_imageplay_imagefoder" Content="加载图片文件夹" Background="Orange"  Click="btn_imageplay_imagefoder_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="10）播放共享图片文件夹列表功能">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button  x:Name="btn_imageplay_imagesharefoder" Content="加载图片文件夹" Background="Orange"  Click="Btn_imageplay_imagesharefoder_Click"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>

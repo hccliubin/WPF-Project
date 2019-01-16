@@ -9,10 +9,12 @@
     <Grid Background="Red">
         <!--<Image Source="ftp://192.168.0.104/images/20190105050908.jpg"/>-->
 
-        <MediaElement Width="500" Height="400" x:Name="media" Source="ftp://Healthy:870210lhj@127.0.0.1/media.mp4"/>
+        <!--<MediaElement Width="500" Height="400" x:Name="media" Source="ftp://Healthy:870210lhj@127.0.0.1/media.mp4"/>-->
         <!--<MediaElement x:Name="media" Source="D:\FTP/media.mp4"/>-->
       
         <!--Source="ftp://192.168.0.104/media.mkv"-->
         <!--<Button Click="Button_Click"/>-->
+
+        <Slider x:Name="etet" IsMoveToPointEnabled="True" MouseDown="Slider_MouseDown" PreviewMouseDown="Slider_MouseDown" MouseLeftButtonDown="Slider_MouseDown" ValueChanged="Slider_ValueChanged"/>
     </Grid>
 </Window>

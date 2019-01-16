@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Ty.Base.WpfBase;
 
 namespace Ty.Component.SignsControl
@@ -150,7 +151,7 @@ namespace Ty.Component.SignsControl
                 //  Message：把缺陷类别的选中项修改为历史缺陷类别的选中项
                 if (value == null) return;
 
-               var find = this.DefectMenuEntity.DefectOrMarkCodes.Where(l => l.ID == value.ID);
+                var find = this.DefectMenuEntity.DefectOrMarkCodes.Where(l => l.ID == value.ID);
 
                 if (find == null || find.Count() == 0) return;
 
@@ -279,7 +280,7 @@ namespace Ty.Component.SignsControl
             if (command == "btn_sumit")
             {
 
-                if(this.SelectDefectOrMarkCodes==null)
+                if (this.SelectDefectOrMarkCodes == null)
                 {
                     MessageBox.Show("请先选择缺陷类别！");
 
@@ -349,18 +350,22 @@ namespace Ty.Component.SignsControl
             this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
             this.Codes[5] = this.SelectBasicUnit?.PoleMarkCode;
 
-            //  Message：最近使用与历史使用显示面板问题，与PHMCode码生成有关 当历史缺陷类别没有选中项时，PHMCode码后几位用缺陷类别选中项的Code  当历史缺陷类别有选中项时，PHMCode码后面几位用历史缺陷类别选中项的code
-            if (this.SelectCommonHistoricalDefectsOrMark == null)
-            {
-                this.Codes[6] = this.SelectDefectOrMarkCodes?.Code;
-            }
-            else
-            {
-                this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
-            }
+            ////  Message：最近使用与历史使用显示面板问题，与PHMCode码生成有关 当历史缺陷类别没有选中项时，PHMCode码后几位用缺陷类别选中项的Code  当历史缺陷类别有选中项时，PHMCode码后面几位用历史缺陷类别选中项的code
+            //if (this.SelectCommonHistoricalDefectsOrMark == null)
+            //{
+            this.Codes[6] = this.SelectDefectOrMarkCodes?.Code;
+            //}
+            //else
+            //{
+            //    this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
+            //}
 
 
             this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
+
+
+            Debug.WriteLine(this.PHMCodes);
+
         }
 
     }
@@ -385,32 +390,9 @@ namespace Ty.Component.SignsControl
             }
         }
 
-        //private ObservableCollection<DefectCommonUsed> _histCollection = new ObservableCollection<DefectCommonUsed>();
-        ///// <summary> 最近和历史标定信息  </summary>
-        //public ObservableCollection<DefectCommonUsed> HistCollection
-        //{
-        //    get { return _histCollection; }
-        //    set
-        //    {
-        //        _histCollection = value;
-        //        RaisePropertyChanged("HistCollection");
-        //    }
-        //}
-
-
         public void Load(DefectMenuEntity entity)
         {
             DefectMenuEntity = entity;
-
-            //  Do：加载最近使用和历史次数最多的
-            //var useCount = entity.CommonHistoricalDefectsOrMark.OrderByDescending(l => l.CountUse).Take(10);
-
-            //this.HistCollection.Clear();
-
-            //foreach (var item in useCount)
-            //{
-            //    this.HistCollection.Add(item);
-            //}
 
             if (string.IsNullOrEmpty(entity.PHMCodes))
             {
@@ -433,7 +415,6 @@ namespace Ty.Component.SignsControl
             //this.PHMCodes = entity.PHMCodes;
 
         }
-
 
         public void Reset()
         {
@@ -478,6 +459,8 @@ namespace Ty.Component.SignsControl
 
             return sb.ToString();
         }
+
+
     }
 
     partial class DefectViewModel : INotifyPropertyChanged

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace Ty.Component.ImageControl
             this.image_control.button_next.Visibility = Visibility.Collapsed;
             this.image_control.button_last.Visibility = Visibility.Collapsed;
 
-            //this.image_control.SetMarkType(MarkType.None);
+            this.image_control.SetMarkType(MarkType.None);
 
         }
 
@@ -58,7 +59,7 @@ namespace Ty.Component.ImageControl
             this.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),ImgSliderMode.System);
 
         }
 
@@ -78,8 +79,6 @@ namespace Ty.Component.ImageControl
             //this.image_control.Current = this.image_control.Collection.Find(value);
 
             //this.image_control.LoadImage(this.image_control.ImagePaths[index]);
-
-
             ////  Do：触发页更改事件
             //this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
 
@@ -90,6 +89,21 @@ namespace Ty.Component.ImageControl
 
             this.SliderDragCompleted?.Invoke(index, this.GetCurrentUrl());
 
+        }
+
+        private void Media_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //  Message：当是鼠标点击引起的改变是触发SetPositon
+            if (Mouse.LeftButton != MouseButtonState.Pressed) return;
+            if (!this.media_slider.IsMouseOver) return;
+
+            int index = (int)((this.media_slider.Value / this.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+
+
+            Debug.WriteLine("MouseButtonState.Pressed");
+
+            //  Do：设置播放位置
+            this.SetPositon(index);
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -162,28 +176,83 @@ namespace Ty.Component.ImageControl
         {
             this.image_control.ImgPlaySpeedUp();
         }
+        
     }
 
     public partial class ImagePlayerControl : IImagePlayerService
     {
         public ImgPlayMode ImgPlayMode => this.image_control.ImgPlayMode;
 
-        public event Action<string> ImageIndexChanged;
+        public event Action<string, ImgSliderMode> ImageIndexChanged;
+
         public event Action<ImgPlayMode> ImgPlayModeChanged;
+
         public event Action<int, string> SliderDragCompleted;
 
-        public void LoadImageFolder(string imageFoder)
+
+        public void LoadImageFolder(List<string> imageFoders, string startForder)
         {
-            var dir = Directory.CreateDirectory(imageFoder);
+            //  Do：默认加载位置
+            int startPostion = 0;
 
-            var files = dir.GetFiles();
+            List<string> files = new List<string>();
 
-            if (files == null) return;
+            Task.Run(() =>
+            {
+                //  Do：是否存在startForder
+                bool exist = false;
 
-            files = files.Where(l => ComponetProvider.Instance.IsValidImage(l.FullName)).ToArray();
+                foreach (var item in imageFoders)
+                {
+                    //var dir = Directory.CreateDirectory(item);
 
-            this.LoadImages(files.Select(l => l.FullName).ToList());
+                    DirectoryInfo dir = new DirectoryInfo(item);
 
+                    var file = dir.GetFiles().Where(l => ComponetProvider.Instance.IsValidImage(l.FullName)).Select(l => l.FullName).ToList();
+
+                    if (item == startForder)
+                    {
+                        exist = true;
+                    }
+
+                    if (!exist)
+                    {
+                        startPostion += file.Count;
+                    }
+
+
+                    //Thread.Sleep(500);
+
+                    files.AddRange(file);
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.InitImages(files);
+
+                    //  Do：加载起始位置
+                    if (exist)
+                    {
+                        this.SetPositon(startPostion);
+                    }
+
+                });
+            });
+
+        }
+
+        public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord,string ip)
+        {
+            //foreach (var item in imageFoders)
+            //{
+            //    ComponetProvider.Instance.GetAccessControl(item, "administrator", "123456");
+            //}
+            using (SharedTool tool = new SharedTool(useName, passWord, ip))
+            {
+                this.LoadImageFolder(imageFoders, startForder);
+            }
+
+              
         }
 
         public void LoadFtpImageFolder(List<string> imageFoders, string startForder, string useName, string passWord)
@@ -197,7 +266,7 @@ namespace Ty.Component.ImageControl
             //  Do：默认加载位置
             int startPostion = 0;
 
-            Task.Run(()=>
+            Task.Run(() =>
             {
                 //  Do：是否存在startForder
                 bool exist = false;
@@ -226,7 +295,7 @@ namespace Ty.Component.ImageControl
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.LoadImages(files);
+                    this.InitImages(files);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -239,18 +308,30 @@ namespace Ty.Component.ImageControl
 
         }
 
-        public void LoadImages(List<string> ImageUrls)
+        /// <summary> 加载图片列表 不触发ImageIndexChanged事件 </summary>
+        /// <param name="ImageUrls"></param>
+        void InitImages(List<string> ImageUrls)
         {
             this.image_control.LoadImg(ImageUrls);
 
             //  Do：初始化进度条
             this.InitSlider();
-
-            //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
-
         }
 
+
+        public void LoadImages(List<string> ImageUrls)
+        {
+            //this.image_control.LoadImg(ImageUrls);
+
+            ////  Do：初始化进度条
+            //this.InitSlider();
+
+            this.InitImages(ImageUrls);
+
+            //  Do：触发页更改事件
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.System);
+
+        }
 
         public string GetCurrentUrl()
         {
@@ -292,16 +373,22 @@ namespace Ty.Component.ImageControl
 
         public void SetPositon(int index)
         {
+            if (this.image_control.ImagePaths.Count <= index) return;
+
             string value = this.image_control.ImagePaths[index];
 
-            this.image_control.Current = this.image_control.Collection.Find(value);
+            var current = this.image_control.Collection.Find(value);
+
+            if (this.image_control.Current == current) return;
+
+            this.image_control.Current = current;
 
             this.image_control.LoadImage(this.image_control.ImagePaths[index]);
 
             this.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.User);
         }
 
         public void ShowDefects()

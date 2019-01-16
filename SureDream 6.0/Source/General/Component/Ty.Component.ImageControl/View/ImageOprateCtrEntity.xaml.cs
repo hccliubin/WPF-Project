@@ -517,7 +517,12 @@ namespace Ty.Component.ImageControl
                     });
 
                 }
-                catch { }
+                catch(Exception ex)
+                {
+
+                    Debug.WriteLine(ex);
+
+                }
 
 
                 ////  Message：存在上一张先不清理图片，适用于播放

@@ -54,11 +54,18 @@ namespace Ty.Component.MediaControl
             this.ImagePlayerService.LoadImages(paths);
         }
 
-        public void LoadImageFolder(string path)
+        public void LoadImageFolder(List<string> paths, string start)
         {
             this.RefreshPlayType(MediaPlayType.Image);
 
-            this.ImagePlayerService.LoadImageFolder(path);
+            this.ImagePlayerService.LoadImageFolder(paths, start);
+        }
+
+        public void LoadShareImageFolder(List<string> paths, string start, string user, string password,string ip)
+        {
+            this.RefreshPlayType(MediaPlayType.Image);
+
+            this.ImagePlayerService.LoadShareImageFolder(paths, start, user, password, ip);
         }
 
         public void LoadFtpImageFolder(List<string> paths,string start,string user,string password)

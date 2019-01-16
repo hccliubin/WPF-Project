@@ -43,22 +43,26 @@ namespace SureDream.Appliaction.Demo.MediaControl
                   Debug.WriteLine("ImgPlayModeChanged:" + l);
               };
 
-            this.media.ImagePlayerService.SliderDragCompleted += (l, k) =>
-              {
-                  Debug.WriteLine("SliderDragCompleted:" + l);
-                  Debug.WriteLine("SliderDragCompleted:" + k);
-              };
+            //this.media.ImagePlayerService.SliderDragCompleted += (l, k) =>
+            //  {
+            //      Debug.WriteLine("SliderDragCompleted:" + l);
+            //      Debug.WriteLine("SliderDragCompleted:" + k);
+            //  };
 
 
-            this.media.ImagePlayerService.ImageIndexChanged += k =>
+            this.media.ImagePlayerService.ImageIndexChanged += (k,j) =>
               {
                   Debug.WriteLine("ImageIndexChanged:" + k);
+                  Debug.WriteLine("ImgSliderMode:" + j);
+
 
                   //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
 
                   //string current1 = _imgOperate.BuildEntity().Current.Value;
 
                   string current = k;
+
+                  var tuple = this.media.ImagePlayerService.GetIndexWithTotal();
 
                   string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 
@@ -326,9 +330,32 @@ namespace SureDream.Appliaction.Demo.MediaControl
         //  Message：播放图片文件夹
         private void btn_imageplay_imagefoder_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+            //string filePath1 = @"\\192.168.1.19\Document\images1";
+            //string filePath2 = @"\\192.168.1.19\Document\images2";
+            //string filePath3 = @"\\192.168.1.19\Document\images3";
+            //string filePath4 = @"\\192.168.1.19\Document\images4";
+            //string filePath5 = @"\\192.168.1.19\Document\images5";
+            //string filePath6 = @"\\192.168.1.19\Document\images6";
 
-            this.media.LoadImageFolder(filePath);
+            //List<string> folders = new List<string>();
+
+            //folders.Add(filePath1);
+            //folders.Add(filePath2);
+            //folders.Add(filePath3);
+            //folders.Add(filePath4);
+            //folders.Add(filePath5);
+            //folders.Add(filePath6);
+
+
+            string filePath1 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+            string filePath2 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images1");
+            List<string> folders = new List<string>();
+
+            folders.Add(filePath1);
+            folders.Add(filePath2);
+
+
+            this.media.LoadImageFolder(folders, filePath2);
         }
 
         //  Message：获取图片列表当前帧
@@ -436,6 +463,25 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
             //this.media.ImagePlayerService.GetImgOperate().MarkOperate(entity);
 
+        }
+
+        private void Btn_imageplay_imagesharefoder_Click(object sender, RoutedEventArgs e)
+        {
+            string filePath1 = @"\\192.168.1.19\Document\images1";
+            string filePath2 = @"\\192.168.1.19\Document\images2";
+            string filePath3 = @"\\192.168.1.19\Document\images3";
+            string filePath4 = @"\\192.168.1.19\Document\images4";
+            string filePath5 = @"\\192.168.1.19\Document\images5";
+
+            List<string> folders = new List<string>();
+
+            folders.Add(filePath1);
+            folders.Add(filePath2);
+            folders.Add(filePath3);
+            folders.Add(filePath4);
+            folders.Add(filePath5);
+
+            this.media.LoadShareImageFolder(folders, filePath2,"administrator","123456","192.168.1.19");
         }
     }
 

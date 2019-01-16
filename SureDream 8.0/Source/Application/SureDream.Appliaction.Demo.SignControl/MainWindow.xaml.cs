@@ -64,9 +64,17 @@ namespace SureDream.Appliaction.Demo.SignControl
 
                 Debug.WriteLine(defectViewModel.ToString());
             };
-
-            window.Content = new DefectControl();
+            
+            DefectControl defect = new DefectControl();
+            window.Content = defect;
             window.DataContext = defectViewModel;
+          
+            KeyGesture keyGesture = new KeyGesture(Key.W,ModifierKeys.Control);
+            defect.KeyGestureForHistList = keyGesture;
+
+            window.ShowDialog();
+
+
 
         }
 
@@ -192,7 +200,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             List<DefectCommonUsed> defectCommonUseds = new List<DefectCommonUsed>();
 
-            for (int i = 0; i < 3000; i++)
+            for (int i = 0; i < 50; i++)
             {
                 DefectCommonUsed defectCommonUsed = new DefectCommonUsed();
 

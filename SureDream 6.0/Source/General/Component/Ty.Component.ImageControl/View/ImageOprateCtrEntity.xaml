@@ -189,7 +189,7 @@
         </Grid>
 
 
-        <Grid Visibility="{Binding IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
+        <!--<Grid Visibility="{Binding IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Transparent" Opacity="0.5"/>
             </Grid.Background>
@@ -208,7 +208,7 @@
                     </EventTrigger>
                 </TextBlock.Triggers>
             </TextBlock>
-        </Grid>
+        </Grid>-->
     </Grid>
 
 

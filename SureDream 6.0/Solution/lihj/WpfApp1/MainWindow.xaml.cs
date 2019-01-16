@@ -1,6 +1,7 @@
 ﻿using FtpSyn;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,27 @@ namespace WpfApp1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
           var ss=   FtpHelper.GetFileList(@"ftp://192.168.0.104/images/");
+        }
+
+        private void Slider_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            Debug.WriteLine("Slider_MouseDown");
+
+
+            Debug.WriteLine(this.etet.Value);
+
+
+        }
+
+        private void Slider_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            Debug.WriteLine("Slider_DragDelta");
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Debug.WriteLine("Slider_ValueChanged");
         }
     }
 }

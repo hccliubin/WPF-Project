@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -101,6 +102,27 @@ namespace Ty.Component.ImageControl
                 MessageBox.Show(ee.Message);
                 return null;
             }
+        }
+
+
+        public void GetAccessControl(string path, string user, string pwd)
+        {
+            Process p = new Process();
+
+            p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
+
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.CreateNoWindow = true;
+
+            p.Start();
+            p.StandardInput.WriteLine(@"Net Use {0} /del", path); //必须先删除，否则报错
+            p.StandardInput.WriteLine(@"Net Use {0} ""{1}"" /user:{2}", path, pwd, user);
+            p.StandardInput.WriteLine("exit"); //如果不加这句WaitForExit会卡住
+
+            p.WaitForExit();
+            p.Close();
         }
     }
 }
