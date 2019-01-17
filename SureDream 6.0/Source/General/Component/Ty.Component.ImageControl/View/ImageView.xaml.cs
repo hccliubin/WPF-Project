@@ -443,7 +443,7 @@ namespace Ty.Component.ImageControl
             _currentShap = this.ViewModel.SampleCollection.First().RectangleLayer.First() as RectangleShape;
 
 
-        
+     
 
             foreach (var sample in this.ViewModel.SampleCollection)
             {

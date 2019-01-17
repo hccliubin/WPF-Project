@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ty.Component.ImageControl.Provider.Hook;
 
 namespace Ty.Component.ImageControl
 {
@@ -184,6 +185,12 @@ namespace Ty.Component.ImageControl
         /// 删除选中项
         /// </summary>
         void DeleteSelectMark();
+
+        /// <summary>
+        /// 注册自动操作放大的快捷键
+        /// </summary>
+        /// <param name="shortcut"></param>
+        void RegisterPartShotCut(ShortCutEntitys shortcut);
 
     }
 

@@ -16,6 +16,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,6 +81,11 @@ namespace Ty.Component.ImageControl.Provider.Hook
             Tuple<ShortCutEntitys, Action> t = new Tuple<ShortCutEntitys, Action>(match, action);
             _collection.Add(t);
         }
+
+        public void Clear()
+        {
+            _collection.Clear();
+        }
     }
 
     /// <summary> 配置信息 </summary>
@@ -93,7 +99,7 @@ namespace Ty.Component.ImageControl.Provider.Hook
         public const string SptitString = "+";
 
         /// <summary> 触发范围 </summary>
-        public const double SplitSecond = 0.1;
+        public const int SplitMilliseconds = 500;
 
         /// <summary> 按下状态 </summary>
         public const char downChar = '↓';
@@ -214,7 +220,11 @@ namespace Ty.Component.ImageControl.Provider.Hook
                 // Todo ：判断时间间隔 
                 if (i == s.Keys.Count - 1) continue;
 
-                if ((this.Keys[this.Keys.Count - i - 1].Time - this.Keys[this.Keys.Count - i - 2].Time).Seconds > ShortCutConfiger.SplitSecond)
+
+                Debug.WriteLine("时间间隔："+(this.Keys[this.Keys.Count - i - 1].Time - this.Keys[this.Keys.Count - i - 2].Time).TotalMilliseconds);
+
+
+                if ((this.Keys[this.Keys.Count - i - 1].Time - this.Keys[this.Keys.Count - i - 2].Time).TotalMilliseconds > ShortCutConfiger.SplitMilliseconds)
                 {
                     return false;
                 }

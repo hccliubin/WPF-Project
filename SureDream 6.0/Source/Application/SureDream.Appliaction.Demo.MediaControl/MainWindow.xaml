@@ -213,6 +213,15 @@
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
+
+
+                            <GroupBox Header="12）设置操作放大快捷键">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="设置操作放大快捷键(默认 D+D)"  x:Name="btn_image_shotcut"  Background="Orange"  Click="btn_image_shotcut_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

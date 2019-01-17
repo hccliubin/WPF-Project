@@ -57,7 +57,7 @@ namespace Ty.Component.ImageControl
 
             //};
 
-            this.RegisterApi();
+            this.RegisterDefaltApi();
 
         }
 
@@ -441,10 +441,16 @@ namespace Ty.Component.ImageControl
         //    Debug.WriteLine("CommandBinding_DownKey_CanExecute");
         //}
 
+        ShortCutHookService _shortCutHookService = new ShortCutHookService();
         /// <summary> 此方法的说明 </summary>
-        public void RegisterApi()
+        public void RegisterPartShotCut(ShortCutEntitys shortcut)
         {
             bool flag = false;
+
+            //  Message：先清理事件
+            this.control_imageView.ShowDefaultDefectPart(flag);
+
+            _shortCutHookService.Clear();
 
             // Todo ：双击大小写切换 
             ShortCutEntitys s = new ShortCutEntitys();
@@ -455,7 +461,7 @@ namespace Ty.Component.ImageControl
             up.Key = System.Windows.Forms.Keys.Up;
             s.Add(up);
 
-            ShortCutHookService.Instance.RegisterCommand(s, () =>
+            _shortCutHookService.RegisterCommand(s, () =>
             {
                 Debug.WriteLine("按键：↑");
 
@@ -472,7 +478,7 @@ namespace Ty.Component.ImageControl
             down.Key = System.Windows.Forms.Keys.Down;
             s.Add(down);
 
-            ShortCutHookService.Instance.RegisterCommand(s, () =>
+            _shortCutHookService.RegisterCommand(s, () =>
             {
                 Debug.WriteLine("按键：↓");
 
@@ -499,7 +505,7 @@ namespace Ty.Component.ImageControl
 
             Action action = () =>
             {
-                Debug.WriteLine("按键：Ctrl+Ctrl");
+                Debug.WriteLine(shortcut);
 
                 if (this.ViewModel == null) return;
 
@@ -507,23 +513,38 @@ namespace Ty.Component.ImageControl
                 {
                     this.control_ImagePartView.OnClosed();
                 }
+                //else
+                //{
+                //    flag = !flag;
+
+                //    if(flag)
+                //    {
+                //        Debug.WriteLine("进入模式");
+                //    }
+                //    else
+                //    {
+                //        Debug.WriteLine("退出模式");
+                //    }
+
+                //    Debug.WriteLine(flag);
+
+                //    this.control_imageView.ShowDefaultDefectPart(flag);
+                //}
+
+                flag = !flag;
+
+                if (flag)
+                {
+                    Debug.WriteLine("进入模式");
+                }
                 else
                 {
-                    flag = !flag;
-
-                    if(flag)
-                    {
-                        Debug.WriteLine("进入模式");
-                    }
-                    else
-                    {
-                        Debug.WriteLine("退出模式");
-                    }
-
-                    Debug.WriteLine(flag);
-
-                    this.control_imageView.ShowDefaultDefectPart(flag);
+                    Debug.WriteLine("退出模式");
                 }
+
+                Debug.WriteLine(flag);
+
+                this.control_imageView.ShowDefaultDefectPart(flag);
 
                 //  Message：如果是是默认加载第一个
                 //if (flag)
@@ -540,42 +561,27 @@ namespace Ty.Component.ImageControl
 
                 //}
 
-                
+
             };
 
-            ShortCutHookService.Instance.RegisterCommand(d, action);
+            _shortCutHookService.RegisterCommand(shortcut, action); 
+        }
 
 
-            //// Todo ：复制当前时间 
-            //ShortCutEntitys tt = new ShortCutEntitys();
+        public void RegisterDefaltApi()
+        { 
+            // Todo ：双击Ctrl键 
+            ShortCutEntitys d = new ShortCutEntitys();
 
-            //KeyEntity t1 = new KeyEntity();
-            //t1.Key = Keys.E;
-            //tt.Add(t1);
+            KeyEntity c1 = new KeyEntity();
+            c1.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c1);
 
-            //KeyEntity t2 = new KeyEntity();
-            //t2.Key = Keys.D;
-            //tt.Add(t2);
+            KeyEntity c2 = new KeyEntity();
+            c2.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c2);
 
-            //Action actiont = () =>
-            //{
-            //    // Todo ：复制当前时间格式 
-            //    System.Windows.Clipboard.SetText(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-            //};
-
-            //ShortCutHookService.Instance.RegisterCommand(tt, actiont);
-
-            //ShortCutEntitys ed = new ShortCutEntitys();
-
-            //KeyEntity e = new KeyEntity();
-            //e.Key = Keys.E;
-            //ed.Add(e);
-
-            //KeyEntity dd = new KeyEntity();
-            //dd.Key = Keys.D;
-            //ed.Add(dd);
-
-            //ShortCutHookService.Instance.RegisterCommand(ed, actiont);
+            this.RegisterPartShotCut(d);
         }
         #endregion
 

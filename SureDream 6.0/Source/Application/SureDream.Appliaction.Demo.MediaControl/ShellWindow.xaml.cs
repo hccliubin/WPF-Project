@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Ty.Component.ImageControl;
+using Ty.Component.ImageControl.Provider.Hook;
 
 namespace SureDream.Appliaction.Demo.MediaControl
 {
@@ -482,6 +483,18 @@ namespace SureDream.Appliaction.Demo.MediaControl
             folders.Add(filePath5);
 
             this.media.LoadShareImageFolder(folders, filePath2,"administrator","123456","192.168.1.19");
+        }
+
+        private void btn_image_shotcut_Click(object sender, RoutedEventArgs e)
+        {
+
+            ShortCutEntitys shortcut = new ShortCutEntitys();
+
+            KeyEntity keyEntity = new KeyEntity();
+            keyEntity.Key = System.Windows.Forms.Keys.D;
+            shortcut.Add(keyEntity);
+
+            this.media.ImagePlayerService.GetImgOperate().RegisterPartShotCut(shortcut);
         }
     }
 

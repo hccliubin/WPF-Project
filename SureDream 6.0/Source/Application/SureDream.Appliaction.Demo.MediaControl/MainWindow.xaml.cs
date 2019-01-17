@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ty.Component.ImageControl;
+using Ty.Component.ImageControl.Provider.Hook;
 
 namespace SureDream.Appliaction.Demo.MediaControl
 {
@@ -333,6 +334,22 @@ namespace SureDream.Appliaction.Demo.MediaControl
             string start = @"ftp://27.0.0.1/images2/";
 
             this.image.LoadFtpImageFolder(folders, start,"Healthy","870210lhj");
+        }
+
+        private void btn_image_shotcut_Click(object sender, RoutedEventArgs e)
+        {
+
+            ShortCutEntitys shortcut = new ShortCutEntitys();
+
+            KeyEntity keyEntity = new KeyEntity();
+            keyEntity.Key = System.Windows.Forms.Keys.D; 
+            shortcut.Add(keyEntity);
+
+            keyEntity = new KeyEntity();
+            keyEntity.Key = System.Windows.Forms.Keys.D;
+            shortcut.Add(keyEntity);
+
+            this.image.GetImgOperate().RegisterPartShotCut(shortcut);
         }
     }
 }
