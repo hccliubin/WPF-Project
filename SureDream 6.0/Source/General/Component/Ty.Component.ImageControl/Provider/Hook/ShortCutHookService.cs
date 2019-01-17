@@ -31,7 +31,14 @@ namespace Ty.Component.ImageControl.Provider.Hook
 
         public static ShortCutHookService Instance = new ShortCutHookService();
         /// <summary> 创建监控引擎 </summary>
-         void CreateMoniter()
+        // void CreateMoniter()
+        //{
+        //    HookKeyboardEngine.KeyUp += HookKeyboardEngine_KeyUp;
+
+        //    HookKeyboardEngine.KeyDown += HookKeyboardEngine_KeyDown;
+        //}
+
+        public ShortCutHookService()
         {
             HookKeyboardEngine.KeyUp += HookKeyboardEngine_KeyUp;
 
@@ -73,10 +80,10 @@ namespace Ty.Component.ImageControl.Provider.Hook
         /// <summary> 注册执行命令 </summary>
         public void RegisterCommand(ShortCutEntitys match, Action action)
         {
-            if (_collection.Count == 0)
-            {
-                this.CreateMoniter();
-            }
+            //if (_collection.Count == 0)
+            //{
+            //    this.CreateMoniter();
+            //}
 
             Tuple<ShortCutEntitys, Action> t = new Tuple<ShortCutEntitys, Action>(match, action);
             _collection.Add(t);

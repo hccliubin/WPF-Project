@@ -491,6 +491,10 @@ namespace SureDream.Appliaction.Demo.MediaControl
             ShortCutEntitys shortcut = new ShortCutEntitys();
 
             KeyEntity keyEntity = new KeyEntity();
+            keyEntity.Key = System.Windows.Forms.Keys.LControlKey;
+            shortcut.AddDown(keyEntity);
+
+            keyEntity = new KeyEntity();
             keyEntity.Key = System.Windows.Forms.Keys.D;
             shortcut.Add(keyEntity);
 
