@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ty.Component.ImageControl.Provider.Hook;
 
 namespace Ty.Component.ImageControl
 {
@@ -55,6 +56,8 @@ namespace Ty.Component.ImageControl
             //    });
 
             //};
+
+            this.RegisterApi();
 
         }
 
@@ -386,6 +389,194 @@ namespace Ty.Component.ImageControl
             e.CanExecute = this.ViewModel != null;
         }
 
+        ///// <summary>
+        ///// 放大显示缺陷控件
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void CommandBinding_ShowDefectPart_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+
+        //    Debug.WriteLine("CommandBinding_ShowDefectPart_Executed");
+
+        //    if (this.control_ImagePartView.Visibility == Visibility.Visible)
+        //    {
+        //        this.control_ImagePartView.OnClosed();
+        //    }
+        //    else
+        //    {
+        //        this.control_imageView.ShowDefaultDefectPart();
+        //    }
+        //}
+
+        //private void CommandBinding_ShowDefectPart_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = this.ViewModel != null;
+
+        //    Debug.WriteLine("CommandBinding_ShowDefectPart_CanExecute");
+        //}
+
+
+        //private void CommandBinding_UpKey_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    this.control_imageView.ShowPreShape();
+        //}
+
+        //private void CommandBinding_UpKey_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = this.ViewModel != null;
+
+        //    Debug.WriteLine("CommandBinding_UpKey_CanExecute");
+        //}
+
+        //private void CommandBinding_DownKey_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    this.control_imageView.ShowPreShape();
+        //}
+
+        //private void CommandBinding_DownKey_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = this.ViewModel != null;
+
+        //    Debug.WriteLine("CommandBinding_DownKey_CanExecute");
+        //}
+
+        /// <summary> 此方法的说明 </summary>
+        public void RegisterApi()
+        {
+            bool flag = false;
+
+            // Todo ：双击大小写切换 
+            ShortCutEntitys s = new ShortCutEntitys();
+
+            s = new ShortCutEntitys();
+
+            KeyEntity up = new KeyEntity();
+            up.Key = System.Windows.Forms.Keys.Up;
+            s.Add(up);
+
+            ShortCutHookService.Instance.RegisterCommand(s, () =>
+            {
+                Debug.WriteLine("按键：↑");
+
+                if (!flag) return;
+
+                //if (this.control_ImagePartView.Visibility == Visibility.Collapsed) return;
+
+                this.control_imageView.ShowNextShape();
+            });
+
+            s = new ShortCutEntitys();
+
+            KeyEntity down = new KeyEntity();
+            down.Key = System.Windows.Forms.Keys.Down;
+            s.Add(down);
+
+            ShortCutHookService.Instance.RegisterCommand(s, () =>
+            {
+                Debug.WriteLine("按键：↓");
+
+                if (!flag) return;
+
+                //if (this.control_ImagePartView.Visibility == Visibility.Collapsed) return;
+
+                this.control_imageView.ShowNextShape();
+            });
+
+            // Todo ：双击Ctrl键 
+            ShortCutEntitys d = new ShortCutEntitys();
+
+            KeyEntity c1 = new KeyEntity();
+            c1.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c1);
+
+            KeyEntity c2 = new KeyEntity();
+            c2.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c2);
+
+
+            bool _initFlag = false;
+
+            Action action = () =>
+            {
+                Debug.WriteLine("按键：Ctrl+Ctrl");
+
+                if (this.ViewModel == null) return;
+
+                if (this.control_ImagePartView.Visibility == Visibility.Visible)
+                {
+                    this.control_ImagePartView.OnClosed();
+                }
+                else
+                {
+                    flag = !flag;
+
+                    if(flag)
+                    {
+                        Debug.WriteLine("进入模式");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("退出模式");
+                    }
+
+                    Debug.WriteLine(flag);
+
+                    this.control_imageView.ShowDefaultDefectPart(flag);
+                }
+
+                //  Message：如果是是默认加载第一个
+                //if (flag)
+                //{
+                //    //Action<RectangleShape> mouseEnterAction = l =>
+                //    //  {
+                //    //      if (!flag) return;
+
+                //    //      if (l == null) return;
+
+                //    //      this.control_imageView.ShowPartWithShape(l);
+                //    //  };
+
+
+                //}
+
+                
+            };
+
+            ShortCutHookService.Instance.RegisterCommand(d, action);
+
+
+            //// Todo ：复制当前时间 
+            //ShortCutEntitys tt = new ShortCutEntitys();
+
+            //KeyEntity t1 = new KeyEntity();
+            //t1.Key = Keys.E;
+            //tt.Add(t1);
+
+            //KeyEntity t2 = new KeyEntity();
+            //t2.Key = Keys.D;
+            //tt.Add(t2);
+
+            //Action actiont = () =>
+            //{
+            //    // Todo ：复制当前时间格式 
+            //    System.Windows.Clipboard.SetText(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+            //};
+
+            //ShortCutHookService.Instance.RegisterCommand(tt, actiont);
+
+            //ShortCutEntitys ed = new ShortCutEntitys();
+
+            //KeyEntity e = new KeyEntity();
+            //e.Key = Keys.E;
+            //ed.Add(e);
+
+            //KeyEntity dd = new KeyEntity();
+            //dd.Key = Keys.D;
+            //ed.Add(dd);
+
+            //ShortCutHookService.Instance.RegisterCommand(ed, actiont);
+        }
         #endregion
 
         #region - 成员方法 -
@@ -422,7 +613,7 @@ namespace Ty.Component.ImageControl
                 {
                     playMode = this.ImgPlayMode;
                     speed = this.Speed;
-                    isBuzy = this.ViewModel==null?false: this.ViewModel.IsBuzy;
+                    isBuzy = this.ViewModel == null ? false : this.ViewModel.IsBuzy;
                 });
 
 
@@ -457,9 +648,6 @@ namespace Ty.Component.ImageControl
 
             tokenSource.Cancel();
         }
-
-
-
 
         /// <summary>
         /// 加载图片(上一张下一张切换用)
@@ -501,7 +689,7 @@ namespace Ty.Component.ImageControl
                         //这一句很重要，少了UI线程就不认了。
                         s.Freeze();
 
-                        
+
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
@@ -517,7 +705,7 @@ namespace Ty.Component.ImageControl
                     });
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                     Debug.WriteLine(ex);
@@ -658,8 +846,8 @@ namespace Ty.Component.ImageControl
             window.DataContext = this.ViewModel;
             this.ClearToScreen();
             window.CenterContent = this.grid_all;
-            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            window.Owner = ComponetProvider.Instance.FindVisualParent<Window>(this).First();
+            //window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //window.Owner = ComponetProvider.Instance.FindVisualParent<Window>(this).First();
             window.ShowDialog();
             this.RecoverFromScreen();
         }
@@ -730,6 +918,7 @@ namespace Ty.Component.ImageControl
         {
             this.control_imageView.HideRectangleClip();
         }
+
 
         #endregion
 
@@ -919,7 +1108,7 @@ namespace Ty.Component.ImageControl
             {
                 //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
 
-                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model==entity);
+                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model == entity);
 
                 if (find == null)
                 {
@@ -976,7 +1165,7 @@ namespace Ty.Component.ImageControl
             if (this.ViewModel == null) return null;
             var result = this.ViewModel.SampleCollection.ToList().FindAll(l => l.RectangleLayer.First().IsSelected);
 
-            if (result == null|| result.Count==0)
+            if (result == null || result.Count == 0)
             {
                 Debug.WriteLine("没有选中项！");
                 return null;
@@ -1026,7 +1215,7 @@ namespace Ty.Component.ImageControl
 
         public void DeleteSelectMark()
         {
-            var entity= this.GetSelectMarkEntity();
+            var entity = this.GetSelectMarkEntity();
 
             entity.markOperateType = ImgMarkOperateType.Delete;
 

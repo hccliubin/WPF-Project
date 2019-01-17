@@ -22,6 +22,23 @@ namespace Ty.Component.ImageControl
         public ImageFullScreenWindow()
         {
             InitializeComponent();
+
+
+            //double screeHeight = SystemParameters.FullPrimaryScreenHeight;
+
+            //double screeWidth = SystemParameters.FullPrimaryScreenWidth;
+
+            double x = SystemParameters.WorkArea.Width;//得到屏幕工作区域宽度
+            double y = SystemParameters.WorkArea.Height;//得到屏幕工作区域高度
+            double x1 = SystemParameters.PrimaryScreenWidth;//得到屏幕整体宽度
+            double y1 = SystemParameters.PrimaryScreenHeight;//得到屏幕整体高度
+
+           string id=  Guid.NewGuid().ToString();
+
+            this.Height = y;
+            this.Width = x;
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
 

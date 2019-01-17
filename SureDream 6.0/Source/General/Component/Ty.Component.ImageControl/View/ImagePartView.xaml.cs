@@ -36,7 +36,7 @@ namespace Ty.Component.ImageControl
         private void btn_close_Click(object sender, RoutedEventArgs e)
         {
 
-            this.Visibility = Visibility.Collapsed;
+            //this.Visibility = Visibility.Collapsed;
 
             this.OnClosed();
         }
@@ -109,8 +109,10 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 触发关闭路由事件
         /// </summary>
-        protected void OnClosed()
+        public void OnClosed()
         {
+            this.Visibility = Visibility.Collapsed;
+
             RoutedEventArgs args = new RoutedEventArgs(ClosedRoutedEvent, this);
             this.RaiseEvent(args);
         }

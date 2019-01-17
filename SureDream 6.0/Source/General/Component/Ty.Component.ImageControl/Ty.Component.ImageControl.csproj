@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -52,6 +53,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Provider\Hook\HookApi.cs" />
+    <Compile Include="Provider\Hook\HookKeyboardEngine.cs" />
+    <Compile Include="Provider\Hook\HookMouseEngine.cs" />
+    <Compile Include="Provider\Hook\HookType.cs" />
+    <Compile Include="Provider\Hook\ShortCutHookService.cs" />
     <Compile Include="SharedTool.cs" />
     <Compile Include="FtpHelper.cs" />
     <Compile Include="IImagePlayerService.cs" />

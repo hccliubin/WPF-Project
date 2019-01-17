@@ -27,6 +27,18 @@ namespace Ty.Component.ImageControl
         /// </summary>
         public static RoutedUICommand FullScreen= new RoutedUICommand() { Text = "全屏显示" };
 
+        ///// <summary>
+        ///// 放大显示第一个标定信息
+        ///// </summary>
+        //public static RoutedUICommand ShowDefectPart = new RoutedUICommand() { Text = "放大标定信息" };
+
+        ///// <summary>
+        ///// 放大显示第一个标定信息
+        ///// </summary>
+        //public static RoutedUICommand UpKey= new RoutedUICommand() { Text = "向上" };
+
+        //public static RoutedUICommand DownKey = new RoutedUICommand() { Text = "向下" };
+
         /// <summary>
         /// 显示全部
         /// </summary>

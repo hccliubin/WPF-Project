@@ -40,7 +40,6 @@
                         Executed="CommandBinding_FullScreen_Executed" 
                         CanExecute="CommandBinding_FullScreen_CanExecute"/>
 
-
         <CommandBinding Command="{x:Static local:ImageViewCommands.Save}" 
                         Executed="CommandBinding_Save_Executed" 
                         CanExecute="CommandBinding_Save_CanExecute"/>
@@ -49,12 +48,32 @@
                         Executed="CommandBinding_ShowStyleTool_Executed" 
                         CanExecute="CommandBinding_ShowStyleTool_CanExecute"/>
 
+
+        <!--<CommandBinding Command="{x:Static local:ImageViewCommands.ShowDefectPart}" 
+                        Executed="CommandBinding_ShowDefectPart_Executed" 
+                        CanExecute="CommandBinding_ShowDefectPart_CanExecute"/>
+        
+        <CommandBinding Command="{x:Static local:ImageViewCommands.UpKey}" 
+                        Executed="CommandBinding_UpKey_Executed" 
+                        CanExecute="CommandBinding_UpKey_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.DownKey}" 
+                        Executed="CommandBinding_DownKey_Executed" 
+                        CanExecute="CommandBinding_DownKey_CanExecute"/>-->
+
     </UserControl.CommandBindings>
 
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.Save}}"
                 Key="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SaveCommand/@Key}"
                 Modifiers="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SaveCommand/@Modifiers}"/>
+
+        <!--<KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.ShowDefectPart}}"  Key="F" Modifiers="Ctrl"/>
+
+        <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.UpKey}}" Key="B"/>
+
+        <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.DownKey}}" Key="B" Modifiers="Ctrl"/>-->
+        
     </UserControl.InputBindings>
 
     <Grid x:Name="grid_all">
