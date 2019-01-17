@@ -224,9 +224,7 @@ namespace Ty.Component.MediaControl
 
             _dynamic.BegionMatch(true);
 
-            start = e.GetPosition(sender as InkCanvas);
-
-            System.Diagnostics.Debug.WriteLine("说明");
+            start = e.GetPosition(sender as InkCanvas); 
 
         }
 

@@ -225,11 +225,7 @@ namespace Ty.Component.ImageControl.Provider.Hook
                 }
 
                 // Todo ：判断时间间隔 
-                if (i == s.Keys.Count - 1) continue;
-
-
-                Debug.WriteLine("时间间隔："+(this.Keys[this.Keys.Count - i - 1].Time - this.Keys[this.Keys.Count - i - 2].Time).TotalMilliseconds);
-
+                if (i == s.Keys.Count - 1) continue; 
 
                 if ((this.Keys[this.Keys.Count - i - 1].Time - this.Keys[this.Keys.Count - i - 2].Time).TotalMilliseconds > ShortCutConfiger.SplitMilliseconds)
                 {

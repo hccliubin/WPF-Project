@@ -136,12 +136,7 @@ namespace Ty.Component.MediaControl
             this.Width = Math.Abs(start.X - end.X);
             this.Height = Math.Abs(start.Y - end.Y);
 
-            Position = new Point(Math.Min(start.X, end.X), Math.Min(start.Y, end.Y));
-
-
-            //Debug.WriteLine(this.Width + "*" + this.Height);
-            //Debug.WriteLine(Position.X + "*" + Position.Y);
-
+            Position = new Point(Math.Min(start.X, end.X), Math.Min(start.Y, end.Y)); 
         }
 
         /// <summary>
@@ -349,10 +344,7 @@ namespace Ty.Component.MediaControl
 
             this.Position = new Point(Math.Min(start.X, end.X), Math.Min(start.Y, end.Y));
             InkCanvas.SetLeft(this, Position.X);
-            InkCanvas.SetTop(this, Position.Y);
-
-            //Debug.WriteLine(this.Width + "*" + this.Height);
-            //Debug.WriteLine(Position.X + "*" + Position.Y);
+            InkCanvas.SetTop(this, Position.Y); 
         }
 
 

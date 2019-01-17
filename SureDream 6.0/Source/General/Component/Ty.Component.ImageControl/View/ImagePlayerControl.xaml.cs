@@ -93,14 +93,14 @@ namespace Ty.Component.ImageControl
 
         private void Media_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (this._sliderFlag) return;
+
             //  Message：当是鼠标点击引起的改变是触发SetPositon
             if (Mouse.LeftButton != MouseButtonState.Pressed) return;
             if (!this.media_slider.IsMouseOver) return;
 
             int index = (int)((this.media_slider.Value / this.media_slider.Maximum) * this.image_control.ImagePaths.Count);
-
-
-            Debug.WriteLine("MouseButtonState.Pressed");
+ 
 
             //  Do：设置播放位置
             this.SetPositon(index);

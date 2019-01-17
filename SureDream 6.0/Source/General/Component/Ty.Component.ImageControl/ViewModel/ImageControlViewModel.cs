@@ -117,9 +117,7 @@ namespace Ty.Component.ImageControl
         public void RelayMethod(object obj)
         {
             string command = obj.ToString();
-
-        
-            Debug.WriteLine(command);
+            
 
 
             //  Do：测试

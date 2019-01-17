@@ -540,9 +540,7 @@ namespace Ty.Component.ImageControl
                 else
                 {
                     Debug.WriteLine("退出模式");
-                }
-
-                Debug.WriteLine(flag);
+                } 
 
                 this.control_imageView.ShowDefaultDefectPart(flag);
 
