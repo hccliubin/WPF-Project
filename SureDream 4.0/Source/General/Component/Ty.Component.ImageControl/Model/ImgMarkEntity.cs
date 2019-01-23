@@ -18,6 +18,15 @@ namespace Ty.Component.ImageControl
         public string ID { get; set; }
 
         /// <summary>
+        /// 图片路径 Add FROM LYQ BY LHJ
+        /// </summary>
+        public string ImagePath { get; set; }
+        /// <summary>
+        /// 区分标定信息的来源 Add FROM LYQ BY LHJ
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
         /// 标定矩形框左上角X坐标
         /// </summary>
         public int X { get; set; }
@@ -173,6 +182,21 @@ namespace Ty.Component.ImageControl
     }
 
     /// <summary>
+    /// 进度条改变模式
+    /// </summary>
+    public enum ImgSliderMode
+    {
+        /// <summary>
+        /// 系统
+        /// </summary>
+        System = 0,
+        /// <summary>
+        /// 用户
+        /// </summary>
+        User = 1
+    }
+
+    /// <summary>
     /// 图片处理类型
     /// </summary>
     public enum ImgProcessType
@@ -184,6 +208,9 @@ namespace Ty.Component.ImageControl
         锐化 = 4,
         边缘锐化 = 5,
     }
+
+
+
 
     /// <summary>
     /// 标定实体操作类型

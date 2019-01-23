@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,16 @@ namespace Ty.Component.ImageControl
         public ImageView()
         {
             InitializeComponent();
+
+
+            //  Message：注册鼠标悬停事件，注意删除和新增的时候
+            mouseEventHandler = (l, k) =>
+            {
+                RectangleShape rectangleShape = l as RectangleShape;
+
+                ShowPartWithShape(rectangleShape);
+            };
+
         }
 
         #region - 依赖属性 -
@@ -83,7 +94,12 @@ namespace Ty.Component.ImageControl
         {
             get
             {
-                return (ImageControlViewModel)this.DataContext;
+                if (this.DataContext is ImageControlViewModel)
+                {
+                    return (ImageControlViewModel)this.DataContext;
+                }
+
+                return null;
             }
             set
             {
@@ -139,7 +155,11 @@ namespace Ty.Component.ImageControl
                 {
                     item.Clear(this.canvas);
                 }
+
+                sample.RectangleLayer.Clear();
             }
+
+            this.ViewModel.SampleCollection.Clear();
 
             //  Do：隐藏蒙版
             this.HideRectangleClip();
@@ -218,7 +238,7 @@ namespace Ty.Component.ImageControl
                 resultStroke.Draw(this.canvas);
                 sample.Add(resultStroke);
             }
-            else if(this.ImageOprateCtrEntity.MarkType == MarkType.Sample)
+            else if (this.ImageOprateCtrEntity.MarkType == MarkType.Sample)
             {
                 SampleShape resultStroke = new SampleShape(this._dynamic);
                 sample.Flag = "\xeaf3";
@@ -254,7 +274,7 @@ namespace Ty.Component.ImageControl
                 DefectShape resultStroke = new DefectShape(this._dynamic);
                 sample.Flag = "\xe688";
                 sample.Type = "0";
-                sample.Code= imgMarkEntity.PHMCodes;
+                sample.Code = imgMarkEntity.PHMCodes;
                 resultStroke.Name = sample.Name;
                 resultStroke.Code = sample.Code;
                 resultStroke.Draw(this.canvas);
@@ -272,7 +292,7 @@ namespace Ty.Component.ImageControl
                 sample.Add(resultStroke);
             }
 
-           
+
 
 
             this.ViewModel.Add(sample);
@@ -298,8 +318,7 @@ namespace Ty.Component.ImageControl
             _dynamic.BegionMatch(true);
 
             start = e.GetPosition(sender as InkCanvas);
-
-            System.Diagnostics.Debug.WriteLine("说明");
+             
 
         }
 
@@ -387,6 +406,122 @@ namespace Ty.Component.ImageControl
         }
 
 
+        void ShowPartWithShape(RectangleShape rectangle)
+        {
+            RectangleGeometry rect = new RectangleGeometry(new Rect(0, 0, this.canvas.ActualWidth, this.canvas.ActualHeight));
+
+            //  Do：设置覆盖的蒙版
+            var geo = Geometry.Combine(rect, new RectangleGeometry(rectangle.Rect), GeometryCombineMode.Exclude, null);
+
+            DynamicShape shape = new DynamicShape(rectangle);
+
+            //  Do：设置形状、用来提供给局部放大页面
+            this.DynamicShape = shape;
+
+            //  Do：设置提供局部放大在全局的范围的视图
+            this.ImageVisual = this.canvas;
+
+            this.OnBegionShowPartView();
+
+            //  Do：设置当前蒙版的剪切区域
+            this.rectangle_clip.Clip = geo;
+
+            _dynamic.Visibility = Visibility.Collapsed;
+        }
+
+        RectangleShape _currentShap;
+
+        MouseEventHandler mouseEventHandler;
+
+        public void ShowDefaultDefectPart(bool flag)
+        {
+            if (this.ViewModel == null) return;
+
+            if (this.ViewModel.SampleCollection.Count == 0) return;
+
+            _currentShap = this.ViewModel.SampleCollection.First().RectangleLayer.First() as RectangleShape;
+
+
+     
+
+            foreach (var sample in this.ViewModel.SampleCollection)
+            {
+                foreach (var shape in sample.RectangleLayer)
+                {
+                    RectangleShape rectangleShape = shape as RectangleShape;
+
+                    if (flag)
+                    {
+                        rectangleShape.MouseEnter += mouseEventHandler;
+                    }
+                    else
+                    {
+                        rectangleShape.MouseEnter -= mouseEventHandler;
+                    }
+
+                }
+            }
+
+        }
+
+        void ShowCurrentShape()
+        {
+            if (_currentShap == null)
+            {
+                _currentShap = this.ViewModel.SampleCollection.First().RectangleLayer.First() as RectangleShape;
+            }
+
+            this.ShowPartWithShape(_currentShap);
+        }
+
+
+
+        public void ShowNextShape()
+        {
+            if (this.ViewModel == null) return;
+
+            if (this.ViewModel.SampleCollection.Count == 0) return;
+
+            var sample = this.ViewModel.SampleCollection.Where(l => l.RectangleLayer.Contains(this._currentShap));
+
+            if (sample == null || sample.Count() == 0) return;
+
+            int index = this.ViewModel.SampleCollection.IndexOf(sample.First());
+
+            //  Message：如果是最后一项则跳转到第一项
+            index = this.ViewModel.SampleCollection.Count - 1 == index ? 0 : index + 1;
+
+            RectangleShape shape = this.ViewModel.SampleCollection[index].RectangleLayer.First() as RectangleShape;
+
+            _currentShap = shape;
+
+            this.ShowCurrentShape();
+        }
+
+        public void ShowPreShape()
+        {
+            if (this.ViewModel == null) return;
+
+            if (this.ViewModel.SampleCollection.Count == 0) return;
+
+            var sample = this.ViewModel.SampleCollection.Where(l => l.RectangleLayer.Contains(this._currentShap));
+
+            if (sample == null || sample.Count() == 0) return;
+
+            int index = this.ViewModel.SampleCollection.IndexOf(sample.First());
+
+            //  Message：如果是最后一项则跳转到第一项
+            index = 0 == index ? this.ViewModel.SampleCollection.Count - 1 : index - 1;
+
+            RectangleShape shape = this.ViewModel.SampleCollection[index].RectangleLayer.First() as RectangleShape;
+
+            _currentShap = shape;
+
+            this.ShowCurrentShape();
+        }
+
+
+
         #endregion
 
         /// <summary>
@@ -419,6 +554,23 @@ namespace Ty.Component.ImageControl
 
              }));
 
+
+        public void Rotate()
+        {
+            RotateTransform rotate = this.canvas.RenderTransform as RotateTransform;
+            rotate.CenterX = this.canvas.ActualWidth / 2;
+            rotate.CenterY = this.canvas.ActualHeight / 2;
+            rotate.Angle = rotate.Angle + 90;
+        }
+
+        public void ScreenShot(string saveFullName)
+        {
+            byte[] screenshot = ComponetProvider.Instance.GetScreenShot(this.canvas, 1, 90);
+            FileStream fileStream = new FileStream(saveFullName, FileMode.Create, FileAccess.ReadWrite);
+            BinaryWriter binaryWriter = new BinaryWriter(fileStream);
+            binaryWriter.Write(screenshot);
+            binaryWriter.Close();
+        }
 
     }
 }

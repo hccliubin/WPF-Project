@@ -33,6 +33,17 @@ namespace Ty.Component.MediaControl
         /// <summary> 加载共享图片文件列表和设置默认播放位置 </summary>
         void LoadShareImageFolder(List<string> paths, string start, string user, string password, string ip);
 
+
+        /// <summary>
+        /// 加快图片播放速度
+        /// </summary>
+        void PlaySpeedUp();
+
+        /// <summary>
+        /// 减慢图片播放速度
+        /// </summary>
+        void PlaySpeedDown();
+
     }
 
     /// <summary> 播放类型 </summary>

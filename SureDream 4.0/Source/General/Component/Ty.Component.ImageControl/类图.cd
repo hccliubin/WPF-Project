@@ -6,7 +6,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAABAAAgAAAIAAgAERwDgAAAAAAgABIoQBAcAI=</HashCode>
+      <HashCode>AAIAAIAADwAAgAAAIAAwgMRwDgAEEAAAhRBJoQRBcQI=</HashCode>
       <FileName>Model\ImgMarkEntity.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -18,10 +18,9 @@
       <Compartment Name="Events" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>JERQmAiACQAYJkABwJDCECSJkgCxAAQQAQhACqhkCAA=</HashCode>
+      <HashCode>JERQmAiACSAYZkBBwJDCECSJkgCxAAQQIQhACqhkKAA=</HashCode>
       <FileName>View\ImageOprateCtrEntity.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Ty.Component.ImageControl.ImageView" Collapsed="true">
     <Position X="11.25" Y="0.75" Width="2.75" />
@@ -31,7 +30,7 @@
       <Compartment Name="Events" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>BAAAAQAEAIAAgAAgAgAACEEAECAAgABwAAgACABAAAA=</HashCode>
+      <HashCode>BAAAAQAEAIAAgABgAgAACEEAECAAgABwAggACABAIAA=</HashCode>
       <FileName>View\ImageView.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -80,7 +79,7 @@
   <Class Name="Ty.Component.ImageControl.RectangleShape" Collapsed="true">
     <Position X="4.75" Y="5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAkgAiAAAgAAQAACAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>EQAAAAAAAAAgkgAiAAAgAAQAACAAAAAAAIAAAABAAAA=</HashCode>
       <FileName>Provider\RectangleShape.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -112,14 +111,14 @@
   <Interface Name="Ty.Component.ImageControl.IImgOperate">
     <Position X="0.5" Y="3.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AEAAiAAAAQAIBAAAQAAAECSAAgAAAAAAAABACqBkCAA=</HashCode>
+      <HashCode>BEAAiAAAAQAIBABAQAAAECSAEgAAAAAAAABACqBkKAA=</HashCode>
       <FileName>Service\IImgOperate.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Ty.Component.ImageControl.IRectangleStroke" Collapsed="true">
     <Position X="8.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAIAAAABAAAA=</HashCode>
       <FileName>Provider\IRectangleStroke.cs</FileName>
     </TypeIdentifier>
   </Interface>

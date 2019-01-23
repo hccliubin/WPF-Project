@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -52,8 +53,21 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Provider\Hook\HookApi.cs" />
+    <Compile Include="Provider\Hook\HookKeyboardEngine.cs" />
+    <Compile Include="Provider\Hook\HookMouseEngine.cs" />
+    <Compile Include="Provider\Hook\HookType.cs" />
+    <Compile Include="Provider\Hook\ShortCutHookService.cs" />
+    <Compile Include="SharedTool.cs" />
+    <Compile Include="FtpHelper.cs" />
+    <Compile Include="IImagePlayerService.cs" />
+    <Compile Include="ImageButton.cs" />
+    <Compile Include="View\ImagePlayerControl.xaml.cs">
+      <DependentUpon>ImagePlayerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\ImgMarkEntity.cs" />
     <Compile Include="Model\MarkTagEntity.cs" />
+    <Compile Include="Provider\ComponetProvider.cs" />
     <Compile Include="Service\IImgOperate.cs" />
     <Compile Include="ViewModel\SampleVieModel.cs" />
     <Compile Include="ViewModel\ImageControlViewModel.cs" />
@@ -74,6 +88,14 @@
     <Compile Include="Provider\RectangleShape.cs" />
     <Compile Include="Provider\RectangleLayer.cs" />
     <Compile Include="Provider\IRectangleStroke.cs" />
+    <Page Include="View\ImagePlayerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\ImageFullScreenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +135,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="类图.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -129,6 +152,26 @@
   <ItemGroup>
     <Resource Include="Resources\ImageConfig.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\暂停.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\放大.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\进度条位置-声音.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\进度条位置-视频播放.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\开始.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\声音.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\循环播放.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

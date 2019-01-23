@@ -145,7 +145,7 @@ namespace Ty.Component.MediaControl
 
         //private void slider_sound_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         //{
-           
+
         //}
 
         private void Slider_sound_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -194,12 +194,15 @@ namespace Ty.Component.MediaControl
         {
             this.media_media.Play();
             this._timer.Start();
+
+            this.toggle_play.IsChecked = false;
         }
 
         void Pause()
         {
             this.media_media.Pause();
             this._timer.Stop();
+            this.toggle_play.IsChecked = true;
         }
 
         void Stop()
@@ -224,7 +227,7 @@ namespace Ty.Component.MediaControl
 
             _dynamic.BegionMatch(true);
 
-            start = e.GetPosition(sender as InkCanvas); 
+            start = e.GetPosition(sender as InkCanvas);
 
         }
 
@@ -240,7 +243,7 @@ namespace Ty.Component.MediaControl
 
 
 
-                if (e.LeftButton != MouseButtonState.Pressed) return;
+            if (e.LeftButton != MouseButtonState.Pressed) return;
 
             if (this.start.X <= 0) return;
 
@@ -297,7 +300,13 @@ namespace Ty.Component.MediaControl
                 mediaPartControl.DynamicShape = shape;
                 mediaPartControl.ImageVisual = this.canvas;
 
+
+
                 Window window = new Window();
+                mediaPartControl.Closed += (l, k) =>
+                {
+                    window.Close();
+                };
 
                 window.Content = mediaPartControl;
                 window.ShowDialog();
@@ -346,13 +355,13 @@ namespace Ty.Component.MediaControl
                 this.canvas.Cursor = Cursors.Cross;
             }
             else
-            { 
+            {
                 //  Message：设置光标和区域放大
                 this.canvas.Cursor = Cursors.Arrow;
             }
         }
 
-        
+
     }
 
     public partial class MediaPlayerControl : IMediaPlayerService
@@ -377,7 +386,7 @@ namespace Ty.Component.MediaControl
 
         public string GetCurrentUrl()
         {
-            return this.media_media.Source.AbsoluteUri;
+            return this.media_media.Source.OriginalString;
         }
 
         public TimeSpan GetTotalFrame()
@@ -426,7 +435,7 @@ namespace Ty.Component.MediaControl
             }
             set
             {
-                this.slider_sound.Value = this.media_media.Volume=value;
+                this.slider_sound.Value = this.media_media.Volume = value;
             }
         }
 
@@ -440,12 +449,12 @@ namespace Ty.Component.MediaControl
         }
 
         public void ScreenShot(TimeSpan from, string saveFullName)
-        {  
+        {
             byte[] screenshot = this.media_media.GetScreenShot(1, 90);
             FileStream fileStream = new FileStream(saveFullName, FileMode.Create, FileAccess.ReadWrite);
             BinaryWriter binaryWriter = new BinaryWriter(fileStream);
             binaryWriter.Write(screenshot);
-            binaryWriter.Close(); 
+            binaryWriter.Close();
         }
 
         public void SetPositon(TimeSpan timeSpan)
@@ -459,6 +468,16 @@ namespace Ty.Component.MediaControl
             rotate.CenterX = this.media_media.ActualWidth / 2;
             rotate.CenterY = this.media_media.ActualHeight / 2;
             rotate.Angle = rotate.Angle + 90;
+        }
+
+        public void PlaySpeedUp()
+        {
+            this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
+        }
+
+        public void PlaySpeedDown()
+        {
+            this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
         }
     }
 

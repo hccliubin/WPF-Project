@@ -500,6 +500,16 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
             this.media.ImagePlayerService.GetImgOperate().RegisterPartShotCut(shortcut);
         }
+
+        private void Btn_media_speedup_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.PlaySpeedUp();
+        }
+
+        private void Btn_media_speeddown_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.PlaySpeedDown();
+        }
     }
 
     class ShellWindowViewModel : NotifyPropertyChanged

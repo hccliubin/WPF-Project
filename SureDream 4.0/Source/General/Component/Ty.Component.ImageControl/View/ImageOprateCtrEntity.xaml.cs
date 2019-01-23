@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ty.Component.ImageControl.Provider.Hook;
 
 namespace Ty.Component.ImageControl
 {
@@ -23,6 +25,9 @@ namespace Ty.Component.ImageControl
     /// </summary>
     public partial class ImageOprateCtrEntity : UserControl
     {
+
+
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -30,28 +35,32 @@ namespace Ty.Component.ImageControl
         {
             InitializeComponent();
 
-            //  Do：初始化自动播放
-            timer.Interval = 1000;
 
-            timer.Elapsed += (l, k) =>
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    timer.Interval = 1000 * this.Speed;
+            ////  Do：初始化自动播放
+            //timer.Interval = 1000;
 
-                    if (this.ImgPlayMode == ImgPlayMode.正序)
-                    {
-                        this.OnNextClick();
-                    }
-                    else if (this.ImgPlayMode == ImgPlayMode.倒叙)
-                    {
-                        this.OnLastClicked();
-                    }
-                });
+            //timer.Elapsed += (l, k) =>
+            //{
+            //    Application.Current.Dispatcher.Invoke(() =>
+            //    {
+            //        timer.Interval = 1000 * this.Speed;
 
-            };
+            //        if (this.ImgPlayMode == ImgPlayMode.正序)
+            //        {
+            //            this.OnNextClick();
+            //        }
+            //        else if (this.ImgPlayMode == ImgPlayMode.倒叙)
+            //        {
+            //            this.OnLastClicked();
+            //        }
+            //    });
+
+            //};
+
+            this.RegisterDefaltApi();
 
         }
+
 
         #region - 成员属性 -
 
@@ -61,8 +70,8 @@ namespace Ty.Component.ImageControl
         //  Do：当前图片路径
         LinkedListNode<string> current;
 
-        //  Do：自动播放时间处理
-        Timer timer = new Timer();
+        ////  Do：自动播放时间处理
+        //Timer timer = new Timer();
 
         public LinkedListNode<string> Current { get => current; set => current = value; }
 
@@ -73,7 +82,12 @@ namespace Ty.Component.ImageControl
         {
             get
             {
-                return (ImageControlViewModel)this.DataContext;
+                if (this.DataContext is ImageControlViewModel)
+                {
+                    return (ImageControlViewModel)this.DataContext;
+                }
+
+                return null;
             }
             set
             {
@@ -108,15 +122,16 @@ namespace Ty.Component.ImageControl
 
                 if (config.Count == 0) return;
 
-                if (!File.Exists(config.First())) return;
+                //if (!File.Exists(config.First())) return;
 
+                control.Collection.Clear();
                 //  Do：根据路径加载图片内存集合
                 foreach (var item in config)
                 {
-                    control._collection.AddLast(item);
+                    control.Collection.AddLast(item);
                 }
 
-                control.Current = control._collection.First;
+                control.Current = control.Collection.First;
 
                 //  Do：加载默认图片
                 control.LoadImage(control.Current.Value);
@@ -129,9 +144,14 @@ namespace Ty.Component.ImageControl
         /// </summary>
         public ImgPlayMode ImgPlayMode
         {
-            get { return (ImgPlayMode)GetValue(ImgPlayModeProperty); }
+            get
+            {
+                return (ImgPlayMode)GetValue(ImgPlayModeProperty);
+            }
             set { SetValue(ImgPlayModeProperty, value); }
         }
+
+
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImgPlayModeProperty =
@@ -146,14 +166,22 @@ namespace Ty.Component.ImageControl
                 //  Do：设置自动播放模式
                 if (config == ImgPlayMode.正序 || config == ImgPlayMode.倒叙)
                 {
-                    control.timer.Start();
+                    control.Start();
+
+                    control._tempMarkType = control.MarkType;
+
+                    control.SetMarkType(MarkType.None);
                 }
                 else if (config == ImgPlayMode.停止播放)
                 {
-                    control.timer.Stop();
+                    control.Stop();
+
+                    control.SetMarkType(control._tempMarkType);
                 }
 
             }));
+
+        MarkType _tempMarkType;
 
         /// <summary>
         /// 自动播放速度
@@ -163,6 +191,8 @@ namespace Ty.Component.ImageControl
             get { return (double)GetValue(SpeedProperty); }
             set { SetValue(SpeedProperty, value); }
         }
+
+        public LinkedList<string> Collection { get => _collection; set => _collection = value; }
 
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
@@ -205,7 +235,7 @@ namespace Ty.Component.ImageControl
 
                 if (Current == null)
                 {
-                    Current = _collection.Last;
+                    Current = Collection.Last;
                 }
 
 
@@ -215,8 +245,11 @@ namespace Ty.Component.ImageControl
             //  Do：触发删除事件
             this.PreviousImgEvent?.Invoke();
 
-            RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
-            this.RaiseEvent(args);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
+                this.RaiseEvent(args);
+            });
         }
 
         //声明和注册路由事件
@@ -245,7 +278,7 @@ namespace Ty.Component.ImageControl
 
                 if (Current == null)
                 {
-                    Current = _collection.First;
+                    Current = Collection.First;
                 }
 
                 this.LoadImage(Current.Value);
@@ -254,8 +287,12 @@ namespace Ty.Component.ImageControl
             //  Do：触发下一页
             this.NextImgEvent?.Invoke();
 
-            RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
-            this.RaiseEvent(args);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
+                this.RaiseEvent(args);
+            });
+
         }
 
         #endregion
@@ -352,31 +389,429 @@ namespace Ty.Component.ImageControl
             e.CanExecute = this.ViewModel != null;
         }
 
+        ///// <summary>
+        ///// 放大显示缺陷控件
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void CommandBinding_ShowDefectPart_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+
+        //    Debug.WriteLine("CommandBinding_ShowDefectPart_Executed");
+
+        //    if (this.control_ImagePartView.Visibility == Visibility.Visible)
+        //    {
+        //        this.control_ImagePartView.OnClosed();
+        //    }
+        //    else
+        //    {
+        //        this.control_imageView.ShowDefaultDefectPart();
+        //    }
+        //}
+
+        //private void CommandBinding_ShowDefectPart_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = this.ViewModel != null;
+
+        //    Debug.WriteLine("CommandBinding_ShowDefectPart_CanExecute");
+        //}
+
+
+        //private void CommandBinding_UpKey_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    this.control_imageView.ShowPreShape();
+        //}
+
+        //private void CommandBinding_UpKey_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = this.ViewModel != null;
+
+        //    Debug.WriteLine("CommandBinding_UpKey_CanExecute");
+        //}
+
+        //private void CommandBinding_DownKey_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    this.control_imageView.ShowPreShape();
+        //}
+
+        //private void CommandBinding_DownKey_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = this.ViewModel != null;
+
+        //    Debug.WriteLine("CommandBinding_DownKey_CanExecute");
+        //}
+
+        ShortCutHookService _shortCutHookService = new ShortCutHookService();
+        /// <summary> 此方法的说明 </summary>
+        public void RegisterPartShotCut(ShortCutEntitys shortcut)
+        {
+            bool flag = false;
+
+            //  Message：先清理事件
+            this.control_imageView.ShowDefaultDefectPart(flag);
+
+            _shortCutHookService.Clear();
+
+            // Todo ：双击大小写切换 
+            ShortCutEntitys s = new ShortCutEntitys();
+
+            s = new ShortCutEntitys();
+
+            KeyEntity up = new KeyEntity();
+            up.Key = System.Windows.Forms.Keys.Up;
+            s.Add(up);
+
+            _shortCutHookService.RegisterCommand(s, () =>
+            {
+                Debug.WriteLine("按键：↑");
+
+                if (!flag) return;
+
+                //if (this.control_ImagePartView.Visibility == Visibility.Collapsed) return;
+
+                this.control_imageView.ShowNextShape();
+            });
+
+            s = new ShortCutEntitys();
+
+            KeyEntity down = new KeyEntity();
+            down.Key = System.Windows.Forms.Keys.Down;
+            s.Add(down);
+
+            _shortCutHookService.RegisterCommand(s, () =>
+            {
+                Debug.WriteLine("按键：↓");
+
+                if (!flag) return;
+
+                //if (this.control_ImagePartView.Visibility == Visibility.Collapsed) return;
+
+                this.control_imageView.ShowNextShape();
+            });
+
+            // Todo ：双击Ctrl键 
+            ShortCutEntitys d = new ShortCutEntitys();
+
+            KeyEntity c1 = new KeyEntity();
+            c1.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c1);
+
+            KeyEntity c2 = new KeyEntity();
+            c2.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c2);
+
+
+            bool _initFlag = false;
+
+            Action action = () =>
+            {
+                Debug.WriteLine(shortcut);
+
+                if (this.ViewModel == null) return;
+
+                if (this.control_ImagePartView.Visibility == Visibility.Visible)
+                {
+                    this.control_ImagePartView.OnClosed();
+                }
+                //else
+                //{
+                //    flag = !flag;
+
+                //    if(flag)
+                //    {
+                //        Debug.WriteLine("进入模式");
+                //    }
+                //    else
+                //    {
+                //        Debug.WriteLine("退出模式");
+                //    }
+
+                //    Debug.WriteLine(flag);
+
+                //    this.control_imageView.ShowDefaultDefectPart(flag);
+                //}
+
+                flag = !flag;
+
+                if (flag)
+                {
+                    Debug.WriteLine("进入模式");
+                }
+                else
+                {
+                    Debug.WriteLine("退出模式");
+                } 
+
+                this.control_imageView.ShowDefaultDefectPart(flag);
+
+                //  Message：如果是是默认加载第一个
+                //if (flag)
+                //{
+                //    //Action<RectangleShape> mouseEnterAction = l =>
+                //    //  {
+                //    //      if (!flag) return;
+
+                //    //      if (l == null) return;
+
+                //    //      this.control_imageView.ShowPartWithShape(l);
+                //    //  };
+
+
+                //}
+
+
+            };
+
+            _shortCutHookService.RegisterCommand(shortcut, action); 
+        }
+
+
+        public void RegisterDefaltApi()
+        { 
+            // Todo ：双击Ctrl键 
+            ShortCutEntitys d = new ShortCutEntitys();
+
+            KeyEntity c1 = new KeyEntity();
+            c1.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c1);
+
+            KeyEntity c2 = new KeyEntity();
+            c2.Key = System.Windows.Forms.Keys.LControlKey;
+            d.Add(c2);
+
+            this.RegisterPartShotCut(d);
+        }
         #endregion
 
         #region - 成员方法 -
 
+        //Random random = new Random();
+
+        //  Message：播放任务
+        Task task;
+
+        //  Message：取消播放任务
+        CancellationTokenSource tokenSource;
+
+        /// <summary> 開始播放 </summary>
+        void Start()
+        {
+            //control.timer.Start(); 
+
+            Action action = null;
+
+            action = () =>
+            {
+                if (tokenSource.IsCancellationRequested) return;
+
+                //Thread.Sleep(100 * random.Next(10));
+
+
+                ImgPlayMode playMode = ImgPlayMode.正序;
+
+                double speed = 0;
+
+                bool isBuzy = false;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    playMode = this.ImgPlayMode;
+                    speed = this.Speed;
+                    isBuzy = this.ViewModel == null ? false : this.ViewModel.IsBuzy;
+                });
+
+
+                if (playMode == ImgPlayMode.正序)
+                {
+                    if (!isBuzy)
+                        this.OnNextClick();
+                }
+                else if (playMode == ImgPlayMode.倒叙)
+                {
+                    if (!isBuzy)
+                        this.OnLastClicked();
+                }
+
+                Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * speed)), tokenSource.Token);
+
+                nextTask.ContinueWith(l => action());
+
+            };
+
+            tokenSource = new CancellationTokenSource();
+
+            task = new Task(action, tokenSource.Token);
+
+            task.Start();
+        }
+
+        /// <summary> 停止播放 </summary>
+        void Stop()
+        {
+            //control.timer.Stop();
+
+            tokenSource.Cancel();
+        }
+
         /// <summary>
-        /// 加载图片
+        /// 加载图片(上一张下一张切换用)
         /// </summary>
         /// <param name="imagePath"> 图片路径 </param>
-        void LoadImage(string imagePath)
+        public void LoadImage(string imagePath)
         {
             if (imagePath == null) return;
 
-            if (!File.Exists(imagePath)) return;
+            //if (!File.Exists(imagePath)) return;
 
             this.RefreshPart();
 
-            ImageControlViewModel viewModel = new ImageControlViewModel(this);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (this.ViewModel == null)
+                {
+                    this.ViewModel = new ImageControlViewModel(this);
+                }
 
-            viewModel.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+                //ImageControlViewModel viewModel = new ImageControlViewModel(this);
 
-            //viewModel.ImgMarkOperateEvent += this.ImgMarkOperateEvent;
+                this.ViewModel.IsBuzy = true;
 
-            this.ViewModel = viewModel;
+                try
+                {
+                    Task.Run(() =>
+                    {
+                        var p = imagePath;
+                        var s = new BitmapImage();
+                        s.BeginInit();
+                        s.CacheOption = BitmapCacheOption.OnLoad;
 
-          
+                        s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+
+                        //Thread.Sleep(5000);
+
+                        s.EndInit();
+                        //这一句很重要，少了UI线程就不认了。
+                        s.Freeze();
+
+
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            //this.ViewModel.IsBuzy = false;
+
+                            //this.ViewModel = viewModel;
+
+                            this.ViewModel.ImageSource = s;
+
+                            this.ViewModel.IsBuzy = false;
+                        });
+
+                    });
+
+                }
+                catch (Exception ex)
+                {
+
+                    Debug.WriteLine(ex);
+
+                }
+
+
+                ////  Message：存在上一张先不清理图片，适用于播放
+                //if (this.ViewModel != null)
+                //{
+                //    ImageControlViewModel viewModel = new ImageControlViewModel(this);
+
+                //    this.ViewModel.IsBuzy = true;
+
+                //    try
+                //    {
+                //        Task.Run(() =>
+                //        {
+                //            var p = imagePath;
+                //            var s = new BitmapImage();
+                //            s.BeginInit();
+                //            s.CacheOption = BitmapCacheOption.OnLoad;
+
+                //            s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+                //            //Thread.Sleep(5000);
+
+
+                //            s.EndInit();
+                //            //这一句很重要，少了UI线程就不认了。
+                //            s.Freeze();
+
+                //            viewModel.ImageSource = s;
+
+
+
+                //            Application.Current.Dispatcher.Invoke(() =>
+                //            {
+                //                this.ViewModel.IsBuzy = false;
+
+                //                this.ViewModel = viewModel;
+                //            });
+
+                //        });
+
+                //    }
+                //    catch { }
+                //}
+                //else
+                //{
+                //    ImageControlViewModel viewModel = new ImageControlViewModel(this);
+
+                //    this.ViewModel = viewModel;
+
+                //    this.ViewModel.IsBuzy = true;
+
+                //    try
+                //    {
+                //        Task.Run(() =>
+                //        {
+                //            var p = imagePath;
+                //            var s = new BitmapImage();
+                //            s.BeginInit();
+                //            s.CacheOption = BitmapCacheOption.OnLoad;
+
+                //            s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+
+                //            //Thread.Sleep(5000);
+
+                //            //////打开文件流
+                //            ////using (var stream = File.OpenRead(p))
+                //            ////{
+                //            ////    s.StreamSource = stream;
+                //            ////    s.EndInit();
+                //            ////    //这一句很重要，少了UI线程就不认了。
+                //            ////    s.Freeze();
+                //            ////}
+
+                //            s.EndInit();
+                //            //这一句很重要，少了UI线程就不认了。
+                //            s.Freeze();
+
+                //            viewModel.ImageSource = s;
+
+                //            Application.Current.Dispatcher.Invoke(() =>
+                //            {
+                //                this.ViewModel.IsBuzy = false;
+                //            });
+
+
+                //        });
+
+                //    }
+                //    catch { }
+                //}
+
+
+
+
+
+
+            });
+
         }
 
         //private void button_last_Click(object sender, RoutedEventArgs e)
@@ -398,8 +833,11 @@ namespace Ty.Component.ImageControl
         /// </summary>
         void RefreshPart()
         {
-            this.control_ImagePartView.Visibility = Visibility.Collapsed;
-            this.control_imageView.Clear();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.control_ImagePartView.Visibility = Visibility.Collapsed;
+                this.control_imageView.Clear();
+            });
         }
 
         /// <summary>
@@ -412,6 +850,8 @@ namespace Ty.Component.ImageControl
             window.DataContext = this.ViewModel;
             this.ClearToScreen();
             window.CenterContent = this.grid_all;
+            //window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //window.Owner = ComponetProvider.Instance.FindVisualParent<Window>(this).First();
             window.ShowDialog();
             this.RecoverFromScreen();
         }
@@ -483,6 +923,7 @@ namespace Ty.Component.ImageControl
             this.control_imageView.HideRectangleClip();
         }
 
+
         #endregion
 
     }
@@ -516,7 +957,7 @@ namespace Ty.Component.ImageControl
         {
             ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
 
-            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity,this.MarkType);
+            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this.MarkType);
         }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
@@ -559,9 +1000,9 @@ namespace Ty.Component.ImageControl
         public void LoadImg(string imgPath)
         {
 
-            this._collection.AddLast(imgPath);
+            this.Collection.AddLast(imgPath);
 
-            this.Current = this._collection.Last;
+            this.Current = this.Collection.Last;
 
             this.LoadImage(imgPath);
         }
@@ -613,11 +1054,7 @@ namespace Ty.Component.ImageControl
             }
             else
             {
-                //ApplicationCommands.Close.Execute(null, this.FullWindow);
-
                 this.ShowFullScreen();
-
-
             }
         }
 
@@ -673,7 +1110,9 @@ namespace Ty.Component.ImageControl
             }
             else
             {
-                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+                //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+
+                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model == entity);
 
                 if (find == null)
                 {
@@ -705,7 +1144,7 @@ namespace Ty.Component.ImageControl
         {
             this.MarkType = markType;
 
-            if(markType== MarkType.None)
+            if (markType == MarkType.None)
             {
                 //  Message：设置光标和区域放大
                 this.control_imageView.canvas.Cursor = Cursors.Arrow;
@@ -728,15 +1167,15 @@ namespace Ty.Component.ImageControl
         public ImgMarkEntity GetSelectMarkEntity()
         {
             if (this.ViewModel == null) return null;
-            var result = this.ViewModel.SampleCollection.ToList().Find(l => l.RectangleLayer.First().IsSelected);
+            var result = this.ViewModel.SampleCollection.ToList().FindAll(l => l.RectangleLayer.First().IsSelected);
 
-            if (result == null)
+            if (result == null || result.Count == 0)
             {
                 Debug.WriteLine("没有选中项！");
                 return null;
             }
 
-            return result.Model;
+            return result.First().Model;
         }
 
         /// <summary>
@@ -747,7 +1186,7 @@ namespace Ty.Component.ImageControl
         {
             if (this.ViewModel == null) return;
 
-            var result = this.ViewModel.SampleCollection.ToList().Find(l=>match(l.Model));
+            var result = this.ViewModel.SampleCollection.ToList().Find(l => match(l.Model));
 
             if (result == null)
             {
@@ -766,6 +1205,25 @@ namespace Ty.Component.ImageControl
         public void CancelAddMark()
         {
             this.control_imageView.ClearDynamic();
+        }
+
+        public void Rotate()
+        {
+            this.control_imageView.Rotate();
+        }
+
+        public void ScreenShot(string saveFullName)
+        {
+            this.control_imageView.ScreenShot(saveFullName);
+        }
+
+        public void DeleteSelectMark()
+        {
+            var entity = this.GetSelectMarkEntity();
+
+            entity.markOperateType = ImgMarkOperateType.Delete;
+
+            this.MarkOperate(entity);
         }
     }
 }

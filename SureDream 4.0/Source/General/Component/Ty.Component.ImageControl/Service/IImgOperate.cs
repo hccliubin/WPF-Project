@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ty.Component.ImageControl.Provider.Hook;
 
 namespace Ty.Component.ImageControl
 {
@@ -168,6 +169,28 @@ namespace Ty.Component.ImageControl
         /// 取消添加标定(在DrawMarkedMouseUp事件时取消标定)
         /// </summary>
         void CancelAddMark();
+
+        /// <summary>
+        /// 旋转
+        /// </summary>
+        void Rotate();
+
+        /// <summary>
+        /// 截屏
+        /// </summary>
+        /// <param name="saveFullName"></param>
+        void ScreenShot(string saveFullName);
+
+        /// <summary>
+        /// 删除选中项
+        /// </summary>
+        void DeleteSelectMark();
+
+        /// <summary>
+        /// 注册自动操作放大的快捷键
+        /// </summary>
+        /// <param name="shortcut"></param>
+        void RegisterPartShotCut(ShortCutEntitys shortcut);
 
     }
 

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ty.Component.ImageControl"
+             xmlns:base="clr-namespace:Ty.Base.WpfBase;assembly=Ty.Base.WpfBase"
              mc:Ignorable="d" x:Name="control" Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -39,7 +40,6 @@
                         Executed="CommandBinding_FullScreen_Executed" 
                         CanExecute="CommandBinding_FullScreen_CanExecute"/>
 
-
         <CommandBinding Command="{x:Static local:ImageViewCommands.Save}" 
                         Executed="CommandBinding_Save_Executed" 
                         CanExecute="CommandBinding_Save_CanExecute"/>
@@ -48,12 +48,32 @@
                         Executed="CommandBinding_ShowStyleTool_Executed" 
                         CanExecute="CommandBinding_ShowStyleTool_CanExecute"/>
 
+
+        <!--<CommandBinding Command="{x:Static local:ImageViewCommands.ShowDefectPart}" 
+                        Executed="CommandBinding_ShowDefectPart_Executed" 
+                        CanExecute="CommandBinding_ShowDefectPart_CanExecute"/>
+        
+        <CommandBinding Command="{x:Static local:ImageViewCommands.UpKey}" 
+                        Executed="CommandBinding_UpKey_Executed" 
+                        CanExecute="CommandBinding_UpKey_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.DownKey}" 
+                        Executed="CommandBinding_DownKey_Executed" 
+                        CanExecute="CommandBinding_DownKey_CanExecute"/>-->
+
     </UserControl.CommandBindings>
 
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.Save}}"
                 Key="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SaveCommand/@Key}"
                 Modifiers="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=SaveCommand/@Modifiers}"/>
+
+        <!--<KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.ShowDefectPart}}"  Key="F" Modifiers="Ctrl"/>
+
+        <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.UpKey}}" Key="B"/>
+
+        <KeyBinding Command="{Binding Source={x:Static local:ImageViewCommands.DownKey}}" Key="B" Modifiers="Ctrl"/>-->
+        
     </UserControl.InputBindings>
 
     <Grid x:Name="grid_all">
@@ -62,13 +82,16 @@
             <ColumnDefinition Width="0"/>
         </Grid.ColumnDefinitions>
         <Grid>
-            <local:ImageView x:Name="control_imageView" Background="{Binding ElementName=control,Path=Background}" ImageOprateCtrEntity="{Binding ElementName=control}"
+            <Grid ClipToBounds="True">
+                <local:ImageView x:Name="control_imageView" Background="{Binding ElementName=control,Path=Background}" ImageOprateCtrEntity="{Binding ElementName=control}"
                          BegionShowPartView="control_imageView_BegionShowPartView"/>
 
-            <local:ImagePartView  x:Name="control_ImagePartView" Background="{Binding ElementName=control,Path=Background}"
+                <local:ImagePartView  x:Name="control_ImagePartView" Background="{Binding ElementName=control,Path=Background}"
                               Visibility="Collapsed" Closed="control_ImagePartView_Closed"
                               ImageVisual="{Binding ElementName=control_imageView,Path=ImageVisual}"
                               DynamicShape="{Binding ElementName=control_imageView,Path=DynamicShape}"/>
+            </Grid>
+   
 
             <local:IconButton  x:Name="button_last"  Grid.Column="1" FIcon="&#xe671;" Margin="10,0" HorizontalAlignment="Left" Command="{x:Static local:ImageViewCommands.LastImage}" ToolTip="{Binding Source={x:Static local:ImageViewCommands.LastImage},Path=Text}"
                              Style="{StaticResource Style.IconButton.Default}"  Height="60"  Width="20"/>
@@ -183,6 +206,28 @@
 
             </GroupBox>
         </Grid>
+
+
+        <!--<Grid Visibility="{Binding IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
+            <Grid.Background>
+                <SolidColorBrush Color="Transparent" Opacity="0.5"/>
+            </Grid.Background>
+            <TextBlock Text="正在加载... ..." 
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Bottom" Margin="20,5"
+                           Foreground="White" 
+                           FontSize="15">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard RepeatBehavior="Forever"  AutoReverse="True"   >
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.5" Duration="0:0:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </Grid>-->
     </Grid>
 
 

@@ -32,9 +32,12 @@ namespace Ty.Component.MediaControl
 
         public IImagePlayerService ImagePlayerService { get; set; }
 
+        MediaPlayType _type;
         /// <summary> 更新播放类型 </summary>
         void RefreshPlayType(MediaPlayType type)
         {
+            _type = type;
+
             this.control_media.Visibility = type == MediaPlayType.Video ? Visibility.Visible : Visibility.Collapsed;
             this.control_image.Visibility = type == MediaPlayType.Image ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -73,6 +76,30 @@ namespace Ty.Component.MediaControl
             this.RefreshPlayType(MediaPlayType.Image);
 
             this.ImagePlayerService.LoadFtpImageFolder(paths, start, user,password);
+        }
+
+        public void PlaySpeedUp()
+        {
+            if(_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.PlaySpeedUp();
+            }
+            else
+            {
+                this.ImagePlayerService.ImgPlaySpeedUp();
+            }
+        }
+
+        public void PlaySpeedDown()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.PlaySpeedDown();
+            }
+            else
+            {
+                this.ImagePlayerService.ImgPlaySpeedDown();
+            }
         }
     }
 }

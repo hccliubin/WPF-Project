@@ -82,7 +82,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Button  x:Name="btn_play_repeat" Content="循环播放" Background="Orange"  Click="Btn_play_repeat_Click"/>
-                                        <TextBlock Text="从00:01:00至00:02:00"/>
+                                        <TextBlock Text="从00:01:00至00:01:10"/>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -238,6 +238,15 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="设置操作放大快捷键"  x:Name="btn_image_shotcut"  Background="Orange"  Click="btn_image_shotcut_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="12）播放速度控制">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="加速播放"  x:Name="btn_media_speedup"  Background="Orange"  Click="Btn_media_speedup_Click"/>
+                                            <Button Content="减速播放"  x:Name="btn_media_speeddown"  Background="Orange"  Click="Btn_media_speeddown_Click"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
