@@ -169,19 +169,44 @@ namespace ImageView
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+
+            System.Diagnostics.Debug.WriteLine(DateTime.Now+"OnMouseMove");
+
             if (IsMouseOnThis(e))
             {
                 UpdateSelectionRegion(e, UpdateMaskType.ForMouseMoving);
 
                 e.Handled = true;
             }
+
+            this.UpdateDynimicRect();
+
             base.OnMouseMove(e);
 
+            
+
+        }
+
+        void UpdateDynimicRect()
+        {
+            //  Message：移动区域
+            if (this.mouseXY != null && this.MoveState)
+            {
+                var position = Mouse.GetPosition(this);
+                Point transform = new Point();
+                transform.X -= mouseXY.X - position.X;
+                transform.Y -= mouseXY.Y - position.Y;
+                mouseXY = position;
+
+                this.indicator.Move(transform);
+            }  
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             HandleIndicatorMouseUp(e);
+
+            System.Diagnostics.Debug.WriteLine("OnMouseLeave");
 
             base.OnMouseLeave(e);
         }
@@ -219,11 +244,17 @@ namespace ImageView
             MoveState = true;
 
             mouseXY = e.GetPosition(this);
+
+
+            System.Diagnostics.Debug.WriteLine("HandleIndicatorMouseDown");
+
         }
 
         internal void HandleIndicatorMouseUp(MouseEventArgs e)
         {
             MoveState = false;
+
+            System.Diagnostics.Debug.WriteLine("HandleIndicatorMouseUp");
         }
 
         private void PrepareShowMask(System.Drawing.Point mouseLoc)
@@ -311,23 +342,7 @@ namespace ImageView
                 }
             }
 
-            //  Message：移动区域
-            if (this.mouseXY != null && this.MoveState)
-            {
-                var position = e.GetPosition(this);
-                Point transform = new Point();
-                transform.X -= mouseXY.X - position.X;
-                transform.Y -= mouseXY.Y - position.Y;
-                mouseXY = position;
-
-                this.indicator.Move(transform);
-            }
-            else
-            {
-                UpdateIndicator(selectionRegion);
-            }
-
-
+            UpdateIndicator(selectionRegion);
         }
 
         internal void UpdateSelectionRegion(Rect region, bool flag = false)

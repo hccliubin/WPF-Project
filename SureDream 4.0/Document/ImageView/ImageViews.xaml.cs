@@ -98,9 +98,9 @@ namespace ImageView
 
                   _loationFlag = true;
 
-                  svImg.ScrollToHorizontalOffset(k.Left * svImg.ScrollableWidth);
+                  svImg.ScrollToHorizontalOffset(k.Left * svImg.ExtentWidth);
                   //if (Y != 0)
-                  svImg.ScrollToVerticalOffset(k.Top * svImg.ScrollableHeight);
+                  svImg.ScrollToVerticalOffset(k.Top * svImg.ExtentHeight);
 
 
                   System.Diagnostics.Debug.WriteLine(k.Left);
@@ -189,7 +189,14 @@ namespace ImageView
             if (imgWidth == 0 || imgHeight == 0)
                 return;
 
-            scale = 0.14;
+            scale = 0.02;
+
+            scale= svImg.ActualWidth / imgWidth;
+
+            scale = Math.Min(scale, svImg.ActualHeight / imgHeight);
+
+            //imgBig.Width = scale * imgWidth;
+
 
             SetbtnActualsizeEnable();
 

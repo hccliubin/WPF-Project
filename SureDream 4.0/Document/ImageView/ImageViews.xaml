@@ -87,7 +87,7 @@
 		</ScrollViewer>
 		<Grid x:Name="gridMouse" Background="#19000000"/>
         
-		<Grid Margin="0" Width="100" Height="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#4C000000">
+		<Grid Margin="0" Width="200" Height="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#4C000000">
 			<ContentControl x:Name="controlmask" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
                     <Image x:Name="imgless"  
                            LayoutTransform="{StaticResource TfGroup}" 
