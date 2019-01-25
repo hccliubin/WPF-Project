@@ -386,7 +386,9 @@ namespace Ty.Component.MediaControl
 
         public string GetCurrentUrl()
         {
-            return this.media_media.Source.OriginalString;
+            return Uri.UnescapeDataString(_url);
+
+            //return this.media_media.Source.OriginalString;
         }
 
         public TimeSpan GetTotalFrame()
@@ -398,9 +400,12 @@ namespace Ty.Component.MediaControl
             return TimeSpan.FromTicks(this.media_media.NaturalDuration.TimeSpan.Ticks);
         }
 
+        string _url;
         public void Load(string mediaPath)
         {
             Uri uri = new Uri(mediaPath, UriKind.Absolute);
+
+            _url = mediaPath;
 
             this.media_media.Source = uri;
 

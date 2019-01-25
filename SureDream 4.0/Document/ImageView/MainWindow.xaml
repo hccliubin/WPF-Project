@@ -1,0 +1,12 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:local="clr-namespace:ImageView"
+       x:Class="ImageView.MainWindow"
+        Title="MainWindow" Height="600" Width="1000">
+	<Grid>
+
+        <local:ImageViews x:Name="imageViews"  Margin="20"/>
+        <Button x:Name="btnSetImage" Content="设置图片" Height="25" Width="80" VerticalAlignment="Top" />
+    </Grid>
+</Window>

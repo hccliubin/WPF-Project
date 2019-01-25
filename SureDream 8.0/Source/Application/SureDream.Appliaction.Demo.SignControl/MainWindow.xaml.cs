@@ -33,7 +33,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
         }
 
-    
+
         Window window = new Window();
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -50,6 +50,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             window.Width = 1200;
             window.Height = 500;
+            //window.WindowStyle = WindowStyle.None;
 
             //  Do：取消
             defectViewModel.CancelClick += () =>
@@ -64,15 +65,15 @@ namespace SureDream.Appliaction.Demo.SignControl
 
                 Debug.WriteLine(defectViewModel.ToString());
             };
-            
+
             DefectControl defect = new DefectControl();
             window.Content = defect;
             window.DataContext = defectViewModel;
-          
-            KeyGesture keyGesture = new KeyGesture(Key.W,ModifierKeys.Control);
+
+            KeyGesture keyGesture = new KeyGesture(Key.W, ModifierKeys.Control);
             defect.KeyGestureForHistList = keyGesture;
 
-            window.ShowDialog();
+            //window.ShowDialog();
 
 
 
@@ -191,8 +192,13 @@ namespace SureDream.Appliaction.Demo.SignControl
             {
                 TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
                 tyeEncodeDeviceEntity.ID = i.ToString();
-                tyeEncodeDeviceEntity.Code= "Defect" + i.ToString();
+                tyeEncodeDeviceEntity.Code = "Defect" + i.ToString();
                 tyeEncodeDeviceEntity.Name = "DN00" + i.ToString();
+                tyeEncodeDeviceEntity.NamePY="PY" + i.ToString();
+                //tyeEncodeDeviceEntity.Name = "名称" + (i + 50).ToString();
+                //tyeEncodeDeviceEntity.Code = "编码：" + (i + 100).ToString();
+                //tyeEncodeDeviceEntity.NamePY = "拼音:" + (i + 150).ToString();
+
                 tyeEncodeDeviceEntities.Add(tyeEncodeDeviceEntity);
             }
 
@@ -205,10 +211,10 @@ namespace SureDream.Appliaction.Demo.SignControl
                 DefectCommonUsed defectCommonUsed = new DefectCommonUsed();
 
                 defectCommonUsed.ID = i.ToString();
-                defectCommonUsed.Name = "DN00" + i.ToString();
-                defectCommonUsed.Code = "DefectCommonUsed" + i.ToString();
-                defectCommonUsed.NamePY = "NamePY" + i.ToString();
-                defectCommonUsed.Describletion = i.ToString().PadLeft(3, '0') + " " + defectCommonUsed.Code + " 01020304 " + defectCommonUsed.NamePY + " 接触线张力xx脱落 (F14) 次数" + i.ToString() + "次";
+                defectCommonUsed.Name = "名称" + (i+50).ToString();
+                defectCommonUsed.Code = "编码：" + (i + 100).ToString();
+                defectCommonUsed.NamePY = "拼音:" +(i + 150).ToString();
+                defectCommonUsed.Describletion = i.ToString().PadLeft(3, '0')+" " + defectCommonUsed.Name +" " + defectCommonUsed.Code + defectCommonUsed.NamePY  + (50 - i).ToString() + "次";
                 defectCommonUsed.CountUse = i;
                 defectCommonUsed.OrderNo = i;
                 defectCommonUseds.Add(defectCommonUsed);
@@ -243,5 +249,5 @@ namespace SureDream.Appliaction.Demo.SignControl
 
         }
     }
-    
+
 }

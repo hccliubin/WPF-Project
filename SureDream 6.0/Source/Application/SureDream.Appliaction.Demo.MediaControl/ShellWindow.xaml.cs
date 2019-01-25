@@ -356,7 +356,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             folders.Add(filePath2);
 
 
-            this.media.LoadImageFolder(folders, filePath2);
+            this.media.LoadImageFolder(folders, filePath1);
         }
 
         //  Message：获取图片列表当前帧
@@ -377,7 +377,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
         //  Message：播放ftp图片文件夹路径
         private void btn_imageftpplay_imagefoder_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = @"ftp://127.0.0.1/images1/";
+            string filePath = @"ftp://127.0.0.1/images/";
 
             List<string> folders = new List<string>();
 
