@@ -193,7 +193,7 @@ namespace ImageView
             Scale = Math.Min(Scale, svImg.ActualHeight / imgHeight);
 
             SetbtnActualsizeEnable();
-
+ 
             btnNarrow.IsEnabled = false;
 
             this.txtZoom.Text = ((int)(Scale * 100)).ToString() + "%";
@@ -529,82 +529,8 @@ namespace ImageView
             //if (this.r_screen.IsChecked.HasValue && this.r_screen.IsChecked.Value)
             if (this._markType == MarkType.Enlarge)
             {
-                //RectangleGeometry rect = new RectangleGeometry(new Rect(0, 0, this.canvas.ActualWidth, this.canvas.ActualHeight));
 
-                ////  Do：设置覆盖的蒙版
-                //var geo = Geometry.Combine(rect, new RectangleGeometry(this._dynamic.Rect), GeometryCombineMode.Exclude, null);
-
-                //DynamicShape shape = new DynamicShape(this._dynamic);
-
-                ////  Do：设置形状、用来提供给局部放大页面
-                //this.DynamicShape = shape;
-
-                ////  Do：设置提供局部放大在全局的范围的视图
-                //this.ImageVisual = this.canvas;
-
-                //this.OnBegionShowPartView();
-
-                ////  Do：设置当前蒙版的剪切区域
-                //this.rectangle_clip.Clip = geo;
-
-                //  Message：设置气泡范围
-                //Rect rect = new Rect(-offsetx, -offsety, w, h);
-
-                if (imgWidth == 0 || imgHeight == 0)
-                    return;
-
-                //thumbWidth = (int)mask.ActualWidth;
-                //thumbHeight = (int)mask.ActualHeight;
-
-                //thumbWidth = (int)this._dynamic.Rect.Width;
-                //thumbHeight = (int)this._dynamic.Rect.Height;
-
-                //double timeH = svImg.ViewportHeight / (svImg.ViewportHeight + svImg.ScrollableHeight);
-                //double timeW = svImg.ViewportWidth / (svImg.ViewportWidth + svImg.ScrollableWidth);
-
-                //double w = thumbWidth * timeW;
-                //double h = thumbHeight * timeH;
-
-                //double offsetx = 0;
-                //double offsety = 0;
-                //if (svImg.ScrollableWidth == 0)
-                //{
-                //    offsetx = 0;
-                //}
-                //else
-                //{
-                //    offsetx = (w - thumbWidth) / svImg.ScrollableWidth * svImg.HorizontalOffset;
-                //}
-
-                //if (svImg.ScrollableHeight == 0)
-                //{
-                //    offsety = 0;
-                //}
-                //else
-                //{
-                //    offsety = (h - thumbHeight) / svImg.ScrollableHeight * svImg.VerticalOffset;
-                //}
-
-
-                //Rect rect = new Rect(-offsetx, -offsety, w, h);
-
-                double percentX = this._dynamic.Rect.X / this.canvas.ActualWidth;
-
-                double percentY = this._dynamic.Rect.Y / this.canvas.ActualHeight;
-
-                //svImg.ScrollToHorizontalOffset(percentX * svImg.ExtentWidth);
-
-                //svImg.ScrollToVerticalOffset(percentY * svImg.ExtentHeight);
-
-                double timeH = this._dynamic.Rect.Width / this.canvas.ActualWidth;
-                double timeW = this._dynamic.Rect.Height / this.canvas.ActualHeight;
-
-                double w = mask.ActualWidth * timeW;
-                double h = mask.ActualHeight * timeH;
-
-                Rect rect = new Rect(percentX * mask.ActualWidth, percentY * mask.ActualHeight, h, w);
-
-                mask.UpdateSelectionRegion(rect, true);
+                this.ShowScaleWithRect(this._dynamic.Rect);
 
                 _dynamic.Visibility = Visibility.Collapsed;
             }
@@ -621,7 +547,42 @@ namespace ImageView
 
         }
 
+        void  ShowScaleWithRect(Rect rect)
+        { 
 
+            if (imgWidth == 0 || imgHeight == 0)
+                return;
+
+            double percentX = rect.X / this.canvas.ActualWidth;
+
+            double percentY = rect.Y / this.canvas.ActualHeight;
+
+            double timeW = rect.Width / this.canvas.ActualWidth;
+            double timeH = rect.Height / this.canvas.ActualHeight; 
+
+            double w = mask.ActualWidth * timeW;
+            double h = mask.ActualHeight * timeH;
+
+
+            //  Message：设置缩放比例  
+            Scale = 1 / Math.Max(timeW, timeH);
+
+            this.txtZoom.Text = ((int)(Scale * 100)).ToString() + "%";
+
+            if (sb_Tip != null) sb_Tip.Begin();
+
+            SetImageByScale();
+
+            //  Message：更改区域位置
+            Rect rectMark = new Rect(percentX * mask.ActualWidth, percentY * mask.ActualHeight, w, h);
+
+            Debug.WriteLine(rectMark.Width);
+            Debug.WriteLine(rectMark.Height);
+
+            mask.UpdateSelectionRegion(rectMark, true);
+
+
+        }
 
         #region - 成员变量 -
 

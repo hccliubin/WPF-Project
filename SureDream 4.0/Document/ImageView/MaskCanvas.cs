@@ -378,10 +378,10 @@ namespace ImageView
 
             selectionRegion = region;
 
-            UpdateIndicator(selectionRegion);
-
             if (LoationChanged != null && flag)
             {
+                UpdateIndicator(selectionRegion);
+
                 LoationChanged(this, new LoactionArgs(region.Left / this.Width, region.Top / this.Height));
             }
         }
@@ -413,6 +413,10 @@ namespace ImageView
 
         private void UpdateIndicator(Rect region)
         {
+
+            System.Diagnostics.Debug.WriteLine(region.Width);
+            System.Diagnostics.Debug.WriteLine(region.Height);
+
             if (indicator == null)
                 return;
 
