@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ImageView</RootNamespace>
     <AssemblyName>ImageView</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -24,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,13 +35,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CDTY.DataAnalysis.Entity">
+      <HintPath>..\..\Product\Dll\CDTY.DataAnalysis.Entity.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Drawing" />
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -47,6 +54,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Ty.Base.WpfBase">
+      <HintPath>..\..\Product\Debug\Ty.Base.WpfBase.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -57,6 +67,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FtpHelper.cs" />
+    <Compile Include="IImagePlayerService.cs" />
+    <Compile Include="ImageButton.cs" />
+    <Compile Include="Model\ImgMarkEntity.cs" />
+    <Compile Include="Model\MarkTagEntity.cs" />
+    <Compile Include="Provider\ComponetProvider.cs" />
+    <Compile Include="Provider\Hook\HookApi.cs" />
+    <Compile Include="Provider\Hook\HookKeyboardEngine.cs" />
+    <Compile Include="Provider\Hook\HookMouseEngine.cs" />
+    <Compile Include="Provider\Hook\HookType.cs" />
+    <Compile Include="Provider\Hook\ShortCutHookService.cs" />
+    <Compile Include="Provider\IconButton.cs" />
+    <Compile Include="Provider\ImageViewCommands.cs" />
+    <Compile Include="Provider\IRectangleStroke.cs" />
+    <Compile Include="Provider\RectangleLayer.cs" />
+    <Compile Include="Provider\RectangleShape.cs" />
+    <Compile Include="Service\IImgOperate.cs" />
+    <Compile Include="SharedTool.cs" />
+    <Compile Include="ViewModel\ImageControlViewModel.cs" />
+    <Compile Include="ViewModel\SampleVieModel.cs" />
+    <Compile Include="View\ImageFullScreenWindow.xaml.cs">
+      <DependentUpon>ImageFullScreenWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ImageOprateCtrEntity.xaml.cs">
+      <DependentUpon>ImageOprateCtrEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ImagePartView.xaml.cs">
+      <DependentUpon>ImagePartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ImagePlayerControl.xaml.cs">
+      <DependentUpon>ImagePlayerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ImageView.xaml.cs">
+      <DependentUpon>ImageView.xaml</DependentUpon>
+    </Compile>
     <Page Include="ImageViews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -79,6 +124,34 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Theme\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImageFullScreenWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImageOprateCtrEntity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImagePartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImagePlayerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MaskCanvas.cs" />
@@ -99,6 +172,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,6 +192,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="2-27.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ImageConfig.xml" />
+    <Resource Include="Resources\声音.png" />
+    <Resource Include="Resources\开始.png" />
+    <Resource Include="Resources\循环播放.png" />
+    <Resource Include="Resources\放大.png" />
+    <Resource Include="Resources\暂停.png" />
+    <Resource Include="Resources\进度条位置-声音.png" />
+    <Resource Include="Resources\进度条位置-视频播放.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

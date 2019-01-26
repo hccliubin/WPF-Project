@@ -13,7 +13,34 @@ namespace ImageView
     {
         public MaskCanvas()
         {
-            Loaded += OnLoaded;
+            //Loaded += OnLoaded;
+
+            maskRectLeft.Fill = maskRectRight.Fill = maskRectTop.Fill = maskRectBottom.Fill = MaskWindowBackground;
+
+            SetLeft(maskRectLeft, 0);
+            SetTop(maskRectLeft, 0);
+            SetRight(maskRectRight, 0);
+            SetTop(maskRectRight, 0);
+            SetTop(maskRectTop, 0);
+            SetBottom(maskRectBottom, 0);
+            maskRectLeft.Height = ActualHeight;
+
+            Children.Add(maskRectLeft);
+            Children.Add(maskRectRight);
+            Children.Add(maskRectTop);
+            Children.Add(maskRectBottom);
+
+            selectionBorder.Stroke = SelectionBorderBrush;
+            selectionBorder.StrokeThickness = 1;
+
+            Children.Add(selectionBorder);
+
+            indicator = new IndicatorObject(this);
+            indicator.Visibility = System.Windows.Visibility.Hidden;
+            indicator.Background = Brushes.Transparent;
+            Children.Add(indicator);
+
+            CompositionTarget.Rendering += OnCompositionTargetRendering;
         }
 
         public System.Windows.Media.Brush SelectionBorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 255, 255));
