@@ -186,6 +186,10 @@ namespace Ty.Component.ImageControl
                 var rotate = tfGroup.Children[2] as RotateTransform;
                 rotate.Angle += angle;
             }
+
+            this.grid_mark.Visibility = Visibility.Visible;
+
+            //this.RefreshMarkVisible();
         }
 
         void btnNarrow_Click(object sender, RoutedEventArgs e)
@@ -215,6 +219,22 @@ namespace Ty.Component.ImageControl
             if (sb_Tip != null) sb_Tip.Begin();
 
             SetImageByScale();
+        }
+
+        /// <summary> 设置初始图片为平铺整个控件 </summary>
+        void RefreshMarkVisible()
+        {
+            if (imgWidth == 0 || imgHeight == 0)
+                return; 
+
+            if(Scale > Math.Min(svImg.ActualWidth / imgWidth, svImg.ActualHeight / imgHeight))
+            {
+                this.grid_mark.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.grid_mark.Visibility = Visibility.Collapsed;
+            }
         }
 
         void btnEnlarge_Click(object sender, RoutedEventArgs e)
@@ -271,7 +291,7 @@ namespace Ty.Component.ImageControl
             if (imgWidth == 0 || imgHeight == 0)
                 return;
 
-            var img = sender as Grid;
+            var img = sender as UIElement;
             if (img == null)
             {
                 return;
@@ -282,7 +302,7 @@ namespace Ty.Component.ImageControl
             }
         }
 
-        private void Domousemove(Grid img, MouseEventArgs e)
+        private void Domousemove(UIElement img, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
             {
@@ -303,7 +323,7 @@ namespace Ty.Component.ImageControl
 
         void control_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var img = sender as Grid;
+            var img = sender as UIElement;
             if (img == null)
             {
                 return;
@@ -315,7 +335,8 @@ namespace Ty.Component.ImageControl
 
         void control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var img = sender as Grid;
+
+            var img = sender as UIElement;
 
             if (img == null)
             {
@@ -347,9 +368,17 @@ namespace Ty.Component.ImageControl
             {
                 if (imgWidth == 0 || imgHeight == 0) return;
 
-                if (Scale < 0.15 && e.Delta < 0) return;
+                if (Scale < 0.01 && e.Delta < 0)
+                {
+                    this.txtZoom.Text = "已缩到最小";
+                    return;
+                }
 
-                if (Scale > 16 && e.Delta > 0) return;
+                if (Scale > 16 && e.Delta > 0)
+                {
+                    this.txtZoom.Text = "已放到最大";
+                    return;
+                }
 
                 Scale = Scale * (e.Delta > 0 ? 1.2 : 1 / 1.2);
 
@@ -364,7 +393,7 @@ namespace Ty.Component.ImageControl
                 if (sb_Tip != null)
                     sb_Tip.Begin();
 
-                SetImageByScale();
+                SetImageByScale(); 
 
             }
         }
@@ -384,6 +413,8 @@ namespace Ty.Component.ImageControl
             //vb.Height = Scale * this.control.ActualHeight;
 
             SetOffSetByRate();
+
+            this.RefreshMarkVisible();
         }
 
         /// <summary>
@@ -581,7 +612,7 @@ namespace Ty.Component.ImageControl
             //  Message：设置缩放比例
             Scale = Math.Min(svImg.ActualWidth / imgWidth, svImg.ActualHeight / imgHeight);
 
-            Scale = Scale / Math.Min(timeW, timeH);
+            Scale = Scale / Math.Max(timeW, timeH);
 
             this.txtZoom.Text = ((int)(Scale * 100)).ToString() + "%";
 
@@ -1481,20 +1512,24 @@ namespace Ty.Component.ImageControl
                 return;
             }
 
-            if (this.ViewModel == null)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Debug.WriteLine("请先加载图片数据，在添加标定信息");
-                return;
-            }
+                if (this.ViewModel == null)
+                {
+                    Debug.WriteLine("请先加载图片数据，在添加标定信息");
+                    return;
+                }
 
-            foreach (var item in markEntityList)
-            {
-                SampleVieModel vm = new SampleVieModel(item);
+                foreach (var item in markEntityList)
+                {
+                    SampleVieModel vm = new SampleVieModel(item);
 
-                this.ViewModel.SampleCollection.Add(vm);
-            }
+                    this.ViewModel.SampleCollection.Add(vm);
+                }
 
-            this.RefreshAll();
+                this.RefreshAll();
+            });
+
         }
 
         /// <summary>

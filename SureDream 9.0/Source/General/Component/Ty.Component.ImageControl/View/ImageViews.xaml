@@ -130,7 +130,7 @@
             <Grid Background="#19000000"/>
         </ContentControl>
 
-        <Grid Margin="0" Width="150" Height="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#4C000000">
+        <Grid x:Name="grid_mark" Margin="0" Width="150" Height="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#4C000000">
             <ContentControl x:Name="controlmask" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
                 <Image x:Name="imgless"  
                            LayoutTransform="{StaticResource TfGroup}" 

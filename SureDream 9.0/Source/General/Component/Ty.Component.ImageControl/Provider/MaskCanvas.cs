@@ -382,6 +382,8 @@ namespace Ty.Component.ImageControl
 
             if (LoationChanged != null && flag)
             {
+              
+
                 LoationChanged(this, new LoactionArgs(region.Left / this.Width, region.Top / this.Height));
             }
         }
