@@ -64,7 +64,7 @@ namespace ImageView
                     view.imgless.Source = imgSource;
                     view.GetImageWidthHeight();
 
-                    //view.SetFullImage();
+                    view.SetFullImage();
                 }
             }
         }
@@ -112,6 +112,17 @@ namespace ImageView
 
 
             SetbtnActualsizeEnable();
+
+            //  Message：注册鼠标悬停事件，注意删除和新增的时候
+            mouseEventHandler = (l, k) =>
+            {
+                RectangleShape rectangleShape = l as RectangleShape;
+
+                ShowPartWithShape(rectangleShape);
+            };
+
+
+            this.RegisterDefaltApi();
         }
 
         //bool _loationFlag = false;
@@ -193,7 +204,7 @@ namespace ImageView
             Scale = Math.Min(Scale, svImg.ActualHeight / imgHeight);
 
             SetbtnActualsizeEnable();
- 
+
             btnNarrow.IsEnabled = false;
 
             this.txtZoom.Text = ((int)(Scale * 100)).ToString() + "%";
@@ -547,8 +558,8 @@ namespace ImageView
 
         }
 
-        void  ShowScaleWithRect(Rect rect)
-        { 
+        void ShowScaleWithRect(Rect rect)
+        {
 
             if (imgWidth == 0 || imgHeight == 0)
                 return;
@@ -558,14 +569,16 @@ namespace ImageView
             double percentY = rect.Y / this.canvas.ActualHeight;
 
             double timeW = rect.Width / this.canvas.ActualWidth;
-            double timeH = rect.Height / this.canvas.ActualHeight; 
+            double timeH = rect.Height / this.canvas.ActualHeight;
 
             double w = mask.ActualWidth * timeW;
             double h = mask.ActualHeight * timeH;
 
 
-            //  Message：设置缩放比例  
-            Scale = 1 / Math.Max(timeW, timeH);
+            //  Message：设置缩放比例
+            Scale = Math.Min(svImg.ActualWidth / imgWidth, svImg.ActualHeight / imgHeight);
+
+            Scale = Scale / Math.Min(timeW, timeH);
 
             this.txtZoom.Text = ((int)(Scale * 100)).ToString() + "%";
 
@@ -580,6 +593,9 @@ namespace ImageView
             Debug.WriteLine(rectMark.Height);
 
             mask.UpdateSelectionRegion(rectMark, true);
+
+            //svImg.ScrollToHorizontalOffset(percentX * svImg.ExtentWidth);
+            //svImg.ScrollToVerticalOffset(percentY * svImg.ExtentHeight);
 
 
         }
@@ -610,24 +626,6 @@ namespace ImageView
 
         #endregion
 
-        public void SetMarkType(MarkType markType)
-        {
-
-            this._markType = markType;
-
-            if (markType == MarkType.None)
-            {
-                this.gridMouse.Visibility = Visibility.Visible;
-
-                _dynamic.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                this.gridMouse.Visibility = Visibility.Hidden;
-            }
-
-
-        }
 
         //public void Test()
         //{
@@ -658,6 +656,8 @@ namespace ImageView
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                this.RefreshCurrentText();
+
                 if (this.ViewModel == null)
                 {
                     this.ViewModel = new ImageControlViewModel(this);
@@ -769,6 +769,18 @@ namespace ImageView
                 RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
                 this.RaiseEvent(args);
             });
+
+        }
+
+        void RefreshCurrentText()
+        {
+            if (this.Collection == null) return;
+
+            if (this.current == null) return;
+
+            var index = this.Collection.ToList().FindIndex(l => l == this.current.Value);
+
+            this.btn_play_current.Content = $"第{(index+1).ToString()}/{this.Collection?.Count}张";
         }
 
         //声明和注册路由事件
@@ -789,6 +801,7 @@ namespace ImageView
         /// </summary>
         public void OnNextClick()
         {
+
             this.Clear();
 
             if (Current != null)
@@ -941,23 +954,26 @@ namespace ImageView
         /// </summary>
         public void Clear()
         {
-            if (this.ViewModel == null) return;
-
-            //  Do：清理动态形状
-            this._dynamic.Visibility = Visibility.Collapsed;
-
-            //  Do：清理所有样本形状
-            foreach (var sample in this.ViewModel.SampleCollection)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                foreach (var item in sample.RectangleLayer)
+                if (this.ViewModel == null) return;
+
+                //  Do：清理动态形状
+                this._dynamic.Visibility = Visibility.Collapsed;
+
+                //  Do：清理所有样本形状
+                foreach (var sample in this.ViewModel.SampleCollection)
                 {
-                    item.Clear(this.canvas);
+                    foreach (var item in sample.RectangleLayer)
+                    {
+                        item.Clear(this.canvas);
+                    }
+
+                    sample.RectangleLayer.Clear();
                 }
 
-                sample.RectangleLayer.Clear();
-            }
-
-            this.ViewModel.SampleCollection.Clear();
+                this.ViewModel.SampleCollection.Clear();
+            });
 
             ////  Do：隐藏蒙版
             //this.HideRectangleClip();
@@ -1065,6 +1081,8 @@ namespace ImageView
             ////  Do：设置当前蒙版的剪切区域
             //this.rectangle_clip.Clip = geo;
 
+            this.ShowScaleWithRect(rectangle.Rect);
+
             _dynamic.Visibility = Visibility.Collapsed;
         }
 
@@ -1081,8 +1099,6 @@ namespace ImageView
             _currentShap = this.ViewModel.SampleCollection.First().RectangleLayer.First() as RectangleShape;
 
 
-
-
             foreach (var sample in this.ViewModel.SampleCollection)
             {
                 foreach (var shape in sample.RectangleLayer)
@@ -1096,11 +1112,12 @@ namespace ImageView
                     else
                     {
                         rectangleShape.MouseEnter -= mouseEventHandler;
-                    }
 
+                        //  Message：恢复到平铺样式
+                        this.SetFullImage();
+                    }
                 }
             }
-
         }
 
         void ShowCurrentShape()
@@ -1233,6 +1250,74 @@ namespace ImageView
         {
             this.SetFullScreen(true);
         }
+
+        private void UserControl_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            this.SetFullScreen(true);
+        }
+
+        /// <summary> 幻灯片播放 </summary>
+        private void Btn_play_Click(object sender, RoutedEventArgs e)
+        {
+            this.tool_normal.Visibility = Visibility.Collapsed;
+            this.tool_play.Visibility = Visibility.Visible;
+
+            this.RefreshPlay();
+        }
+
+        private void Btn_play_addspeed_Click(object sender, RoutedEventArgs e)
+        {
+            this.ImgPlaySpeedUp();
+        }
+
+        private void Btn_play_mulspeed_Click(object sender, RoutedEventArgs e)
+        {
+            this.ImgPlaySpeedDown();
+        }
+
+        private void Btn_play_start_Click(object sender, RoutedEventArgs e)
+        {
+            this.RefreshPlay();
+        }
+
+        /// <summary> 刷新播放状态 </summary>
+        void RefreshPlay()
+        {
+            if (this.btn_play_start.ToolTip.ToString() == "播放")
+            {
+                this.PlayStart();
+            }
+            else
+            {
+                this.PlayStop();
+            }
+        }
+
+        /// <summary> 开始播放 </summary>
+        void PlayStart()
+        {
+            this.SetImgPlay(ImgPlayMode.正序);
+            this.btn_play_start.ToolTip = "暂停";
+            this.path_stat.Visibility = Visibility.Collapsed;
+            this.path_stop.Visibility = Visibility.Visible;
+        }
+        /// <summary> 停止播放 </summary>
+        void PlayStop()
+        {
+            this.SetImgPlay(ImgPlayMode.停止播放);
+            this.btn_play_start.ToolTip = "播放";
+            this.path_stat.Visibility = Visibility.Visible;
+            this.path_stop.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary> 退出播放 </summary>
+        private void Btn_play_close_Click(object sender, RoutedEventArgs e)
+        {
+            this.tool_normal.Visibility = Visibility.Visible;
+            this.tool_play.Visibility = Visibility.Collapsed;
+
+            this.PlayStop();
+        }
     }
 
 
@@ -1346,11 +1431,20 @@ namespace ImageView
         public void ImgPlaySpeedDown()
         {
             this.Speed = 2 * this.Speed;
+
+            this.RefreshSpeedText();
+        }
+
+        void RefreshSpeedText()
+        {
+            this.btn_play_speed.Content = $"间隔{this.Speed }秒";
         }
 
         public void ImgPlaySpeedUp()
         {
             this.Speed = this.Speed / 2;
+
+            this.RefreshSpeedText();
         }
 
         public void LoadCodes(Dictionary<string, string> codeDic)
@@ -1738,6 +1832,41 @@ namespace ImageView
         public void SetRotateRight()
         {
             this.Rotate(90);
+        }
+
+
+
+        public void SetMarkType(MarkType markType)
+        {
+
+            this._markType = markType;
+
+            if (markType == MarkType.None)
+            {
+                this.gridMouse.Visibility = Visibility.Visible;
+
+                _dynamic.Visibility = Visibility.Collapsed;
+
+                //  Message：设置光标和区域放大
+                this.gridMouse.Cursor = Cursors.Hand;
+            }
+            else if (markType == MarkType.Enlarge)
+            {
+                this.gridMouse.Visibility = Visibility.Hidden;
+
+                //  Message：设置光标和区域放大
+                this.canvas.Cursor = Cursors.Pen;
+
+            }
+            else
+            {
+                this.gridMouse.Visibility = Visibility.Hidden;
+
+                //  Message：设置光标和区域放大
+                this.canvas.Cursor = Cursors.Cross;
+            }
+
+
         }
     }
 }
