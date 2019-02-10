@@ -229,6 +229,24 @@ namespace Ty.Component.ImageControl
 
         string GetCurrentUrl();
 
+        /// <summary> 设置缩放比例 </summary>
+        double WheelScale { get; set; }
+
+        /// <summary> 设置幻灯片播放 </summary>
+        void StartSlidePlay();
+
+        /// <summary> 设置幻灯片停止 </summary>
+        void StopSlidePlay();
+
+        /// <summary> 设置原始尺寸 </summary>
+        void SetOriginalSize();
+
+        /// <summary> 设置自适应尺寸 </summary>
+        void SetAdaptiveSize();
+
+        /// <summary> 设置滚轮模式 </summary>
+        void SetWheelMode(bool value);
+
     }
 
     /// <summary>

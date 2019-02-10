@@ -935,6 +935,7 @@ namespace Ty.Component.ImageControl
         public MarkType MarkType { get; set; }
         public double Scale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsWheelPlay { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double WheelScale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event ImgMarkHandler ImgMarkOperateEvent;
 
@@ -1256,6 +1257,31 @@ namespace Ty.Component.ImageControl
         }
 
         public string GetCurrentUrl()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartSlidePlay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopSlidePlay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetOriginalSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetAdaptiveSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetWheelMode(bool value)
         {
             throw new NotImplementedException();
         }

@@ -7,9 +7,10 @@
     xmlns:local1="clr-namespace:Ty.Component.ImageControl"
     x:Class="Ty.Component.ImageControl.ImageViews" 
              mc:Ignorable="d" MouseDoubleClick="UserControl_MouseDoubleClick"
-             d:DesignHeight="300" d:DesignWidth="800">
-    <UserControl.Resources>
+             d:DesignHeight="300"  d:DesignWidth="800">
 
+
+    <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--自定义资源引用-->
@@ -49,25 +50,45 @@
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
 
+            <RoutedUICommand x:Key="Resource.Command.FullScreen" Text="剪切1" />
+
             <!--右键菜单资源-->
             <ContextMenu x:Key="Resource.Menu.RightMouse">
                 <MenuItem Header="图片美化" IsEnabled="False"/>
                 <MenuItem Header="图片另存为"  IsEnabled="False"/>
                 <MenuItem Header="复制"  IsEnabled="False"/>
-                <MenuItem Header="全屏播放"  Click="UserControl_MouseDoubleClick"/>
+                <MenuItem Header="全屏播放" Command="{Binding Source={StaticResource Resource.Command.FullScreen}}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget}"/>
+                <MenuItem Header="取消全屏"  Click="menu_closefullscreen_Click"/>
                 <MenuItem Header="图片信息"   IsEnabled="False"/>
                 <MenuItem Header="删除" Click="Btn_delete_Click"/>
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="grid_all" ClipToBounds="True"  ContextMenu="{StaticResource Resource.Menu.RightMouse}">
-        <ScrollViewer 
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{StaticResource Resource.Command.FullScreen}" CanExecute="CommandBinding_FullScreen_CanExecute" Executed="CommandBinding_FullScreen_Executed"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.LastImage}" 
+                        Executed="CommandBinding_LastImage_Executed" 
+                        CanExecute="CommandBinding_LastImage_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:ImageViewCommands.NextImage}" 
+                        Executed="CommandBinding_NextImage_Executed" 
+                        CanExecute="CommandBinding_NextImage_CanExecute"/>
+
+    </UserControl.CommandBindings>
+
+    <Grid x:Name="grid_all" ClipToBounds="True"  ContextMenu="{StaticResource Resource.Menu.RightMouse}"> 
+
+        <ContentControl  x:Name="gridMouse">
+            <Grid Background="#19000000">
+                <ScrollViewer 
 			x:Name="svImg"
 			VerticalScrollBarVisibility="Hidden"
 			HorizontalScrollBarVisibility="Hidden" >
-            <Grid x:Name="rootGrid" Background="#FFDAD5D5">
-                <!--<ContentControl x:Name="control" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+
+                    <Grid x:Name="rootGrid" Background="#FFDAD5D5">
+                        <!--<ContentControl x:Name="control" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
                     <Image x:Name="imgBig" 
                            LayoutTransform="{StaticResource TfGroup}"  
                            HorizontalAlignment="Center" 
@@ -76,39 +97,38 @@
 					</Image>
 				</ContentControl>-->
 
-                <ContentControl x:Name="control"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
-                    <Viewbox x:Name="vb" Stretch="Uniform" LayoutTransform="{StaticResource TfGroup}"   HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <InkCanvas x:Name="canvas" 
-                           PreviewMouseLeftButtonDown="InkCanvas_MouseDown" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                           MouseMove="InkCanvas_MouseMove" 
+                        <ContentControl x:Name="control"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                            <!--绘图区域-->
+                            <Viewbox x:Name="vb" Stretch="Uniform" LayoutTransform="{StaticResource TfGroup}"   HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <InkCanvas x:Name="canvas"  MouseMove="InkCanvas_MouseMove" PreviewMouseLeftButtonDown="InkCanvas_MouseDown" 
                            PreviewMouseUp="InkCanvas_MouseUp" 
                            MouseUp="InkCanvas_MouseUp"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Cursor="Cross" MinHeight="0" MinWidth="0"
                            ForceCursor="True" 
                            EditingMode="None" 
-                          >
-                                <InkCanvas.DefaultDrawingAttributes>
-                                    <DrawingAttributes Color="Transparent"/>
-                                </InkCanvas.DefaultDrawingAttributes>
-                                <InkCanvas.RenderTransform>
-                                    <RotateTransform Angle="0"/>
-                                </InkCanvas.RenderTransform>
-                                <!--<InkCanvas.Background>
+                          > 
+                                        <InkCanvas.DefaultDrawingAttributes>
+                                            <DrawingAttributes Color="Transparent"/>
+                                        </InkCanvas.DefaultDrawingAttributes>
+                                        <InkCanvas.RenderTransform>
+                                            <RotateTransform Angle="0"/>
+                                        </InkCanvas.RenderTransform>
+                                        <!--<InkCanvas.Background>
                         <ImageBrush x:Name="imgBig" ImageSource="2-27.jpg"/>
                     </InkCanvas.Background>-->
 
-                                <Image x:Name="imgBig"  Stretch="Uniform"/>
+                                        <Image x:Name="imgBig"  Stretch="Uniform"/>
 
-                                <!--<Image x:Name="imgBig"  Stretch="Uniform" Source="{Binding ImageSource}" />-->
+                                        <!--<Image x:Name="imgBig"  Stretch="Uniform" Source="{Binding ImageSource}" />-->
 
-                                <local1:DynamicShape x:Name="_dynamic" 
+                                        <local1:DynamicShape x:Name="_dynamic" 
                                         Visibility="Collapsed" 
                                         WidthMatch="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicMatch/@Width}"
                                         HeightMatch="{Binding Source={StaticResource Resource.XmlDataProvider.ImageControl},XPath=DynamicMatch/@Height}"/>
 
-                                <!--<Rectangle x:Name="rectangle_clip" Visibility="Collapsed" 
+                                        <!--<Rectangle x:Name="rectangle_clip" Visibility="Collapsed" 
                                Width="{Binding ElementName=canvas,Path=ActualWidth}" 
                                Height="{Binding ElementName=canvas,Path=ActualHeight}" 
 >
@@ -117,17 +137,15 @@
                         </Rectangle.Fill>
                     </Rectangle>-->
 
-                            </InkCanvas>
-                        </Grid>
-                    </Viewbox>
-                </ContentControl>
+                                    </InkCanvas>
+                                </Grid>
+                            </Viewbox>
+                        </ContentControl>
 
-            </Grid>
+                    </Grid>
 
-        </ScrollViewer>
-
-        <ContentControl  x:Name="gridMouse" >
-            <Grid Background="#19000000"/>
+                </ScrollViewer>
+            </Grid> 
         </ContentControl>
 
         <Grid x:Name="grid_mark" Margin="0" Width="150" Height="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#4C000000">
@@ -142,6 +160,7 @@
                               Width="{Binding ActualWidth, ElementName=controlmask}"
                               Height="{Binding ActualHeight, ElementName=controlmask}" Margin="0"/>
         </Grid>
+       
         <Border x:Name="border" BorderThickness="0" Margin="0,0,0,-46" VerticalAlignment="Bottom" HorizontalAlignment="Center" CornerRadius="5,5,0,0" Background="#66000000">
 
             <Grid>
@@ -212,9 +231,9 @@
 
                     <!--<CheckBox x:Name="cb_marktype" Content="设置标定模式" Foreground="White" VerticalAlignment="Center" Checked="Cb_marktype_Checked" Unchecked="Cb_marktype_Unchecked"/>-->
 
-                    <Button x:Name="btn_delete" ToolTip="删除" Click="Btn_delete_Click" Margin="5,0"  Style="{DynamicResource ImageToolBtn}" Cursor="Hand">
+                    <!--<Button x:Name="btn_delete" ToolTip="删除" Click="Btn_delete_Click" Margin="5,0"  Style="{DynamicResource ImageToolBtn}" Cursor="Hand">
                         <Path Data="M878.54 226.544h-40.717v651.469c0 44.976-36.458 81.434-81.434 81.434H267.787c-44.976 0-81.434-36.458-81.434-81.434V226.544h-40.717c-22.488 0-40.717-18.229-40.717-40.717s18.229-40.717 40.717-40.717h244.301c0-44.976 36.458-81.434 81.434-81.434h81.434c44.976 0 81.434 36.458 81.434 81.434H878.54c22.488 0 40.717 18.229 40.717 40.717s-18.229 40.717-40.717 40.717z m-122.151 0H267.787v651.469h488.602V226.544z m-325.734 81.434c22.488 0 40.717 18.229 40.717 40.717v407.168c0 22.488-18.229 40.717-40.717 40.717s-40.717-18.229-40.717-40.717V348.695c0-22.488 18.229-40.717 40.717-40.717z m162.867 0c22.488 0 40.717 18.229 40.717 40.717v407.168c0 22.488-18.229 40.717-40.717 40.717s-40.717-18.229-40.717-40.717V348.695c0-22.488 18.229-40.717 40.717-40.717z" Stretch="Uniform" Fill="{Binding Foreground, ElementName=btn_delete}" Margin="3,0" RenderTransformOrigin="0.5,0.5" Width="15" Height="18"/>
-                    </Button>
+                    </Button>-->
 
                     <CheckBox x:Name="btn_wheel" ToolTip="滚轮模式"  VerticalAlignment="Center" Margin="5,0" Cursor="Hand">
 
@@ -265,10 +284,31 @@
                 </StackPanel>
             </Grid>
         </Border>
+        
         <Grid x:Name="gridTips" IsHitTestVisible="False" HorizontalAlignment="Center" MinWidth="75" VerticalAlignment="Center" Visibility="Collapsed" Opacity="0">
             <Rectangle Fill="#B2000000" RadiusX="5" RadiusY="5"/>
             <TextBlock x:Name="txtZoom" HorizontalAlignment="Center" FontSize="18" Text="5%" VerticalAlignment="Center" Margin="10,5" Foreground="White"/>
         </Grid>
+
+        <!--上一页按钮-->
+        <local:IconButton  x:Name="button_last"  
+                           Grid.Column="1"
+                           FIcon="&#xe671;" 
+                           Margin="10,0" HorizontalAlignment="Left" 
+                           Command="{x:Static local:ImageViewCommands.LastImage}" 
+                           ToolTip="{Binding Source={x:Static local:ImageViewCommands.LastImage},Path=Text}"
+                           Style="{StaticResource Style.IconButton.Default}"  Height="60"  Width="20"/>
+
+        <!--下一页按钮-->
+        <local:IconButton  x:Name="button_next"  
+                           Grid.Column="1" 
+                           FIcon="&#xe66d;" 
+                           Margin="10,0"  
+                           HorizontalAlignment="Right" 
+                           Command="{x:Static local:ImageViewCommands.NextImage}" 
+                           ToolTip="{Binding Source={x:Static local:ImageViewCommands.NextImage},Path=Text}"
+                           Style="{StaticResource Style.IconButton.Default}"  
+                           Height="60"  Width="20"/>
 
     </Grid>
 </UserControl>

@@ -33,7 +33,7 @@ namespace Ty.Component.ImageControl
             double x1 = SystemParameters.PrimaryScreenWidth;//得到屏幕整体宽度
             double y1 = SystemParameters.PrimaryScreenHeight;//得到屏幕整体高度
 
-           string id=  Guid.NewGuid().ToString();
+            string id = Guid.NewGuid().ToString();
 
             this.Height = y;
             this.Width = x;
@@ -63,7 +63,7 @@ namespace Ty.Component.ImageControl
             this.ClearClose();
         }
 
-        void ClearClose()
+        public void ClearClose()
         {
             this.grid_all.Children.Clear();
 
@@ -82,11 +82,11 @@ namespace Ty.Component.ImageControl
 
         private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.OriginalSource is Image)&& !(e.OriginalSource is Grid)) return;
+            if (!(e.OriginalSource is Image) && !(e.OriginalSource is Grid)) return;
 
 
             this.ClearClose();
         }
-        
+
     }
 }
