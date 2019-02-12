@@ -54,9 +54,6 @@ namespace WpfApp1
             Debug.WriteLine("Slider_MouseDown");
 
 
-            Debug.WriteLine(this.etet.Value);
-
-
         }
 
         private void Slider_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)

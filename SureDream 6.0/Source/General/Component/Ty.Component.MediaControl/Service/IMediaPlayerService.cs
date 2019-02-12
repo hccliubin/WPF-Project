@@ -88,5 +88,14 @@ namespace Ty.Component.MediaControl
         /// 减慢播放速度
         /// </summary>
         void PlaySpeedDown();
+
+
+        /// <summary> 增加5s </summary>
+        void PlayStepUp();
+
+        /// <summary> 减少5s </summary>
+        void PlayStepDown();
+
+
     }
 }

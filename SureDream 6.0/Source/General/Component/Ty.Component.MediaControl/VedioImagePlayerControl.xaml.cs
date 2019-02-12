@@ -33,6 +33,9 @@ namespace Ty.Component.MediaControl
         public IImagePlayerService ImagePlayerService { get; set; }
 
         MediaPlayType _type;
+
+        public event Action FullScreenHandle;
+
         /// <summary> 更新播放类型 </summary>
         void RefreshPlayType(MediaPlayType type)
         {
@@ -100,6 +103,11 @@ namespace Ty.Component.MediaControl
             {
                 this.ImagePlayerService.ImgPlaySpeedDown();
             }
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.FullScreenHandle?.Invoke();
         }
     }
 }

@@ -12,6 +12,9 @@ namespace Ty.Component.MediaControl
     /// </summary>
     interface IVdeioImagePlayerService
     {
+        /// <summary> 全屏事件 </summary>
+        event Action FullScreenHandle;
+
         /// <summary> 视频播放服务 </summary>
         IMediaPlayerService MediaPlayerService { get; set; }
 

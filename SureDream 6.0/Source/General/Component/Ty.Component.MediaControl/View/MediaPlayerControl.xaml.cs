@@ -193,6 +193,7 @@ namespace Ty.Component.MediaControl
         void Play()
         {
             this.media_media.Play();
+
             this._timer.Start();
 
             this.toggle_play.IsChecked = false;
@@ -361,7 +362,31 @@ namespace Ty.Component.MediaControl
             }
         }
 
+        private void Btn_addspeed_Click(object sender, RoutedEventArgs e)
+        {
+            //this.PlaySpeedUp();
 
+
+        } 
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (this.toggle_play.IsChecked.Value)
+            {
+                this.Play();
+
+                //this.toggle_play.IsChecked = false;
+            }
+            else
+            {
+
+              
+
+                this.Pause();
+
+                //this.toggle_play.IsChecked = true;
+            }
+        }
     }
 
     public partial class MediaPlayerControl : IMediaPlayerService
@@ -478,11 +503,43 @@ namespace Ty.Component.MediaControl
         public void PlaySpeedUp()
         {
             this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
+
+            this.media_speed.Text = this.media_media.SpeedRatio.ToString() + "X";
         }
 
         public void PlaySpeedDown()
         {
             this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
+
+            this.media_speed.Text = this.media_media.SpeedRatio.ToString() + "X";
+        }
+
+        public void PlayStepUp()
+        {
+            double v = this.media_slider.Value + TimeSpan.FromSeconds(5).Ticks;
+
+            if (v > this.media_slider.Maximum)
+            {
+                this.media_slider.Value = this.media_slider.Maximum;
+            }
+            else
+            {
+                this.media_slider.Value = v;
+            }
+        }
+
+        public void PlayStepDown()
+        {
+            double v = this.media_slider.Value - TimeSpan.FromSeconds(5).Ticks;
+
+            if (v < 0)
+            {
+                this.media_slider.Value = 0;
+            }
+            else
+            {
+                this.media_slider.Value = v;
+            }
         }
     }
 

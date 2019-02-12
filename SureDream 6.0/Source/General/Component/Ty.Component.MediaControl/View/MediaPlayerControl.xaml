@@ -126,9 +126,14 @@
                 <DockPanel>
                     <DockPanel  DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" > 
                         <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                        <!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
-                        <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>-->
+                        <!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>-->
+                        <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>
+
+                        <TextBlock  x:Name="media_speed" Text="1X" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+
                         <TextBlock Text="{Binding ElementName=media_slider,Path=Maximum,Converter={StaticResource Convert.TimeSpan}}" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+
+
                         <Slider x:Name="media_slider" 
                                 Style="{DynamicResource SliderStyle1}"   
                                 Minimum="0"
@@ -144,7 +149,7 @@
             </DockPanel>
             
             <!--视频控件-->
-            <Grid>
+            <Grid MouseDown="Grid_MouseDown">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition/>
@@ -157,9 +162,15 @@
 
                 <Viewbox Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
                     <Grid >
-                        <InkCanvas x:Name="canvas" PreviewMouseLeftButtonDown="InkCanvas_MouseDown" Background="Transparent"
-                       MouseMove="InkCanvas_MouseMove"  Cursor="Arrow" ForceCursor="True" Grid.ColumnSpan="3" Grid.RowSpan="3"
-                       EditingMode="None" PreviewMouseUp="InkCanvas_MouseUp" MouseUp="InkCanvas_MouseUp">
+                        <InkCanvas x:Name="canvas" 
+                                   PreviewMouseLeftButtonDown="InkCanvas_MouseDown" 
+                                   Background="Transparent"
+                       MouseMove="InkCanvas_MouseMove"  
+                                   Cursor="Arrow" ForceCursor="True" 
+                                   Grid.ColumnSpan="3" Grid.RowSpan="3"
+                       EditingMode="None" 
+                                   PreviewMouseUp="InkCanvas_MouseUp"
+                                   MouseUp="InkCanvas_MouseUp">
                             <InkCanvas.DefaultDrawingAttributes>
                                 <DrawingAttributes Color="Transparent"/>
                             </InkCanvas.DefaultDrawingAttributes>

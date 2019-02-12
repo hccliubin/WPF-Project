@@ -44,6 +44,13 @@ namespace SureDream.Appliaction.Demo.MediaControl
                   Debug.WriteLine("ImgPlayModeChanged:" + l);
               };
 
+            this.media.FullScreenHandle += () =>
+              {
+
+                  Debug.WriteLine("FullScreenHandle");
+
+              };
+
             //this.media.ImagePlayerService.SliderDragCompleted += (l, k) =>
             //  {
             //      Debug.WriteLine("SliderDragCompleted:" + l);

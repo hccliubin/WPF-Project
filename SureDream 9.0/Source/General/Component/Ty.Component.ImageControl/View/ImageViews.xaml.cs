@@ -428,6 +428,33 @@ namespace Ty.Component.ImageControl
 
                 SetImageByScale();
 
+                //  Message：设置放大缩小位置
+                var position = e.GetPosition(this.canvas);
+                //double X = mouseXY.X - position.X;
+                //double Y = mouseXY.Y - position.Y;
+                //mouseXY = position;
+                //if (X != 0)
+                //    svImg.ScrollToHorizontalOffset(svImg.HorizontalOffset + X);
+                //if (Y != 0)
+                //    svImg.ScrollToVerticalOffset(svImg.VerticalOffset + Y);
+
+                //svImg.ScrollToHorizontalOffset(0.5 * svImg.ExtentWidth);
+                //svImg.ScrollToVerticalOffset(0.5 * svImg.ExtentHeight);
+
+                double xd = (1 - position.X / this.canvas.ActualWidth)+0.1;
+
+                double yd = (1 - position.Y / this.canvas.ActualHeight) + 0.1;
+
+
+                Debug.WriteLine("position.X"+(1-position.X/ this.canvas.ActualWidth));
+                Debug.WriteLine("position.Y"+(1-position.Y/ this.canvas.ActualHeight));
+
+                //svImg.ScrollToHorizontalOffset((1-position.X / this.canvas.ActualWidth) * svImg.ExtentWidth);
+                //svImg.ScrollToVerticalOffset((1-position.Y /this.canvas.ActualHeight) * svImg.ExtentHeight);
+
+                svImg.ScrollToHorizontalOffset(0.3 * svImg.ExtentWidth);
+                svImg.ScrollToVerticalOffset(0.3 * svImg.ExtentHeight);
+
             }
         }
 
