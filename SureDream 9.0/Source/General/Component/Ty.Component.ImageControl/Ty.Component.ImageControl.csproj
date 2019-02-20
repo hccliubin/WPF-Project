@@ -64,6 +64,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BubbleWindow.xaml.cs">
+      <DependentUpon>BubbleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Provider\FtpHelper.cs" />
     <Compile Include="Service\IImagePlayerService.cs" />
     <Compile Include="Provider\ImageButton.cs" />
@@ -99,6 +102,13 @@
     <Compile Include="View\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PlayerToolControl.xaml.cs">
+      <DependentUpon>PlayerToolControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="BubbleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ImageViews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +144,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PlayerToolControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

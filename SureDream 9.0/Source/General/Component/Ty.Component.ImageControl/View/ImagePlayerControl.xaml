@@ -17,6 +17,8 @@
                 <ResourceDictionary Source="/Ty.Component.ImageControl;component/Theme/Slider.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+
+
             <RoutedUICommand x:Key="Resource.RouteCommand.Play" Text="播放"/>
 
             <Style x:Key="Style.Tool.Button" TargetType="{x:Type Button}">
@@ -53,6 +55,8 @@
             </Style>-->
 
             <local:TimeSpanConverter x:Key="Convert.TimeSpan"/>
+
+            <local:SpeedTextConverter x:Key="Convert.SpeedText"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -73,11 +77,12 @@
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
-                        <local:ImageOprateCtrEntity  x:Name="image_control"/>
+                        <!--<local:ImageOprateCtrEntity  x:Name="image_control"/>-->
+                        <local:ImageViews  x:Name="image_control" SpeedChanged="image_control_SpeedChanged"/>
                     </Grid>
 
-                    <DockPanel Grid.Row="1" Height="50" DockPanel.Dock="Bottom"  Background="#242424">
-                        <!--播放按钮-->
+                    <!--<DockPanel Grid.Row="1" Height="50" DockPanel.Dock="Bottom"  Background="#242424">
+                        --><!--播放按钮--><!--
                         <DockPanel Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center">
 
                             <ToggleButton x:Name="toggle_play" Margin="30,0"  Foreground="{DynamicResource S_GrayLight}" IsChecked="True" Click="ToggleButton_Click">
@@ -95,7 +100,7 @@
                                                 <Setter Property="Opacity" Value="0.8" TargetName="image"/>
                                             </Trigger>
                                             <Trigger Property="IsPressed" Value="True">
-                                                <!--<Setter Property="Fill" Value="{DynamicResource S_AccentBrush}" TargetName="ellipse"/>-->
+                                                --><!--<Setter Property="Fill" Value="{DynamicResource S_AccentBrush}" TargetName="ellipse"/>--><!--
                                                 <Setter Property="Opacity" Value="0.86" TargetName="image"/>
                                             </Trigger>
                                             <Trigger Property="IsEnabled" Value="false">
@@ -106,7 +111,7 @@
                                 </ToggleButton.Template>
                             </ToggleButton>
 
-                            <!--<local:ImageButton Margin="25,0" Width="30"   x:Name="btn_rotateTransform" ImageSource="../Resources/循环播放.png" ToolTip="循环播放"/>
+                            --><!--<local:ImageButton Margin="25,0" Width="30"   x:Name="btn_rotateTransform" ImageSource="../Resources/循环播放.png" ToolTip="循环播放"/>
 
                             <Border BorderBrush="#f1f1f1" BorderThickness="1" Height="25" Padding="10,0">
                                 <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="0,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
@@ -114,16 +119,38 @@
 
                             <Border BorderBrush="#f1f1f1" BorderThickness="1" Height="25" Padding="10,0" Margin="50,0" >
                                 <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                            </Border>-->
+                            </Border>--><!--
                         </DockPanel>
 
-                        <!--进度条-->
+                        --><!--音量--><!--
+                        <DockPanel Grid.Column="0" DockPanel.Dock="Right" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                            --><!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  Margin="5,0"   FIcon="&#xeada;" ToolTip="打開文件夾"/>-->
+                            <!--<local:MediaButton Style="{StaticResource Style.Slider.FButton}"  FIconSize="15"  FIcon="&#xe664;"/>--><!--
+                            
+                            <local:ImageButton Margin="0,0,0,0" Width="30"  ImageSource="../Resources/声音.png"  ToolTip="声音"  />
+
+                            <Slider x:Name="slider_sound" Style="{DynamicResource SliderStyle1}"  
+                            VerticalAlignment="Center" IsMoveToPointEnabled="True"
+                            Width="100" 
+                            Minimum="0" Maximum="1" SmallChange="0.01" />
+
+                            --><!--ValueChanged="Slider_sound_ValueChanged"--><!--
+
+                        </DockPanel>
+                        
+                        --><!--进度条--><!--
                         <DockPanel>
                             <DockPanel  DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" >
                                 <TextBlock Text="{Binding ElementName=media_slider,Path=Value,Converter={StaticResource Convert.TimeSpan}}" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                                <!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
-                        <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>-->
+                                --><!--<local:MediaButton x:Name="btn_stop" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe609;"  FIconSize="12" Width="18"  ToolTip="停止" DockPanel.Dock="Right" Click="Btn_stop_Click" VerticalAlignment="Center"/>
+                        <local:MediaButton x:Name="btn_addspeed" Style="{StaticResource Style.Slider.FButton}"  FIcon="&#xe9bb;"  FIconSize="15" ToolTip="加速" Width="20"  DockPanel.Dock="Right"   Click="Btn_addspeed_Click" VerticalAlignment="Center"/>--><!--
+
+                                <TextBlock  x:Name="media_speed" Text="{Binding ElementName=image_control,Path=Speed,Converter={StaticResource Convert.SpeedText}}" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+
+
                                 <TextBlock Text="{Binding ElementName=media_slider,Path=Maximum,Converter={StaticResource Convert.TimeSpan}}" Margin="15,0" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+                                
                                 
                                 <Slider x:Name="media_slider" 
                                         Style="{DynamicResource SliderStyle1}"   
@@ -131,8 +158,12 @@
                                         VerticalAlignment="Center" IsMoveToPointEnabled="True" ValueChanged="Media_slider_ValueChanged"
                                         />
                             </DockPanel>
+                            
+                            
                         </DockPanel>
-                    </DockPanel>
+
+                      
+                    </DockPanel>-->
                 </Grid>
             </Grid>
         </DockPanel>

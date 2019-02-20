@@ -933,6 +933,9 @@ namespace Ty.Component.ImageControl
     partial class ImageOprateCtrEntity : IImgOperate
     {
         public MarkType MarkType { get; set; }
+        public double Scale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsWheelPlay { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double WheelScale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event ImgMarkHandler ImgMarkOperateEvent;
 
@@ -952,6 +955,8 @@ namespace Ty.Component.ImageControl
         public event Action NextImgEvent;
 
         public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
+        public event Action<string> DeleteImgEvent;
+        public event Action<bool> FullScreenChangedEvent;
 
         internal void OnDrawMarkedMouseUp()
         {
@@ -971,7 +976,7 @@ namespace Ty.Component.ImageControl
             this.ViewModel.FigureCollection = imgFigures;
         }
 
-        public ImageOprateCtrEntity BuildEntity()
+        public Control BuildEntity()
         {
             return this;
         }
@@ -1224,6 +1229,61 @@ namespace Ty.Component.ImageControl
             entity.markOperateType = ImgMarkOperateType.Delete;
 
             this.MarkOperate(entity);
+        }
+
+        void IImgOperate.OnImgMarkOperateEvent(ImgMarkEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetEnlarge()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetNarrow()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRotateLeft()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRotateRight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetCurrentUrl()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartSlidePlay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopSlidePlay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetOriginalSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetAdaptiveSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetWheelMode(bool value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

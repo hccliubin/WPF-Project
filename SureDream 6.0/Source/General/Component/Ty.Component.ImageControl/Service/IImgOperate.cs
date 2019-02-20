@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Ty.Component.ImageControl.Provider.Hook;
 
 namespace Ty.Component.ImageControl
@@ -12,11 +13,31 @@ namespace Ty.Component.ImageControl
     /// </summary>
     public interface IImgOperate
     {
+
+        /// <summary> 左旋转 </summary>
+        void SetRotateLeft();
+
+        /// <summary> 右旋转 </summary>
+        void SetRotateRight();
+
+        /// <summary> 放大 </summary>
+        void SetEnlarge();
+
+        /// <summary> 缩小 </summary>
+        void SetNarrow();
+
+        /// <summary> 设置缩放比例 </summary>
+        double Scale { get; set; }
+
+        /// <summary>
+        /// 是否鼠标滚轮进入播放模式
+        /// </summary>
+        bool IsWheelPlay { get; set; }
         /// <summary>
         /// 创建图片浏览展示控件
         /// </summary>
         /// <returns></returns>
-        ImageOprateCtrEntity BuildEntity();
+        Control BuildEntity();
 
         #region 数据加载方法
         /// <summary>
@@ -70,6 +91,18 @@ namespace Ty.Component.ImageControl
         /// </summary>
 
         event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
+
+        /// <summary>
+        /// 删除按钮点击事件
+        /// </summary>
+
+        event Action<string> DeleteImgEvent;
+
+        /// <summary>
+        /// 全屏模式切换事件 true=是全屏状态
+        /// </summary>
+
+        event Action<bool> FullScreenChangedEvent;
 
         #endregion
 
@@ -192,6 +225,31 @@ namespace Ty.Component.ImageControl
         /// <param name="shortcut"></param>
         void RegisterPartShotCut(ShortCutEntitys shortcut);
 
+        void OnImgMarkOperateEvent(ImgMarkEntity entity);
+
+        string GetCurrentUrl();
+
+        /// <summary> 设置缩放比例 </summary>
+        double WheelScale { get; set; }
+
+        /// <summary> 设置幻灯片播放 </summary>
+        void StartSlidePlay();
+
+        /// <summary> 设置幻灯片停止 </summary>
+        void StopSlidePlay();
+
+        /// <summary> 设置原始尺寸 </summary>
+        void SetOriginalSize();
+
+        /// <summary> 设置自适应尺寸 </summary>
+        void SetAdaptiveSize();
+
+        /// <summary> 设置滚轮模式 </summary>
+        void SetWheelMode(bool value);
+
+
+        double Speed { get; set; }
+
     }
 
     /// <summary>
@@ -203,10 +261,22 @@ namespace Ty.Component.ImageControl
         /// 样本标定
         /// </summary>
         Sample = 0,
+
         /// <summary>
         /// 检测分析
         /// </summary>
         Defect,
+
+        /// <summary>
+        /// 放大模式
+        /// </summary>
+
+        Enlarge,
+
+        /// <summary>
+        /// 气泡放大模式
+        /// </summary>
+        Bubble,
         /// <summary>
         /// 增加一个标志位，为true时，鼠标变成十字形，画区域框，增加标定；为false时，鼠标变为默认箭头形，不能画区域框，不能增加标定
         /// </summary>

@@ -39,7 +39,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             {
                 temp.Clear();
 
-                string fn = System.IO.Path.GetFileNameWithoutExtension(_imgOperate.BuildEntity().Current.Value);
+                string fn = System.IO.Path.GetFileNameWithoutExtension(_imgOperate.GetCurrentUrl());
 
                 string file = this.GetMarkFileName(fn);
 
@@ -74,7 +74,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
                 //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
 
-                string current = _imgOperate.BuildEntity().Current.Value;
+                string current = _imgOperate.GetCurrentUrl();
 
                 string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 
@@ -102,7 +102,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
                 //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
 
-                string current = _imgOperate.BuildEntity().Current.Value;
+                string current = _imgOperate.GetCurrentUrl();
 
                 string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 

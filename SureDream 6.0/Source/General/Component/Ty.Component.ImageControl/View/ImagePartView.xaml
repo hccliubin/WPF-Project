@@ -71,8 +71,7 @@
         <!--MouseEnter="btn_close_MouseEnter" 
                             MouseLeave="btn_close_MouseLeave"-->
         <Rectangle x:Name="rectangle_show" Stroke="Transparent" Grid.Column="1" HorizontalAlignment="Stretch"
-                       Grid.Row="1" 
-                       StrokeThickness="0.5" >
+                       Grid.Row="1" StrokeThickness="0.5" >
 
             <Rectangle.Fill>
                 <VisualBrush x:Name="visualbrush_image" Visual="{Binding ElementName=canvas}" Stretch="Uniform">

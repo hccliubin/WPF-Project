@@ -33,7 +33,7 @@ namespace Ty.Component.ImageControl
             double x1 = SystemParameters.PrimaryScreenWidth;//得到屏幕整体宽度
             double y1 = SystemParameters.PrimaryScreenHeight;//得到屏幕整体高度
 
-           string id=  Guid.NewGuid().ToString();
+            string id = Guid.NewGuid().ToString();
 
             this.Height = y;
             this.Width = x;
@@ -60,6 +60,11 @@ namespace Ty.Component.ImageControl
         /// <param name="e"></param>
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            this.ClearClose();
+        }
+
+        public void ClearClose()
+        {
             this.grid_all.Children.Clear();
 
             this.Close();
@@ -73,6 +78,14 @@ namespace Ty.Component.ImageControl
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+        }
+
+        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!(e.OriginalSource is Image) && !(e.OriginalSource is Grid)) return;
+
+
+            this.ClearClose();
         }
 
     }

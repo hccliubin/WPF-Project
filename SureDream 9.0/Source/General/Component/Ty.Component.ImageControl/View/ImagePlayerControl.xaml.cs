@@ -56,7 +56,7 @@ namespace Ty.Component.ImageControl
             //  Do：设置进度条位置
             var index = this.image_control.ImagePaths.FindIndex(l => l == this.image_control.Current.Value);
 
-            this.media_slider.Value = this.GetSliderValue(index);
+            this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
             this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),ImgSliderMode.System);
@@ -72,7 +72,7 @@ namespace Ty.Component.ImageControl
         //  Message：结束拖动进度条
         private void media_slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
-            int index = (int)((this.media_slider.Value / this.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+            int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
 
             //string value = this.image_control.ImagePaths[index];
 
@@ -97,9 +97,9 @@ namespace Ty.Component.ImageControl
 
             //  Message：当是鼠标点击引起的改变是触发SetPositon
             if (Mouse.LeftButton != MouseButtonState.Pressed) return;
-            if (!this.media_slider.IsMouseOver) return;
+            if (!this.PlayerToolControl.media_slider.IsMouseOver) return;
 
-            int index = (int)((this.media_slider.Value / this.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+            int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
  
 
             //  Do：设置播放位置
@@ -108,7 +108,7 @@ namespace Ty.Component.ImageControl
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.toggle_play.IsChecked.Value)
+            if (this.PlayerToolControl.toggle_play.IsChecked.Value)
             {
                 //  Do：播放
                 this.Pause();
@@ -125,9 +125,9 @@ namespace Ty.Component.ImageControl
         {
             if (this.image_control.ImagePaths == null) return;
 
-            this.media_slider.Maximum = this.GetSliderValue(this.image_control.ImagePaths.Count);
+            this.PlayerToolControl.media_slider.Maximum = this.GetSliderValue(this.image_control.ImagePaths.Count);
 
-            this.media_slider.Value = 0;
+            this.PlayerToolControl.media_slider.Value = 0;
         }
 
         /// <summary>
@@ -176,7 +176,65 @@ namespace Ty.Component.ImageControl
         {
             this.image_control.ImgPlaySpeedUp();
         }
-        
+
+
+
+        public PlayerToolControl PlayerToolControl
+        {
+            get { return (PlayerToolControl)GetValue(PlayerToolControlProperty); }
+            set { SetValue(PlayerToolControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerToolControlProperty =
+            DependencyProperty.Register("PlayerToolControl", typeof(PlayerToolControl), typeof(ImagePlayerControl), new PropertyMetadata(default(PlayerToolControl), (d, e) =>
+             {
+                 ImagePlayerControl control = d as ImagePlayerControl;
+
+                 if (control == null) return;
+
+                 PlayerToolControl config = e.NewValue as PlayerToolControl;
+
+                 ////  Message：注册播放事件
+                 //config.toggle_play.Click += control.ToggleButton_Click;
+
+                 //config.media_slider.ValueChanged += control.Media_slider_ValueChanged;
+
+                 ////config.slider_sound.ValueChanged += control.Slider_sound_ValueChanged;
+
+             }));
+
+        public void ResgiterPlayerToolControl()
+        {
+            //  Message：注册播放事件
+            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+
+            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+
+            //config.slider_sound.ValueChanged += control.Slider_sound_ValueChanged;
+        }
+
+        public void DisposePlayerToolControl()
+        {
+
+            this.Pause();
+
+            //  Message：注册播放事件
+            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+
+            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+
+           
+        }
+
+        private void image_control_SpeedChanged(object sender, RoutedEventArgs e)
+        {
+            var d = double.Parse(this.image_control.Speed.ToString());
+
+            if (this.PlayerToolControl == null) return;
+
+            this.PlayerToolControl.media_speed.Text = 1 / d + "X";
+        }
     }
 
     public partial class ImagePlayerControl : IImagePlayerService
@@ -365,7 +423,7 @@ namespace Ty.Component.ImageControl
         {
             this.image_control.SetImgPlay(imgPlayMode);
 
-            this.toggle_play.IsChecked = imgPlayMode == ImgPlayMode.停止播放;
+            this.PlayerToolControl.toggle_play.IsChecked = imgPlayMode == ImgPlayMode.停止播放;
 
             this.ImgPlayModeChanged?.Invoke(imgPlayMode);
 
@@ -385,7 +443,7 @@ namespace Ty.Component.ImageControl
 
             this.image_control.LoadImage(this.image_control.ImagePaths[index]);
 
-            this.media_slider.Value = this.GetSliderValue(index);
+            this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
             this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.User);
@@ -473,6 +531,26 @@ namespace Ty.Component.ImageControl
             var sp = TimeSpan.FromTicks((long)d);
 
             return sp.ToString().Split('.')[0];
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary> 时间格式化字符串 </summary>
+    public class SpeedTextConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return null;
+
+            var d = double.Parse(value.ToString());
+
+            var sp = 1/d+"X";
+
+            return sp;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

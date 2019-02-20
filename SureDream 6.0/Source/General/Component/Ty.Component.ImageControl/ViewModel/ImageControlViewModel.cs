@@ -184,9 +184,9 @@ namespace Ty.Component.ImageControl
 
         public RelayCommand RelayCommand { get; set; }
 
-        ImageOprateCtrEntity _iImgOperate;
+        IImgOperate _iImgOperate;
 
-        public ImageControlViewModel(ImageOprateCtrEntity iImgOperate)
+        public ImageControlViewModel(IImgOperate iImgOperate)
         {
             _iImgOperate = iImgOperate;
 

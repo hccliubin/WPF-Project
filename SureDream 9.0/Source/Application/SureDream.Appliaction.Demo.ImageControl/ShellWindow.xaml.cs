@@ -37,6 +37,11 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             InitializeComponent();
 
+            //  Message：设置初始速度
+            _imgOperate.Speed = 4;
+
+            _imgOperate.WheelScale = 0.05;
+
             //  Do：加载图片浏览主键
             this.grid_center.Children.Add(_imgOperate.BuildEntity());
 
@@ -507,6 +512,17 @@ namespace SureDream.Appliaction.Demo.ImageControl
         private void CommandBinding_SetSelect_CanExecut(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this._isload;
+        }
+
+      
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this._imgOperate.SetBubbleScale(e.NewValue);
+        }
+
+        private void Slider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this._imgOperate.WheelScale = e.NewValue;
         }
     }
 

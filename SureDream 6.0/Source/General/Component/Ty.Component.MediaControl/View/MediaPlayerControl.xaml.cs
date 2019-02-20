@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ty.Component.ImageControl;
 
 namespace Ty.Component.MediaControl
 {
@@ -57,7 +58,7 @@ namespace Ty.Component.MediaControl
 
             if (this.media_media.NaturalDuration.HasTimeSpan)
             {
-                this.media_slider.Maximum = this.media_media.NaturalDuration.TimeSpan.Ticks;
+                this.PlayerToolControl.media_slider.Maximum = this.media_media.NaturalDuration.TimeSpan.Ticks;
             }
         }
 
@@ -80,7 +81,7 @@ namespace Ty.Component.MediaControl
                     }
                 }
 
-                this.media_slider.Value = this.media_media.Position.Ticks;
+                this.PlayerToolControl.media_slider.Value = this.media_media.Position.Ticks;
             });
         }
 
@@ -135,12 +136,12 @@ namespace Ty.Component.MediaControl
 
             if (this.media_media == null) return;
 
-            this.media_media.Position = TimeSpan.FromTicks((long)this.media_slider.Value);
+            this.media_media.Position = TimeSpan.FromTicks((long)this.PlayerToolControl.media_slider.Value);
         }
 
         void InitSound()
         {
-            this.slider_sound.Value = this.media_media.Volume;
+            this.PlayerToolControl.slider_sound.Value = this.media_media.Volume;
         }
 
         //private void slider_sound_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
@@ -150,7 +151,7 @@ namespace Ty.Component.MediaControl
 
         private void Slider_sound_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            this.media_media.Volume = this.slider_sound.Value;
+            this.media_media.Volume = this.PlayerToolControl.slider_sound.Value;
         }
 
         //private void media_slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -160,7 +161,7 @@ namespace Ty.Component.MediaControl
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.toggle_play.IsChecked.Value)
+            if (this.PlayerToolControl.toggle_play.IsChecked.Value)
             {
                 this.Pause();
             }
@@ -187,32 +188,32 @@ namespace Ty.Component.MediaControl
         {
             this.media_media.Stop();
             this.media_media.Play();
-            this.toggle_play.IsChecked = false;
+            this.PlayerToolControl.toggle_play.IsChecked = false;
         }
 
-        void Play()
+       internal void Play()
         {
             this.media_media.Play();
 
             this._timer.Start();
 
-            this.toggle_play.IsChecked = false;
+            this.PlayerToolControl.toggle_play.IsChecked = false;
         }
 
-        void Pause()
+        internal void Pause()
         {
             this.media_media.Pause();
             this._timer.Stop();
-            this.toggle_play.IsChecked = true;
+            this.PlayerToolControl.toggle_play.IsChecked = true;
         }
 
         void Stop()
         {
             this.media_media.Position = TimeSpan.FromTicks(0);
-            this.media_slider.Value = 0;
+            this.PlayerToolControl.media_slider.Value = 0;
             this.media_media.Stop();
             this._timer.Stop();
-            this.toggle_play.IsChecked = true;
+            this.PlayerToolControl.toggle_play.IsChecked = true;
             this.media_media.LoadedBehavior = MediaState.Manual;
         }
 
@@ -371,7 +372,7 @@ namespace Ty.Component.MediaControl
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (this.toggle_play.IsChecked.Value)
+            if (this.PlayerToolControl.toggle_play.IsChecked.Value)
             {
                 this.Play();
 
@@ -387,6 +388,52 @@ namespace Ty.Component.MediaControl
                 //this.toggle_play.IsChecked = true;
             }
         }
+
+
+
+        public PlayerToolControl PlayerToolControl
+        {
+            get { return (PlayerToolControl)GetValue(PlayerToolControlProperty); }
+            set { SetValue(PlayerToolControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerToolControlProperty =
+            DependencyProperty.Register("PlayerToolControl", typeof(PlayerToolControl), typeof(MediaPlayerControl), new PropertyMetadata(default(PlayerToolControl), (d, e) =>
+             {
+                 MediaPlayerControl control = d as MediaPlayerControl;
+
+                 if (control == null) return;
+
+                 PlayerToolControl config = e.NewValue as PlayerToolControl;
+
+                 //control.ResgiterPlayerToolControl();
+
+             }));
+
+        public void ResgiterPlayerToolControl()
+        {
+            //  Message：注册播放事件
+            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+
+            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+
+            this.PlayerToolControl.slider_sound.ValueChanged += this.Slider_sound_ValueChanged;
+        }
+
+        public void DisposePlayerToolControl()
+        {
+
+            this.Stop();
+
+            //  Message：注册播放事件
+            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+
+            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+
+            this.PlayerToolControl.slider_sound.ValueChanged += this.Slider_sound_ValueChanged;
+        }
+
     }
 
     public partial class MediaPlayerControl : IMediaPlayerService
@@ -465,7 +512,7 @@ namespace Ty.Component.MediaControl
             }
             set
             {
-                this.slider_sound.Value = this.media_media.Volume = value;
+                this.PlayerToolControl.slider_sound.Value = this.media_media.Volume = value;
             }
         }
 
@@ -504,41 +551,41 @@ namespace Ty.Component.MediaControl
         {
             this.media_media.SpeedRatio = this.media_media.SpeedRatio * 2;
 
-            this.media_speed.Text = this.media_media.SpeedRatio.ToString() + "X";
+            this.PlayerToolControl.media_speed.Text = this.media_media.SpeedRatio.ToString() + "X";
         }
 
         public void PlaySpeedDown()
         {
             this.media_media.SpeedRatio = this.media_media.SpeedRatio / 2;
 
-            this.media_speed.Text = this.media_media.SpeedRatio.ToString() + "X";
+            this.PlayerToolControl.media_speed.Text = this.media_media.SpeedRatio.ToString() + "X";
         }
 
         public void PlayStepUp()
         {
-            double v = this.media_slider.Value + TimeSpan.FromSeconds(5).Ticks;
+            double v = this.PlayerToolControl.media_slider.Value + TimeSpan.FromSeconds(5).Ticks;
 
-            if (v > this.media_slider.Maximum)
+            if (v > this.PlayerToolControl.media_slider.Maximum)
             {
-                this.media_slider.Value = this.media_slider.Maximum;
+                this.PlayerToolControl.media_slider.Value = this.PlayerToolControl.media_slider.Maximum;
             }
             else
             {
-                this.media_slider.Value = v;
+                this.PlayerToolControl.media_slider.Value = v;
             }
         }
 
         public void PlayStepDown()
         {
-            double v = this.media_slider.Value - TimeSpan.FromSeconds(5).Ticks;
+            double v = this.PlayerToolControl.media_slider.Value - TimeSpan.FromSeconds(5).Ticks;
 
             if (v < 0)
             {
-                this.media_slider.Value = 0;
+                this.PlayerToolControl.media_slider.Value = 0;
             }
             else
             {
-                this.media_slider.Value = v;
+                this.PlayerToolControl.media_slider.Value = v;
             }
         }
     }

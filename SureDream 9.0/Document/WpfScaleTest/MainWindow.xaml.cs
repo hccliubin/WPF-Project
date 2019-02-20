@@ -129,7 +129,7 @@ namespace WpfScaleTest
             double zoom = e.Delta > 0 ? .2 : -.2;
             if (!(e.Delta > 0) && (st.ScaleX < .4 || st.ScaleY < .4))
                 return;
-            if (e.Delta > 0 && (st.ScaleX > 1.4 || st.ScaleY > 1.4))
+            if (e.Delta > 0 && (st.ScaleX > 4.4 || st.ScaleY > 4.4))
                 return;
 
             Point relative = e.GetPosition(ZoomGrid);

@@ -98,7 +98,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             {
                 temp.Clear();
 
-                string fn = System.IO.Path.GetFileNameWithoutExtension(_imgOperate.BuildEntity().Current.Value);
+                string fn = System.IO.Path.GetFileNameWithoutExtension(_imgOperate.GetCurrentUrl());
 
                 string file = this.GetMarkFileName(fn);
 

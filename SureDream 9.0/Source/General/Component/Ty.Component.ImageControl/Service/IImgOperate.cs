@@ -247,6 +247,15 @@ namespace Ty.Component.ImageControl
         /// <summary> 设置滚轮模式 </summary>
         void SetWheelMode(bool value);
 
+
+        double Speed { get; set; }
+
+        /// <summary> 描述信息 </summary>
+        string DetialText { get; set; }
+
+        /// <summary> 设置气泡模式范围大小 </summary>
+        void SetBubbleScale(double value);
+
     }
 
     /// <summary>
@@ -258,6 +267,7 @@ namespace Ty.Component.ImageControl
         /// 样本标定
         /// </summary>
         Sample = 0,
+
         /// <summary>
         /// 检测分析
         /// </summary>
@@ -268,6 +278,11 @@ namespace Ty.Component.ImageControl
         /// </summary>
 
         Enlarge,
+
+        /// <summary>
+        /// 气泡放大模式
+        /// </summary>
+        Bubble,
         /// <summary>
         /// 增加一个标志位，为true时，鼠标变成十字形，画区域框，增加标定；为false时，鼠标变为默认箭头形，不能画区域框，不能增加标定
         /// </summary>

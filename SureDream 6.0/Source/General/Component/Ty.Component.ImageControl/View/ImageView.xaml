@@ -134,7 +134,14 @@
         </ToggleButton>
         
         <!--<Grid Height="120" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" TextBlock.Foreground="White">-->
-        <ListBox HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" TextBlock.FontWeight="Black" Margin="10" Background="Black" TextBlock.Foreground="White" ItemsSource="{Binding FigureCollection}">
+        <!--<ListBox HorizontalAlignment="Left" 
+                 VerticalAlignment="Top" 
+                 BorderThickness="0" 
+                 TextBlock.FontWeight="Black" 
+                 Margin="10" 
+                 Background="Black" 
+                 TextBlock.Foreground="White" 
+                 ItemsSource="{Binding FigureCollection}">
             <ListBox.ItemTemplate>
                 <ItemContainerTemplate>
                     <Grid>
@@ -149,7 +156,7 @@
                     </Grid>
                 </ItemContainerTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
 
         <!--<Grid.RowDefinitions>
                 <RowDefinition Height="1.2*"/>

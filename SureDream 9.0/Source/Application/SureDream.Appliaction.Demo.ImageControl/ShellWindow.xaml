@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SureDream.Appliaction.Demo.ImageControl"
                 xmlns:imagecontrol="clr-namespace:Ty.Component.ImageControl;assembly=Ty.Component.ImageControl"
-
+xmlns:sys="clr-namespace:System;assembly=System"
+        xmlns:sys1="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="ShellWindow" Height="600" Width="1000">
 
@@ -85,7 +86,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <!--中间的图片浏览组件-->
         <Grid x:Name="grid_center" Grid.Row="1"/>
 
@@ -124,13 +125,20 @@
             <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedUp}}"/>
             <Button  Command="{Binding Source={StaticResource Resources.Command.ImgPlaySpeedDown}}"/>
 
-            <TextBlock Text="标识位：" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="操作模式：" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ComboBox x:Name="cb_marktype" SelectedIndex="3" SelectionChanged="Cb_marktype_SelectionChanged" >
                 <imagecontrol:MarkType>Sample</imagecontrol:MarkType>
                 <imagecontrol:MarkType>Defect</imagecontrol:MarkType>
                 <imagecontrol:MarkType>Enlarge</imagecontrol:MarkType>
                 <imagecontrol:MarkType>None</imagecontrol:MarkType>
+                <imagecontrol:MarkType>Bubble</imagecontrol:MarkType>
             </ComboBox>
+            <TextBlock Text="气泡大小：" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Slider Minimum="50" Maximum="2000" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}"
+                    Value="500" ValueChanged="Slider_ValueChanged"  Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="滚轮放大：" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Slider Minimum="0.001" Maximum="0.05" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}"
+                    Value="0.003" ValueChanged="Slider_ValueChanged_1"  Width="100" VerticalAlignment="Center" SmallChange="0.002"/>
         </StackPanel>
     </Grid>
 </Window>

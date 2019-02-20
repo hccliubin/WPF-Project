@@ -28,6 +28,30 @@ namespace Ty.Component.MediaControl
             this.ImagePlayerService = this.control_image;
         }
 
+
+        public PlayerToolControl PlayerToolControl
+        {
+            get { return (PlayerToolControl)GetValue(PlayerToolControlProperty); }
+            set { SetValue(PlayerToolControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerToolControlProperty =
+            DependencyProperty.Register("PlayerToolControl", typeof(PlayerToolControl), typeof(VedioImagePlayerControl), new PropertyMetadata(default(PlayerToolControl), (d, e) =>
+             {
+                 VedioImagePlayerControl control = d as VedioImagePlayerControl;
+
+                 if (control == null) return;
+
+                 PlayerToolControl config = e.NewValue as PlayerToolControl;
+
+                 control.control_media.PlayerToolControl = config;
+
+                 control.control_image.PlayerToolControl = config;
+
+             }));
+
+
         public IMediaPlayerService MediaPlayerService { get; set; }
 
         public IImagePlayerService ImagePlayerService { get; set; }
@@ -41,7 +65,22 @@ namespace Ty.Component.MediaControl
         {
             _type = type;
 
+
+            if(type == MediaPlayType.Video)
+            {
+
+                this.control_image.DisposePlayerToolControl();
+                this.control_media.ResgiterPlayerToolControl();
+            }
+            else
+            {
+
+                this.control_media.DisposePlayerToolControl();
+                this.control_image.ResgiterPlayerToolControl();
+            }
+
             this.control_media.Visibility = type == MediaPlayType.Video ? Visibility.Visible : Visibility.Collapsed;
+
             this.control_image.Visibility = type == MediaPlayType.Image ? Visibility.Visible : Visibility.Collapsed;
         }
 

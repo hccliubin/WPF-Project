@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ty.Component.ImageControl"
-        mc:Ignorable="d" WindowState="Normal" WindowStyle="None" AllowsTransparency="True"
+        mc:Ignorable="d" WindowState="Normal" WindowStyle="None" AllowsTransparency="True" PreviewMouseDoubleClick="Window_MouseDoubleClick"
         Title="ImageFullScreenWindow" Height="700" Width="1000">
     <Window.Resources>
         <ResourceDictionary>
@@ -53,8 +53,8 @@
         <Grid x:Name="grid_all"/>
 
         <!--退出全屏按钮-->
-        <local:IconButton x:Name="btn_fullScreen" Grid.Column="1" FIcon="&#xe73d;" IsChecked="True" ToolTip="退出全屏"
-                            HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Command="ApplicationCommands.Close"
+        <local:IconButton x:Name="btn_fullScreen" Grid.Column="1" FIcon="&#xe77e;" IsChecked="True" ToolTip="退出全屏"
+                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Command="ApplicationCommands.Close"
                              Style="{StaticResource Style.IconButton.Default}" CornerRadius="30">
         </local:IconButton>
     </Grid>

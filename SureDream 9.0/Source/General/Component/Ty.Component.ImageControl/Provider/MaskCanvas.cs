@@ -137,6 +137,7 @@ namespace Ty.Component.ImageControl
                 }
 
                 temp = selectionRegion.Top;
+
                 if (maskRectTop.Height != temp)
                 {
                     maskRectTop.Height = temp < 0 ? 0 : temp; //Math.Max(0, selectionRegion.Top);
@@ -145,6 +146,7 @@ namespace Ty.Component.ImageControl
                 maskRectBottom.Width = maskRectTop.Width;
 
                 temp = actualHeight - selectionRegion.Bottom;
+
                 if (maskRectBottom.Height != temp)
                 {
                     maskRectBottom.Height = temp < 0 ? 0 : temp; //Math.Max(0, ActualHeight - selectionRegion.Bottom);
