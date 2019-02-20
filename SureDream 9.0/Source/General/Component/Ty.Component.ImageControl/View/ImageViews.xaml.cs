@@ -402,6 +402,14 @@ namespace Ty.Component.ImageControl
             {
                 if (imgWidth == 0 || imgHeight == 0) return;
 
+                //  Message：设置放大缩小位置
+                var position = e.GetPosition(this.canvas);
+                var position1 = e.GetPosition(this.gridMouse);
+
+                double xPercent = position1.X / this.gridMouse.ActualWidth;
+                double yPercent = position1.Y / this.gridMouse.ActualHeight;
+
+
                 double matchscale = this.GetFullScale();
 
                 if (Scale < matchscale && e.Delta < 0)
@@ -444,32 +452,24 @@ namespace Ty.Component.ImageControl
 
                 SetImageByScale();
 
-                //  Message：设置放大缩小位置
-                var position = e.GetPosition(this.canvas);
-                //double X = mouseXY.X - position.X;
-                //double Y = mouseXY.Y - position.Y;
-                //mouseXY = position;
-                //if (X != 0)
-                //    svImg.ScrollToHorizontalOffset(svImg.HorizontalOffset + X);
-                //if (Y != 0)
-                //    svImg.ScrollToVerticalOffset(svImg.VerticalOffset + Y);
 
-                //svImg.ScrollToHorizontalOffset(0.5 * svImg.ExtentWidth);
-                //svImg.ScrollToVerticalOffset(0.5 * svImg.ExtentHeight);
+                //  Message：按鼠标位置放大
+                double xd = (position.X / this.canvas.ActualWidth) - (this.mask.Indicator.WidthPercent * (xPercent));
 
-                double xd = (1 - position.X / this.canvas.ActualWidth) + 0.1;
+                double yd = (position.Y / this.canvas.ActualHeight) - (this.mask.Indicator.HeightPercent * (yPercent));
 
-                double yd = (1 - position.Y / this.canvas.ActualHeight) + 0.1;
+                //double xd = position.X / this.canvas.ActualWidth -  xPercent;
 
+                //double yd = position.Y / this.canvas.ActualHeight -  yPercent;
 
-                Debug.WriteLine("position.X" + (1 - position.X / this.canvas.ActualWidth));
-                Debug.WriteLine("position.Y" + (1 - position.Y / this.canvas.ActualHeight));
+                Debug.WriteLine("position.X" + xPercent);
+                Debug.WriteLine("position.Y" + yPercent);
 
                 //svImg.ScrollToHorizontalOffset((1-position.X / this.canvas.ActualWidth) * svImg.ExtentWidth);
                 //svImg.ScrollToVerticalOffset((1-position.Y /this.canvas.ActualHeight) * svImg.ExtentHeight);
 
-                svImg.ScrollToHorizontalOffset(0.3 * svImg.ExtentWidth);
-                svImg.ScrollToVerticalOffset(0.3 * svImg.ExtentHeight);
+                svImg.ScrollToHorizontalOffset(xd * svImg.ExtentWidth);
+                svImg.ScrollToVerticalOffset(yd * svImg.ExtentHeight);
 
             }
         }

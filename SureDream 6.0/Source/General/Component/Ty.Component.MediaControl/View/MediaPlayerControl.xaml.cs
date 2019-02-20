@@ -423,7 +423,6 @@ namespace Ty.Component.MediaControl
 
         public void DisposePlayerToolControl()
         {
-
             this.Stop();
 
             //  Message：注册播放事件
