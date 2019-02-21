@@ -75,11 +75,6 @@ namespace Ty.Component.MediaControl
         }
 
         /// <summary>
-        /// 旋转
-        /// </summary>
-        void Rotate();
-
-        /// <summary>
         /// 加快播放速度
         /// </summary>
         void PlaySpeedUp();
@@ -95,6 +90,18 @@ namespace Ty.Component.MediaControl
 
         /// <summary> 减少5s </summary>
         void PlayStepDown();
+
+        /// <summary> 音量增加5 </summary>
+        void VoiceStepUp();
+
+        /// <summary> 音量减少5 </summary>
+        void VoiceStepDown();
+
+        /// <summary> 左旋转 </summary>
+        void RotateLeft();
+
+        /// <summary> 右旋转 </summary>
+        void RotateRight();
 
 
     }

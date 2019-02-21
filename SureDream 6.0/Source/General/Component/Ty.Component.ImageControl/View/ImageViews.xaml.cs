@@ -134,6 +134,12 @@ namespace Ty.Component.ImageControl
 
 
             this.RegisterDefaltApi();
+
+
+            //  Message：初始化时这两个方法很关键，否则图片没有平铺
+            this.SetMarkType(MarkType.None);
+
+            this.SetBubbleScale(50);
         }
 
         //bool _loationFlag = false;
@@ -402,6 +408,14 @@ namespace Ty.Component.ImageControl
             {
                 if (imgWidth == 0 || imgHeight == 0) return;
 
+                //  Message：设置放大缩小位置
+                var position = e.GetPosition(this.canvas);
+                var position1 = e.GetPosition(this.gridMouse);
+
+                double xPercent = position1.X / this.gridMouse.ActualWidth;
+                double yPercent = position1.Y / this.gridMouse.ActualHeight;
+
+
                 double matchscale = this.GetFullScale();
 
                 if (Scale < matchscale && e.Delta < 0)
@@ -444,32 +458,24 @@ namespace Ty.Component.ImageControl
 
                 SetImageByScale();
 
-                //  Message：设置放大缩小位置
-                var position = e.GetPosition(this.canvas);
-                //double X = mouseXY.X - position.X;
-                //double Y = mouseXY.Y - position.Y;
-                //mouseXY = position;
-                //if (X != 0)
-                //    svImg.ScrollToHorizontalOffset(svImg.HorizontalOffset + X);
-                //if (Y != 0)
-                //    svImg.ScrollToVerticalOffset(svImg.VerticalOffset + Y);
 
-                //svImg.ScrollToHorizontalOffset(0.5 * svImg.ExtentWidth);
-                //svImg.ScrollToVerticalOffset(0.5 * svImg.ExtentHeight);
+                //  Message：按鼠标位置放大
+                double xd = (position.X / this.canvas.ActualWidth) - (this.mask.Indicator.WidthPercent * (xPercent));
 
-                double xd = (1 - position.X / this.canvas.ActualWidth) + 0.1;
+                double yd = (position.Y / this.canvas.ActualHeight) - (this.mask.Indicator.HeightPercent * (yPercent));
 
-                double yd = (1 - position.Y / this.canvas.ActualHeight) + 0.1;
+                //double xd = position.X / this.canvas.ActualWidth -  xPercent;
 
+                //double yd = position.Y / this.canvas.ActualHeight -  yPercent;
 
-                Debug.WriteLine("position.X" + (1 - position.X / this.canvas.ActualWidth));
-                Debug.WriteLine("position.Y" + (1 - position.Y / this.canvas.ActualHeight));
+                Debug.WriteLine("position.X" + xPercent);
+                Debug.WriteLine("position.Y" + yPercent);
 
                 //svImg.ScrollToHorizontalOffset((1-position.X / this.canvas.ActualWidth) * svImg.ExtentWidth);
                 //svImg.ScrollToVerticalOffset((1-position.Y /this.canvas.ActualHeight) * svImg.ExtentHeight);
 
-                svImg.ScrollToHorizontalOffset(0.3 * svImg.ExtentWidth);
-                svImg.ScrollToVerticalOffset(0.3 * svImg.ExtentHeight);
+                svImg.ScrollToHorizontalOffset(xd * svImg.ExtentWidth);
+                svImg.ScrollToVerticalOffset(yd * svImg.ExtentHeight);
 
             }
         }
@@ -483,7 +489,7 @@ namespace Ty.Component.ImageControl
             result = Math.Min(result, svImg.ActualHeight / imgHeight);
 
             //  Message：图片缩小，最小到面板小一点
-            return result-0.005;
+            return result - 0.005;
         }
 
         private void SetImageByScale()
@@ -636,9 +642,102 @@ namespace Ty.Component.ImageControl
         {
             if (this.ViewModel == null) return;
 
-            if ((this._markType == MarkType.None))
+            if (this._markType == MarkType.None)
             {
                 return;
+            }
+
+            if (this._markType == MarkType.Bubble)
+            {
+                FrameworkElement element = sender as FrameworkElement;
+
+                // 计算鼠标在X轴的移动距离
+                double deltaV = e.GetPosition(element).Y;
+                //计算鼠标在Y轴的移动距离
+                double deltaH = e.GetPosition(element).X;
+
+
+                double newTop = deltaV - this.MoveRect.ActualHeight / 2 <= 0 ? 0 : deltaV - this.MoveRect.ActualHeight / 2;
+                double newLeft = deltaH - this.MoveRect.ActualWidth / 2 <= 0 ? 0 : deltaH - this.MoveRect.ActualWidth / 2;
+
+
+                newTop = deltaV + this.MoveRect.ActualHeight / 2 > this.canvas.ActualHeight ? this.canvas.ActualHeight - this.MoveRect.ActualHeight : newTop;
+                newLeft = deltaH + this.MoveRect.ActualWidth / 2 > this.canvas.ActualWidth ? this.canvas.ActualWidth - this.MoveRect.ActualWidth : newLeft;
+
+                ////边界的判断
+                //if (deltaV - this.MoveRect.ActualHeight / 2 <= 0)
+                //{
+                //    newLeft = 0;
+                //}
+
+                ////左侧图片框宽度 - 半透明矩形框宽度
+                //if (newLeft >= (this.canvas.Width - this.MoveRect.Width))
+                //{
+                //    newLeft = this.canvas.Width - this.MoveRect.Width;
+                //}
+
+                //if (newTop <= 0)
+                //{
+                //    newTop = 0;
+                //}
+
+                ////左侧图片框高度度 - 半透明矩形框高度度
+                //if (newTop >= this.canvas.Height - this.MoveRect.Height)
+                //{
+                //    newTop = this.canvas.Height - this.MoveRect.Height;
+                //}
+
+                //// 计算鼠标在X轴的移动距离
+                //double deltaV = e.GetPosition(element).Y;
+                ////计算鼠标在Y轴的移动距离
+                //double deltaH = e.GetPosition(element).X;
+
+                this.MoveRect.SetValue(InkCanvas.TopProperty, newTop);
+                this.MoveRect.SetValue(InkCanvas.LeftProperty, newLeft);
+
+                AdjustBigImage();
+
+                ////  Message：设置跟随鼠标显示
+                //popup.IsOpen = false;
+                //popup.IsOpen = true;
+
+                if (this.start.X <= 0 || this.start.Y <= 0) { return; }
+
+
+                return;
+
+                //IInputElement inputElement = sender as IInputElement;
+
+                //var position = Mouse.GetPosition(inputElement);
+
+                ////System.Windows.Point transform = new System.Windows.Point();
+                ////transform.X -= mouseXY.X - position.X;
+                ////transform.Y -= mouseXY.Y - position.Y;
+                ////mouseXY = position;
+
+                ////var x = Canvas.GetLeft(this) + transform.X;
+                ////var y = Canvas.GetTop(this) + transform.Y; 
+
+                ////x = x < 0 ? 0 : x;
+                ////y = y < 0 ? 0 : y;
+
+                ////x = Math.Min(x, this.canvas.Width - this.Width);
+                ////y = Math.Min(y, this.canvas.Height - this.Height);
+                ////Canvas.SetLeft(this, x);
+                ////Canvas.SetTop(this, y);
+
+                //InkCanvas.SetLeft(canvas_bubble, position.X);
+                //InkCanvas.SetTop(canvas_bubble, position.Y);
+
+
+                //BubbleWindow window = new BubbleWindow(); 
+
+                //window.Visual = this.canvas; 
+
+                //window.Show();
+
+
+
             }
 
             if (e.LeftButton != MouseButtonState.Pressed) return;
@@ -742,6 +841,126 @@ namespace Ty.Component.ImageControl
 
 
         }
+
+        #region - 气泡放大 -
+        //移动标志
+        bool trackingMouseMove = false;
+        //鼠标按下去的位置
+        System.Windows.Point mousePosition;
+
+        /// <summary>
+        /// 半透明矩形框鼠标左键按下
+        /// </summary>
+        private void MoveRect_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            mousePosition = e.GetPosition(element);
+            trackingMouseMove = true;
+            if (null != element)
+            {
+                //强制获取此元素
+                element.CaptureMouse();
+                element.Cursor = Cursors.Hand;
+            }
+        }
+
+        /// <summary>
+        /// 半透明矩形框鼠标左键弹起
+        /// </summary>
+        private void MoveRect_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            trackingMouseMove = false;
+            element.ReleaseMouseCapture();
+            mousePosition.X = mousePosition.Y = 0;
+            element.Cursor = null;
+
+        }
+
+        /// <summary>
+        /// 半透明矩形框移动
+        /// </summary>        
+        private void MoveRect_MouseMove(object sender, MouseEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            if (true)
+            {
+                ////计算鼠标在X轴的移动距离
+                //double deltaV = e.GetPosition(element).Y - mousePosition.Y;
+                ////计算鼠标在Y轴的移动距离
+                //double deltaH = e.GetPosition(element).X - mousePosition.X;
+
+                ////得到图片Top新位置
+                //double newTop = deltaV + (double)element.GetValue(InkCanvas.TopProperty);
+                ////得到图片Left新位置
+                //double newLeft = deltaH + (double)element.GetValue(InkCanvas.LeftProperty);
+
+
+                //计算鼠标在X轴的移动距离
+                double deltaV = e.GetPosition(this.canvas).Y;
+                //计算鼠标在Y轴的移动距离
+                double deltaH = e.GetPosition(this.canvas).X;
+
+                //得到图片Top新位置
+                double newTop = deltaV;
+                //得到图片Left新位置
+                double newLeft = deltaH;
+
+                ////边界的判断
+                //if (newLeft <= 0)
+                //{
+                //    newLeft = 0;
+                //}
+
+                ////左侧图片框宽度 - 半透明矩形框宽度
+                //if (newLeft >= (this.canvas.Width - this.MoveRect.Width))
+                //{
+                //    newLeft = this.canvas.Width - this.MoveRect.Width;
+                //}
+
+                //if (newTop <= 0)
+                //{
+                //    newTop = 0;
+                //}
+
+                ////左侧图片框高度度 - 半透明矩形框高度度
+                //if (newTop >= this.canvas.Height - this.MoveRect.Height)
+                //{
+                //    newTop = this.canvas.Height - this.MoveRect.Height;
+                //}
+                element.SetValue(InkCanvas.TopProperty, newTop);
+                element.SetValue(InkCanvas.LeftProperty, newLeft);
+                AdjustBigImage();
+
+                //  Message：设置跟随鼠标显示
+                popup.IsOpen = false;
+                popup.IsOpen = true;
+
+
+                if (mousePosition.X <= 0 || mousePosition.Y <= 0) { return; }
+            }
+        }
+
+        /// <summary>
+        /// 调整右侧大图的位置
+        /// </summary>
+        void AdjustBigImage()
+        {
+            //获取右侧大图框与透明矩形框的尺寸比率
+            double n = this.BigBox.Width / this.MoveRect.Width;
+
+            //获取半透明矩形框在左侧小图中的位置
+            double left = (double)this.MoveRect.GetValue(InkCanvas.LeftProperty);
+            double top = (double)this.MoveRect.GetValue(InkCanvas.TopProperty);
+
+            //计算和设置原图在右侧大图框中的Canvas.Left 和 Canvas.Top
+            double newLeft = -left * n;
+            double newTop = -top * n;
+            bigImg.SetValue(Canvas.LeftProperty, newLeft);
+            bigImg.SetValue(Canvas.TopProperty, newTop);
+        }
+
+        #endregion
 
         #region - 成员变量 -
 
@@ -871,12 +1090,12 @@ namespace Ty.Component.ImageControl
 
         //声明和注册路由事件
         public static readonly RoutedEvent LastClickedRoutedEvent =
-            EventManager.RegisterRoutedEvent("LastClicked", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageViews));
+            EventManager.RegisterRoutedEvent("LastClicked", RoutingStrategy.Bubble, typeof(EventHandler<ObjectRoutedEventArgs<ImgSliderMode>>), typeof(ImageViews));
 
         /// <summary>
         /// 上一页路由事件
         /// </summary>
-        public event RoutedEventHandler LastClicked
+        public event EventHandler<ObjectRoutedEventArgs<ImgSliderMode>> LastClicked
         {
             add { this.AddHandler(LastClickedRoutedEvent, value); }
             remove { this.RemoveHandler(LastClickedRoutedEvent, value); }
@@ -885,7 +1104,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 激发上一页
         /// </summary>
-        public void OnLastClicked()
+        public void OnLastClicked(ImgSliderMode imgSliderMode = ImgSliderMode.User)
         {
             //this.RefreshPart();
 
@@ -909,7 +1128,7 @@ namespace Ty.Component.ImageControl
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
+                ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(LastClickedRoutedEvent, this,imgSliderMode);
                 this.RaiseEvent(args);
             });
 
@@ -928,12 +1147,12 @@ namespace Ty.Component.ImageControl
 
         //声明和注册路由事件
         public static readonly RoutedEvent NextClickRoutedEvent =
-            EventManager.RegisterRoutedEvent("NextClick", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageViews));
+            EventManager.RegisterRoutedEvent("NextClick", RoutingStrategy.Bubble, typeof(EventHandler<ObjectRoutedEventArgs<ImgSliderMode>>), typeof(ImageViews));
 
         /// <summary>
         /// 下一页路由事件
         /// </summary>
-        public event RoutedEventHandler NextClick
+        public event EventHandler<ObjectRoutedEventArgs<ImgSliderMode>> NextClick
         {
             add { this.AddHandler(NextClickRoutedEvent, value); }
             remove { this.RemoveHandler(NextClickRoutedEvent, value); }
@@ -942,7 +1161,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 激发下一页
         /// </summary>
-        public void OnNextClick()
+        public void OnNextClick(ImgSliderMode imgSliderMode= ImgSliderMode.User)
         {
 
             this.Clear();
@@ -961,10 +1180,12 @@ namespace Ty.Component.ImageControl
 
             //  Do：触发下一页
             this.NextImgEvent?.Invoke();
+           
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
+                ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(NextClickRoutedEvent, this, imgSliderMode);
+
                 this.RaiseEvent(args);
             });
 
@@ -1066,7 +1287,7 @@ namespace Ty.Component.ImageControl
             get { return (double)GetValue(SpeedProperty); }
             set
             {
-                SetValue(SpeedProperty, value); 
+                SetValue(SpeedProperty, value);
             }
         }
 
@@ -1186,12 +1407,12 @@ namespace Ty.Component.ImageControl
                 if (playMode == ImgPlayMode.正序)
                 {
                     if (!isBuzy)
-                        this.OnNextClick();
+                        this.OnNextClick(ImgSliderMode.System);
                 }
                 else if (playMode == ImgPlayMode.倒叙)
                 {
                     if (!isBuzy)
-                        this.OnLastClicked();
+                        this.OnLastClicked(ImgSliderMode.System);
                 }
 
                 Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * speed)), tokenSource.Token);
@@ -1423,8 +1644,13 @@ namespace Ty.Component.ImageControl
             this.DeleteImgEvent?.Invoke(this.Current.Value);
         }
 
+        /// <summary> 设置双击是否触发全屏 </summary>
+        public bool DoubleClickSetFullScreen { get; set; }
+
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (!DoubleClickSetFullScreen) return;
+
             if (!(e.OriginalSource is Image) && !(e.OriginalSource is Grid)) return;
 
             this.SetFullScreen(true);
@@ -1550,6 +1776,16 @@ namespace Ty.Component.ImageControl
         {
             this.SetFullScreen(false);
         }
+
+        private void MoveRect_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.popup.IsOpen = false;
+        }
+
+        private void MoveRect_MouseEnter(object sender, MouseEventArgs e)
+        {
+            this.popup.IsOpen = true;
+        }
     }
 
 
@@ -1562,8 +1798,28 @@ namespace Ty.Component.ImageControl
         public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
         public event Action<string> DeleteImgEvent;
         public event Action<bool> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
 
-        public double WheelScale { get; set; } = 0.01;
+        double _wheelScale = 0.01;
+        public double WheelScale
+        {
+            get
+            {
+                return _wheelScale;
+            }
+            set
+            {
+                //  Message：设置最大值为0.05
+                if (value > 0.05)
+                {
+                    _wheelScale = 0.05;
+                }
+                else
+                {
+                    _wheelScale = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 触发新增事件（此方法）
@@ -1619,6 +1875,12 @@ namespace Ty.Component.ImageControl
                 sample.Add(resultStroke);
             }
 
+            //  Message：注册选中事件
+            foreach (var item in sample.RectangleLayer)
+            {
+                item.Selected += Item_Selected;
+            }
+
             this.ViewModel.Add(sample);
 
             //  Do：触发新增事件
@@ -1647,6 +1909,7 @@ namespace Ty.Component.ImageControl
             this.MarkOperate(entity);
         }
 
+
         public ImgMarkEntity GetSelectMarkEntity()
         {
             if (this.ViewModel == null) return null;
@@ -1671,7 +1934,7 @@ namespace Ty.Component.ImageControl
 
         void RefreshSpeedText()
         {
-            this.btn_play_speed.Content = $"间隔{this.Speed }秒";  
+            this.btn_play_speed.Content = $"间隔{this.Speed }秒";
 
         }
 
@@ -1727,9 +1990,11 @@ namespace Ty.Component.ImageControl
 
                 foreach (var item in markEntityList)
                 {
-                    SampleVieModel vm = new SampleVieModel(item);
+                    //SampleVieModel vm = new SampleVieModel(item);
 
-                    this.ViewModel.SampleCollection.Add(vm);
+                    //this.ViewModel.SampleCollection.Add(vm);
+                    item.markOperateType = ImgMarkOperateType.Insert;
+                    this.MarkOperate(item);
                 }
 
                 this.RefreshAll();
@@ -1748,24 +2013,16 @@ namespace Ty.Component.ImageControl
             {
                 SampleVieModel vm = new SampleVieModel(entity);
 
+                //  Message：注册选中事件
+                foreach (var item in vm.RectangleLayer)
+                {
+                    item.Selected += Item_Selected;
+                }
+
                 this.ViewModel.SampleCollection.Add(vm);
             }
             else
             {
-                //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
-
-                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model == entity);
-
-                if (find == null)
-                {
-                    Debug.WriteLine("不存在标记：" + entity.Name);
-                    return;
-                }
-
-                find.RectangleLayer.First().Clear();
-
-                this.ViewModel.SampleCollection.Remove(find);
-
                 //  Do：修改
                 if (entity.markOperateType == ImgMarkOperateType.Update)
                 {
@@ -1774,8 +2031,39 @@ namespace Ty.Component.ImageControl
                     this.ViewModel.SampleCollection.Add(vm);
 
                 }
+                else
+                {
+                    //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+
+                    var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model == entity);
+
+                    if (find == null)
+                    {
+                        Debug.WriteLine("不存在标记：" + entity.Name);
+                        return;
+                    }
+
+                    //  Message：注销事件
+                    foreach (var item in find.RectangleLayer)
+                    {
+                        item.Selected -= Item_Selected;
+
+                        item.Clear();
+                    }
+
+                    //find.RectangleLayer.First().Clear();
+
+                    this.ViewModel.SampleCollection.Remove(find);
+                }
             }
 
+        }
+
+        private void Item_Selected(RectangleShape obj)
+        {
+            var v = this.GetSelectMarkEntity();
+
+            this.MarkEntitySelectChanged?.Invoke(v);
         }
 
         public void NextImg()
@@ -1796,6 +2084,18 @@ namespace Ty.Component.ImageControl
             set
             {
                 this.btn_wheel.IsChecked = value;
+            }
+        }
+
+        public string DetialText
+        {
+            get
+            {
+                return this.txt_detial.Text;
+            }
+            set
+            {
+                this.txt_detial.Text = value;
             }
         }
 
@@ -2097,8 +2397,12 @@ namespace Ty.Component.ImageControl
 
         public void SetMarkType(MarkType markType)
         {
-
             this._markType = markType;
+
+            //  Message：隐藏气泡放大控件
+            this.MoveRect.Visibility = Visibility.Collapsed;
+
+            this.popup.IsOpen = false;
 
             if (markType == MarkType.None)
             {
@@ -2117,14 +2421,15 @@ namespace Ty.Component.ImageControl
                 this.canvas.Cursor = Cursors.Pen;
 
             }
-            else if(markType == MarkType.Bubble)
+            else if (markType == MarkType.Bubble)
             {
                 //  Message：设置光标和区域放大
                 this.canvas.Cursor = Cursors.Hand;
 
+                this.MoveRect.Visibility = Visibility.Visible;
 
-                this.grid_mark.Width = double.NaN;
-                this.grid_mark.Height = double.NaN;
+                //this.grid_mark.Width = double.NaN;
+                //this.grid_mark.Height = double.NaN;
             }
             else
             {
@@ -2192,6 +2497,21 @@ namespace Ty.Component.ImageControl
         public void SetWheelMode(bool value)
         {
             this.btn_wheel.IsChecked = value;
+        }
+
+        public void SetBubbleScale(double value)
+        {
+            this.MoveRect.Width = value;
+            this.MoveRect.Height = value;
+
+            this.BigBox.Width = value;
+            this.BigBox.Height = value;
+
+            //  Message：防止当修改时操出范围 引起控件大小变化
+            this.MoveRect.SetValue(InkCanvas.LeftProperty, 0.0);
+            this.MoveRect.SetValue(InkCanvas.TopProperty, 0.0);
+
+            this.bigrect.Rect = new Rect(0, 0, value, value);
         }
     }
 }

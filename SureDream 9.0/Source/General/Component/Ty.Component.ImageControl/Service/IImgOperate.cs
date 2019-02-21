@@ -104,6 +104,9 @@ namespace Ty.Component.ImageControl
 
         event Action<bool> FullScreenChangedEvent;
 
+        /// <summary> 选中项改变事件 </summary>
+        event Action<ImgMarkEntity> MarkEntitySelectChanged;
+
         #endregion
 
         #region 设置方法

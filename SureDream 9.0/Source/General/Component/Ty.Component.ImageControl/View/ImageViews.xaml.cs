@@ -134,6 +134,12 @@ namespace Ty.Component.ImageControl
 
 
             this.RegisterDefaltApi();
+
+
+            //  Message：初始化时这两个方法很关键，否则图片没有平铺
+            this.SetMarkType(MarkType.None);
+
+            this.SetBubbleScale(50);
         }
 
         //bool _loationFlag = false;
@@ -1084,12 +1090,12 @@ namespace Ty.Component.ImageControl
 
         //声明和注册路由事件
         public static readonly RoutedEvent LastClickedRoutedEvent =
-            EventManager.RegisterRoutedEvent("LastClicked", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageViews));
+            EventManager.RegisterRoutedEvent("LastClicked", RoutingStrategy.Bubble, typeof(EventHandler<ObjectRoutedEventArgs<ImgSliderMode>>), typeof(ImageViews));
 
         /// <summary>
         /// 上一页路由事件
         /// </summary>
-        public event RoutedEventHandler LastClicked
+        public event EventHandler<ObjectRoutedEventArgs<ImgSliderMode>> LastClicked
         {
             add { this.AddHandler(LastClickedRoutedEvent, value); }
             remove { this.RemoveHandler(LastClickedRoutedEvent, value); }
@@ -1098,7 +1104,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 激发上一页
         /// </summary>
-        public void OnLastClicked()
+        public void OnLastClicked(ImgSliderMode imgSliderMode = ImgSliderMode.User)
         {
             //this.RefreshPart();
 
@@ -1122,7 +1128,7 @@ namespace Ty.Component.ImageControl
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                RoutedEventArgs args = new RoutedEventArgs(LastClickedRoutedEvent, this);
+                ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(LastClickedRoutedEvent, this,imgSliderMode);
                 this.RaiseEvent(args);
             });
 
@@ -1141,12 +1147,12 @@ namespace Ty.Component.ImageControl
 
         //声明和注册路由事件
         public static readonly RoutedEvent NextClickRoutedEvent =
-            EventManager.RegisterRoutedEvent("NextClick", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ImageViews));
+            EventManager.RegisterRoutedEvent("NextClick", RoutingStrategy.Bubble, typeof(EventHandler<ObjectRoutedEventArgs<ImgSliderMode>>), typeof(ImageViews));
 
         /// <summary>
         /// 下一页路由事件
         /// </summary>
-        public event RoutedEventHandler NextClick
+        public event EventHandler<ObjectRoutedEventArgs<ImgSliderMode>> NextClick
         {
             add { this.AddHandler(NextClickRoutedEvent, value); }
             remove { this.RemoveHandler(NextClickRoutedEvent, value); }
@@ -1155,7 +1161,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 激发下一页
         /// </summary>
-        public void OnNextClick()
+        public void OnNextClick(ImgSliderMode imgSliderMode= ImgSliderMode.User)
         {
 
             this.Clear();
@@ -1174,10 +1180,12 @@ namespace Ty.Component.ImageControl
 
             //  Do：触发下一页
             this.NextImgEvent?.Invoke();
+           
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                RoutedEventArgs args = new RoutedEventArgs(NextClickRoutedEvent, this);
+                ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(NextClickRoutedEvent, this, imgSliderMode);
+
                 this.RaiseEvent(args);
             });
 
@@ -1399,12 +1407,12 @@ namespace Ty.Component.ImageControl
                 if (playMode == ImgPlayMode.正序)
                 {
                     if (!isBuzy)
-                        this.OnNextClick();
+                        this.OnNextClick(ImgSliderMode.System);
                 }
                 else if (playMode == ImgPlayMode.倒叙)
                 {
                     if (!isBuzy)
-                        this.OnLastClicked();
+                        this.OnLastClicked(ImgSliderMode.System);
                 }
 
                 Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * speed)), tokenSource.Token);
@@ -1636,8 +1644,13 @@ namespace Ty.Component.ImageControl
             this.DeleteImgEvent?.Invoke(this.Current.Value);
         }
 
+        /// <summary> 设置双击是否触发全屏 </summary>
+        public bool DoubleClickSetFullScreen { get; set; }
+
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (!DoubleClickSetFullScreen) return;
+
             if (!(e.OriginalSource is Image) && !(e.OriginalSource is Grid)) return;
 
             this.SetFullScreen(true);
@@ -1785,6 +1798,7 @@ namespace Ty.Component.ImageControl
         public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
         public event Action<string> DeleteImgEvent;
         public event Action<bool> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
 
         double _wheelScale = 0.01;
         public double WheelScale
@@ -1861,6 +1875,12 @@ namespace Ty.Component.ImageControl
                 sample.Add(resultStroke);
             }
 
+            //  Message：注册选中事件
+            foreach (var item in sample.RectangleLayer)
+            {
+                item.Selected += Item_Selected;
+            }
+
             this.ViewModel.Add(sample);
 
             //  Do：触发新增事件
@@ -1888,6 +1908,7 @@ namespace Ty.Component.ImageControl
 
             this.MarkOperate(entity);
         }
+
 
         public ImgMarkEntity GetSelectMarkEntity()
         {
@@ -1969,9 +1990,11 @@ namespace Ty.Component.ImageControl
 
                 foreach (var item in markEntityList)
                 {
-                    SampleVieModel vm = new SampleVieModel(item);
+                    //SampleVieModel vm = new SampleVieModel(item);
 
-                    this.ViewModel.SampleCollection.Add(vm);
+                    //this.ViewModel.SampleCollection.Add(vm);
+                    item.markOperateType = ImgMarkOperateType.Insert;
+                    this.MarkOperate(item);
                 }
 
                 this.RefreshAll();
@@ -1990,24 +2013,16 @@ namespace Ty.Component.ImageControl
             {
                 SampleVieModel vm = new SampleVieModel(entity);
 
+                //  Message：注册选中事件
+                foreach (var item in vm.RectangleLayer)
+                {
+                    item.Selected += Item_Selected;
+                }
+
                 this.ViewModel.SampleCollection.Add(vm);
             }
             else
             {
-                //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
-
-                var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model == entity);
-
-                if (find == null)
-                {
-                    Debug.WriteLine("不存在标记：" + entity.Name);
-                    return;
-                }
-
-                find.RectangleLayer.First().Clear();
-
-                this.ViewModel.SampleCollection.Remove(find);
-
                 //  Do：修改
                 if (entity.markOperateType == ImgMarkOperateType.Update)
                 {
@@ -2016,8 +2031,39 @@ namespace Ty.Component.ImageControl
                     this.ViewModel.SampleCollection.Add(vm);
 
                 }
+                else
+                {
+                    //var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Name == entity.Name && l.Code == entity.Code);
+
+                    var find = this.ViewModel.SampleCollection.ToList().Find(l => l.Model == entity);
+
+                    if (find == null)
+                    {
+                        Debug.WriteLine("不存在标记：" + entity.Name);
+                        return;
+                    }
+
+                    //  Message：注销事件
+                    foreach (var item in find.RectangleLayer)
+                    {
+                        item.Selected -= Item_Selected;
+
+                        item.Clear();
+                    }
+
+                    //find.RectangleLayer.First().Clear();
+
+                    this.ViewModel.SampleCollection.Remove(find);
+                }
             }
 
+        }
+
+        private void Item_Selected(RectangleShape obj)
+        {
+            var v = this.GetSelectMarkEntity();
+
+            this.MarkEntitySelectChanged?.Invoke(v);
         }
 
         public void NextImg()
@@ -2355,6 +2401,7 @@ namespace Ty.Component.ImageControl
 
             //  Message：隐藏气泡放大控件
             this.MoveRect.Visibility = Visibility.Collapsed;
+
             this.popup.IsOpen = false;
 
             if (markType == MarkType.None)

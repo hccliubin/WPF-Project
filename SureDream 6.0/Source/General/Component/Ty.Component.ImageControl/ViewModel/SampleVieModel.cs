@@ -32,6 +32,7 @@ namespace Ty.Component.ImageControl
             this.Name = imgMarkEntity.Name;
             this.Code = imgMarkEntity.Code;
             this.Type = "0";
+
             DefectShape defect = new DefectShape(imgMarkEntity.X, imgMarkEntity.Y, imgMarkEntity.Width, imgMarkEntity.Height);
 
             //  Do：添加到图层列表

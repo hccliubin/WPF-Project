@@ -191,7 +191,7 @@ namespace Ty.Component.MediaControl
             this.PlayerToolControl.toggle_play.IsChecked = false;
         }
 
-       internal void Play()
+        internal void Play()
         {
             this.media_media.Play();
 
@@ -368,7 +368,7 @@ namespace Ty.Component.MediaControl
             //this.PlaySpeedUp();
 
 
-        } 
+        }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -381,7 +381,7 @@ namespace Ty.Component.MediaControl
             else
             {
 
-              
+
 
                 this.Pause();
 
@@ -515,6 +515,16 @@ namespace Ty.Component.MediaControl
             }
         }
 
+        public void VoiceStepUp()
+        {
+            this.PlayerToolControl.slider_sound.Value += 0.1;
+        }
+
+        public void VoiceStepDown()
+        {
+            this.PlayerToolControl.slider_sound.Value -= 0.1;
+        }
+
         public void RepeatFromTo(TimeSpan from, TimeSpan to)
         {
             if (from > to) return;
@@ -538,12 +548,12 @@ namespace Ty.Component.MediaControl
             this.media_media.Position = timeSpan;
         }
 
-        public void Rotate()
+        public void Rotate(double value)
         {
             RotateTransform rotate = this.media_media.RenderTransform as RotateTransform;
             rotate.CenterX = this.media_media.ActualWidth / 2;
             rotate.CenterY = this.media_media.ActualHeight / 2;
-            rotate.Angle = rotate.Angle + 90;
+            rotate.Angle = rotate.Angle + value;
         }
 
         public void PlaySpeedUp()
@@ -586,6 +596,16 @@ namespace Ty.Component.MediaControl
             {
                 this.PlayerToolControl.media_slider.Value = v;
             }
+        }
+
+        public void RotateLeft()
+        {
+            this.Rotate(-90);
+        }
+
+        public void RotateRight()
+        {
+            this.Rotate(90);
         }
     }
 

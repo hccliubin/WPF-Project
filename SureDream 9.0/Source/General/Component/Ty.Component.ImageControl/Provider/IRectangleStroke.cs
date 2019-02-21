@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Ty.Component.ImageControl
@@ -40,5 +41,11 @@ namespace Ty.Component.ImageControl
         /// 设置选中
         /// </summary>
         void SetSelected();
+
+        /// <summary>
+        /// 选中改变事件
+        /// </summary>
+
+        event Action<RectangleShape> Selected;
     }
 }

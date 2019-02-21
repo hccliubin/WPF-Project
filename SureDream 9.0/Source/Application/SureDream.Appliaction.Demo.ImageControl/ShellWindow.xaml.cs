@@ -178,7 +178,20 @@ namespace SureDream.Appliaction.Demo.ImageControl
                   //_imgOperate.CancelAddMark();
               };
 
+            this.Loaded += ShellWindow_Loaded;
 
+
+        }
+
+        private void ShellWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<string> images = new List<string>();
+
+            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images\1-3.jpg");
+            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images\2-27.jpg");
+            //_imgOperate.LoadImages(images);
+
+            _imgOperate.LoadImg(images);
         }
 
         //  Message：加载图片

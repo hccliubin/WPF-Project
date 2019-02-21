@@ -33,21 +33,18 @@ namespace Ty.Component.ImageControl
             this.image_control.LastClicked += Image_control_IndexChangedClick;
 
             //  Message：默认0.5s一张
-            this.image_control.Speed = this.image_control.Speed / 2;
-
-            //  Message：隐藏上一页下一页按钮
-            this.image_control.button_next.Visibility = Visibility.Collapsed;
-            this.image_control.button_last.Visibility = Visibility.Collapsed;
+            this.image_control.Speed = this.image_control.Speed / 2; 
 
             this.image_control.SetMarkType(MarkType.None);
 
         }
+ 
 
         //  Message：标识拖动条是否随播放变化
         bool _sliderFlag = false;
 
         //  Message：上一页下一页触发
-        private void Image_control_IndexChangedClick(object sender, RoutedEventArgs e)
+        private void Image_control_IndexChangedClick(object sender, ObjectRoutedEventArgs<ImgSliderMode> e)
         {
             if (_sliderFlag) return;
 
@@ -59,7 +56,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),ImgSliderMode.System);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),e.Object);
 
         }
 
@@ -149,6 +146,8 @@ namespace Ty.Component.ImageControl
 
             this.SetImgPlay(ImgPlayMode.正序);
 
+
+
         }
 
         /// <summary> 暂停 </summary>
@@ -176,7 +175,6 @@ namespace Ty.Component.ImageControl
         {
             this.image_control.ImgPlaySpeedUp();
         }
-
 
 
         public PlayerToolControl PlayerToolControl
@@ -425,6 +423,11 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.toggle_play.IsChecked = imgPlayMode == ImgPlayMode.停止播放;
 
+            //  Message：功能按钮在暂停的时候才出现
+            this.image_control.button_next.Visibility = imgPlayMode == ImgPlayMode.停止播放?Visibility.Visible: Visibility.Collapsed;
+            this.image_control.button_last.Visibility = imgPlayMode == ImgPlayMode.停止播放?Visibility.Visible : Visibility.Collapsed;
+            this.image_control.border.Visibility = imgPlayMode == ImgPlayMode.停止播放 ? Visibility.Visible : Visibility.Collapsed;
+
             this.ImgPlayModeChanged?.Invoke(imgPlayMode);
 
         }
@@ -512,6 +515,58 @@ namespace Ty.Component.ImageControl
         public void DeleteSelectMark()
         {
             this.image_control.DeleteSelectMark();
+        }
+
+
+        public void PlayStepUp()
+        {
+            //int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+
+            this.PlayerToolControl.media_slider.Value += TimeSpan.FromSeconds(5).Ticks;
+
+            ////  Do：设置播放位置
+            //this.SetPositon(index);
+
+            //this._sliderFlag = false;
+
+            //this.SliderDragCompleted?.Invoke(index, this.GetCurrentUrl());
+
+            int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+
+
+            //  Do：设置播放位置
+            this.SetPositon(index);
+        }
+
+        public void PlayStepDown()
+        {
+            this.PlayerToolControl.media_slider.Value -= TimeSpan.FromSeconds(5).Ticks;
+
+            int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
+
+
+            //  Do：设置播放位置
+            this.SetPositon(index);
+        }
+
+        public void VoiceStepUp()
+        {
+            this.PlayerToolControl.slider_sound.Value += 0.1;
+        }
+
+        public void VoiceStepDown()
+        {
+            this.PlayerToolControl.slider_sound.Value -= 0.1;
+        }
+
+        public void RotateLeft()
+        {
+            this.image_control.SetRotateLeft();
+        }
+
+        public void RotateRight()
+        {
+            this.image_control.SetRotateRight();
         }
     }
 

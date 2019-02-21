@@ -958,6 +958,7 @@ namespace Ty.Component.ImageControl
         public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
         public event Action<string> DeleteImgEvent;
         public event Action<bool> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
 
         internal void OnDrawMarkedMouseUp()
         {

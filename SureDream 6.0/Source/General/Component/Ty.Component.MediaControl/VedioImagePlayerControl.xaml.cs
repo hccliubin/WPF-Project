@@ -56,6 +56,8 @@ namespace Ty.Component.MediaControl
 
         public IImagePlayerService ImagePlayerService { get; set; }
 
+
+
         MediaPlayType _type;
 
         public event Action FullScreenHandle;
@@ -144,9 +146,83 @@ namespace Ty.Component.MediaControl
             }
         }
 
+    
+
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             this.FullScreenHandle?.Invoke();
+        }
+
+        public void PlayStepUp()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.PlayStepUp();
+            }
+            else
+            {
+                this.ImagePlayerService.PlayStepUp();
+            }
+        }
+
+        public void PlayStepDown()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.PlayStepDown();
+            }
+            else
+            {
+                this.ImagePlayerService.PlayStepDown();
+            }
+        }
+
+        public void VoiceStepUp()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.VoiceStepUp();
+            }
+            else
+            {
+                this.ImagePlayerService.VoiceStepUp();
+            }
+        }
+
+        public void VoiceStepDown()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.VoiceStepDown();
+            }
+            else
+            {
+                this.ImagePlayerService.VoiceStepDown();
+            }
+        }
+
+        public void RotateLeft()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.RotateLeft();
+            }
+            else
+            {
+                this.ImagePlayerService.RotateLeft();
+            }
+        }
+
+        public void RotateRight()
+        {
+            if (_type == MediaPlayType.Video)
+            {
+                this.MediaPlayerService.RotateRight();
+            }
+            else
+            {
+                this.ImagePlayerService.RotateRight();
+            }
         }
     }
 }

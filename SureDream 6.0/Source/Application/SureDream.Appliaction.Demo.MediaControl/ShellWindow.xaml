@@ -7,7 +7,7 @@
         xmlns:mediacontrol="clr-namespace:Ty.Component.MediaControl;assembly=Ty.Component.MediaControl"
         xmlns:imagecontrol="clr-namespace:Ty.Component.ImageControl;assembly=Ty.Component.ImageControl"
         mc:Ignorable="d"
-        Title="ShellWindow" Height="600" Width="1000">
+        Title="ShellWindow" Height="600" Width="1200">
     <Grid>
         <TabControl>
             <TabItem Header="视频播放控件">
@@ -41,7 +41,6 @@
                         <imagecontrol:PlayerToolControl x:Name="playtool" DockPanel.Dock="Bottom"/>
                         <mediacontrol:VedioImagePlayerControl x:Name="media" Grid.Row="1" PlayerToolControl="{Binding ElementName=playtool}"/>
                     </DockPanel>
-                   
 
                     <ScrollViewer  Grid.Column="1" Grid.RowSpan="2" HorizontalScrollBarVisibility="Hidden">
                         <StackPanel>
@@ -137,6 +136,35 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Button Content="当前的帧数与总帧数"  x:Name="btn_play_currentframe"  Background="Orange"  Click="Btn_play_currentframe_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="13）快进快退">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="快进"  x:Name="btn_play_stepadd"  Background="Orange"  Click="Btn_play_stepadd_Click"/>
+                                        <Button Content="快退"  x:Name="btn_play_stepmul"  Background="Orange"  Click="Btn_play_stepmul_Click"/>
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="13）音量控制">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="增加"  x:Name="btn_voice_stepadd"  Background="Orange"  Click="Btn_voice_stepadd_Click"/>
+                                        <Button Content="减少"  x:Name="btn_voice_stepmul"  Background="Orange"  Click="Btn_voice_stepmul_Click"/>
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="13）旋转控制">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="左"  x:Name="btn_voice_left"  Background="Orange"  Click="Btn_voice_left_Click"/>
+                                        <Button Content="右"  x:Name="btn_voice_tight"  Background="Orange"  Click="Btn_voice_tight_Click"/>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>

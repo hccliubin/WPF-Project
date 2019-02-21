@@ -43,7 +43,21 @@ namespace Ty.Component.ImageControl
             canvasOwner.UpdateSelectionRegion(new Rect(x, y, Width, Height), true);
         }
 
+        public double WidthPercent
+        {
+            get
+            {
+                return this.Width / this.canvasOwner.Width;
+            }
+        }
 
+        public double HeightPercent
+        {
+            get
+            {
+                return this.Height / this.canvasOwner.Height;
+            }
+        }
 
     }
 }

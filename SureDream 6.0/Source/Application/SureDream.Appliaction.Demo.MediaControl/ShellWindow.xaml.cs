@@ -36,6 +36,8 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
             IImgOperate _imgOperate = this.media.ImagePlayerService.GetImgOperate();
 
+            _imgOperate.SetMarkType(MarkType.Defect);
+
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
             this.media.ImagePlayerService.ImgPlayModeChanged += l =>
@@ -222,6 +224,13 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
                 //_imgOperate.CancelAddMark();
             };
+
+            _imgOperate.MarkEntitySelectChanged += l =>
+              {
+
+                  Debug.WriteLine("MarkEntitySelectChanged:" + l.DetectDate);
+
+              };
         }
 
         /// <summary> 获取标定信息存放路径 </summary>
@@ -516,6 +525,36 @@ namespace SureDream.Appliaction.Demo.MediaControl
         private void Btn_media_speeddown_Click(object sender, RoutedEventArgs e)
         {
             this.media.PlaySpeedDown();
+        }
+
+        private void Btn_play_stepadd_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.PlayStepUp();
+        }
+
+        private void Btn_play_stepmul_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.PlayStepDown();
+        }
+
+        private void Btn_voice_stepadd_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.VoiceStepUp();
+        }
+
+        private void Btn_voice_stepmul_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.VoiceStepDown();
+        }
+
+        private void Btn_voice_left_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.RotateLeft();
+        }
+
+        private void Btn_voice_tight_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.RotateRight();
         }
     }
 

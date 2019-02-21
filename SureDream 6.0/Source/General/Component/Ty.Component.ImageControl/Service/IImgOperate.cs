@@ -104,6 +104,9 @@ namespace Ty.Component.ImageControl
 
         event Action<bool> FullScreenChangedEvent;
 
+        /// <summary> 选中项改变事件 </summary>
+        event Action<ImgMarkEntity> MarkEntitySelectChanged;
+
         #endregion
 
         #region 设置方法
@@ -249,6 +252,12 @@ namespace Ty.Component.ImageControl
 
 
         double Speed { get; set; }
+
+        /// <summary> 描述信息 </summary>
+        string DetialText { get; set; }
+
+        /// <summary> 设置气泡模式范围大小 </summary>
+        void SetBubbleScale(double value);
 
     }
 

@@ -936,6 +936,7 @@ namespace Ty.Component.ImageControl
         public double Scale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsWheelPlay { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public double WheelScale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string DetialText { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event ImgMarkHandler ImgMarkOperateEvent;
 
@@ -957,6 +958,7 @@ namespace Ty.Component.ImageControl
         public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
         public event Action<string> DeleteImgEvent;
         public event Action<bool> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
 
         internal void OnDrawMarkedMouseUp()
         {
@@ -1282,6 +1284,11 @@ namespace Ty.Component.ImageControl
         }
 
         public void SetWheelMode(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetBubbleScale(double value)
         {
             throw new NotImplementedException();
         }

@@ -35,10 +35,10 @@ namespace Ty.Component.ImageControl
 
             Children.Add(selectionBorder);
 
-            indicator = new IndicatorObject(this);
-            indicator.Visibility = System.Windows.Visibility.Hidden;
-            indicator.Background = Brushes.Transparent;
-            Children.Add(indicator);
+            Indicator = new IndicatorObject(this);
+            Indicator.Visibility = System.Windows.Visibility.Hidden;
+            Indicator.Background = Brushes.Transparent;
+            Children.Add(Indicator);
 
             CompositionTarget.Rendering += OnCompositionTargetRendering;
         }
@@ -72,10 +72,10 @@ namespace Ty.Component.ImageControl
 
             Children.Add(selectionBorder);
 
-            indicator = new IndicatorObject(this);
-            indicator.Visibility = System.Windows.Visibility.Hidden;
-            indicator.Background = Brushes.Transparent;
-            Children.Add(indicator);
+            Indicator = new IndicatorObject(this);
+            Indicator.Visibility = System.Windows.Visibility.Hidden;
+            Indicator.Background = Brushes.Transparent;
+            Children.Add(Indicator);
 
             CompositionTarget.Rendering += OnCompositionTargetRendering;
 
@@ -137,6 +137,7 @@ namespace Ty.Component.ImageControl
                 }
 
                 temp = selectionRegion.Top;
+
                 if (maskRectTop.Height != temp)
                 {
                     maskRectTop.Height = temp < 0 ? 0 : temp; //Math.Max(0, selectionRegion.Top);
@@ -145,6 +146,7 @@ namespace Ty.Component.ImageControl
                 maskRectBottom.Width = maskRectTop.Width;
 
                 temp = actualHeight - selectionRegion.Bottom;
+
                 if (maskRectBottom.Height != temp)
                 {
                     maskRectBottom.Height = temp < 0 ? 0 : temp; //Math.Max(0, ActualHeight - selectionRegion.Bottom);
@@ -174,6 +176,7 @@ namespace Ty.Component.ImageControl
             get;
             set;
         }
+        internal IndicatorObject Indicator { get => indicator; set => indicator = value; }
         #endregion
 
         #region Mouse Managment
@@ -185,9 +188,9 @@ namespace Ty.Component.ImageControl
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            indicator.Visibility = System.Windows.Visibility.Visible;
+            Indicator.Visibility = System.Windows.Visibility.Visible;
 
-            if (e.Source.Equals(indicator))
+            if (e.Source.Equals(Indicator))
             {
                 HandleIndicatorMouseDown(e);
             }
@@ -225,7 +228,7 @@ namespace Ty.Component.ImageControl
                 transform.Y -= mouseXY.Y - position.Y;
                 mouseXY = position;
 
-                this.indicator.Move(transform);
+                this.Indicator.Move(transform);
             }  
         }
 
@@ -256,7 +259,7 @@ namespace Ty.Component.ImageControl
 
         protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
         {
-            indicator.Visibility = Visibility.Collapsed;
+            Indicator.Visibility = Visibility.Collapsed;
             selectionRegion = Rect.Empty;
             selectionBorder.Width = selectionBorder.Height = 0;
             // ClearSelectionData();
@@ -286,7 +289,7 @@ namespace Ty.Component.ImageControl
 
         private void PrepareShowMask(System.Drawing.Point mouseLoc)
         {
-            indicator.Visibility = Visibility.Collapsed;
+            Indicator.Visibility = Visibility.Collapsed;
             selectionBorder.Visibility = Visibility.Visible;
 
         }
@@ -419,25 +422,25 @@ namespace Ty.Component.ImageControl
             System.Diagnostics.Debug.WriteLine(region.Width);
             System.Diagnostics.Debug.WriteLine(region.Height);
 
-            if (indicator == null)
+            if (Indicator == null)
                 return;
 
-            if (region.Width < indicator.MinWidth || region.Height < indicator.MinHeight)
+            if (region.Width < Indicator.MinWidth || region.Height < Indicator.MinHeight)
             {
                 return;
             }
-            indicator.Visibility = Visibility.Visible;
-            indicator.Width = region.Width;
-            indicator.Height = region.Height;
-            SetLeft(indicator, region.Left);
-            SetTop(indicator, region.Top);
+            Indicator.Visibility = Visibility.Visible;
+            Indicator.Width = region.Width;
+            Indicator.Height = region.Height;
+            SetLeft(Indicator, region.Left);
+            SetTop(Indicator, region.Top);
 
 
         }
 
         private Rect GetIndicatorRegion()
         {
-            return new Rect(GetLeft(indicator), GetTop(indicator), indicator.ActualWidth, indicator.ActualHeight);
+            return new Rect(GetLeft(Indicator), GetTop(Indicator), Indicator.ActualWidth, Indicator.ActualHeight);
         }
 
         #endregion

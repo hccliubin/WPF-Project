@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA6DDE61-AE1D-4153-BD1B-213C8D8FEB24}</ProjectGuid>
+    <ProjectGuid>{90678356-1EF7-4B98-90B0-754A597D872B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ty.Component.ImageControl</RootNamespace>
@@ -64,7 +64,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BubbleWindow.xaml.cs">
+      <DependentUpon>BubbleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Provider\FtpHelper.cs" />
+    <Compile Include="Provider\ObjectRoutedEventArgs.cs" />
     <Compile Include="Service\IImagePlayerService.cs" />
     <Compile Include="Provider\ImageButton.cs" />
     <Compile Include="Model\ImgMarkEntity.cs" />
@@ -102,6 +106,10 @@
     <Compile Include="View\PlayerToolControl.xaml.cs">
       <DependentUpon>PlayerToolControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="BubbleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ImageViews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,0 +1,21 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        xmlns:imagecontrol="clr-namespace:Ty.Component.ImageControl;assembly=Ty.Component.ImageControl"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <imagecontrol:ImageViews  Background="Blue" x:Name="image_control"/>
+
+        <!--<DockPanel>
+            <imagecontrol:PlayerToolControl x:Name="playtool" DockPanel.Dock="Bottom"/>
+            --><!--<mediacontrol:VedioImagePlayerControl x:Name="media" Grid.Row="1" PlayerToolControl="{Binding ElementName=playtool}"/>--><!--
+
+            <imagecontrol:ImagePlayerControl x:Name="control_image"  PlayerToolControl="{Binding ElementName=playtool}"/>
+        </DockPanel>-->
+   
+    </Grid>
+</Window>

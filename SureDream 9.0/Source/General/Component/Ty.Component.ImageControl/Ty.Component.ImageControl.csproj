@@ -68,6 +68,7 @@
       <DependentUpon>BubbleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Provider\FtpHelper.cs" />
+    <Compile Include="Provider\ObjectRoutedEventArgs.cs" />
     <Compile Include="Service\IImagePlayerService.cs" />
     <Compile Include="Provider\ImageButton.cs" />
     <Compile Include="Model\ImgMarkEntity.cs" />

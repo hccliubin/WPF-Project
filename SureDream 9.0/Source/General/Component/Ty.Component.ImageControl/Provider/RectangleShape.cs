@@ -65,6 +65,9 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        public event Action<RectangleShape> Selected;
+
+
         public bool IsSelected { get; private set; }
 
         public void SetSelected()
@@ -94,6 +97,10 @@ namespace Ty.Component.ImageControl
             }
 
             this.IsSelected = true;
+
+            //  Message：触发选中事件
+            this.Selected?.Invoke(this);
+
             //this.Fill = new SolidColorBrush() { Color = ((SolidColorBrush)this.Fill).Color, Opacity = 0.7 };
             //this.StrokeThickness *= 3;
             Debug.WriteLine("选中：" + this.Code);
