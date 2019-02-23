@@ -24,10 +24,33 @@
             <!--中间的图片浏览组件-->
             <Grid x:Name="grid_center" Grid.Row="1"/>
 
+        
+
+
+            <Button Height="30" Width="100" Content="加载" VerticalAlignment="Top" Click="Button_Click"/>
         </Grid>
 
+        <Grid x:Name="popup"  Width="200" Height="200" Background="Transparent"  HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False">
+            <Viewbox>
+                <Grid Width="500" Height="500" Background="Red">
+                    <Grid.Clip>
+                        <EllipseGeometry Center="250,250" RadiusX="250" RadiusY="250"/>
+                    </Grid.Clip>
+                    <Viewbox Width="500" Height="500">
+                        <!--右侧大图-->
+                        <Canvas x:Name="BigBox" Width="500" Height="500">
+                            <!--右侧原图片 注意尺寸-->
+                            <TextBlock Text="你好" Canvas.Top="50" Canvas.Left="100" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="90"/>
 
-        <Button Height="30" Width="100" Content="加载" VerticalAlignment="Top" Click="Button_Click"/>
+                            <Canvas.Clip>
+                                <RectangleGeometry x:Name="bigrect" Rect="0,0,500,500" />
+                            </Canvas.Clip>
+                        </Canvas>
+                    </Viewbox>
+                </Grid>
+
+            </Viewbox>
+
+        </Grid>
     </Grid>
-   
 </Window>

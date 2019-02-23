@@ -158,6 +158,11 @@ namespace Ty.Component.ImageControl
                 imgWidth = control.ActualWidth;
                 imgHeight = control.ActualHeight;
             }
+
+
+            //imgWidth = control.ActualWidth;
+            //imgHeight = control.ActualHeight;
+
         }
 
         void btnRotate_Click(object sender, RoutedEventArgs e)
@@ -433,10 +438,15 @@ namespace Ty.Component.ImageControl
                 //    return;
                 //}
 
-                if (Scale > 16 && e.Delta > 0)
+                if (Scale > 2 && e.Delta > 0)
                 {
                     this.txtZoom.Text = "已放到最大";
+                    this.svImg.IsEnabled = false;
                     return;
+                }
+                else
+                {
+                    this.svImg.IsEnabled = true;
                 }
 
                 //Scale = Scale * (e.Delta > 0 ? WheelScale : 1 / WheelScale);
@@ -464,15 +474,14 @@ namespace Ty.Component.ImageControl
 
                 double yd = (position.Y / this.canvas.ActualHeight) - (this.mask.Indicator.HeightPercent * (yPercent));
 
-                //double xd = position.X / this.canvas.ActualWidth -  xPercent;
-
-                //double yd = position.Y / this.canvas.ActualHeight -  yPercent;
 
                 Debug.WriteLine("position.X" + xPercent);
                 Debug.WriteLine("position.Y" + yPercent);
 
                 //svImg.ScrollToHorizontalOffset((1-position.X / this.canvas.ActualWidth) * svImg.ExtentWidth);
                 //svImg.ScrollToVerticalOffset((1-position.Y /this.canvas.ActualHeight) * svImg.ExtentHeight);
+
+
 
                 svImg.ScrollToHorizontalOffset(xd * svImg.ExtentWidth);
                 svImg.ScrollToVerticalOffset(yd * svImg.ExtentHeight);
@@ -657,6 +666,11 @@ namespace Ty.Component.ImageControl
                 double deltaH = e.GetPosition(element).X;
 
 
+                //double newTop = deltaV - this.MoveRect.ActualHeight / 2;
+                //double newLeft = deltaH - this.MoveRect.ActualWidth / 2;
+
+
+
                 double newTop = deltaV - this.MoveRect.ActualHeight / 2 <= 0 ? 0 : deltaV - this.MoveRect.ActualHeight / 2;
                 double newLeft = deltaH - this.MoveRect.ActualWidth / 2 <= 0 ? 0 : deltaH - this.MoveRect.ActualWidth / 2;
 
@@ -664,33 +678,7 @@ namespace Ty.Component.ImageControl
                 newTop = deltaV + this.MoveRect.ActualHeight / 2 > this.canvas.ActualHeight ? this.canvas.ActualHeight - this.MoveRect.ActualHeight : newTop;
                 newLeft = deltaH + this.MoveRect.ActualWidth / 2 > this.canvas.ActualWidth ? this.canvas.ActualWidth - this.MoveRect.ActualWidth : newLeft;
 
-                ////边界的判断
-                //if (deltaV - this.MoveRect.ActualHeight / 2 <= 0)
-                //{
-                //    newLeft = 0;
-                //}
 
-                ////左侧图片框宽度 - 半透明矩形框宽度
-                //if (newLeft >= (this.canvas.Width - this.MoveRect.Width))
-                //{
-                //    newLeft = this.canvas.Width - this.MoveRect.Width;
-                //}
-
-                //if (newTop <= 0)
-                //{
-                //    newTop = 0;
-                //}
-
-                ////左侧图片框高度度 - 半透明矩形框高度度
-                //if (newTop >= this.canvas.Height - this.MoveRect.Height)
-                //{
-                //    newTop = this.canvas.Height - this.MoveRect.Height;
-                //}
-
-                //// 计算鼠标在X轴的移动距离
-                //double deltaV = e.GetPosition(element).Y;
-                ////计算鼠标在Y轴的移动距离
-                //double deltaH = e.GetPosition(element).X;
 
                 this.MoveRect.SetValue(InkCanvas.TopProperty, newTop);
                 this.MoveRect.SetValue(InkCanvas.LeftProperty, newLeft);
@@ -700,6 +688,10 @@ namespace Ty.Component.ImageControl
                 ////  Message：设置跟随鼠标显示
                 //popup.IsOpen = false;
                 //popup.IsOpen = true;
+
+                var position2 = Mouse.GetPosition(this.grid_all);
+
+                this.popup.Margin = new Thickness(position2.X - this.popup.Width / 2, position2.Y - this.popup.Height / 2, 0, 0);
 
                 if (this.start.X <= 0 || this.start.Y <= 0) { return; }
 
@@ -932,9 +924,9 @@ namespace Ty.Component.ImageControl
                 element.SetValue(InkCanvas.LeftProperty, newLeft);
                 AdjustBigImage();
 
-                //  Message：设置跟随鼠标显示
-                popup.IsOpen = false;
-                popup.IsOpen = true;
+                ////  Message：设置跟随鼠标显示
+                //popup.IsOpen = false;
+                //popup.IsOpen = true;
 
 
                 if (mousePosition.X <= 0 || mousePosition.Y <= 0) { return; }
@@ -1128,7 +1120,7 @@ namespace Ty.Component.ImageControl
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(LastClickedRoutedEvent, this,imgSliderMode);
+                ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(LastClickedRoutedEvent, this, imgSliderMode);
                 this.RaiseEvent(args);
             });
 
@@ -1161,7 +1153,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 激发下一页
         /// </summary>
-        public void OnNextClick(ImgSliderMode imgSliderMode= ImgSliderMode.User)
+        public void OnNextClick(ImgSliderMode imgSliderMode = ImgSliderMode.User)
         {
 
             this.Clear();
@@ -1180,7 +1172,7 @@ namespace Ty.Component.ImageControl
 
             //  Do：触发下一页
             this.NextImgEvent?.Invoke();
-           
+
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -1297,6 +1289,9 @@ namespace Ty.Component.ImageControl
             get => scale;
             set
             {
+
+                if (value < 0) return;
+
                 scale = value;
                 SetImageByScale();
             }
@@ -1645,7 +1640,7 @@ namespace Ty.Component.ImageControl
         }
 
         /// <summary> 设置双击是否触发全屏 </summary>
-        public bool DoubleClickSetFullScreen { get; set; }
+        public bool DoubleClickSetFullScreen { get; set; } = true;
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -1779,12 +1774,16 @@ namespace Ty.Component.ImageControl
 
         private void MoveRect_MouseLeave(object sender, MouseEventArgs e)
         {
-            this.popup.IsOpen = false;
+            //this.popup.IsOpen = false;
+
+            this.popup.Visibility = Visibility.Collapsed;
         }
 
         private void MoveRect_MouseEnter(object sender, MouseEventArgs e)
         {
-            this.popup.IsOpen = true;
+            //this.popup.IsOpen = true;
+
+            this.popup.Visibility = Visibility.Visible;
         }
     }
 
@@ -2402,7 +2401,7 @@ namespace Ty.Component.ImageControl
             //  Message：隐藏气泡放大控件
             this.MoveRect.Visibility = Visibility.Collapsed;
 
-            this.popup.IsOpen = false;
+            this.popup.Visibility = Visibility.Collapsed;
 
             if (markType == MarkType.None)
             {
@@ -2501,6 +2500,11 @@ namespace Ty.Component.ImageControl
 
         public void SetBubbleScale(double value)
         {
+            //  Do：设置控件大小
+            this.popup.Width = value;
+            this.popup.Height = value;
+
+            //  Do：设置放大区域大小
             this.MoveRect.Width = value;
             this.MoveRect.Height = value;
 

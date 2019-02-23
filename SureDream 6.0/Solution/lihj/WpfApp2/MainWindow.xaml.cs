@@ -24,19 +24,25 @@ namespace WpfApp2
         {
             InitializeComponent();
 
-            this.Loaded += MainWindow_Loaded;
+            //this.Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
+        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
 
-            List<string> images = new List<string>();
+        //    List<string> images = new List<string>();
 
-            images.Add(@"F:\GitHub\WPF-Project\SureDream 6.0\Product\Debug\images1\1-3.jpg");
-            //control_image.LoadImages(images);
+        //    images.Add(@"F:\GitHub\WPF-Project\SureDream 6.0\Product\Debug\images1\1-3.jpg");
+        //    //control_image.LoadImages(images);
 
-            image_control.LoadImg(images);
+        //    image_control.LoadImg(images);
             
+        //}
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           
+            this.grid_buzy.Visibility = this.grid_buzy.Visibility==Visibility.Visible?Visibility.Collapsed:Visibility.Visible;
         }
     }
 }

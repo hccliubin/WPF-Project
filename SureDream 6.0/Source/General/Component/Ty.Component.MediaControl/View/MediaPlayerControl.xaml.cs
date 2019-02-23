@@ -417,6 +417,7 @@ namespace Ty.Component.MediaControl
             this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
 
             this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+            
 
             this.PlayerToolControl.slider_sound.ValueChanged += this.Slider_sound_ValueChanged;
         }
@@ -426,11 +427,11 @@ namespace Ty.Component.MediaControl
             this.Stop();
 
             //  Message：注册播放事件
-            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+            this.PlayerToolControl.toggle_play.Click -= this.ToggleButton_Click;
 
-            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+            this.PlayerToolControl.media_slider.ValueChanged -= this.Media_slider_ValueChanged;
 
-            this.PlayerToolControl.slider_sound.ValueChanged += this.Slider_sound_ValueChanged;
+            this.PlayerToolControl.slider_sound.ValueChanged -= this.Slider_sound_ValueChanged;
         }
 
     }

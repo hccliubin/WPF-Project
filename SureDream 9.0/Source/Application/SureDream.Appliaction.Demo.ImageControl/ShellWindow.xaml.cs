@@ -40,7 +40,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             //  Message：设置初始速度
             _imgOperate.Speed = 4;
 
-            _imgOperate.WheelScale = 0.01;
+            _imgOperate.WheelScale = 0.05;
 
             //  Do：加载图片浏览主键
             this.grid_center.Children.Add(_imgOperate.BuildEntity());
