@@ -78,8 +78,8 @@
 
                     <Grid Grid.Row="0">
                         <!--<local:ImageOprateCtrEntity  x:Name="image_control"/>-->
-                        <local:ImageViews  x:Name="image_control"
-                                           DoubleClickSetFullScreen="False" DoubleClickFullScreenHandle="Image_control_DoubleClickFullScreenHandle"
+                        <local:ImageViews  x:Name="image_control" 
+                                           FullScreenChangedEvent="Image_control_DoubleClickFullScreenHandle"
                                            SpeedChanged="image_control_SpeedChanged"/>
                     </Grid>
 

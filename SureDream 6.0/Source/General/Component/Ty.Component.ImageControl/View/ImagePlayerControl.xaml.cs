@@ -37,6 +37,9 @@ namespace Ty.Component.ImageControl
 
             this.image_control.SetMarkType(MarkType.None);
 
+            this.image_control.button_next.Visibility = Visibility.Collapsed;
+            this.image_control.button_last.Visibility = Visibility.Collapsed;
+
         }
  
 
@@ -229,8 +232,8 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.media_speed.Text = 1 / d + "X";
         }
-         
-        private void Image_control_DoubleClickFullScreenHandle()
+
+        private void Image_control_DoubleClickFullScreenHandle(bool obj)
         {
             this.FullScreenHandle?.Invoke();
         }
@@ -425,9 +428,7 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.toggle_play.IsChecked = imgPlayMode == ImgPlayMode.停止播放;
 
-            //  Message：功能按钮在暂停的时候才出现
-            this.image_control.button_next.Visibility = imgPlayMode == ImgPlayMode.停止播放?Visibility.Visible: Visibility.Collapsed;
-            this.image_control.button_last.Visibility = imgPlayMode == ImgPlayMode.停止播放?Visibility.Visible : Visibility.Collapsed;
+            //  Message：功能按钮在暂停的时候才出现 
             this.image_control.border.Visibility = imgPlayMode == ImgPlayMode.停止播放 ? Visibility.Visible : Visibility.Collapsed;
 
             this.ImgPlayModeChanged?.Invoke(imgPlayMode);

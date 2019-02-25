@@ -1640,18 +1640,13 @@ namespace Ty.Component.ImageControl
         }
 
         /// <summary> 设置双击是否触发全屏 </summary>
-        public bool DoubleClickSetFullScreen { get; set; } = true;
+        public bool DoubleClickSetFullScreen { get; set; } = false;
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
             if (!(e.OriginalSource is Image) && !(e.OriginalSource is Grid)) return;
 
-            if (!DoubleClickSetFullScreen)
-            {
-                this.DoubleClickFullScreenHandle?.Invoke();
-                return;
-            }
 
             this.SetFullScreen(true);
         }
@@ -1803,7 +1798,6 @@ namespace Ty.Component.ImageControl
         public event Action<string> DeleteImgEvent;
         public event Action<bool> FullScreenChangedEvent;
         public event Action<ImgMarkEntity> MarkEntitySelectChanged;
-        public event Action DoubleClickFullScreenHandle;
 
         double _wheelScale = 0.01;
         public double WheelScale
@@ -2263,6 +2257,13 @@ namespace Ty.Component.ImageControl
 
         public void SetFullScreen(bool isFullScreen)
         {
+            if (!DoubleClickSetFullScreen)
+            {
+                this.FullScreenChangedEvent?.Invoke(isFullScreen);
+                return;
+            }
+
+
             if (_isFullScreen == isFullScreen) return;
 
             if (isFullScreen)

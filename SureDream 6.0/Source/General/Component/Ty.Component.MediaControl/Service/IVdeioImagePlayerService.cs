@@ -58,7 +58,6 @@ namespace Ty.Component.MediaControl
         /// <summary> 音量减少5 </summary>
         void VoiceStepDown();
 
-
         /// <summary> 左旋转 </summary>
         void RotateLeft();
 

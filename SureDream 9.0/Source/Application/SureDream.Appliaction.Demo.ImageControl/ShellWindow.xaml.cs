@@ -184,6 +184,11 @@ namespace SureDream.Appliaction.Demo.ImageControl
                   Debug.WriteLine("MarkEntitySelectChanged"+l);
               };
 
+            _imgOperate.FullScreenChangedEvent += l =>
+                {
+                    Debug.WriteLine("DoubleClickFullScreenHandle"+l);
+                };
+
             this.Loaded += ShellWindow_Loaded;
 
 
