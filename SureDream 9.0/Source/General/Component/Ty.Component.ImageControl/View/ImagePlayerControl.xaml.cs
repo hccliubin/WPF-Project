@@ -40,13 +40,13 @@ namespace Ty.Component.ImageControl
         }
  
 
-        //  Message：标识拖动条是否随播放变化
-        bool _sliderFlag = false;
+        ////  Message：标识拖动条是否随播放变化
+        //bool _sliderFlag = false;
 
         //  Message：上一页下一页触发
         private void Image_control_IndexChangedClick(object sender, ObjectRoutedEventArgs<ImgSliderMode> e)
         {
-            if (_sliderFlag) return;
+            if (this.PlayerToolControl.SliderFlag) return;
 
             if (this.image_control.Current == null) return;
 
@@ -58,12 +58,6 @@ namespace Ty.Component.ImageControl
             //  Do：触发页更改事件
             this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),e.Object);
 
-        }
-
-        //  Message：开始拖动进度条
-        private void media_slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
-        {
-            this._sliderFlag = true;
         }
 
         //  Message：结束拖动进度条
@@ -80,9 +74,7 @@ namespace Ty.Component.ImageControl
             //this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
 
             //  Do：设置播放位置
-            this.SetPositon(index);
-
-            this._sliderFlag = false;
+            this.SetPositon(index); 
 
             this.SliderDragCompleted?.Invoke(index, this.GetCurrentUrl());
 
@@ -90,7 +82,7 @@ namespace Ty.Component.ImageControl
 
         private void Media_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (this._sliderFlag) return;
+            if (this.PlayerToolControl.SliderFlag) return;
 
             //  Message：当是鼠标点击引起的改变是触发SetPositon
             if (Mouse.LeftButton != MouseButtonState.Pressed) return;
@@ -209,6 +201,8 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
 
+            this.PlayerToolControl.DragCompleted += media_slider_DragCompleted;
+
             //config.slider_sound.ValueChanged += control.Slider_sound_ValueChanged;
         }
 
@@ -222,7 +216,9 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
 
-           
+            this.PlayerToolControl.DragCompleted -= media_slider_DragCompleted;
+
+
         }
 
         private void image_control_SpeedChanged(object sender, RoutedEventArgs e)
@@ -232,6 +228,11 @@ namespace Ty.Component.ImageControl
             if (this.PlayerToolControl == null) return;
 
             this.PlayerToolControl.media_speed.Text = 1 / d + "X";
+        }
+         
+        private void Image_control_DoubleClickFullScreenHandle()
+        {
+            this.FullScreenHandle?.Invoke();
         }
     }
 
@@ -245,6 +246,7 @@ namespace Ty.Component.ImageControl
 
         public event Action<int, string> SliderDragCompleted;
 
+        public event Action FullScreenHandle;
 
         public void LoadImageFolder(List<string> imageFoders, string startForder)
         {

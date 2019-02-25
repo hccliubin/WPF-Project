@@ -84,7 +84,6 @@ namespace Ty.Component.MediaControl
         /// </summary>
         void PlaySpeedDown();
 
-
         /// <summary> 增加5s </summary>
         void PlayStepUp();
 
@@ -102,6 +101,9 @@ namespace Ty.Component.MediaControl
 
         /// <summary> 右旋转 </summary>
         void RotateRight();
+
+        /// <summary> 全屏事件 </summary>
+        event Action FullScreenHandle;
 
 
     }

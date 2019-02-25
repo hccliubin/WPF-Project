@@ -136,7 +136,8 @@
                     <Slider x:Name="media_slider"  x:FieldModifier="public"
                                 Style="{DynamicResource SliderStyle1}"   
                                 Minimum="0"
-                                Maximum="0" 
+                                Maximum="0" Thumb.DragStarted="media_slider_DragStarted" 
+                                Thumb.DragCompleted="media_slider_DragCompleted"
                                 Value="0"  IsMoveToPointEnabled="True"
                                 VerticalAlignment="Center"/>
 

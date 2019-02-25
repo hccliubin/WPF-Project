@@ -48,9 +48,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
             this.media.FullScreenHandle += () =>
               {
-
                   Debug.WriteLine("FullScreenHandle");
-
               };
 
             //this.media.ImagePlayerService.SliderDragCompleted += (l, k) =>

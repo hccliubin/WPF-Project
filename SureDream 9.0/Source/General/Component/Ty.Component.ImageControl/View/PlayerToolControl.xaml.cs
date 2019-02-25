@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,6 +25,22 @@ namespace Ty.Component.ImageControl
         {
             InitializeComponent();
         }
-        
+
+        public event DragCompletedEventHandler DragCompleted;
+
+        //  Message：标识拖动条是否随播放变化
+        internal bool SliderFlag { get; set; } = false;
+
+        private void media_slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            this.SliderFlag = true;
+        }
+
+        private void media_slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            this.SliderFlag = false;
+
+            this.DragCompleted?.Invoke(sender,e);
+        }
     }
 }

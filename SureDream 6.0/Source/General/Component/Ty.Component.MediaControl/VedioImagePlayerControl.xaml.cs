@@ -26,6 +26,16 @@ namespace Ty.Component.MediaControl
             this.MediaPlayerService = this.control_media;
 
             this.ImagePlayerService = this.control_image;
+
+            this.MediaPlayerService.FullScreenHandle += () =>
+            {
+                this.FullScreenHandle?.Invoke();
+            };
+
+            this.ImagePlayerService.FullScreenHandle += () =>
+            {
+                this.FullScreenHandle?.Invoke();
+            };
         }
 
 
@@ -68,7 +78,7 @@ namespace Ty.Component.MediaControl
             _type = type;
 
 
-            if(type == MediaPlayType.Video)
+            if (type == MediaPlayType.Video)
             {
 
                 this.control_image.DisposePlayerToolControl();
@@ -108,23 +118,23 @@ namespace Ty.Component.MediaControl
             this.ImagePlayerService.LoadImageFolder(paths, start);
         }
 
-        public void LoadShareImageFolder(List<string> paths, string start, string user, string password,string ip)
+        public void LoadShareImageFolder(List<string> paths, string start, string user, string password, string ip)
         {
             this.RefreshPlayType(MediaPlayType.Image);
 
             this.ImagePlayerService.LoadShareImageFolder(paths, start, user, password, ip);
         }
 
-        public void LoadFtpImageFolder(List<string> paths,string start,string user,string password)
+        public void LoadFtpImageFolder(List<string> paths, string start, string user, string password)
         {
             this.RefreshPlayType(MediaPlayType.Image);
 
-            this.ImagePlayerService.LoadFtpImageFolder(paths, start, user,password);
+            this.ImagePlayerService.LoadFtpImageFolder(paths, start, user, password);
         }
 
         public void PlaySpeedUp()
         {
-            if(_type == MediaPlayType.Video)
+            if (_type == MediaPlayType.Video)
             {
                 this.MediaPlayerService.PlaySpeedUp();
             }
@@ -144,13 +154,6 @@ namespace Ty.Component.MediaControl
             {
                 this.ImagePlayerService.ImgPlaySpeedDown();
             }
-        }
-
-    
-
-        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            this.FullScreenHandle?.Invoke();
         }
 
         public void PlayStepUp()

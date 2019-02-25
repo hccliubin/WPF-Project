@@ -127,7 +127,7 @@ namespace Ty.Component.ImageControl
                 this.RefreshStrokeThickness();
             };
 
-            this.MouseDown += (l, k) =>
+            this.PreviewMouseDown += (l, k) =>
               {
                   SetSelected();
               };

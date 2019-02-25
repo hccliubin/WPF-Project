@@ -434,6 +434,10 @@ namespace Ty.Component.MediaControl
             this.PlayerToolControl.slider_sound.ValueChanged -= this.Slider_sound_ValueChanged;
         }
 
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.FullScreenHandle?.Invoke();
+        }
     }
 
     public partial class MediaPlayerControl : IMediaPlayerService
@@ -473,6 +477,9 @@ namespace Ty.Component.MediaControl
         }
 
         string _url;
+
+        public event Action FullScreenHandle;
+
         public void Load(string mediaPath)
         {
             Uri uri = new Uri(mediaPath, UriKind.Absolute);

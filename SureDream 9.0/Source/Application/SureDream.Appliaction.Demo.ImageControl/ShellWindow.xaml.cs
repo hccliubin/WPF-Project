@@ -178,6 +178,12 @@ namespace SureDream.Appliaction.Demo.ImageControl
                   //_imgOperate.CancelAddMark();
               };
 
+
+            _imgOperate.MarkEntitySelectChanged += l =>
+              {
+                  Debug.WriteLine("MarkEntitySelectChanged"+l);
+              };
+
             this.Loaded += ShellWindow_Loaded;
 
 

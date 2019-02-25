@@ -259,6 +259,9 @@ namespace Ty.Component.ImageControl
         /// <summary> 设置气泡模式范围大小 </summary>
         void SetBubbleScale(double value);
 
+        /// <summary> 全屏事件 </summary>
+        event Action DoubleClickFullScreenHandle;
+
     }
 
     /// <summary>

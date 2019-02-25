@@ -1644,9 +1644,14 @@ namespace Ty.Component.ImageControl
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (!DoubleClickSetFullScreen) return;
 
             if (!(e.OriginalSource is Image) && !(e.OriginalSource is Grid)) return;
+
+            if (!DoubleClickSetFullScreen)
+            {
+                this.DoubleClickFullScreenHandle?.Invoke();
+                return;
+            }
 
             this.SetFullScreen(true);
         }
@@ -1798,6 +1803,7 @@ namespace Ty.Component.ImageControl
         public event Action<string> DeleteImgEvent;
         public event Action<bool> FullScreenChangedEvent;
         public event Action<ImgMarkEntity> MarkEntitySelectChanged;
+        public event Action DoubleClickFullScreenHandle;
 
         double _wheelScale = 0.01;
         public double WheelScale
