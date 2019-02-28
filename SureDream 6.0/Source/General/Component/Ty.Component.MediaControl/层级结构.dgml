@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="ImagePlayerControl.xaml" Bounds="88.8729284165821,-88.956129367194,163.773333333333,25.24" Label="ImagePlayerControl.xaml" />
+    <Node Id="MediaPlayerControl.xaml" Bounds="88.8748464965821,-33.717226639994,163.92,25.24" Label="MediaPlayerControl.xaml" />
+    <Node Id="PlayerToolControl.xaml" Bounds="95.8095197967402,55.1570345119862,153.216666666667,25.24" UseManualLocation="True" />
+    <Node Id="Ty.Component.ImageControl" Category="Comment" Bounds="347.498955120747,16.3301970878758,186.086666666667,25.24" UseManualLocation="True" />
+    <Node Id="Ty.Component.MediaControl" Category="Comment" Bounds="338.803672884889,-152.042086206455,186.233333333333,25.24" UseManualLocation="True" />
+    <Node Id="VedioImagePlayerControl.xaml" Bounds="62.2348464965821,-128.953249367194,217.2,140.4760227344" Group="Expanded" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="Ty.Component.ImageControl" Target="ImagePlayerControl.xaml" Bounds="211.480677080178,-60.444686596618,196.724647106291,76.7748847701409" />
+    <Link Source="Ty.Component.ImageControl" Target="PlayerToolControl.xaml" Bounds="257.575026912966,41.570198173523,95.8179821652527,13.8753096228508" />
+    <Link Source="Ty.Component.MediaControl" Target="VedioImagePlayerControl.xaml" Bounds="288.033398794587,-126.80208480835,103.061429649862,31.8583871221834" />
+    <Link Source="VedioImagePlayerControl.xaml" Target="ImagePlayerControl.xaml" Category="Contains" Bounds="194.778587403448,-16.095037999994,12.4457253962203,22.1534608551672" />
+    <Link Source="VedioImagePlayerControl.xaml" Target="MediaPlayerControl.xaml" Category="Contains" Bounds="142.418635763524,5.689924000012,16.9249444701018,22.7762338857481" />
+    <Link Source="VedioImagePlayerControl.xaml" Target="PlayerToolControl.xaml" Bounds="171.713850689562,11.522773367206,0.433444506772247,34.6349658362" Label="绑定" LabelBounds="175.93057295521,21.1952289432535,24,15.24" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="注释" Description="表示在图表中用户定义的注释" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="注释" />
+    <Category Id="Contains" Label="包含" Description="链接的源是否包含目标对象" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="包含者" IsContainment="True" OutgoingActionLabel="包含" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="Group" Label="组" Description="将节点显示为组" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="注释" ValueLabel="包含注释">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

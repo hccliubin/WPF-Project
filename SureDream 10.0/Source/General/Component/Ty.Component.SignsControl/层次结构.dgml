@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Ty.Base.WpfBase" Bounds="31.4216666666669,-108.52,116.096666666667,25.24" Label="Ty.Base.WpfBase" UseManualLocation="True" />
+    <Node Id="Ty.Component.SignsControl" Bounds="0,-30.760099996924,180.94,25.24" />
+  </Nodes>
+  <Links>
+    <Link Source="Ty.Component.SignsControl" Target="Ty.Base.WpfBase" Bounds="89.7480235518853,-74.2807418456544,0.559682443755889,43.5206423202027" Label="引用" LabelBounds="62.0278647600896,-60.1147024912215,24,15.24" />
+  </Links>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+</DirectedGraph>

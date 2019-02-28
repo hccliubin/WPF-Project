@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{73CDFD21-2014-470C-B250-740852BD4EEA}</ProjectGuid>
+    <ProjectGuid>{A68083E6-3BA3-4E90-88D1-2E3CF4ABDA4F}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>Ty.Component.MediaControl</RootNamespace>
-    <AssemblyName>Ty.Component.MediaControl</AssemblyName>
+    <RootNamespace>Ty.Component.SignsControl</RootNamespace>
+    <AssemblyName>Ty.Component.SignsControl</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Product\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CDTY.DataAnalysis.Entity">
+      <HintPath>..\..\..\..\Product\Dll\CDTY.DataAnalysis.Entity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -49,40 +52,32 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="VedioImagePlayerControl.xaml">
+    <Compile Include="Themes\TreeListView.xaml.cs">
+      <DependentUpon>TreeListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\DefectViewModel.cs" />
+    <Compile Include="Service\IDefectSign.cs" />
+    <Compile Include="Provider\SearchCombobox.cs" />
+    <Page Include="Themes\TreeListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Scroll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DefectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MediaPartControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MediaPlayerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\General.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Slider.xaml">
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageButton.cs" />
-    <Compile Include="Service\IMediaPlayerService.cs" />
-    <Compile Include="Provider\MediaButton.cs" />
-    <Compile Include="Service\IVdeioImagePlayerService.cs" />
-    <Compile Include="VedioImagePlayerControl.xaml.cs">
-      <DependentUpon>VedioImagePlayerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MediaPartControl.xaml.cs">
-      <DependentUpon>MediaPartControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MediaPlayerControl.xaml.cs">
-      <DependentUpon>MediaPlayerControl.xaml</DependentUpon>
+    <Compile Include="View\DefectControl.xaml.cs">
+      <DependentUpon>DefectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -97,50 +92,25 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Provider\RectangleShape.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="关系图.dgml" />
-    <None Include="层级结构.dgml" />
+    <None Include="层次结构.dgml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\框.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Base\Ty.Base.WpfBase\Ty.Base.WpfBase.csproj">
       <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
       <Name>Ty.Base.WpfBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ty.Component.ImageControl\Ty.Component.ImageControl.csproj">
-      <Project>{aa6dde61-ae1d-4153-bd1b-213c8d8feb24}</Project>
-      <Name>Ty.Component.ImageControl</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\暂停.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\放大.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\进度条位置-声音.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\进度条位置-视频播放.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\开始.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\声音.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\循环播放.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,43 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Ty.Component.SignControl">
+
+    <Style TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Margin" Value="20,0"/>
+    </Style>
+    <Style TargetType="ComboBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="{x:Type local:SearchCombobox}">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="IsTextSearchEnabled" Value="False"/>
+        <Setter Property="IsEditable" Value="True"/> 
+        <Setter Property="DisplayMemberPath" Value="Name"/>
+        <Setter Property="SelectedValuePath" Value="ID"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Height" Value="35"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

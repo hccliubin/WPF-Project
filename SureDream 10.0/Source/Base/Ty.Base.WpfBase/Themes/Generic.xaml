@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!--资源文件-->
+    <ResourceDictionary.MergedDictionaries>
+        <!--控件字眼-->
+        <ResourceDictionary Source="Ty.Thremes.Control.xaml"/>
+        <!--系统资源-->
+        <ResourceDictionary Source="Ty.Themes.Resource.xaml"/>
+        <!--主题资源-->
+        <ResourceDictionary Source="Color/LightThemeResource.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary> 

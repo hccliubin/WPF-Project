@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Ty.Component.SignControl.SignSignControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ty.Component.SignControl"
+             mc:Ignorable="d" Height="120"   d:DesignWidth="1000"  Margin="10,0">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Ty.Component.SignControl;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid local:GridHelper.ShowBorder="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition  Width="1.2*" />
+            <ColumnDefinition />
+            <ColumnDefinition  Width="1.2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="区域/部位" Grid.Row="0" Grid.Column="0"/>
+        <local:SearchCombobox Grid.Row="0" Grid.Column="1"/>
+
+        <TextBlock Text="创建人" Grid.Row="1" Grid.Column="0"/>
+        <local:SearchCombobox Grid.Row="1" Grid.Column="1"/>
+
+        <TextBlock Text="装置类型" Grid.Row="0" Grid.Column="2"/>
+        <local:SearchCombobox Grid.Row="0" Grid.Column="3"/>
+
+        <!--<TextBlock Text="设备设施种类" Grid.Row="1" Grid.Column="0"/>
+            <local:SearchCombobox Grid.Row="1" Grid.Column="1"/>-->
+
+    </Grid>
+</UserControl>
