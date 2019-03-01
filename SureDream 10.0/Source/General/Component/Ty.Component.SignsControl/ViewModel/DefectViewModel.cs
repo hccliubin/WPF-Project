@@ -48,17 +48,17 @@ namespace Ty.Component.SignsControl
             }
         }
 
-        private Func<object, string, bool> _filterMatch;
-        /// <summary> 匹配样本与缺陷检索时支持编码检索、名称检索与拼音检索  </summary>
-        public Func<object, string, bool> FilterMatch
-        {
-            get { return _filterMatch; }
-            set
-            {
-                _filterMatch = value;
-                RaisePropertyChanged("FilterMatch");
-            }
-        }
+        //private Func<object, string, bool> _filterMatch;
+        ///// <summary> 匹配样本与缺陷检索时支持编码检索、名称检索与拼音检索  </summary>
+        //public Func<object, string, bool> FilterMatch
+        //{
+        //    get { return _filterMatch; }
+        //    set
+        //    {
+        //        _filterMatch = value;
+        //        RaisePropertyChanged("FilterMatch");
+        //    }
+        //}
 
 
         #endregion
@@ -91,29 +91,29 @@ namespace Ty.Component.SignsControl
             //  Do：初始化
             else if (command == "init")
             {
-                this.FilterMatch += (l, k) =>
-                  {
-                      //if (this.DefectMenuEntity.CommonHistoricalDefectsOrMark == null) return false;
+                //this.FilterMatch += (l, k) =>
+                //  {
+                //      //if (this.DefectMenuEntity.CommonHistoricalDefectsOrMark == null) return false;
 
-                      TyeEncodeDeviceEntity defectCommonUsed = l as TyeEncodeDeviceEntity;
+                //      TyeEncodeDeviceEntity defectCommonUsed = l as TyeEncodeDeviceEntity;
 
-                      if (defectCommonUsed == null) return false;
+                //      if (defectCommonUsed == null) return false;
 
-                      if (string.IsNullOrEmpty(k)) return true;
+                //      if (string.IsNullOrEmpty(k)) return true;
 
-                      //  Message：匹配字段的规则
-                      Func<string, string, bool> match = (m, n) =>
-                          {
-                              if (string.IsNullOrEmpty(m)) return false;
+                //      //  Message：匹配字段的规则
+                //      Func<string, string, bool> match = (m, n) =>
+                //          {
+                //              if (string.IsNullOrEmpty(m)) return false;
 
-                              return m.Contains(n);
+                //              return m.Contains(n);
 
-                          };
+                //          };
 
-                      //  Message：匹配缺陷样本搜索规则
-                      return match(defectCommonUsed.Code, k) || match(defectCommonUsed.Name, k) || match(defectCommonUsed.NamePY, k);
+                //      //  Message：匹配缺陷样本搜索规则
+                //      return match(defectCommonUsed.Code, k) || match(defectCommonUsed.Name, k) || match(defectCommonUsed.NamePY, k);
 
-                  };
+                //  };
 
                 //   //  Message：更新PHMCodes
                 //   this.Codes.CollectionChanged += (l, k) =>
@@ -133,38 +133,38 @@ namespace Ty.Component.SignsControl
 
         }
 
-        void RefreshPHMCode()
-        {
-            //this.Codes[0] = this.DbType;
-            //this.Codes[1] = this.SelectDataAcquisitionMode?.Code;
-            //this.Codes[2] = this.SelectRailwaySsequence?.Code;
-            //this.Codes[3] = this.SelectDedicatedLine?.LineCode;
-            //this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
-            //this.Codes[5] = this.SelectBasicUnit?.PoleMarkCode;
+        //void RefreshPHMCode()
+        //{
+        //    //this.Codes[0] = this.DbType;
+        //    //this.Codes[1] = this.SelectDataAcquisitionMode?.Code;
+        //    //this.Codes[2] = this.SelectRailwaySsequence?.Code;
+        //    //this.Codes[3] = this.SelectDedicatedLine?.LineCode;
+        //    //this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
+        //    //this.Codes[5] = this.SelectBasicUnit?.PoleMarkCode;
 
-            //////  Message：最近使用与历史使用显示面板问题，与PHMCode码生成有关 当历史缺陷类别没有选中项时，PHMCode码后几位用缺陷类别选中项的Code  当历史缺陷类别有选中项时，PHMCode码后面几位用历史缺陷类别选中项的code
-            ////if (this.SelectCommonHistoricalDefectsOrMark == null)
-            ////{
-            //this.Codes[6] = this.SelectDefectOrMarkCodes?.Code;
-            ////}
-            ////else
-            ////{
-            ////    this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
-            ////}
-
-
-            this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
+        //    //////  Message：最近使用与历史使用显示面板问题，与PHMCode码生成有关 当历史缺陷类别没有选中项时，PHMCode码后几位用缺陷类别选中项的Code  当历史缺陷类别有选中项时，PHMCode码后面几位用历史缺陷类别选中项的code
+        //    ////if (this.SelectCommonHistoricalDefectsOrMark == null)
+        //    ////{
+        //    //this.Codes[6] = this.SelectDefectOrMarkCodes?.Code;
+        //    ////}
+        //    ////else
+        //    ////{
+        //    ////    this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
+        //    ////}
 
 
-            Debug.WriteLine(this.PHMCodes);
+        //    this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
 
-        }
+
+        //    Debug.WriteLine(this.PHMCodes);
+
+        //}
 
     }
 
     partial class DefectViewModel : IDefectSign
     {
-        public event Action<string> ConfirmData;
+        //public event Action<string> ConfirmData;
 
         public event Action CancelClick;
 
@@ -309,10 +309,17 @@ namespace Ty.Component.SignsControl
                 nodes.Add(new TyeEncodeDeviceEntityNode(item));
             }
 
+            stopwatch.Start();
+
             this.Nodes = this.Bind(nodes);
 
+            Debug.WriteLine(stopwatch.Elapsed);
+
             this.RefreshCount();
+
+            Debug.WriteLine(stopwatch.Elapsed);
         }
+        Stopwatch stopwatch = new Stopwatch();
 
 
         private List<TyeEncodeDeviceEntityNode> _nodes = new List<TyeEncodeDeviceEntityNode>();
@@ -360,6 +367,11 @@ namespace Ty.Component.SignsControl
                     }
                 }
             }
+
+
+
+            Debug.WriteLine(stopwatch.Elapsed);
+
             return outputList;
         }
 
@@ -452,10 +464,31 @@ namespace Ty.Component.SignsControl
             set
             {
                 _selectTyeEncodeDeviceEntityNode = value;
+
                 RaisePropertyChanged("SelectTyeEncodeDeviceEntityNode");
 
                 //  Message：触发筛选
                 this.RefreshNodes(this.FilterText, value);
+            }
+        }
+
+
+        private TyeEncodeDeviceEntityNode _selectTreeTyeEncodeDeviceEntityNode;
+        /// <summary> 设备过滤选择项  </summary>
+        public TyeEncodeDeviceEntityNode SelectTreeTyeEncodeDeviceEntityNode
+        {
+            get { return _selectTreeTyeEncodeDeviceEntityNode; }
+            set
+            {
+                _selectTreeTyeEncodeDeviceEntityNode = value;
+
+                RaisePropertyChanged("SelectTreeTyeEncodeDeviceEntityNode");
+
+                if (this.Codes.Count < 1) return;
+
+                this.Codes[1] = value?.Code;
+
+                this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
             }
         }
 
@@ -467,7 +500,7 @@ namespace Ty.Component.SignsControl
             var all = new TyeEncodeDeviceEntityNode(new TyeEncodeDeviceEntity() { Name = "全部" });
             all.IsSelected = true;
             result.Add(all);
-            
+
 
             foreach (var item in uses)
             {
@@ -742,7 +775,7 @@ namespace Ty.Component.SignsControl
             if (matchNodes.Count == 1)
             {
                 //matchNodes.First().IsExpanded = true;
-            
+
                 Action<TyeEncodeDeviceEntityNode> ExpandParent = null;
 
                 ExpandParent = l =>
@@ -763,6 +796,17 @@ namespace Ty.Component.SignsControl
             this.RefreshCount();
 
         }
+
+        public void LoadPHM(string phm)
+        {
+            this.Codes.Clear();
+
+            this.Codes.Add(phm);
+
+            this.Codes.Add(this.SelectTyeEncodeDeviceEntityNode?.Code);
+        }
+
+
     }
 
     partial class DefectViewModel : INotifyPropertyChanged
@@ -798,6 +842,8 @@ namespace Ty.Component.SignsControl
             this.ID = tyeEncodeDeviceEntity.ID;
 
             this.ParentID = tyeEncodeDeviceEntity.ParentID;
+
+            this.Code = tyeEncodeDeviceEntity.Code;
 
             this.Name = tyeEncodeDeviceEntity.Name;
 

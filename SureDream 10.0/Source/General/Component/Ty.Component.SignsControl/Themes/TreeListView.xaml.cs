@@ -27,6 +27,35 @@ namespace Ty.Component.SignsControl
         {
             return item is TreeListViewItem;
         }
+
+
+        public object SelectItem
+        {
+            get { return (object)GetValue(SelectItemProperty); }
+            set { SetValue(SelectItemProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectItemProperty =
+            DependencyProperty.Register("SelectItem", typeof(object), typeof(TreeListView), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 TreeListView control = d as TreeListView;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
+
+        protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
+        {
+            base.OnSelectedItemChanged(e);
+
+            SelectItem = e.NewValue;
+        }
+
+
     }
 
     public class TreeListViewItem : TreeViewItem

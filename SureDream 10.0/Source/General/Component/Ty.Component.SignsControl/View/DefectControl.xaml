@@ -73,23 +73,26 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="PHM(6C设施设备统一编码)：" FontSize="25"/>
         <!--<TextBlock Text="{Binding PHMCodes}" Foreground="#04a2e2" Grid.Column="1" FontSize="25"/>-->
         <TextBlock Grid.Column="1" FontSize="25" FontWeight="Bold">
-            <Run Text="{Binding Codes[0]}"  Foreground="#04a2e2"/>
+            <!--<Run Text="{Binding Codes[0]}"  Foreground="#04a2e2"/>
               <Run Text="{Binding Codes[1]}"  Foreground="#04a2e2"/>
               <Run Text="{Binding Codes[2]}"  Foreground="#04a2e2"/>
                <Run Text="{Binding Codes[3]}"  Foreground="#04a2e2"/>
                <Run Text="{Binding Codes[4]}"  Foreground="#04a2e2"/>
                <Run Text="{Binding Codes[5]}"  Foreground="#04a2e2"/>
-               <Run Text="{Binding Codes[6]}"  Foreground="#49fd73"/>
+               <Run Text="{Binding Codes[6]}"  Foreground="#49fd73"/>-->
                <!--<Run Text="{Binding Codes[7]}"  Foreground="#49fd73"/>
                <Run Text="{Binding Codes[8]}"  Foreground="#49fd73"/>
                <Run Text="{Binding Codes[9]}"  Foreground="#49fd73"/>-->
+            
+               <Run Text="{Binding Codes[0]}"  Foreground="#04a2e2"/>
+               <Run Text="{Binding Codes[1]}"  Foreground="#49fd73"/>
         </TextBlock>
         <!--B 01 01 012 01 000001 01 01 01 01-->
         <Grid Grid.Column="0" Grid.Row="1" Background="#252525" >
@@ -124,50 +127,43 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
+
+                <DataTemplate DataType="{x:Type entity:DefectCommonUsed}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="280"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock  ToolTip="{Binding Describletion}" TextTrimming="CharacterEllipsis"  VerticalAlignment="Bottom" Foreground="White">
+                            <Run Text="{Binding Code}"/>
+                             <Run Text="{Binding Describletion}"/>
+                        </TextBlock>
+
+                        <!--<TextBlock Text="预估缺陷" Grid.Column="1" VerticalAlignment="Bottom" Foreground="White"/>-->
+                        <TextBlock Text="F1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="White"/>
+                    </Grid>
+                </DataTemplate>
             </Grid.Resources>
             <StackPanel>
-                <!--<TextBlock Text="常用缺陷" Foreground="White" Margin="10"/>-->
+
+                <TextBlock Text="预估缺陷" Foreground="White" Margin="10"/>
 
                 <ListBox Background="Transparent" Margin="10,5"
                      Foreground="White" BorderThickness="0" SelectedItem="{Binding SelectDefectCommonUsed}"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemsSource="{Binding EstimateDefectCommonUseds}">
-
-                    <ListBox.Resources>
-                        <DataTemplate DataType="{x:Type entity:DefectCommonUsed}">
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="260"/>
-                                    <!--<ColumnDefinition />-->
-                                    <ColumnDefinition Width="30"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Describletion}" ToolTip="{Binding Describletion}" TextTrimming="CharacterEllipsis"  VerticalAlignment="Bottom" Foreground="White"/>
-                                <!--<TextBlock Text="预估缺陷" Grid.Column="1" VerticalAlignment="Bottom" Foreground="White"/>-->
-                                <TextBlock Text="F1" Grid.Column="2" VerticalAlignment="Bottom" Foreground="White"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.Resources>
                 </ListBox>
+
+                <TextBlock Text="常用缺陷" Foreground="White" Margin="10"/>
 
                 <ListBox 
                      Background="Transparent" Margin="10,5"
                      Foreground="White" BorderThickness="0" SelectedItem="{Binding SelectDefectCommonUsed}"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemsSource="{Binding RecentlyDefectCommonUseds}">
-                    <ListBox.Resources>
-                        <DataTemplate DataType="{x:Type entity:DefectCommonUsed}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="260"/>
-                                    <!--<ColumnDefinition />-->
-                                    <ColumnDefinition Width="30"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Describletion}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Describletion}" VerticalAlignment="Bottom" Foreground="White"/>
-                                <!--<TextBlock Text="最近使用" Grid.Column="1" VerticalAlignment="Bottom" Foreground="White"/>-->
-                                <TextBlock Text="F1" Grid.Column="2" VerticalAlignment="Bottom" Foreground="White"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.Resources>
+
                 </ListBox>
 
                 <!--<ListBox 
@@ -335,7 +331,9 @@
 
                             <TextBlock x:Name="txt_mark" Grid.Column="1" Text="输入关键字" Visibility="Collapsed" VerticalAlignment="Center" Margin="5,0" Opacity="0.6"  Foreground="{TemplateBinding Foreground}"/>
 
-                            --><!--<TextBox x:Name="tb_text" Text="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=Text,Mode=TwoWay}"  VerticalAlignment="Center" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White"/>--><!--
+                            -->
+            <!--<TextBox x:Name="tb_text" Text="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=Text,Mode=TwoWay}"  VerticalAlignment="Center" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White"/>-->
+            <!--
 
                             <ContentPresenter Content="{TemplateBinding Text}" Grid.Column="1"/>
                         </Grid>
@@ -349,9 +347,9 @@
             </TextBox>-->
 
             <local:TreeListView x:Name="treeList"  Grid.Row="3" Background="Transparent" BorderBrush="Transparent"
-                            AlternationCount="2" ItemsSource="{Binding Nodes}">
+                            AlternationCount="2" SelectItem="{Binding SelectTreeTyeEncodeDeviceEntityNode,Mode=TwoWay}" ItemsSource="{Binding Nodes}">
                 <local:TreeListView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Nodes}" />
+                    <HierarchicalDataTemplate ItemsSource="{Binding Nodes}"/>
                 </local:TreeListView.ItemTemplate>
             </local:TreeListView>
 

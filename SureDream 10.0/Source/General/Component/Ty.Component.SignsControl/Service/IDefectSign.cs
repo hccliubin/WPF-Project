@@ -36,10 +36,13 @@ namespace Ty.Component.SignsControl
         /// <param name="entity"></param>
         void LoadTyeEncodeCheckDevice(List<TyeEncodeDeviceEntity> uses);
 
-        /// <summary>
-        /// 事件确认数据后返回PHM编码
-        /// </summary>
-        event Action<string> ConfirmData;
+
+        void LoadPHM(string phm);
+
+        ///// <summary>
+        ///// 事件确认数据后返回PHM编码
+        ///// </summary>
+        //event Action<string> ConfirmData;
 
         /// <summary>
         /// 点击确认按钮
@@ -59,6 +62,6 @@ namespace Ty.Component.SignsControl
         /// <summary>
         /// 返回的结果数据
         /// </summary>
-        string PHMCodes { get; set; }
+        string PHMCodes { get;}
     }
 }

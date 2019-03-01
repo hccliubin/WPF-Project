@@ -99,7 +99,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
-        </Grid.ColumnDefinitions> 
+        </Grid.ColumnDefinitions>
 
         <TreeView>
             <TreeView.ItemContainerStyle>
@@ -177,5 +177,9 @@
                 </TreeViewItem>
             </TreeViewItem>
         </TreeView>
+
+        <Canvas Grid.Column="1">
+            <Path Fill="Black" Data="M0 0l274.256 274.256-274.256 274.256z" Height="5" Stretch="Fill" Width="5"/>
+        </Canvas>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using CDTY.DataAnalysis.Entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,6 +39,23 @@ namespace SureDream.Appliaction.Demo.SignControl
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+
+            string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "测试数据.json");
+
+
+            string txt = System.IO.File.ReadAllText(url, Encoding.Default);
+
+            var collecion = JsonConvert.DeserializeObject<List<TyeEncodeDeviceEntity>>(txt);
+
+
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
+
+            Debug.WriteLine("开始："+stopwatch.Elapsed);
+
+
             IDefectSign defectViewModel = new DefectViewModel();
 
             List<DefectCommonUsed> defectCommonUseds = new List<DefectCommonUsed>();
@@ -48,6 +66,7 @@ namespace SureDream.Appliaction.Demo.SignControl
 
                 defectCommonUsed.Describletion = "统一跨距接头数量(n) -n>=2" + i.ToString();
                 defectCommonUsed.CountUse = i;
+                defectCommonUsed.Code = "Code" + i;
                 defectCommonUsed.ID = Guid.NewGuid().ToString();
 
                 defectCommonUseds.Add(defectCommonUsed);
@@ -62,7 +81,7 @@ namespace SureDream.Appliaction.Demo.SignControl
             for (int i = 0; i < 3; i++)
             {
                 DefectCommonUsed defectCommonUsed = new DefectCommonUsed();
-
+                defectCommonUsed.Code = "Code" + i;
                 defectCommonUsed.Describletion = "统一跨距接头数量统一跨距接头数量(统一跨距接头数量((n) -n>=2" + i;
                 defectCommonUsed.ID = Guid.NewGuid().ToString();
                 defectCommonUsed.CountUse = i;
@@ -73,45 +92,48 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             defectViewModel.LoadEstimateDefectCommonUseds(defectCommonUseds1);
 
-            List<TyeEncodeDeviceEntity> tyeEncodeDeviceEntities = new List<TyeEncodeDeviceEntity>();
+            //List<TyeEncodeDeviceEntity> tyeEncodeDeviceEntities = new List<TyeEncodeDeviceEntity>();
 
-            for (int i = 0; i < 6000; i++)
-            {
-                TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
+            //for (int i = 0; i < 6000; i++)
+            //{
+            //    TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
 
-                tyeEncodeDeviceEntity.Code = i.ToString();
-                tyeEncodeDeviceEntity.Name = "承受力" + i;
-                tyeEncodeDeviceEntity.ID = i.ToString();
-                tyeEncodeDeviceEntity.ParentID = (i / 10 == 0 ? string.Empty : (i / 10).ToString()).ToString();
+            //    tyeEncodeDeviceEntity.Code = "Code" + i.ToString();
+            //    tyeEncodeDeviceEntity.Name = "承受力" + i;
+            //    tyeEncodeDeviceEntity.ID = i.ToString();
+            //    tyeEncodeDeviceEntity.ParentID = (i / 10 == 0 ? string.Empty : (i / 10).ToString()).ToString();
 
-                tyeEncodeDeviceEntities.Add(tyeEncodeDeviceEntity);
-            }
+            //    tyeEncodeDeviceEntities.Add(tyeEncodeDeviceEntity);
+            //}
 
-            defectViewModel.LoadTyeEncodeDevice(tyeEncodeDeviceEntities);
+            defectViewModel.LoadTyeEncodeDevice(collecion);
 
 
             List<TyeEncodeDeviceEntity> tyeEncodeDeviceEntitieChecks = new List<TyeEncodeDeviceEntity>();
 
-            for (int i = 0; i < 30; i++)
-            {
-                TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
+            //for (int i = 0; i < 30; i++)
+            //{
+            //    TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
 
-                tyeEncodeDeviceEntity.Code = i.ToString();
-                tyeEncodeDeviceEntity.Name = "承受力" + i;
-                tyeEncodeDeviceEntity.ID = i.ToString();
-                tyeEncodeDeviceEntity.ParentID = (i / 10 == 0 ? string.Empty : (i / 10).ToString()).ToString();
+            //    tyeEncodeDeviceEntity.Code = i.ToString();
+            //    tyeEncodeDeviceEntity.Name = "承受力" + i;
+            //    tyeEncodeDeviceEntity.ID = i.ToString();
+            //    tyeEncodeDeviceEntity.ParentID = (i / 10 == 0 ? string.Empty : (i / 10).ToString()).ToString();
 
-                tyeEncodeDeviceEntitieChecks.Add(tyeEncodeDeviceEntity);
-            }
+            //    tyeEncodeDeviceEntitieChecks.Add(tyeEncodeDeviceEntity);
+            //}
 
-            defectViewModel.LoadTyeEncodeCheckDevice(tyeEncodeDeviceEntitieChecks);
+            defectViewModel.LoadTyeEncodeCheckDevice(collecion.Where(l=>l.Code.Length==2).ToList());
 
-            defectViewModel.ConfirmData += l =>
-            {
 
-                Debug.WriteLine(l);
+            defectViewModel.LoadPHM("B 01 15 000045 000261 000033");
 
-            };
+            //defectViewModel.ConfirmData += l =>
+            //{
+
+            //    Debug.WriteLine(l);
+
+            //};
 
             window.Width = 1000;
             window.Height = 600;
@@ -137,6 +159,9 @@ namespace SureDream.Appliaction.Demo.SignControl
 
             KeyGesture keyGesture = new KeyGesture(Key.W, ModifierKeys.Control);
             defect.KeyGestureForHistList = keyGesture;
+
+
+            Debug.WriteLine("结束：" + stopwatch.Elapsed);
 
             //window.ShowDialog();
 
