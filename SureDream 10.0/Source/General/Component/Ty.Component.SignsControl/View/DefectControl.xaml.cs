@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CDTY.DataAnalysis.Entity;
 using Ty.Base.WpfBase;
 
 namespace Ty.Component.SignsControl
@@ -25,8 +26,7 @@ namespace Ty.Component.SignsControl
         public DefectControl()
         {
             InitializeComponent();
-        }
-
+        } 
 
         public KeyGesture KeyGestureForHistList
         {
@@ -125,7 +125,11 @@ namespace Ty.Component.SignsControl
 
             defectViewModel.RefreshFilter(this.tb_text.Text);
         }
-    }
 
     
+    }
+    
+
+
+
 }

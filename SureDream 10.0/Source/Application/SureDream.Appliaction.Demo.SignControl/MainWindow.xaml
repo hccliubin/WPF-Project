@@ -8,6 +8,5 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="缺陷管理" HorizontalAlignment="Left" Margin="133,118,0,0" VerticalAlignment="Top" Width="146" Height="47" Click="Button_Click"/>
-        <Button Content="样本管理" IsEnabled="False" HorizontalAlignment="Left" Margin="400,118,0,0" VerticalAlignment="Top" Width="146" Height="47" Click="Button_Click_1"/>
     </Grid>
 </Window>

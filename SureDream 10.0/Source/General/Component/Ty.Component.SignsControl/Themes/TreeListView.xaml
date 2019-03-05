@@ -75,7 +75,7 @@
     </Style>
 
     <GridViewColumnCollection x:Key="gvColumns">
-        <GridViewColumn Header="姓名" CellTemplate="{StaticResource CellTemplate_Name}"/>
+        <GridViewColumn Header="姓名" CellTemplate="{StaticResource CellTemplate_Name}" Width="500"/>
         <!--<GridViewColumn Header="年龄" 
                         DisplayMemberBinding="{Binding Age}" Width="80" />
         <GridViewColumn Header="性别" 
@@ -98,8 +98,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
-        <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-        <Setter Property="Visibility" Value="{Binding Visibility}" />
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
+        <Setter Property="Visibility" Value="{Binding Visibility,Mode=TwoWay}" />
         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},
                 Path=(local:TreeListView.AlternationIndex),
                 Converter={StaticResource conBack}}" />

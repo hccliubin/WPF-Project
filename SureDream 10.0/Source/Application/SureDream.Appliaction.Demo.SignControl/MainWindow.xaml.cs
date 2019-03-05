@@ -31,33 +31,43 @@ namespace SureDream.Appliaction.Demo.SignControl
             InitializeComponent();
 
             this.Loaded += MainWindow_Loaded;
-
         }
-
-
-        Window window = new Window();
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
+            //  Message：获取测试数据
             string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "测试数据.json");
-
 
             string txt = System.IO.File.ReadAllText(url, Encoding.Default);
 
             var collecion = JsonConvert.DeserializeObject<List<TyeEncodeDeviceEntity>>(txt);
 
+            IDefectSign defectViewModel = DefectViewModel.CreateInstance();
 
-            Stopwatch stopwatch = new Stopwatch();
+            //  Message：初始化树形控件（只需初始化一遍）
+            defectViewModel.InitTyeEncodeDevice(collecion);
 
-            stopwatch.Start();
+            List<TyeEncodeDeviceEntity> tyeEncodeDeviceEntitieChecks = new List<TyeEncodeDeviceEntity>();
 
+            defectViewModel.LoadTyeEncodeCheckDevice(collecion.Where(l => l.Code.Length == 2).ToList());
 
-            Debug.WriteLine("开始："+stopwatch.Elapsed);
+           
 
+         
+        }
 
-            IDefectSign defectViewModel = new DefectViewModel();
+        /// <summary> 缺陷管理 </summary>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new Window();
 
+            window.Width = 1000;
+            window.Height = 600;
+            //window.WindowStyle = WindowStyle.None;
+
+            IDefectSign defectViewModel = DefectViewModel.CreateInstance();
+
+            //  Message：刷新常用数据
             List<DefectCommonUsed> defectCommonUseds = new List<DefectCommonUsed>();
 
             for (int i = 0; i < 7; i++)
@@ -72,10 +82,9 @@ namespace SureDream.Appliaction.Demo.SignControl
                 defectCommonUseds.Add(defectCommonUsed);
             }
 
-
             defectViewModel.LoadDefectCommonUsed(defectCommonUseds);
 
-
+            //  Message：刷新预估缺陷
             List<DefectCommonUsed> defectCommonUseds1 = new List<DefectCommonUsed>();
 
             for (int i = 0; i < 3; i++)
@@ -89,55 +98,11 @@ namespace SureDream.Appliaction.Demo.SignControl
                 defectCommonUseds1.Add(defectCommonUsed);
             }
 
-
+            
             defectViewModel.LoadEstimateDefectCommonUseds(defectCommonUseds1);
 
-            //List<TyeEncodeDeviceEntity> tyeEncodeDeviceEntities = new List<TyeEncodeDeviceEntity>();
-
-            //for (int i = 0; i < 6000; i++)
-            //{
-            //    TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
-
-            //    tyeEncodeDeviceEntity.Code = "Code" + i.ToString();
-            //    tyeEncodeDeviceEntity.Name = "承受力" + i;
-            //    tyeEncodeDeviceEntity.ID = i.ToString();
-            //    tyeEncodeDeviceEntity.ParentID = (i / 10 == 0 ? string.Empty : (i / 10).ToString()).ToString();
-
-            //    tyeEncodeDeviceEntities.Add(tyeEncodeDeviceEntity);
-            //}
-
-            defectViewModel.LoadTyeEncodeDevice(collecion);
-
-
-            List<TyeEncodeDeviceEntity> tyeEncodeDeviceEntitieChecks = new List<TyeEncodeDeviceEntity>();
-
-            //for (int i = 0; i < 30; i++)
-            //{
-            //    TyeEncodeDeviceEntity tyeEncodeDeviceEntity = new TyeEncodeDeviceEntity();
-
-            //    tyeEncodeDeviceEntity.Code = i.ToString();
-            //    tyeEncodeDeviceEntity.Name = "承受力" + i;
-            //    tyeEncodeDeviceEntity.ID = i.ToString();
-            //    tyeEncodeDeviceEntity.ParentID = (i / 10 == 0 ? string.Empty : (i / 10).ToString()).ToString();
-
-            //    tyeEncodeDeviceEntitieChecks.Add(tyeEncodeDeviceEntity);
-            //}
-
-            defectViewModel.LoadTyeEncodeCheckDevice(collecion.Where(l=>l.Code.Length==2).ToList());
-
-
+            //  Message：刷新缺陷输入信息
             defectViewModel.LoadPHM("B 01 15 000045 000261 000033");
-
-            //defectViewModel.ConfirmData += l =>
-            //{
-
-            //    Debug.WriteLine(l);
-
-            //};
-
-            window.Width = 1000;
-            window.Height = 600;
-            //window.WindowStyle = WindowStyle.None;
 
             //  Do：取消
             defectViewModel.CancelClick += () =>
@@ -153,36 +118,13 @@ namespace SureDream.Appliaction.Demo.SignControl
                 Debug.WriteLine(defectViewModel.ToString());
             };
 
-            DefectControl defect = new DefectControl();
+            DefectControl defect = DefectViewModel.CreateInstance().GetControlInstance();
+
             window.Content = defect;
-            window.DataContext = defectViewModel;
 
-            KeyGesture keyGesture = new KeyGesture(Key.W, ModifierKeys.Control);
-            defect.KeyGestureForHistList = keyGesture;
-
-
-            Debug.WriteLine("结束：" + stopwatch.Elapsed);
-
-            //window.ShowDialog();
-
-
-
-        }
-
-        /// <summary> 缺陷管理 </summary>
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
             window.ShowDialog();
+
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //Window window = new Window();
-            //window.Content = new SignSignControl();
-            //window.ShowDialog();
-        }
-
-
     }
 
 }

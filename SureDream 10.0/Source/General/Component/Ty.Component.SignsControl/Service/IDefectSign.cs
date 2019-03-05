@@ -12,6 +12,7 @@ namespace Ty.Component.SignsControl
     /// </summary>
    public interface IDefectSign
     {
+
         /// <summary>
         /// 加载常用列表(历史和最近)
         /// </summary>
@@ -28,7 +29,7 @@ namespace Ty.Component.SignsControl
         /// 加载树模型
         /// </summary>
         /// <param name="entity"></param>
-        void LoadTyeEncodeDevice(List<TyeEncodeDeviceEntity> uses);
+        void InitTyeEncodeDevice(List<TyeEncodeDeviceEntity> uses);
 
         /// <summary>
         /// 加载设备列表

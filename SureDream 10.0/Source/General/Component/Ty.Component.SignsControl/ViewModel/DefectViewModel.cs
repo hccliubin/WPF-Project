@@ -46,20 +46,7 @@ namespace Ty.Component.SignsControl
 
                 RaisePropertyChanged("Codes");
             }
-        }
-
-        //private Func<object, string, bool> _filterMatch;
-        ///// <summary> 匹配样本与缺陷检索时支持编码检索、名称检索与拼音检索  </summary>
-        //public Func<object, string, bool> FilterMatch
-        //{
-        //    get { return _filterMatch; }
-        //    set
-        //    {
-        //        _filterMatch = value;
-        //        RaisePropertyChanged("FilterMatch");
-        //    }
-        //}
-
+        } 
 
         #endregion
 
@@ -71,14 +58,6 @@ namespace Ty.Component.SignsControl
             //  Do：保存
             if (command == "btn_sumit")
             {
-
-                //if (this.SelectDefectOrMarkCodes == null)
-                //{
-                //    MessageBox.Show("请先选择缺陷类别！");
-
-                //    return;
-                //}
-
                 this.SumitClick?.Invoke();
 
             }
@@ -91,80 +70,44 @@ namespace Ty.Component.SignsControl
             //  Do：初始化
             else if (command == "init")
             {
-                //this.FilterMatch += (l, k) =>
-                //  {
-                //      //if (this.DefectMenuEntity.CommonHistoricalDefectsOrMark == null) return false;
-
-                //      TyeEncodeDeviceEntity defectCommonUsed = l as TyeEncodeDeviceEntity;
-
-                //      if (defectCommonUsed == null) return false;
-
-                //      if (string.IsNullOrEmpty(k)) return true;
-
-                //      //  Message：匹配字段的规则
-                //      Func<string, string, bool> match = (m, n) =>
-                //          {
-                //              if (string.IsNullOrEmpty(m)) return false;
-
-                //              return m.Contains(n);
-
-                //          };
-
-                //      //  Message：匹配缺陷样本搜索规则
-                //      return match(defectCommonUsed.Code, k) || match(defectCommonUsed.Name, k) || match(defectCommonUsed.NamePY, k);
-
-                //  };
-
-                //   //  Message：更新PHMCodes
-                //   this.Codes.CollectionChanged += (l, k) =>
-                //{
-                //    this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
-
-                //};
-
+                
             }
 
             //  Do：Reset
             else if (command == "btn_clear")
             {
-                //this.Reset();
+             
             }
 
 
-        }
-
-        //void RefreshPHMCode()
-        //{
-        //    //this.Codes[0] = this.DbType;
-        //    //this.Codes[1] = this.SelectDataAcquisitionMode?.Code;
-        //    //this.Codes[2] = this.SelectRailwaySsequence?.Code;
-        //    //this.Codes[3] = this.SelectDedicatedLine?.LineCode;
-        //    //this.Codes[4] = this.SelectDedicatedStation?.SiteCode;
-        //    //this.Codes[5] = this.SelectBasicUnit?.PoleMarkCode;
-
-        //    //////  Message：最近使用与历史使用显示面板问题，与PHMCode码生成有关 当历史缺陷类别没有选中项时，PHMCode码后几位用缺陷类别选中项的Code  当历史缺陷类别有选中项时，PHMCode码后面几位用历史缺陷类别选中项的code
-        //    ////if (this.SelectCommonHistoricalDefectsOrMark == null)
-        //    ////{
-        //    //this.Codes[6] = this.SelectDefectOrMarkCodes?.Code;
-        //    ////}
-        //    ////else
-        //    ////{
-        //    ////    this.Codes[6] = this.SelectCommonHistoricalDefectsOrMark?.Code;
-        //    ////}
-
-
-        //    this.PHMCodes = this.Codes.ToList().Aggregate((m, n) => m + " " + n);
-
-
-        //    Debug.WriteLine(this.PHMCodes);
-
-        //}
+        } 
 
     }
 
     partial class DefectViewModel : IDefectSign
     {
-        //public event Action<string> ConfirmData;
+        public static DefectViewModel _instance = new DefectViewModel();
+
+        /// <summary> 获取单例模式 </summary>
+        public static DefectViewModel CreateInstance()
+        {
+            return _instance;
+        }
+
+        DefectControl defectControl;
+
+        /// <summary> 获取单例控件Control </summary>
+        public DefectControl GetControlInstance()
+        {
+            if(defectControl==null)
+            {
+                defectControl = new DefectControl();
+
+                defectControl.DataContext = this;
+            }
+
+            return defectControl;
+        }
 
         public event Action CancelClick;
 
@@ -224,8 +167,6 @@ namespace Ty.Component.SignsControl
             }
         }
 
-
-
         private int _count;
         /// <summary> 说明  </summary>
         public int Count
@@ -276,49 +217,190 @@ namespace Ty.Component.SignsControl
                 this.EstimateDefectCommonUseds.Add(item);
             }
 
-        }
+        } 
 
 
-        private ObservableCollection<TyeEncodeDeviceEntity> _tyeEncodeDeviceEntitys = new ObservableCollection<TyeEncodeDeviceEntity>();
-        /// <summary> 设备列表  </summary>
-        public ObservableCollection<TyeEncodeDeviceEntity> TyeEncodeDeviceEntitys
+        /// <summary>
+        /// 初始化树形缺陷列表，只需要初始化一遍即可
+        /// </summary>
+        /// <param name="uses"></param>
+        public  void InitTyeEncodeDevice(List<TyeEncodeDeviceEntity> uses)
         {
-            get { return _tyeEncodeDeviceEntitys; }
-            set
-            {
-                _tyeEncodeDeviceEntitys = value;
-                RaisePropertyChanged("TyeEncodeDeviceEntitys");
-            }
+            Task.Run(() =>
+             {
+
+                 List<TyeEncodeDeviceEntityNode> no = new List<TyeEncodeDeviceEntityNode>();
+
+                 foreach (var item in uses)
+                 {
+                     no.Add(new TyeEncodeDeviceEntityNode(item));
+                 }
+
+                 //no.AddRange(uses.Select(l => new TyeEncodeDeviceEntityNode(l)));
+
+                 this.Nodes = this.Bind(no);
+
+                 this.RefreshCount();
+             });
+
         }
 
+        ///// <summary> 全部显示 </summary>
+        //async Task LoadAll()
+        //{
+        //    Task task = this.WhereNode(l => l.Code.Length <= 4);
+
+        //    await task.ContinueWith(l =>
+        //    {
+        //        this.Count = nodes.Count;
+        //    });
+        //}
+
+        //public async Task LoadFilter(string text, TyeEncodeDeviceEntityNode selectNode)
+        //{
+        //    if (selectNode == null) return;
+
+        //    matchNodes.Clear();
+
+        //    Predicate<string> strMatch = l =>
+        //    {
+        //        if (l == null) return false;
+
+        //        if (string.IsNullOrEmpty(text)) return true;
+
+        //        return l.Contains(text);
+        //    };
+
+        //    Predicate<TyeEncodeDeviceEntity> match = l =>
+        //    {
+        //        bool result = strMatch(l.Name) || strMatch(l.NamePY) || strMatch(l.Code);
+
+        //        //if (result)
+        //        //{
+        //        //    matchNodes.Add(l);
+        //        //}
+
+        //        return result;
+        //    };
+
+        //    ////  Message：过滤文本和组信息
+        //    //var filterStrings = this.nodes.Where(l => match(l) && selectNode.Name == "全部" ? true : l.Code.StartsWith(l.Code));
+
+        //    if (selectNode.Name == "全部")
+        //    {
+        //        if (string.IsNullOrEmpty(text))
+        //        {
+        //            await this.LoadAll();
+        //        }
+        //        else
+        //        {
+        //            await this.WhereNode(l => match(l));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await this.WhereNode(l => match(l) && l.Code.StartsWith(selectNode.Code));
+        //    }
 
 
-        public void LoadTyeEncodeDevice(List<TyeEncodeDeviceEntity> uses)
-        {
-            this.TyeEncodeDeviceEntitys.Clear();
 
-            foreach (var item in uses)
-            {
-                this.TyeEncodeDeviceEntitys.Add(item);
-            }
 
-            List<TyeEncodeDeviceEntityNode> nodes = new List<TyeEncodeDeviceEntityNode>();
+        //    //Action<List<TyeEncodeDeviceEntityNode>> action = null;
 
-            foreach (var item in uses)
-            {
-                nodes.Add(new TyeEncodeDeviceEntityNode(item));
-            }
+        //    //action = k =>
+        //    //{
+        //    //    foreach (var item in k)
+        //    //    {
 
-            stopwatch.Start();
+        //    //        //  Do：前序遍历
+        //    //        if (item.Nodes.Count > 0)
+        //    //        {
+        //    //            action(item.Nodes);
+        //    //        }
 
-            this.Nodes = this.Bind(nodes);
+        //    //        item.Visibility = match(item) ? Visibility.Visible : Visibility.Collapsed;
 
-            Debug.WriteLine(stopwatch.Elapsed);
+        //    //        //  Do：检查子项是否有显示的
+        //    //        if (item.Nodes.Count > 0)
+        //    //        {
+        //    //            item.Visibility = item.Nodes.Exists(l => l.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+        //    //        }
+        //    //    }
+        //    //};
 
-            this.RefreshCount();
+        //    //foreach (var item in this.Nodes)
+        //    //{
+        //    //    //  Do：先检查第一级别过滤设备节点
+        //    //    item.Visibility = selectNode.Name == "全部" || selectNode.Name == item.Name ?
+        //    //        item.Visibility = Visibility.Visible : item.Visibility = Visibility.Collapsed;
 
-            Debug.WriteLine(stopwatch.Elapsed);
-        }
+        //    //    if (item.Visibility == Visibility.Collapsed) continue;
+
+        //    //    item.IsExpanded = selectNode.Name == item.Name;
+
+        //    //    //  Do：递归检查下面子节点，只检查是否匹配
+        //    //    action(item.Nodes);
+
+        //    //    //  Do：当前项匹配或者有匹配的子项时显示
+        //    //    item.Visibility = match(item) || item.Nodes.Exists(l => l.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+
+        //    //}
+
+        //    ////  Do：只有一项匹配
+        //    //if (matchNodes.Count == 1)
+        //    //{
+        //    //    //matchNodes.First().IsExpanded = true;
+
+        //    //    Action<TyeEncodeDeviceEntityNode> ExpandParent = null;
+
+        //    //    ExpandParent = l =>
+        //    //    {
+        //    //        l.IsExpanded = true;
+
+        //    //        if (l.Parent != null)
+        //    //        {
+        //    //            ExpandParent(l.Parent);
+        //    //        }
+        //    //    };
+
+        //    //    ExpandParent(matchNodes.First());
+
+        //    //    matchNodes.First().IsSelected = true;
+        //    //}
+
+        //    //this.RefreshCount();
+
+        //}
+
+        //async Task WhereNode(Func<TyeEncodeDeviceEntity, bool> where)
+        //{
+        //    await Task.Run(() =>
+        //     {
+        //         var param = nodes.Where(where).ToList();
+
+        //         List<TyeEncodeDeviceEntityNode> no = new List<TyeEncodeDeviceEntityNode>();
+
+        //         no.AddRange(param.Select(l => new TyeEncodeDeviceEntityNode(l)));
+
+        //         //  Message：增加匹配项的父节点
+        //         foreach (var item in param)
+        //         {
+        //             var parents = nodes.Where(l => l.Code.StartsWith(item.RootCode));
+
+        //             foreach (var p in parents)
+        //             {
+        //                 if (no.Exists(l => l.Code == p.Code)) continue;
+
+        //                 no.Add(new TyeEncodeDeviceEntityNode(p));
+        //             }
+        //         }
+
+        //         this.Nodes = this.Bind(no);
+
+        //         //this.RefreshCount();
+        //     });
+        //} 
+
         Stopwatch stopwatch = new Stopwatch();
 
 
@@ -333,8 +415,6 @@ namespace Ty.Component.SignsControl
                 RaisePropertyChanged("Nodes");
             }
         }
-
-
 
         /// <summary>
         /// 绑定树
@@ -367,8 +447,6 @@ namespace Ty.Component.SignsControl
                     }
                 }
             }
-
-
 
             Debug.WriteLine(stopwatch.Elapsed);
 
@@ -411,9 +489,7 @@ namespace Ty.Component.SignsControl
 
                 RaisePropertyChanged("FilterText");
             }
-        }
-
-
+        } 
 
         /// <summary>
         /// 格式化字符串
@@ -467,8 +543,19 @@ namespace Ty.Component.SignsControl
 
                 RaisePropertyChanged("SelectTyeEncodeDeviceEntityNode");
 
+                this.FilterText = this.FilterText?.Trim();
                 //  Message：触发筛选
                 this.RefreshNodes(this.FilterText, value);
+
+                //task.ContinueWith(l =>
+                //{
+                //    if (this.Nodes.Count == 1)
+                //    {
+                //        this.Nodes.First().IsExpanded = true;
+                //    }
+                //});
+
+
             }
         }
 
@@ -508,8 +595,6 @@ namespace Ty.Component.SignsControl
             }
 
             this.TyeEncodeDeviceEntityCheck = result;
-
-            //this.SelectTyeEncodeDeviceEntityNode = all;
         }
 
 
@@ -535,9 +620,6 @@ namespace Ty.Component.SignsControl
 
                         c++;
                     }
-
-
-
                 }
             };
 
@@ -547,60 +629,6 @@ namespace Ty.Component.SignsControl
         }
 
 
-        //public void RefreshFilter(string text)
-        //{
-
-        //    Predicate<string> strMatch = l =>
-        //    {
-        //        if (l == null) return false;
-
-        //        return l.Contains(text);
-        //    };
-
-        //    Predicate<TyeEncodeDeviceEntityNode> match = l =>
-        //    {
-        //        return strMatch(l.Name) || strMatch(l.NamePY) || strMatch(l.Code);
-        //    };
-
-        //    Action<List<TyeEncodeDeviceEntityNode>> action = null;
-
-        //    action = k =>
-        //    {
-        //        foreach (var item in k)
-        //        {
-        //            //  Do：前序遍历
-        //            if (item.Nodes.Count > 0)
-        //            {
-        //                action(item.Nodes);
-        //            }
-
-        //            //  Do：匹配则显示
-        //            if (match(item))
-        //            {
-        //                item.Visibility = Visibility.Visible;
-        //            }
-        //            else
-        //            {
-        //                item.Visibility = Visibility.Collapsed;
-        //            }
-
-        //            if (item.Nodes.Count > 0)
-        //            {
-        //                //  Do：检查是否有匹配
-        //                item.Visibility = item.Nodes.Exists(l => l.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
-
-        //                if (item.Visibility == Visibility.Visible)
-        //                    this.Count++;
-        //            }
-
-        //        }
-        //    };
-
-        //    action(this.Nodes);
-
-        //    this.RefreshCount();
-
-        //}
 
         public void RefreshFilter(string text)
         {
@@ -612,34 +640,6 @@ namespace Ty.Component.SignsControl
         public void RefreshNodes(string text, TyeEncodeDeviceEntityNode selectNode)
         {
             if (selectNode == null) return;
-
-            ////  Message：设置全部按钮关系
-            //if (addlist.Count == 1 && addlist.First().Name == "全部")
-            //{
-            //    foreach (var item in this.TyeEncodeDeviceEntityCheck)
-            //    {
-            //        item.IsSelected = true;
-            //    }
-
-            //}
-
-            //if (removelist.Count == 1 && removelist.First().Name == "全部")
-            //{
-            //    foreach (var item in this.TyeEncodeDeviceEntityCheck)
-            //    {
-            //        item.IsSelected = false;
-            //    } 
-            //}
-
-            //List<TyeEncodeDeviceEntityNode> collection = new List<TyeEncodeDeviceEntityNode>();
-
-            //foreach (var item in this.TyeEncodeDeviceEntityCheck)
-            //{
-            //    if(item.IsSelected)
-            //    {
-            //        collection.Add(item);
-            //    }
-            //}
 
             matchNodes.Clear();
 
@@ -664,8 +664,6 @@ namespace Ty.Component.SignsControl
                 return result;
             };
 
-
-
             Action<List<TyeEncodeDeviceEntityNode>> action = null;
 
             action = k =>
@@ -680,74 +678,13 @@ namespace Ty.Component.SignsControl
                      action(item.Nodes);
                  }
 
-                 ////  Do：不匹配不显示
-                 //if (!match(item))
-                 //{
                  item.Visibility = match(item) ? Visibility.Visible : Visibility.Collapsed;
-                 //}
 
                  //  Do：检查子项是否有显示的
                  if (item.Nodes.Count > 0)
                  {
                      item.Visibility = item.Nodes.Exists(l => l.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
                  }
-
-                 ////  Message：只检查第一级别的
-                 //if (string.IsNullOrEmpty(item.ParentID))
-                 //{
-                 //    item.Visibility = selectNode.Name == "全部" || selectNode.Name == item.Name ?
-                 //    item.Visibility = Visibility.Visible : item.Visibility = Visibility.Collapsed;
-                 //}
-                 //else
-                 //{
-                 //    //  Do：不匹配不显示
-                 //    if (!match(item))
-                 //    {
-                 //        item.Visibility = Visibility.Collapsed;
-                 //    }
-                 //}
-
-                 ////  Do：检查子项是否有显示的
-                 //if (item.Nodes.Count > 0)
-                 //{
-                 //    item.Visibility = item.Nodes.Exists(l => l.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
-                 //}
-
-                 ////  Do：在取消列表中的不显示
-                 //if (removelist.Exists(l => l.Name == item.Name))
-                 //{
-                 //    item.Visibility = Visibility.Collapsed;
-                 //}
-                 //else
-                 //{
-                 //    //  Do：检查子项是否有显示的
-                 //    if (item.Nodes.Count > 0)
-                 //    {
-                 //        item.Visibility = item.Nodes.Exists(l => l.Visibility == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
-                 //    }
-                 //}
-
-                 ////  Do：不匹配不显示
-                 //if (!match(item))
-                 //{
-                 //    item.Visibility = Visibility.Collapsed;
-                 //}
-                 //else
-                 //{
-                 //    //  Do：在取消列表中的不显示
-                 //    if (removelist.Exists(l => l.Name == item.Name))
-                 //    {
-                 //        item.Visibility = Visibility.Collapsed;
-                 //    }
-
-                 //    //  Message：匹配并且新增
-                 //    if (addlist.Exists(l => l.Name == item.Name))
-                 //    {
-                 //        item.Visibility = Visibility.Visible;
-                 //    }
-                 //}
-
-
              }
          };
 
@@ -813,7 +750,7 @@ namespace Ty.Component.SignsControl
     {
         public RelayCommand RelayCommand { get; set; }
 
-        public DefectViewModel()
+        private DefectViewModel()
         {
             RelayCommand = new RelayCommand(RelayMethod);
             RelayMethod("init");
