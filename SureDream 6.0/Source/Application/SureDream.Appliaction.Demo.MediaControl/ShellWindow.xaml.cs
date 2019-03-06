@@ -51,14 +51,8 @@ namespace SureDream.Appliaction.Demo.MediaControl
                   Debug.WriteLine("FullScreenHandle");
               };
 
-            //this.media.ImagePlayerService.SliderDragCompleted += (l, k) =>
-            //  {
-            //      Debug.WriteLine("SliderDragCompleted:" + l);
-            //      Debug.WriteLine("SliderDragCompleted:" + k);
-            //  };
 
-
-            this.media.ImagePlayerService.ImageIndexChanged += (k,j) =>
+            this.media.ImagePlayerService.ImageIndexChanged += (k, j) =>
               {
                   Debug.WriteLine("ImageIndexChanged:" + k);
                   Debug.WriteLine("ImgSliderMode:" + j);
@@ -126,61 +120,6 @@ namespace SureDream.Appliaction.Demo.MediaControl
                 MessageBox.Show(k.ToString());
             };
 
-            ////  Do：3、注册上一页事件 需要在此处加载上一页的标定 ImgMarkEntity
-            //_imgOperate.PreviousImgEvent += () =>
-            //{
-            //    Debug.WriteLine("PreviousImgEvent");
-
-            //    //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
-
-            //    string current = _imgOperate.BuildEntity().Current.Value;
-
-            //    string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
-
-            //    var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
-
-            //    var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
-
-            //    foreach (var item in collection)
-            //    {
-            //        string marks = File.ReadAllText(item);
-
-            //        var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
-
-            //        _imgOperate.LoadMarkEntitys(list);
-            //    }
-
-            //};
-
-            ////  Do：4、注册上一页事件 需要在此处加载下一页的标定 ImgMarkEntity
-            //_imgOperate.NextImgEvent += () =>
-            //{
-            //    Debug.WriteLine("NextImgEvent");
-
-            //    //  Message：加载Mark
-
-            //    //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
-
-            //    string current = _imgOperate.BuildEntity().Current.Value;
-
-            //    string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
-
-            //    var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
-
-            //    var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
-
-            //    foreach (var item in collection)
-            //    {
-            //        string marks = File.ReadAllText(item);
-
-            //        var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
-
-            //        _imgOperate.LoadMarkEntitys(list);
-            //    }
-            //};
-
-
-
             //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
             _imgOperate.DrawMarkedMouseUp += (l, k) =>
             {
@@ -225,9 +164,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
             _imgOperate.MarkEntitySelectChanged += l =>
               {
-
                   Debug.WriteLine("MarkEntitySelectChanged:" + l.DetectDate);
-
               };
         }
 
@@ -496,7 +433,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             folders.Add(filePath4);
             folders.Add(filePath5);
 
-            this.media.LoadShareImageFolder(folders, filePath2,"administrator","123456","192.168.1.19");
+            this.media.LoadShareImageFolder(folders, filePath2, "administrator", "123456", "192.168.1.19");
         }
 
         private void btn_image_shotcut_Click(object sender, RoutedEventArgs e)

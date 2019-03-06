@@ -261,6 +261,15 @@ namespace Ty.Component.ImageControl
         /// <summary> 设置气泡模式范围大小 </summary>
         void SetBubbleScale(double value);
 
+
+        /// <summary>
+        /// 是否已经缓冲完图片
+        /// </summary>
+        bool IsImageLoaded { get; set; }
+
+        /// <summary> 当前索引 (用于检查播放是否同步) </summary>
+        int CurrentIndex { get; }
+
     }
 
     /// <summary>

@@ -40,7 +40,10 @@ namespace Ty.Component.ImageControl
         {
             this.SliderFlag = false;
 
-            this.DragCompleted?.Invoke(sender,e);
+            this.DragCompleted?.Invoke(sender, e);
         }
+
+        /// <summary> 多个图片播放时用于检测播放同步 </summary>
+        public List<IImgOperate> IImgOperateCollection { get; set; } = new List<IImgOperate>();
     }
 }

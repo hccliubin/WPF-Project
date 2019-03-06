@@ -67,7 +67,6 @@ namespace Ty.Component.MediaControl
         public IImagePlayerService ImagePlayerService { get; set; }
 
 
-
         MediaPlayType _type;
 
         public event Action FullScreenHandle;
@@ -95,7 +94,6 @@ namespace Ty.Component.MediaControl
 
             this.control_image.Visibility = type == MediaPlayType.Image ? Visibility.Visible : Visibility.Collapsed;
         }
-
 
         public void LoadVedio(string path)
         {

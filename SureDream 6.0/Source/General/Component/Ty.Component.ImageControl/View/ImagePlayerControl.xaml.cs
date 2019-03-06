@@ -188,6 +188,8 @@ namespace Ty.Component.ImageControl
 
                  PlayerToolControl config = e.NewValue as PlayerToolControl;
 
+                 control.image_control.PlayerToolControl = config;
+
                  ////  Message：注册播放事件
                  //config.toggle_play.Click += control.ToggleButton_Click;
 
@@ -206,6 +208,8 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.DragCompleted += media_slider_DragCompleted;
 
+            this.PlayerToolControl.IImgOperateCollection.Add(this.GetImgOperate());
+
             //config.slider_sound.ValueChanged += control.Slider_sound_ValueChanged;
         }
 
@@ -220,6 +224,8 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
 
             this.PlayerToolControl.DragCompleted -= media_slider_DragCompleted;
+
+            this.PlayerToolControl.IImgOperateCollection.Remove(this.GetImgOperate());
 
 
         }

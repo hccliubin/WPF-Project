@@ -998,6 +998,27 @@ namespace Ty.Component.ImageControl
         //    this.SetMarkType(MarkType.None);
         //}
 
+
+        public PlayerToolControl PlayerToolControl
+        {
+            get { return (PlayerToolControl)GetValue(PlayerToolControlProperty); }
+            set { SetValue(PlayerToolControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerToolControlProperty =
+            DependencyProperty.Register("PlayerToolControl", typeof(PlayerToolControl), typeof(ImageViews), new PropertyMetadata(default(PlayerToolControl), (d, e) =>
+             {
+                 ImageViews control = d as ImageViews;
+
+                 if (control == null) return;
+
+                 PlayerToolControl config = e.NewValue as PlayerToolControl;
+
+             }));
+
+
+        Random random = new Random();
         /// <summary>
         /// 加载图片(上一张下一张切换用)
         /// </summary>
@@ -1023,22 +1044,44 @@ namespace Ty.Component.ImageControl
 
                 try
                 {
+
+
+                    List<IImgOperate> temp = this.PlayerToolControl.IImgOperateCollection;
+
+                    bool flag = this.PlayerToolControl != null;
+
                     Task.Run(() =>
                     {
+
+                        this.IsImageLoaded = false;
+
                         var p = imagePath;
                         var s = new BitmapImage();
                         s.BeginInit();
                         s.CacheOption = BitmapCacheOption.OnLoad;
+
+                        //Thread.Sleep(random.Next(3) * 1000);
 
                         s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
                         s.EndInit();
                         //这一句很重要，少了UI线程就不认了。
                         s.Freeze();
 
+                        this.IsImageLoaded = true;
+
+                        if (flag)
+                        {
+                            //  Do：检查是否所有绑定的控件图片都加载完成，都完成时一块显示
+                            while (!temp.TrueForAll(l => l.IsImageLoaded && l.CurrentIndex >= this.CurrentIndex))
+                            {
+                                Thread.Sleep(10);
+                            }
+                        }
 
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
+
 
                             this.ViewModel.ImageSource = s;
 
@@ -1173,7 +1216,6 @@ namespace Ty.Component.ImageControl
             //  Do：触发下一页
             this.NextImgEvent?.Invoke();
 
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(NextClickRoutedEvent, this, imgSliderMode);
@@ -1213,6 +1255,7 @@ namespace Ty.Component.ImageControl
                 //if (!File.Exists(config.First())) return;
 
                 control.Collection.Clear();
+
                 //  Do：根据路径加载图片内存集合
                 foreach (var item in config)
                 {
@@ -1402,12 +1445,17 @@ namespace Ty.Component.ImageControl
                 if (playMode == ImgPlayMode.正序)
                 {
                     if (!isBuzy)
+                    {
                         this.OnNextClick(ImgSliderMode.System);
+                    }
+
                 }
                 else if (playMode == ImgPlayMode.倒叙)
                 {
                     if (!isBuzy)
+                    {
                         this.OnLastClicked(ImgSliderMode.System);
+                    }
                 }
 
                 Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * speed)), tokenSource.Token);
@@ -2095,6 +2143,25 @@ namespace Ty.Component.ImageControl
             set
             {
                 this.txt_detial.Text = value;
+            }
+        }
+
+        public bool IsImageLoaded { get; set; }
+
+        public int CurrentIndex
+        {
+            get
+            {
+                int index = 0;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    //  Do：设置进度条位置
+                    index = this.ImagePaths.FindIndex(l => l == this.Current.Value);
+                });
+                return index;
+
+
             }
         }
 

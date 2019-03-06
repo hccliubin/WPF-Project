@@ -10,7 +10,7 @@ namespace Ty.Component.MediaControl
     /// <summary>
     /// 播放控件服务类（包括：视频和图片）
     /// </summary>
-    interface IVdeioImagePlayerService
+   public interface IVdeioImagePlayerService
     {
         /// <summary> 全屏事件 </summary>
         event Action FullScreenHandle;
@@ -63,6 +63,13 @@ namespace Ty.Component.MediaControl
 
         /// <summary> 右旋转 </summary>
         void RotateRight();
+
+
+        PlayerToolControl PlayerToolControl
+        {
+            get;
+            set;
+        }
 
     }
 

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Ty.Component.MediaControl.IVdeioImagePlayerService">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAIACIAgAAAAAgCAAAAAQAAAAAEgAAAAMBoAAKAA=</HashCode>
+      <FileName>Service\IVdeioImagePlayerService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Ty.Component.MediaControl.MediaPlayType" Collapsed="true">
+    <Position X="2.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAg=</HashCode>
+      <FileName>Service\IVdeioImagePlayerService.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
