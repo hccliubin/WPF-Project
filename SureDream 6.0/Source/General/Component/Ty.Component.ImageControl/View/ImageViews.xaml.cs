@@ -1434,7 +1434,7 @@ namespace Ty.Component.ImageControl
 
                 bool isBuzy = false;
 
-                Application.Current.Dispatcher.Invoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     playMode = this.ImgPlayMode;
                     speed = this.Speed;
