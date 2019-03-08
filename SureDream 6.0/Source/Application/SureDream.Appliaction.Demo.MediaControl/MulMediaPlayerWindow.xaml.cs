@@ -30,157 +30,160 @@ namespace SureDream.Appliaction.Demo.MediaControl
             InitializeComponent();
         }
 
-        List<IVdeioImagePlayerService> vdeioImagePlayerServices = new List<IVdeioImagePlayerService>();
+        //List<IVdeioImagePlayerService> vdeioImagePlayerServices = new List<IVdeioImagePlayerService>();
 
         private void Btn_load_Click(object sender, RoutedEventArgs e)
         {
-            vdeioImagePlayerServices.Clear();
 
-            //  Do：根据数量初始化控件
-            int c = int.Parse(this.txt_count.Text);
 
-            for (int i = 0; i < c; i++)
+
+            //vdeioImagePlayerServices.Clear();
+
+            ////  Do：根据数量初始化控件
+            //int c = int.Parse(this.txt_count.Text);
+
+            //for (int i = 0; i < c; i++)
             
-            {
-                IVdeioImagePlayerService vedioImagePlayerControl = new VedioImagePlayerControl();
+            //{
+            //    IVdeioImagePlayerService vedioImagePlayerControl = new VedioImagePlayerControl();
 
-                IImgOperate _imgOperate = vedioImagePlayerControl.ImagePlayerService.GetImgOperate();
+            //    IImgOperate _imgOperate = vedioImagePlayerControl.ImagePlayerService.GetImgOperate();
 
-                _imgOperate.SetMarkType(MarkType.Defect);
+            //    _imgOperate.SetMarkType(MarkType.Defect);
 
-                List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
+            //    List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
-                vedioImagePlayerControl.ImagePlayerService.ImgPlayModeChanged += l =>
-                {
-                    Debug.WriteLine("ImgPlayModeChanged:" + vedioImagePlayerControl.ImagePlayerService.ImgPlayMode);
-                    Debug.WriteLine("ImgPlayModeChanged:" + l);
-                };
+            //    vedioImagePlayerControl.ImagePlayerService.ImgPlayModeChanged += l =>
+            //    {
+            //        Debug.WriteLine("ImgPlayModeChanged:" + vedioImagePlayerControl.ImagePlayerService.ImgPlayMode);
+            //        Debug.WriteLine("ImgPlayModeChanged:" + l);
+            //    };
 
-                vedioImagePlayerControl.FullScreenHandle += () =>
-                {
-                    Debug.WriteLine("FullScreenHandle");
-                };
-
-
-                vedioImagePlayerControl.ImagePlayerService.ImageIndexChanged += (k, j) =>
-                {
-                    Debug.WriteLine("ImageIndexChanged:" + k);
-                    Debug.WriteLine("ImgSliderMode:" + j);
+            //    vedioImagePlayerControl.FullScreenHandle += () =>
+            //    {
+            //        Debug.WriteLine("FullScreenHandle");
+            //    };
 
 
-                    //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
+            //    vedioImagePlayerControl.ImagePlayerService.ImageIndexChanged += (k, j) =>
+            //    {
+            //        Debug.WriteLine("ImageIndexChanged:" + k);
+            //        Debug.WriteLine("ImgSliderMode:" + j);
 
-                    //string current1 = _imgOperate.BuildEntity().Current.Value;
 
-                    string current = k;
+            //        //  Message：加载Mark 20190105050908[2019-01-06-01-58-42].mark
 
-                    var tuple = vedioImagePlayerControl.ImagePlayerService.GetIndexWithTotal();
+            //        //string current1 = _imgOperate.BuildEntity().Current.Value;
 
-                    string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
+            //        string current = k;
 
-                    var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
+            //        var tuple = vedioImagePlayerControl.ImagePlayerService.GetIndexWithTotal();
 
-                    var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
+            //        string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 
-                    foreach (var item in collection)
-                    {
-                        string marks = File.ReadAllText(item);
+            //        var foder = Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Marks"));
 
-                        var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
+            //        var collection = foder.GetFiles().Where(l => l.Name.StartsWith(fileName)).Select(l => l.FullName);
 
-                        //foreach (var c in list)
-                        //{
-                        //    c.Code = Guid.NewGuid().ToString();
-                        //}
+            //        foreach (var item in collection)
+            //        {
+            //            string marks = File.ReadAllText(item);
 
-                        _imgOperate.LoadMarkEntitys(list);
-                    }
-                };
+            //            var list = JsonConvert.DeserializeObject<List<ImgMarkEntity>>(marks);
 
-                //  Do：1、注册编辑标定事件 包括新增、删除
-                _imgOperate.ImgMarkOperateEvent += l =>
-                {
-                    temp.Clear();
+            //            //foreach (var c in list)
+            //            //{
+            //            //    c.Code = Guid.NewGuid().ToString();
+            //            //}
 
-                    string fn = System.IO.Path.GetFileNameWithoutExtension(_imgOperate.GetCurrentUrl());
+            //            _imgOperate.LoadMarkEntitys(list);
+            //        }
+            //    };
 
-                    string file = this.GetMarkFileName(fn);
+            //    //  Do：1、注册编辑标定事件 包括新增、删除
+            //    _imgOperate.ImgMarkOperateEvent += l =>
+            //    {
+            //        temp.Clear();
 
-                    string str = l.markOperateType.ToString();
+            //        string fn = System.IO.Path.GetFileNameWithoutExtension(_imgOperate.GetCurrentUrl());
 
-                    Debug.WriteLine(str + "：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
+            //        string file = this.GetMarkFileName(fn);
 
-                    temp.Add(l);
+            //        string str = l.markOperateType.ToString();
 
-                    string result = JsonConvert.SerializeObject(temp);
+            //        Debug.WriteLine(str + "：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}");
 
-                    File.WriteAllText(file, result);
+            //        temp.Add(l);
 
-                    MessageBox.Show(str + "：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}", "保存成功");
+            //        string result = JsonConvert.SerializeObject(temp);
 
-                };
+            //        File.WriteAllText(file, result);
 
-                //  Do：2、注册风格化处理事件
-                _imgOperate.ImgProcessEvent += (l, k) =>
-                {
-                    Debug.WriteLine("图片路径：" + l);
+            //        MessageBox.Show(str + "：" + l.Name + "-" + l.Code + $"({l.X},{l.Y}) {l.Width}*{l.Height}", "保存成功");
 
-                    Debug.WriteLine("操作参数：" + k);
+            //    };
 
-                    MessageBox.Show(k.ToString());
-                };
+            //    //  Do：2、注册风格化处理事件
+            //    _imgOperate.ImgProcessEvent += (l, k) =>
+            //    {
+            //        Debug.WriteLine("图片路径：" + l);
 
-                //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
-                _imgOperate.DrawMarkedMouseUp += (l, k) =>
-                {
-                    Debug.WriteLine(l);
-                    Debug.WriteLine(k);
+            //        Debug.WriteLine("操作参数：" + k);
 
-                    //  Do：选择的责任工区
-                    l.SelectResponsibilityWorkArea = new TyeBaseDepartmentEntity();
-                    //  Do：选择的责任车间
-                    l.SelectResponsibilityWorkshop = new TyeBaseDepartmentEntity();
-                    //  Do：选择的单元
-                    l.SelectBasicUnit = new TyeBasePillarEntity();
-                    //  Do：选择的站
-                    l.SelectDedicatedStation = new TyeBaseSiteEntity();
-                    //  Do：选择的段
-                    l.SelectDedicatedLine = new TyeBaseLineEntity();
-                    //  Do：选择的铁路局顺序码
-                    l.SelectRailwaySsequence = new TyeBaseRailwaystationEntity();
-                    //  Do：选择的数据采集方式
-                    l.SelectDataAcquisitionMode = new TyeBaseDatacollecttypeEntity();
-                    //  Do：PHM编码（基本由界面属性组合而成）
-                    l.PHMCodes = "PHM编码（基本由界面属性组合而成）";
-                    //  Do：当前用户
-                    l.tyeAdminUserEntity = new TyeAdminUserEntity();
-                    //  Do：检测日期
-                    l.DetectDate = DateTime.Now;
-                    //  Do：公里标
-                    l.KmLog = "公里标";
-                    //  Do：检测车辆
-                    l.DetectionVehicles = "检测车辆";
+            //        MessageBox.Show(k.ToString());
+            //    };
 
-                    //  Do：选择的缺陷
-                    l.SelectDefectOrMarkCodes = new TyeEncodeDeviceEntity();
+            //    //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
+            //    _imgOperate.DrawMarkedMouseUp += (l, k) =>
+            //    {
+            //        Debug.WriteLine(l);
+            //        Debug.WriteLine(k);
 
-                    //  Do：选择的历史信息
-                    l.SelectCommonHistoricalDefectsOrMark = new DefectCommonUsed();
+            //        //  Do：选择的责任工区
+            //        l.SelectResponsibilityWorkArea = new TyeBaseDepartmentEntity();
+            //        //  Do：选择的责任车间
+            //        l.SelectResponsibilityWorkshop = new TyeBaseDepartmentEntity();
+            //        //  Do：选择的单元
+            //        l.SelectBasicUnit = new TyeBasePillarEntity();
+            //        //  Do：选择的站
+            //        l.SelectDedicatedStation = new TyeBaseSiteEntity();
+            //        //  Do：选择的段
+            //        l.SelectDedicatedLine = new TyeBaseLineEntity();
+            //        //  Do：选择的铁路局顺序码
+            //        l.SelectRailwaySsequence = new TyeBaseRailwaystationEntity();
+            //        //  Do：选择的数据采集方式
+            //        l.SelectDataAcquisitionMode = new TyeBaseDatacollecttypeEntity();
+            //        //  Do：PHM编码（基本由界面属性组合而成）
+            //        l.PHMCodes = "PHM编码（基本由界面属性组合而成）";
+            //        //  Do：当前用户
+            //        l.tyeAdminUserEntity = new TyeAdminUserEntity();
+            //        //  Do：检测日期
+            //        l.DetectDate = DateTime.Now;
+            //        //  Do：公里标
+            //        l.KmLog = "公里标";
+            //        //  Do：检测车辆
+            //        l.DetectionVehicles = "检测车辆";
 
-                    _imgOperate.AddMark(l);
+            //        //  Do：选择的缺陷
+            //        l.SelectDefectOrMarkCodes = new TyeEncodeDeviceEntity();
 
-                    //_imgOperate.CancelAddMark();
-                };
+            //        //  Do：选择的历史信息
+            //        l.SelectCommonHistoricalDefectsOrMark = new DefectCommonUsed();
 
-                _imgOperate.MarkEntitySelectChanged += l =>
-                {
-                    Debug.WriteLine("MarkEntitySelectChanged:" + l.DetectDate);
-                };
+            //        _imgOperate.AddMark(l);
 
-                vdeioImagePlayerServices.Add(vedioImagePlayerControl);
-            }
+            //        //_imgOperate.CancelAddMark();
+            //    };
 
-            this.control_mulMedia.MediaSources = vdeioImagePlayerServices;
+            //    _imgOperate.MarkEntitySelectChanged += l =>
+            //    {
+            //        Debug.WriteLine("MarkEntitySelectChanged:" + l.DetectDate);
+            //    };
+
+            //    vdeioImagePlayerServices.Add(vedioImagePlayerControl);
+            //}
+
+            //this.control_mulMedia.MediaSources = vdeioImagePlayerServices;
         }
 
         /// <summary> 获取标定信息存放路径 </summary>
@@ -197,17 +200,29 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void Btn_loadImages_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in vdeioImagePlayerServices)
+            //  Do：根据数量初始化控件
+            int c = int.Parse(this.txt_count.Text);
+
+            List<Tuple<List<string>, string>> imageFoders = new List<Tuple<List<string>, string>>();
+
+            
+
+            for (int i = 0; i < c; i++)
             {
+                List<string> folders = new List<string>();
+
                 string filePath1 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
                 string filePath2 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images1");
-                List<string> folders = new List<string>();
 
                 folders.Add(filePath1);
                 folders.Add(filePath2);
 
-                item.LoadImageFolder(folders, filePath1);
+                imageFoders.Add(new Tuple<List<string>, string>(folders, filePath2));
+
             }
+
+            this.media.LoadImageFolders(imageFoders.ToArray());
+            
         }
     }
 }

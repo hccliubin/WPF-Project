@@ -252,7 +252,6 @@ namespace Ty.Component.ImageControl
         /// <summary> 设置滚轮模式 </summary>
         void SetWheelMode(bool value);
 
-
         double Speed { get; set; }
 
         /// <summary> 描述信息 </summary>
@@ -260,7 +259,6 @@ namespace Ty.Component.ImageControl
 
         /// <summary> 设置气泡模式范围大小 </summary>
         void SetBubbleScale(double value);
-
 
         /// <summary>
         /// 是否已经缓冲完图片
