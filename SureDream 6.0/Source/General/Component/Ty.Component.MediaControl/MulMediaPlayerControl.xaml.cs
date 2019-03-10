@@ -134,47 +134,52 @@ namespace Ty.Component.MediaControl
 
         #region - 加载功能 -
 
-        public void LoadImageFolders(params Tuple<List<string>, string>[] imageFoders)
+        List<IVdeioImagePlayerService> services = new List<IVdeioImagePlayerService>();
+
+        /// <summary> 初始化控件 </summary>
+        void InitControl(int count)
         {
-            List<IVdeioImagePlayerService> services = new List<IVdeioImagePlayerService>();
-
-            if (imageFoders == null) return;
-
-            // 检查文件数量是否一样
-            //bool check = imageFoders.ToList().TrueForAll(l => l.Count == imageFoders.First().Count);
-
-            //if (!check)
-            //{
-            //    Debug.WriteLine("参数错误！请检查，传入的多个数组中，数量必须相等"); return;
-            //}
-
-            foreach (var item in imageFoders)
+            for (int i = 0; i < count; i++)
             {
+
                 VedioImagePlayerControl control = new VedioImagePlayerControl();
 
                 services.Add(control);
             }
 
             this.MediaSources = services;
+        }
+
+
+        public void LoadImageFolders(params Tuple<List<string>, string>[] imageFoders)
+        {
+            if (imageFoders == null) return;
+
+            this.InitControl(imageFoders.Length);
 
             for (int i = 0; i < imageFoders.Length; i++)
             {
                 services[i].LoadImageFolder(imageFoders[i].Item1, imageFoders[i].Item2);
 
             }
-
-
         }
 
         public void LoadImageFtpFolders(string useName, string passWord, params Tuple<List<string>, string>[] imageFoders)
         {
-            throw new NotImplementedException();
+
+            if (imageFoders == null) return;
+
+            this.InitControl(imageFoders.Length);
+
+            for (int i = 0; i < imageFoders.Length; i++)
+            {
+                services[i].LoadFtpImageFolder(imageFoders[i].Item1, imageFoders[i].Item2, useName, passWord);
+            }
+
         }
 
         public void LoadImageList(params List<string>[] ImageUrls)
         {
-            List<IVdeioImagePlayerService> services = new List<IVdeioImagePlayerService>();
-
             if (ImageUrls == null) return;
 
             bool check = ImageUrls.ToList().TrueForAll(l => l.Count == ImageUrls.First().Count);
@@ -184,21 +189,27 @@ namespace Ty.Component.MediaControl
                 Debug.WriteLine("参数错误！请检查，传入的多个数组中，数量必须相等"); return;
             }
 
-            foreach (var item in ImageUrls)
+            this.InitControl(ImageUrls.Length);
+
+            for (int i = 0; i < ImageUrls.Length; i++)
             {
-                VedioImagePlayerControl control = new VedioImagePlayerControl();
-
-                control.LoadImages(item);
-
-                services.Add(control);
+                services[i].LoadImages(ImageUrls[i]);
             }
-
-            this.MediaSources = services;
         }
 
         public void LoadImageShareFolders(string useName, string passWord, string ip, params Tuple<List<string>, string>[] imageFoders)
         {
-            throw new NotImplementedException();
+            List<IVdeioImagePlayerService> services = new List<IVdeioImagePlayerService>();
+
+            if (imageFoders == null) return;
+
+            this.InitControl(imageFoders.Length);
+
+            for (int i = 0; i < imageFoders.Length; i++)
+            {
+                services[i].LoadShareImageFolder(imageFoders[i].Item1, imageFoders[i].Item2, useName, passWord, ip);
+
+            }
         }
 
         #endregion
@@ -221,131 +232,238 @@ namespace Ty.Component.MediaControl
 
         public void AddImageIndexMark(ImgMarkEntity imgMarkEntity, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().AddMark(imgMarkEntity);
+        }
+
+        bool CheckCount(int index)
+        {
+            if (this.services.Count <= index) return false;
+
+            return true;
         }
 
         public void CancelAddImageIndexMark(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().CancelAddMark();
         }
 
         public void DeleteImageIndexSelectMark(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().DeleteSelectMark();
         }
 
         public ImgMarkEntity GetImageIndexSelectMark(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return null;
+
+            IVdeioImagePlayerService service = services[index];
+
+            return service.ImagePlayerService.GetImgOperate().GetSelectMarkEntity();
         }
 
 
 
         public void ScreenShotImageIndex(string saveFullName, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().ScreenShot(saveFullName);
         }
 
         public void SetImageEnlarge(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetEnlarge();
         }
 
         public void SetImageIndexAdaptiveSize(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetAdaptiveSize();
         }
 
         public void SetImageIndexBubbleScale(double value, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetBubbleScale(value);
         }
 
         public void SetImageIndexDetialText(string value, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().DetialText= value;
         }
 
         public void SetImageIndexMarkOperate(ImgMarkEntity entity, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().MarkOperate(entity);
         }
 
         public void SetImageIndexMarkType(MarkType markType, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetMarkType(markType);
         }
 
         public void SetImageIndexOriginalSize(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetOriginalSize();
         }
 
         public void SetImageIndexPartShotCut(ShortCutEntitys shortcut, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().RegisterPartShotCut(shortcut);
         }
 
         public void SetImageIndexPositon(int postion, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.SetPositon(postion);
         }
 
         public void SetImageIndexRotateLeft(int index)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetRotateLeft();
         }
 
         public void SetImageIndexRotateRight(int index)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetRotateRight();
         }
 
         public void SetImageIndexSelectMark(Predicate<ImgMarkEntity> match, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetSelectMarkEntity(match);
         }
 
         public void SetImageIndexSpeed(double value, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().Speed = value;
         }
 
         public void SetImageIndexWheelMode(bool value, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetWheelMode(value);
         }
 
         public void SetImageIndexWheelScale(double value, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().WheelScale = value;
         }
 
         public void SetImageNarrow(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().SetNarrow();
         }
 
 
 
         public void ShowAllImageIndexDefects(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().ShowDefects();
         }
 
         public void ShowImageIndexLocates(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().ShowLocates();
         }
 
         public void ShowImageIndexMarks(int index = 0)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().ShowMarks();
         }
 
         public void ShowImageIndexMarks(List<string> markCodes, int index)
         {
-            throw new NotImplementedException();
+            if (!CheckCount(index)) return;
+
+            IVdeioImagePlayerService service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().ShowMarks(markCodes);
         }
 
         #endregion

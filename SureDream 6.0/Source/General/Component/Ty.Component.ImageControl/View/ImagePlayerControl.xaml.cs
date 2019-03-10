@@ -33,7 +33,7 @@ namespace Ty.Component.ImageControl
             this.image_control.LastClicked += Image_control_IndexChangedClick;
 
             //  Message：默认0.5s一张
-            this.image_control.Speed = this.image_control.Speed / 2; 
+            this.image_control.Speed = this.image_control.Speed / 2;
 
             this.image_control.SetMarkType(MarkType.None);
 
@@ -41,7 +41,7 @@ namespace Ty.Component.ImageControl
             this.image_control.button_last.Visibility = Visibility.Collapsed;
 
         }
- 
+
 
         ////  Message：标识拖动条是否随播放变化
         //bool _sliderFlag = false;
@@ -59,7 +59,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),e.Object);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), e.Object);
 
         }
 
@@ -77,7 +77,7 @@ namespace Ty.Component.ImageControl
             //this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
 
             //  Do：设置播放位置
-            this.SetPositon(index); 
+            this.SetPositon(index);
 
             this.SliderDragCompleted?.Invoke(index, this.GetCurrentUrl());
 
@@ -92,7 +92,7 @@ namespace Ty.Component.ImageControl
             if (!this.PlayerToolControl.media_slider.IsMouseOver) return;
 
             int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
- 
+
 
             //  Do：设置播放位置
             this.SetPositon(index);
@@ -140,9 +140,6 @@ namespace Ty.Component.ImageControl
             //this.image_control.SetImgPlay(ImgPlayMode.正序);
 
             this.SetImgPlay(ImgPlayMode.正序);
-
-
-
         }
 
         /// <summary> 暂停 </summary>
@@ -308,7 +305,7 @@ namespace Ty.Component.ImageControl
 
         }
 
-        public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord,string ip)
+        public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord, string ip)
         {
             //foreach (var item in imageFoders)
             //{
@@ -319,11 +316,34 @@ namespace Ty.Component.ImageControl
                 this.LoadImageFolder(imageFoders, startForder);
             }
 
-              
+
+        }
+
+
+        ImageCacheEngine _imageCacheEngine;
+
+        string GetCacheFolder()
+        {
+            string local = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "_cache");
+
+            if (!Directory.Exists(local))
+                Directory.CreateDirectory(local);
+
+            return local;
         }
 
         public void LoadFtpImageFolder(List<string> imageFoders, string startForder, string useName, string passWord)
         {
+
+            //  Message：构造缓存模型
+
+            if (_imageCacheEngine!=null)
+            {
+                _imageCacheEngine.Stop();
+            }
+            
+            _imageCacheEngine = new ImageCacheEngine(imageFoders, this.GetCacheFolder(), startForder, useName, passWord);
+
             FtpHelper.Login(useName, passWord);
 
             List<string> files = new List<string>();
@@ -354,7 +374,6 @@ namespace Ty.Component.ImageControl
                         startPostion += file.Count;
                     }
 
-
                     //Thread.Sleep(500);
 
                     files.AddRange(file);
@@ -363,6 +382,8 @@ namespace Ty.Component.ImageControl
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     this.InitImages(files);
+
+                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -384,7 +405,6 @@ namespace Ty.Component.ImageControl
             //  Do：初始化进度条
             this.InitSlider();
         }
-
 
         public void LoadImages(List<string> ImageUrls)
         {
@@ -612,7 +632,7 @@ namespace Ty.Component.ImageControl
 
             var d = double.Parse(value.ToString());
 
-            var sp = 1/d+"X";
+            var sp = 1 / d + "X";
 
             return sp;
         }

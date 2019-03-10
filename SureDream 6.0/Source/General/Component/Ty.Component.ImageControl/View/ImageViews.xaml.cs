@@ -1052,8 +1052,12 @@ namespace Ty.Component.ImageControl
 
                     Task.Run(() =>
                     {
-
                         this.IsImageLoaded = false;
+
+                        if (this._imageCacheEngine != null)
+                        {
+                            imagePath = this._imageCacheEngine.PlayWait(imagePath);
+                        }
 
                         var p = imagePath;
                         var s = new BitmapImage();
@@ -1070,8 +1074,7 @@ namespace Ty.Component.ImageControl
                         this.IsImageLoaded = true;
 
                         if (flag)
-                        {
-                            //  Do：检查是否所有绑定的控件图片都加载完成，都完成时一块显示
+                        { //  Do：检查是否所有绑定的控件图片都加载完成，都完成时一块显示
                             while (!temp.TrueForAll(l => l.IsImageLoaded && l.CurrentIndex >= this.CurrentIndex))
                             {
                                 Thread.Sleep(10);
@@ -1081,8 +1084,6 @@ namespace Ty.Component.ImageControl
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-
-
                             this.ViewModel.ImageSource = s;
 
                             this.Source = s;
@@ -1956,7 +1957,6 @@ namespace Ty.Component.ImageControl
             this.MarkOperate(entity);
         }
 
-
         public ImgMarkEntity GetSelectMarkEntity()
         {
             if (this.ViewModel == null) return null;
@@ -2017,6 +2017,12 @@ namespace Ty.Component.ImageControl
         public void LoadImg(List<string> imgPathes)
         {
             this.ImagePaths = imgPathes;
+        }
+
+        ImageCacheEngine _imageCacheEngine;
+        public void SetImageCacheEngine(ImageCacheEngine imageCacheEngine)
+        {
+            _imageCacheEngine = imageCacheEngine;
         }
 
         public void LoadMarkEntitys(List<ImgMarkEntity> markEntityList)
@@ -2288,7 +2294,6 @@ namespace Ty.Component.ImageControl
             _shortCutHookService.RegisterCommand(shortcut, action);
         }
 
-
         public void RegisterDefaltApi()
         {
             // Todo ：双击Ctrl键 
@@ -2318,7 +2323,6 @@ namespace Ty.Component.ImageControl
             binaryWriter.Write(screenshot);
             binaryWriter.Close();
         }
-
 
         bool _isFullScreen;
 
@@ -2389,7 +2393,6 @@ namespace Ty.Component.ImageControl
             }
         }
 
-
         public void ShowMarks()
         {
             foreach (var item in this.ViewModel.SampleCollection)
@@ -2432,7 +2435,6 @@ namespace Ty.Component.ImageControl
             SetImageByScale();
         }
 
-
         public void SetNarrow()
         {
             if (imgWidth == 0 || imgHeight == 0)
@@ -2465,8 +2467,6 @@ namespace Ty.Component.ImageControl
         {
             this.Rotate(90);
         }
-
-
 
         public void SetMarkType(MarkType markType)
         {
@@ -2519,8 +2519,6 @@ namespace Ty.Component.ImageControl
         {
             return this.current?.Value;
         }
-
-
 
         public void StartSlidePlay()
         {
