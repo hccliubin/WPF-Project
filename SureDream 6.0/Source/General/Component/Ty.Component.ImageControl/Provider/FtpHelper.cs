@@ -321,5 +321,62 @@ namespace Ty.Component.ImageControl
             return strs;
         }
 
+        /// <summary>
+        /// 从ftp下载文件到本地服务器
+        /// </summary>
+        /// <param name="downloadUrl">要下载的ftp文件路径，如ftp://192.168.1.104/capture-2.avi</param>
+        /// <param name="saveFileUrl">本地保存文件的路径，如(@"d:\capture-22.avi"</param>
+        public static void DownLoadFile(string downloadUrl, string saveFileUrl)
+        {
+            Stream responseStream = null;
+            FileStream fileStream = null;
+            StreamReader reader = null;
+
+            try
+            {
+                // string downloadUrl = "ftp://192.168.1.104/capture-2.avi";
+
+                FtpWebRequest downloadRequest = (FtpWebRequest)WebRequest.Create(downloadUrl);
+                downloadRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                //string ftpUser = "yoyo";
+                //string ftpPassWord = "123456";
+                downloadRequest.Credentials = new NetworkCredential(username, password);
+
+                FtpWebResponse downloadResponse = (FtpWebResponse)downloadRequest.GetResponse();
+                responseStream = downloadResponse.GetResponseStream();
+
+                fileStream = File.Create(saveFileUrl);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while (true)
+                {
+                    bytesRead = responseStream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead == 0)
+                        break;
+                    fileStream.Write(buffer, 0, bytesRead);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("从ftp服务器下载文件出错，文件名：" + downloadUrl + "异常信息：" + ex.ToString());
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+                if (responseStream != null)
+                {
+                    responseStream.Close();
+                }
+                if (fileStream != null)
+                {
+                    fileStream.Close();
+                }
+            }
+        }
+
     }
 }

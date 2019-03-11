@@ -419,8 +419,8 @@ namespace Ty.Component.ImageControl
         private void UpdateIndicator(Rect region)
         {
 
-            System.Diagnostics.Debug.WriteLine(region.Width);
-            System.Diagnostics.Debug.WriteLine(region.Height);
+            //System.Diagnostics.Debug.WriteLine(region.Width);
+            //System.Diagnostics.Debug.WriteLine(region.Height);
 
             if (Indicator == null)
                 return;

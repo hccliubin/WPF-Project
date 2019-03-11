@@ -252,7 +252,7 @@ namespace Ty.Component.ImageControl
         /// <summary> 设置滚轮模式 </summary>
         void SetWheelMode(bool value);
 
-        double Speed { get; set; }
+        int Speed { get; set; }
 
         /// <summary> 描述信息 </summary>
         string DetialText { get; set; }

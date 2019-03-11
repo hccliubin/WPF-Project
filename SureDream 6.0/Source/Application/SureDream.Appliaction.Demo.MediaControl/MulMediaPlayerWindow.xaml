@@ -30,6 +30,11 @@
             <!--<Button x:Name="btn_load" Content="初始化控件.." Click="Btn_load_Click"/>-->
 
             <Button x:Name="btn_loadImages" Content="加载图片列表.." Click="Btn_loadImages_Click"/>
+
+            <Button x:Name="btn_loadShareImages" Content="加载共享图片列表.." Click="Btn_loadShareImages_Click"/>
+
+            <Button x:Name="btn_loadFTPeImages" Content="加载FTP图片列表.." Click="Btn_loadFTPImages_Click"/>
+
         </StackPanel>
 
         <mediacontrol:MulMediaPlayerControl x:Name="media" Grid.Row="1"/>

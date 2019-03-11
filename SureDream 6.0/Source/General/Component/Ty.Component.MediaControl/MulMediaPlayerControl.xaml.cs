@@ -144,6 +144,13 @@ namespace Ty.Component.MediaControl
 
                 VedioImagePlayerControl control = new VedioImagePlayerControl();
 
+              //  control.ImagePlayerService.ImgPlayModeChanged += ImgPlayModeChanged;
+
+              //  control.ImagePlayerService.ImageIndexChanged += (l, k) =>
+              //{
+              //    this.ImageIndexChanged?.Invoke(l, k, i);
+              //};
+
                 services.Add(control);
             }
 
@@ -199,8 +206,6 @@ namespace Ty.Component.MediaControl
 
         public void LoadImageShareFolders(string useName, string passWord, string ip, params Tuple<List<string>, string>[] imageFoders)
         {
-            List<IVdeioImagePlayerService> services = new List<IVdeioImagePlayerService>();
-
             if (imageFoders == null) return;
 
             this.InitControl(imageFoders.Length);
@@ -215,15 +220,25 @@ namespace Ty.Component.MediaControl
         #endregion
 
         #region - 事件功能 -
+
         public event Action<ImgMarkEntity, int> ImageIndexMarkOperateEvent;
+
         public event Action<string, ImgProcessType, int> ImageIndexProcessEvent;
+
         public event Action<int> ImageIndexPreviousEvent;
+
         public event Action<int> ImageIndexNextEvent;
+
         public event Action<ImgMarkEntity, MarkType, int> ImageIndexDrawMarkedMouseUp;
+
         public event Action<string, int> ImageIndexDeletedClicked;
+
         public event Action<ImgMarkEntity, int> ImageMarkEntitySelectChanged;
+
         public event Action<string, ImgSliderMode> ImageIndexChanged;
+
         public event Action<ImgPlayMode> ImgPlayModeChanged;
+
         public event Action<int> ImageIndexFullScreenEvent;
 
         #endregion
@@ -317,7 +332,7 @@ namespace Ty.Component.MediaControl
 
             IVdeioImagePlayerService service = services[index];
 
-            service.ImagePlayerService.GetImgOperate().DetialText= value;
+            service.ImagePlayerService.GetImgOperate().DetialText = value;
         }
 
         public void SetImageIndexMarkOperate(ImgMarkEntity entity, int index = 0)
@@ -392,7 +407,7 @@ namespace Ty.Component.MediaControl
             service.ImagePlayerService.GetImgOperate().SetSelectMarkEntity(match);
         }
 
-        public void SetImageIndexSpeed(double value, int index = 0)
+        public void SetImageIndexSpeed(int value, int index = 0)
         {
             if (!CheckCount(index)) return;
 
@@ -473,69 +488,112 @@ namespace Ty.Component.MediaControl
 
         public ImgPlayMode GetImagePlayMode()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return ImgPlayMode.正序;
+
+            return this.services.First().ImagePlayerService.ImgPlayMode;
         }
 
         public void SetImagePlayMode(ImgPlayMode imgPlayMode)
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.SetImgPlay(imgPlayMode);
+            }
         }
 
         public void SetImagePlayStepDown()
         {
-            throw new NotImplementedException();
+            this.playtool.media_slider.Value -= TimeSpan.FromSeconds(5).Ticks;
         }
 
         public void SetImagePlayStepUp()
         {
-            throw new NotImplementedException();
+            this.playtool.media_slider.Value += TimeSpan.FromSeconds(5).Ticks;
         }
 
-        public void SetImageScale(int index = 0)
+        public void SetImageScale(double value, int index = 0)
         {
-            throw new NotImplementedException();
+            if (!this.CheckCount(index)) return;
+
+            var service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().Scale = value;
         }
 
         public void SetImageSpeedDown()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.ImgPlaySpeedDown();
+            }
         }
 
         public void SetImageVoiceStepDown()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.VoiceStepDown();
+            }
         }
 
         public void SetImageVoiceStepUp()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.VoiceStepUp();
+            }
         }
 
         public void SetImageWeelPlayMode(bool value)
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.GetImgOperate().IsWheelPlay = value;
+            }
         }
 
         public void SetImagNext()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.NextImg();
+            }
         }
 
         public void SetImagPrevious()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.PreviousImg();
+            }
         }
 
         public void SetImagSpeedUp()
         {
-            throw new NotImplementedException();
+            if (this.services == null) return;
+
+            foreach (var item in this.services)
+            {
+                item.ImagePlayerService.ImgPlaySpeedUp();
+            }
         }
         #endregion
 
         #endregion
-
-
-
 
     }
 

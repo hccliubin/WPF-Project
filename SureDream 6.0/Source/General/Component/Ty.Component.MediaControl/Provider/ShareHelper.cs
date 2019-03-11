@@ -60,7 +60,7 @@ namespace Ty.Component.MediaControl.Provider
             string newFileName = fileNamePath.Substring(fileNamePath.LastIndexOf(@"\") + 1);//取文件名称
 
 
-            Debug.WriteLine(newFileName);
+            //Debug.WriteLine(newFileName);
 
 
             if (urlPath.EndsWith(@"\") == false) urlPath = urlPath + @"\";

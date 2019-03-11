@@ -59,7 +59,7 @@ namespace WpfApp3
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            var ss = engine.Play(this.lll.SelectedItem.ToString());
+            var ss = engine.BeginPlay(this.lll.SelectedItem.ToString());
 
             Debug.WriteLine("播放完成:" + ss);
 

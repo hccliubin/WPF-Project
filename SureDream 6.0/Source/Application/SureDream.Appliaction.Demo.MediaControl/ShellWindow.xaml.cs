@@ -123,8 +123,8 @@ namespace SureDream.Appliaction.Demo.MediaControl
             //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
             _imgOperate.DrawMarkedMouseUp += (l, k) =>
             {
-                Debug.WriteLine(l);
-                Debug.WriteLine(k);
+                //Debug.WriteLine(l);
+                //Debug.WriteLine(k);
 
                 //  Do：选择的责任工区
                 l.SelectResponsibilityWorkArea = new TyeBaseDepartmentEntity();
@@ -251,6 +251,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
             Process.Start(filePath);
         }
+
         //  Message：视频获取当前路径
         private void Btn_play_currentUrl_Click(object sender, RoutedEventArgs e)
         {
@@ -419,11 +420,11 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void Btn_imageplay_imagesharefoder_Click(object sender, RoutedEventArgs e)
         {
-            string filePath1 = @"\\192.168.1.19\Document\images1";
-            string filePath2 = @"\\192.168.1.19\Document\images2";
-            string filePath3 = @"\\192.168.1.19\Document\images3";
-            string filePath4 = @"\\192.168.1.19\Document\images4";
-            string filePath5 = @"\\192.168.1.19\Document\images5";
+            string filePath1 = @"\\192.168.1.22\Document\images1";
+            string filePath2 = @"\\192.168.1.22\Document\images2";
+            string filePath3 = @"\\192.168.1.22\Document\images3";
+            string filePath4 = @"\\192.168.1.22\Document\images4";
+            string filePath5 = @"\\192.168.1.22\Document\images5";
 
             List<string> folders = new List<string>();
 
@@ -433,7 +434,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             folders.Add(filePath4);
             folders.Add(filePath5);
 
-            this.media.LoadShareImageFolder(folders, filePath2, "administrator", "123456", "192.168.1.19");
+            this.media.LoadShareImageFolder(folders, filePath2, "administrator", "123456", "192.168.1.22");
         }
 
         private void btn_image_shotcut_Click(object sender, RoutedEventArgs e)

@@ -125,8 +125,8 @@ namespace SureDream.Appliaction.Demo.MediaControl
             //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
             _imgOperate.DrawMarkedMouseUp += (l, k) =>
             {
-                Debug.WriteLine(l);
-                Debug.WriteLine(k);
+                //Debug.WriteLine(l);
+                //Debug.WriteLine(k);
 
                 //  Do：选择的责任工区
                 l.SelectResponsibilityWorkArea = new TyeBaseDepartmentEntity();
@@ -291,17 +291,17 @@ namespace SureDream.Appliaction.Demo.MediaControl
 
         private void btn_imageplay_imagefoder_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+            //string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
 
-            List<string> folders = new List<string>();
+            //List<string> folders = new List<string>();
 
-            folders.Add(filePath);
-            folders.Add(filePath);
-            folders.Add(filePath);
-            folders.Add(filePath);
-            folders.Add(filePath);
+            //folders.Add(filePath);
+            //folders.Add(filePath);
+            //folders.Add(filePath);
+            //folders.Add(filePath);
+            //folders.Add(filePath);
 
-            this.image.LoadImageFolder(folders, filePath);
+            //this.image.LoadImageFolder(folders, filePath);
             
         }
 

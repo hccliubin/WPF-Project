@@ -100,7 +100,7 @@ namespace Ty.Component.MediaControl
         void SetImageNarrow(int index = 0);
 
         /// <summary> 设置缩放比例 </summary>
-        void SetImageScale(int index = 0);
+        void SetImageScale(double value,int index = 0);
 
         /// <summary>
         /// 是否鼠标滚轮进入播放模式
@@ -257,7 +257,7 @@ namespace Ty.Component.MediaControl
         /// <summary> 设置滚轮模式 </summary>
         void SetImageIndexWheelMode(bool value, int index = 0);
 
-        void SetImageIndexSpeed(double value, int index = 0);
+        void SetImageIndexSpeed(int value, int index = 0);
 
         /// <summary> 描述信息 </summary>
         void SetImageIndexDetialText(string value, int index = 0);

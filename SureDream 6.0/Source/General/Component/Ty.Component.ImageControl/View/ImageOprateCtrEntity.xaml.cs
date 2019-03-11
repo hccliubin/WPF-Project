@@ -186,9 +186,9 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 自动播放速度
         /// </summary>
-        public double Speed
+        public int Speed
         {
-            get { return (double)GetValue(SpeedProperty); }
+            get { return (int)GetValue(SpeedProperty); }
             set { SetValue(SpeedProperty, value); }
         }
 
@@ -197,7 +197,7 @@ namespace Ty.Component.ImageControl
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SpeedProperty =
-            DependencyProperty.Register("Speed", typeof(double), typeof(ImageOprateCtrEntity), new PropertyMetadata(1.0, (d, e) =>
+            DependencyProperty.Register("Speed", typeof(int), typeof(ImageOprateCtrEntity), new PropertyMetadata(1.0, (d, e) =>
             {
                 ImageOprateCtrEntity control = d as ImageOprateCtrEntity;
 
@@ -505,7 +505,7 @@ namespace Ty.Component.ImageControl
 
             Action action = () =>
             {
-                Debug.WriteLine(shortcut);
+                //Debug.WriteLine(shortcut);
 
                 if (this.ViewModel == null) return;
 
@@ -540,7 +540,7 @@ namespace Ty.Component.ImageControl
                 else
                 {
                     Debug.WriteLine("退出模式");
-                } 
+                }
 
                 this.control_imageView.ShowDefaultDefectPart(flag);
 
@@ -562,12 +562,12 @@ namespace Ty.Component.ImageControl
 
             };
 
-            _shortCutHookService.RegisterCommand(shortcut, action); 
+            _shortCutHookService.RegisterCommand(shortcut, action);
         }
 
 
         public void RegisterDefaltApi()
-        { 
+        {
             // Todo ：双击Ctrl键 
             ShortCutEntitys d = new ShortCutEntitys();
 
@@ -989,7 +989,7 @@ namespace Ty.Component.ImageControl
 
         public void ImgPlaySpeedDown()
         {
-            this.Speed = 2 * this.Speed;
+            this.Speed = this.Speed - 2 * this.Speed;
         }
 
         public void ImgPlaySpeedUp()

@@ -410,7 +410,7 @@
                             <TextBlock.Triggers>
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard>
-                                        <Storyboard  RepeatBehavior="Forever"  AutoReverse="True" >
+                                        <Storyboard  RepeatBehavior="Forever" AutoReverse="True" >
                                             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:01"/>
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -422,7 +422,7 @@
                         <Trigger Property="Visibility" Value="Visible">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard>
+                                    <Storyboard  RepeatBehavior="Forever" AutoReverse="True" >
                                         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
                                             <SplineDoubleKeyFrame KeyTime="00:00:01" Value="0"/>

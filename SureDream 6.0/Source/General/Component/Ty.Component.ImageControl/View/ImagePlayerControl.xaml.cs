@@ -32,9 +32,6 @@ namespace Ty.Component.ImageControl
 
             this.image_control.LastClicked += Image_control_IndexChangedClick;
 
-            //  Message：默认0.5s一张
-            this.image_control.Speed = this.image_control.Speed / 2;
-
             this.image_control.SetMarkType(MarkType.None);
 
             this.image_control.button_next.Visibility = Visibility.Collapsed;
@@ -256,6 +253,7 @@ namespace Ty.Component.ImageControl
 
         public void LoadImageFolder(List<string> imageFoders, string startForder)
         {
+
             //  Do：默认加载位置
             int startPostion = 0;
 
@@ -284,7 +282,6 @@ namespace Ty.Component.ImageControl
                         startPostion += file.Count;
                     }
 
-
                     //Thread.Sleep(500);
 
                     files.AddRange(file);
@@ -292,7 +289,7 @@ namespace Ty.Component.ImageControl
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.InitImages(files);
+                    this.InitImages(files); 
 
                     //  Do：加载起始位置
                     if (exist)
@@ -307,14 +304,70 @@ namespace Ty.Component.ImageControl
 
         public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord, string ip)
         {
-            //foreach (var item in imageFoders)
-            //{
-            //    ComponetProvider.Instance.GetAccessControl(item, "administrator", "123456");
-            //}
+            //  Message：构造缓存模型
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Stop();
+            }
+
             using (SharedTool tool = new SharedTool(useName, passWord, ip))
             {
                 this.LoadImageFolder(imageFoders, startForder);
             }
+
+            //  Do：默认加载位置
+            int startPostion = 0;
+
+            List<string> files = new List<string>();
+
+            Task.Run(() =>
+            {
+                //  Do：是否存在startForder
+                bool exist = false;
+
+                foreach (var item in imageFoders)
+                {
+                    //var dir = Directory.CreateDirectory(item);
+
+                    DirectoryInfo dir = new DirectoryInfo(item);
+
+                    var file = dir.GetFiles().Where(l => ComponetProvider.Instance.IsValidImage(l.FullName)).Select(l => l.FullName).ToList();
+
+                    if (item == startForder)
+                    {
+                        exist = true;
+                    }
+
+                    if (!exist)
+                    {
+                        startPostion += file.Count;
+                    }
+
+                    //Thread.Sleep(500);
+
+                    files.AddRange(file);
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.InitImages(files);
+
+                    string start = files[startPostion];
+
+                    _imageCacheEngine = new ImageCacheEngine(this.image_control.ImagePaths, this.GetCacheFolder(), start, useName, passWord, ip);
+
+                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
+
+                    //  Do：加载起始位置
+                    if (exist)
+                    {
+                        this.SetPositon(startPostion);
+                    }
+
+                });
+            });
+
+          
 
 
         }
@@ -334,15 +387,11 @@ namespace Ty.Component.ImageControl
 
         public void LoadFtpImageFolder(List<string> imageFoders, string startForder, string useName, string passWord)
         {
-
             //  Message：构造缓存模型
-
             if (_imageCacheEngine!=null)
             {
                 _imageCacheEngine.Stop();
             }
-            
-            _imageCacheEngine = new ImageCacheEngine(imageFoders, this.GetCacheFolder(), startForder, useName, passWord);
 
             FtpHelper.Login(useName, passWord);
 
@@ -382,6 +431,10 @@ namespace Ty.Component.ImageControl
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     this.InitImages(files);
+
+                    string start = files[startPostion];
+
+                    _imageCacheEngine = new ImageCacheEngine(files, this.GetCacheFolder(), start, useName, passWord); 
 
                     this.image_control.SetImageCacheEngine(this._imageCacheEngine);
 
@@ -628,11 +681,7 @@ namespace Ty.Component.ImageControl
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
-
-            var d = double.Parse(value.ToString());
-
-            var sp = 1 / d + "X";
+            var sp = value + "X";
 
             return sp;
         }

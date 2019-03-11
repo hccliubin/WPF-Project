@@ -22,7 +22,7 @@
                                 <Border  x:Name="IconBorder" Background="Transparent" BorderThickness="0,0,0,0.2"  BorderBrush="LightGray">
                                     <ContentPresenter  Content="{TemplateBinding Content}" Margin="10,0" VerticalAlignment="Center"/>
                                 </Border>
-                                <ControlTemplate.Triggers>
+                                <!--<ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="true">
                                         <Setter TargetName="IconBorder" Property="BitmapEffect">
                                             <Setter.Value>
@@ -39,7 +39,7 @@
                                         </Setter>
                                         <Setter Property="Background" TargetName="IconBorder" Value="#353535"/>
                                     </Trigger>
-                                </ControlTemplate.Triggers>
+                                </ControlTemplate.Triggers>-->
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
