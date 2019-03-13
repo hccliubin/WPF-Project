@@ -169,6 +169,12 @@ namespace Ty.Component.ImageControl
         public DefectCommonUsed SelectCommonHistoricalDefectsOrMark { get; set; }
 
         #endregion
+
+        /// <summary> 标识当前标动属于哪个索引 </summary>
+        public int Index { get; set; }
+
+        /// <summary> 标定图片数据 </summary>
+        public byte[] PicData { get; set; }
     }
 
     /// <summary>

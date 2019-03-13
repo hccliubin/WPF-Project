@@ -67,6 +67,7 @@
     <Compile Include="BubbleWindow.xaml.cs">
       <DependentUpon>BubbleWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Provider\SystemUtils.cs" />
     <Compile Include="Provider\FtpHelper.cs" />
     <Compile Include="Provider\ImageCacheEngine.cs" />
     <Compile Include="Provider\ObjectRoutedEventArgs.cs" />

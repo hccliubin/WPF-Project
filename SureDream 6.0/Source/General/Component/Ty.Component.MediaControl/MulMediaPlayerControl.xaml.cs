@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,13 @@ namespace Ty.Component.MediaControl
 
         }
 
+        private void MulMediaPlayerControl_ImageIndexFullScreenEvent(int obj)
+        {
+
+            Debug.WriteLine("全屏点击了");
+
+        }
+
         public List<IVdeioImagePlayerService> MediaSources
         {
             get { return (List<IVdeioImagePlayerService>)GetValue(MediaSourcesProperty); }
@@ -45,10 +53,9 @@ namespace Ty.Component.MediaControl
 
                  List<IVdeioImagePlayerService> config = e.NewValue as List<IVdeioImagePlayerService>;
 
-                 foreach (var item in config)
-                 {
-                     item.PlayerToolControl = control.playtool;
-                 }
+                 control.Init(config);
+
+                 if (config == null) return;
 
                  if (config.Count == 1)
                  {
@@ -80,10 +87,125 @@ namespace Ty.Component.MediaControl
                      control.ColCount = 3;
                  }
 
+                 control.SetNormal();
 
              }));
 
+        void Init(List<IVdeioImagePlayerService> services)
+        {
 
+            for (int i = 0; i < services.Count; i++)
+            {
+                var item = services[i];
+
+                item.PlayerToolControl = this.playtool;
+
+                item.FullScreenHandle += Item_FullScreenHandle;
+
+                var operate = item.ImagePlayerService?.GetImgOperate();
+
+                if (operate != null)
+                {
+                    operate.DrawMarkedMouseUp += Item_DrawMarkedMouseUp;
+
+                    operate.DeleteImgEvent += Operate_DeleteImgEvent;
+
+                    operate.ImgMarkOperateEvent += Operate_ImgMarkOperateEvent;
+
+                    operate.MarkEntitySelectChanged += Operate_MarkEntitySelectChanged;
+
+                    operate.FullScreenChangedEvent += Operate_FullScreenChangedEvent;
+                }
+
+
+                if (item.ImagePlayerService != null)
+                {
+                    item.ImagePlayerService.ImgPlayModeChanged += ImagePlayerService_ImgPlayModeChanged;
+                }
+
+            }
+
+        }
+
+        #region - 注册事件 -
+
+        private void ImagePlayerService_ImgPlayModeChanged(ImgPlayMode obj, IImagePlayerService imagePlayer)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService == imagePlayer);
+
+            this.ImgPlayModeChanged?.Invoke(obj);
+
+            Debug.WriteLine("ImgPlayModeChanged");
+        }
+
+        private void Operate_FullScreenChangedEvent(bool obj, IImgOperate operate)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
+
+            this.ImageIndexFullScreenEvent?.Invoke(index);
+
+            this.SetFullScreen(index);
+
+            Debug.WriteLine("Operate_FullScreenChangedEvent");
+        }
+
+        private void Operate_MarkEntitySelectChanged(ImgMarkEntity obj, IImgOperate operate)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
+
+            this.ImageMarkEntitySelectChanged?.Invoke(obj, index);
+
+            this.SetFullScreen(index);
+
+            Debug.WriteLine("Operate_MarkEntitySelectChanged");
+        }
+
+        private void Operate_ImgMarkOperateEvent(ImgMarkEntity markEntity, IImgOperate operate)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
+
+            this.ImageIndexMarkOperateEvent?.Invoke(markEntity, index);
+
+            this.SetFullScreen(index);
+
+            Debug.WriteLine("Operate_ImgMarkOperateEvent");
+        }
+
+        private void Operate_DeleteImgEvent(string obj, IImgOperate operate)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
+
+            this.ImageIndexDeletedClicked?.Invoke(obj, index);
+
+            this.SetFullScreen(index);
+
+            Debug.WriteLine("Operate_DeleteImgEvent");
+        }
+
+        private void Item_DrawMarkedMouseUp(ImgMarkEntity markEntity, MarkType type, IImgOperate operate)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
+
+            this.ImageIndexDrawMarkedMouseUp?.Invoke(markEntity, type, index);
+
+            this.SetFullScreen(index);
+
+            Debug.WriteLine("Item_DrawMarkedMouseUp");
+        }
+
+        //  Message：全屏事件
+        private void Item_FullScreenHandle(IVdeioImagePlayerService obj)
+        {
+            int index = this.MediaSources.FindIndex(l => l == obj);
+
+            this.ImageIndexFullScreenEvent?.Invoke(index);
+
+            this.SetFullScreen(index);
+
+            Debug.WriteLine("Item_FullScreenHandle");
+
+        }
+        #endregion
 
         public int RowCount
         {
@@ -123,6 +245,49 @@ namespace Ty.Component.MediaControl
              }));
 
 
+        void SetFullScreen(int index)
+        {
+            this.control_normal.ItemsSource = null;
+
+            this.control_fullscreen.Visibility = Visibility.Visible;
+
+            this.control_normal.Visibility = Visibility.Collapsed;
+
+            this.control_fullscreen.MediaSources = this.MediaSources;
+
+            this.control_fullscreen.Index = index;
+
+            this.RefreshSize();
+
+        }
+
+        void SetNormal()
+        {
+            this.control_fullscreen.MediaSources = null;
+
+            this.control_fullscreen.Visibility = Visibility.Collapsed;
+
+            this.control_normal.Visibility = Visibility.Visible;
+
+            this.control_normal.ItemsSource = this.MediaSources;
+
+            this.RefreshSize();
+        }
+
+
+        void RefreshSize()
+        {
+            for (int i = 0; i < this.MediaSources.Count; i++)
+            {
+                this.SetImageIndexAdaptiveSize(i);
+            }
+        }
+
+
+        private void Control_fullscreen_CloseClicked()
+        {
+            this.SetNormal();
+        }
     }
 
     public partial class MulMediaPlayerControl : IMulMediaPlayer
@@ -139,24 +304,21 @@ namespace Ty.Component.MediaControl
         /// <summary> 初始化控件 </summary>
         void InitControl(int count)
         {
+            //  Message：注销事件
+            this.Dispose();
+
+            services = new List<IVdeioImagePlayerService>();
+
             for (int i = 0; i < count; i++)
             {
 
                 VedioImagePlayerControl control = new VedioImagePlayerControl();
-
-              //  control.ImagePlayerService.ImgPlayModeChanged += ImgPlayModeChanged;
-
-              //  control.ImagePlayerService.ImageIndexChanged += (l, k) =>
-              //{
-              //    this.ImageIndexChanged?.Invoke(l, k, i);
-              //};
 
                 services.Add(control);
             }
 
             this.MediaSources = services;
         }
-
 
         public void LoadImageFolders(params Tuple<List<string>, string>[] imageFoders)
         {
@@ -223,11 +385,11 @@ namespace Ty.Component.MediaControl
 
         public event Action<ImgMarkEntity, int> ImageIndexMarkOperateEvent;
 
-        public event Action<string, ImgProcessType, int> ImageIndexProcessEvent;
+        //public event Action<string, ImgProcessType, int> ImageIndexProcessEvent;
 
-        public event Action<int> ImageIndexPreviousEvent;
+        //public event Action<int> ImageIndexPreviousEvent;
 
-        public event Action<int> ImageIndexNextEvent;
+        //public event Action<int> ImageIndexNextEvent;
 
         public event Action<ImgMarkEntity, MarkType, int> ImageIndexDrawMarkedMouseUp;
 
@@ -235,7 +397,7 @@ namespace Ty.Component.MediaControl
 
         public event Action<ImgMarkEntity, int> ImageMarkEntitySelectChanged;
 
-        public event Action<string, ImgSliderMode> ImageIndexChanged;
+        //public event Action<string, ImgSliderMode> ImageIndexChanged;
 
         public event Action<ImgPlayMode> ImgPlayModeChanged;
 
@@ -483,8 +645,7 @@ namespace Ty.Component.MediaControl
 
         #endregion
 
-        #region - 播放控制 -
-
+        #region - 播放控制 - 
 
         public ImgPlayMode GetImagePlayMode()
         {
@@ -501,6 +662,7 @@ namespace Ty.Component.MediaControl
             {
                 item.ImagePlayerService.SetImgPlay(imgPlayMode);
             }
+            
         }
 
         public void SetImagePlayStepDown()
@@ -582,7 +744,7 @@ namespace Ty.Component.MediaControl
             }
         }
 
-        public void SetImagSpeedUp()
+        public void SetImageSpeedUp()
         {
             if (this.services == null) return;
 
@@ -590,6 +752,74 @@ namespace Ty.Component.MediaControl
             {
                 item.ImagePlayerService.ImgPlaySpeedUp();
             }
+        }
+
+        public void Dispose()
+        {
+
+            foreach (var item in this.services)
+            {
+                //  Message：注销事件
+                item.FullScreenHandle -= Item_FullScreenHandle;
+
+                var operate = item.ImagePlayerService?.GetImgOperate();
+
+                if (operate != null)
+                {
+                    operate.DrawMarkedMouseUp -= Item_DrawMarkedMouseUp;
+
+                    operate.DeleteImgEvent -= Operate_DeleteImgEvent;
+
+                    operate.ImgMarkOperateEvent -= Operate_ImgMarkOperateEvent;
+
+                    operate.MarkEntitySelectChanged -= Operate_MarkEntitySelectChanged;
+
+                    operate.FullScreenChangedEvent -= Operate_FullScreenChangedEvent;
+                }
+
+                if (item.ImagePlayerService != null)
+                {
+                    item.ImagePlayerService.ImgPlayModeChanged -= ImagePlayerService_ImgPlayModeChanged;
+                }
+                //  Message：清理子项
+                item.Dispose();
+
+            }
+
+            services.Clear();
+        }
+
+        public void ClearAllCache()
+        {
+            try
+            {
+                string local = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "_cache");
+
+                Directory.Delete(local, true);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+
+        }
+
+        public void ImageIndexLoadMarkEntitys(List<ImgMarkEntity> markEntityList, int index)
+        {
+            if (!this.CheckCount(index)) return;
+
+            var service = services[index];
+
+            service.ImagePlayerService.GetImgOperate().LoadMarkEntitys(markEntityList);
+        }
+
+        public List<string> GetCurrentUrl()
+        {
+            if (this.services == null) return null;
+
+            return this.services.Select(l => l.ImagePlayerService?.GetCurrentUrl()).ToList();
+
         }
         #endregion
 

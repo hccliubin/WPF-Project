@@ -37,6 +37,12 @@ namespace Ty.Component.ImageControl
             this.image_control.button_next.Visibility = Visibility.Collapsed;
             this.image_control.button_last.Visibility = Visibility.Collapsed;
 
+            this.image_control.grid_buzy.Visibility = Visibility.Collapsed;
+
+            this.image_control.tool_normal.Visibility = Visibility.Collapsed;
+            this.image_control.tool_play.Visibility = Visibility.Collapsed;
+
+            this.image_control.IsAutoFullImage = false;
         }
 
 
@@ -213,9 +219,9 @@ namespace Ty.Component.ImageControl
             this.Pause();
 
             //  Message：注册播放事件
-            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+            this.PlayerToolControl.toggle_play.Click -= this.ToggleButton_Click;
 
-            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+            this.PlayerToolControl.media_slider.ValueChanged -= this.Media_slider_ValueChanged;
 
             this.PlayerToolControl.DragCompleted -= media_slider_DragCompleted;
 
@@ -226,26 +232,28 @@ namespace Ty.Component.ImageControl
 
         private void image_control_SpeedChanged(object sender, RoutedEventArgs e)
         {
-            var d = double.Parse(this.image_control.Speed.ToString());
-
             if (this.PlayerToolControl == null) return;
 
-            this.PlayerToolControl.media_speed.Text = 1 / d + "X";
+            this.PlayerToolControl.media_speed.Text = this.image_control.Speed + "X";
         }
 
-        private void Image_control_DoubleClickFullScreenHandle(bool obj)
+        private void Image_control_DoubleClickFullScreenHandle(bool obj,IImgOperate arg2)
         {
             this.FullScreenHandle?.Invoke();
-        }
+        } 
     }
 
     public partial class ImagePlayerControl : IImagePlayerService
     {
         public ImgPlayMode ImgPlayMode => this.image_control.ImgPlayMode;
 
+        ImageCacheEngine _imageCacheEngine;
+
+        public ImageCacheEngine ImageCacheEngine { get => _imageCacheEngine; set => _imageCacheEngine = value; }
+
         public event Action<string, ImgSliderMode> ImageIndexChanged;
 
-        public event Action<ImgPlayMode> ImgPlayModeChanged;
+        public event Action<ImgPlayMode,IImagePlayerService> ImgPlayModeChanged;
 
         public event Action<int, string> SliderDragCompleted;
 
@@ -253,6 +261,8 @@ namespace Ty.Component.ImageControl
 
         public void LoadImageFolder(List<string> imageFoders, string startForder)
         {
+
+            this.image_control.SetImageCacheEngine(null);
 
             //  Do：默认加载位置
             int startPostion = 0;
@@ -303,11 +313,12 @@ namespace Ty.Component.ImageControl
         }
 
         public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord, string ip)
-        {
+        { 
+
             //  Message：构造缓存模型
-            if (_imageCacheEngine != null)
+            if (ImageCacheEngine != null)
             {
-                _imageCacheEngine.Stop();
+                ImageCacheEngine.Stop();
             }
 
             using (SharedTool tool = new SharedTool(useName, passWord, ip))
@@ -354,9 +365,9 @@ namespace Ty.Component.ImageControl
 
                     string start = files[startPostion];
 
-                    _imageCacheEngine = new ImageCacheEngine(this.image_control.ImagePaths, this.GetCacheFolder(), start, useName, passWord, ip);
+                    ImageCacheEngine = new ImageCacheEngine(this.image_control.ImagePaths, this.GetCacheFolder(), start, useName, passWord, ip);
 
-                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
+                    this.image_control.SetImageCacheEngine(this.ImageCacheEngine);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -367,13 +378,7 @@ namespace Ty.Component.ImageControl
                 });
             });
 
-          
-
-
         }
-
-
-        ImageCacheEngine _imageCacheEngine;
 
         string GetCacheFolder()
         {
@@ -388,9 +393,9 @@ namespace Ty.Component.ImageControl
         public void LoadFtpImageFolder(List<string> imageFoders, string startForder, string useName, string passWord)
         {
             //  Message：构造缓存模型
-            if (_imageCacheEngine!=null)
+            if (ImageCacheEngine!=null)
             {
-                _imageCacheEngine.Stop();
+                ImageCacheEngine.Stop();
             }
 
             FtpHelper.Login(useName, passWord);
@@ -413,6 +418,8 @@ namespace Ty.Component.ImageControl
 
                     var file = FtpHelper.GetFileList(item).Where(l => ComponetProvider.Instance.IsValidImage(l)).Select(l => System.IO.Path.Combine(url, l)).ToList();
 
+                    //file= file.OrderBy(l => int.Parse(System.IO.Path.GetFileNameWithoutExtension(l))).ToList();
+
                     if (item == startForder)
                     {
                         exist = true;
@@ -434,9 +441,9 @@ namespace Ty.Component.ImageControl
 
                     string start = files[startPostion];
 
-                    _imageCacheEngine = new ImageCacheEngine(files, this.GetCacheFolder(), start, useName, passWord); 
+                    ImageCacheEngine = new ImageCacheEngine(files, this.GetCacheFolder(), start, useName, passWord); 
 
-                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
+                    this.image_control.SetImageCacheEngine(this.ImageCacheEngine);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -453,14 +460,20 @@ namespace Ty.Component.ImageControl
         /// <param name="ImageUrls"></param>
         void InitImages(List<string> ImageUrls)
         {
+
+            this.image_control.IsAutoFullImage = false;
+
             this.image_control.LoadImg(ImageUrls);
 
             //  Do：初始化进度条
             this.InitSlider();
+           
         }
 
         public void LoadImages(List<string> ImageUrls)
         {
+            this.image_control.SetImageCacheEngine(null);
+
             //this.image_control.LoadImg(ImageUrls);
 
             ////  Do：初始化进度条
@@ -510,7 +523,7 @@ namespace Ty.Component.ImageControl
             //  Message：功能按钮在暂停的时候才出现 
             this.image_control.border.Visibility = imgPlayMode == ImgPlayMode.停止播放 ? Visibility.Visible : Visibility.Collapsed;
 
-            this.ImgPlayModeChanged?.Invoke(imgPlayMode);
+            this.ImgPlayModeChanged?.Invoke(imgPlayMode,this);
 
         }
 
@@ -650,6 +663,13 @@ namespace Ty.Component.ImageControl
         {
             this.image_control.SetRotateRight();
         }
+
+        public void Dispose()
+        {
+            this.image_control.Dispose();
+
+            this.DisposePlayerToolControl();
+        }
     }
 
 
@@ -665,7 +685,7 @@ namespace Ty.Component.ImageControl
 
             var d = double.Parse(value.ToString());
 
-            var sp = TimeSpan.FromTicks((long)d);
+            var sp = TimeSpan.FromTicks((long)d/5);
 
             return sp.ToString().Split('.')[0];
         }

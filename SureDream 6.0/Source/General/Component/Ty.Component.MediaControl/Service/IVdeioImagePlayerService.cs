@@ -10,10 +10,10 @@ namespace Ty.Component.MediaControl
     /// <summary>
     /// 播放控件服务类（包括：视频和图片）
     /// </summary>
-   public interface IVdeioImagePlayerService
+   public interface IVdeioImagePlayerService:IDisposable    
     {
         /// <summary> 全屏事件 </summary>
-        event Action FullScreenHandle;
+        event Action<IVdeioImagePlayerService> FullScreenHandle;
 
         /// <summary> 视频播放服务 </summary>
         IMediaPlayerService MediaPlayerService { get; set; }

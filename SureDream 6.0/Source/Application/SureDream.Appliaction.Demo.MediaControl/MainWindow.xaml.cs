@@ -35,7 +35,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
             //  Do：1、注册编辑标定事件 包括新增、删除
-            _imgOperate.ImgMarkOperateEvent += l =>
+            _imgOperate.ImgMarkOperateEvent += (l,k) =>
             {
                 temp.Clear();
 
@@ -123,7 +123,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
             };
 
             //  Do：5、注册绘制矩形框结束事件 需要在此处弹出缺陷管理控件，并设置如下参数
-            _imgOperate.DrawMarkedMouseUp += (l, k) =>
+            _imgOperate.DrawMarkedMouseUp += (l, k,m) =>
             {
                 //Debug.WriteLine(l);
                 //Debug.WriteLine(k);

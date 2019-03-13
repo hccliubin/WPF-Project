@@ -9,7 +9,7 @@ namespace Ty.Component.ImageControl
     /// <summary>
     /// 图片播放操作服务类
     /// </summary>
-    public interface IImagePlayerService
+    public interface IImagePlayerService : IDisposable
     {
         /// <summary>
         /// 9）播放图片集合功能（List<string> ImageUrls），将集合内的图片按顺序反复播放，默认间隔为0.5秒。
@@ -28,7 +28,7 @@ namespace Ty.Component.ImageControl
         /// 10）播放图片文件夹功能，按照文件名按名称排序正序播放，默认间隔为0.5秒
         /// </summary>
         /// <param name="imageFoder"></param>
-        void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord,string ip);
+        void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord, string ip);
 
         /// <summary>
         /// 播放 ftp图片文件夹
@@ -71,7 +71,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 图片索引发生变化时触发，P=当前URL
         /// </summary>
-        event Action<string,ImgSliderMode> ImageIndexChanged;
+        event Action<string, ImgSliderMode> ImageIndexChanged;
 
         /// <summary>
         /// 播放类型变化时触发
@@ -139,7 +139,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 下一张
         /// </summary>
-        void NextImg(); 
+        void NextImg();
 
         /// <summary>
         /// 加快图片播放速度

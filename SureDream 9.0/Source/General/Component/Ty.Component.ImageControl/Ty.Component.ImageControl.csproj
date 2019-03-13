@@ -67,7 +67,9 @@
     <Compile Include="BubbleWindow.xaml.cs">
       <DependentUpon>BubbleWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Provider\SystemUtils.cs" />
     <Compile Include="Provider\FtpHelper.cs" />
+    <Compile Include="Provider\ImageCacheEngine.cs" />
     <Compile Include="Provider\ObjectRoutedEventArgs.cs" />
     <Compile Include="Service\IImagePlayerService.cs" />
     <Compile Include="Provider\ImageButton.cs" />
@@ -172,6 +174,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

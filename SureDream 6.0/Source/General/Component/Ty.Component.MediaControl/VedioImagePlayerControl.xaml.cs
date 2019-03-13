@@ -29,12 +29,12 @@ namespace Ty.Component.MediaControl
 
             this.MediaPlayerService.FullScreenHandle += () =>
             {
-                this.FullScreenHandle?.Invoke();
+                this.FullScreenHandle?.Invoke(this);
             };
 
             this.ImagePlayerService.FullScreenHandle += () =>
             {
-                this.FullScreenHandle?.Invoke();
+                this.FullScreenHandle?.Invoke(this);
             };
         }
 
@@ -69,7 +69,7 @@ namespace Ty.Component.MediaControl
 
         MediaPlayType _type;
 
-        public event Action FullScreenHandle;
+        public event Action<IVdeioImagePlayerService> FullScreenHandle;
 
         /// <summary> 更新播放类型 </summary>
         void RefreshPlayType(MediaPlayType type)
@@ -224,6 +224,11 @@ namespace Ty.Component.MediaControl
             {
                 this.ImagePlayerService.RotateRight();
             }
+        }
+
+        public void Dispose()
+        {
+            this.ImagePlayerService?.Dispose();
         }
     }
 }

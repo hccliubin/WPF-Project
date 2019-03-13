@@ -40,7 +40,51 @@ namespace Ty.Component.ImageControl
         {
             this.SliderFlag = false;
 
-            this.DragCompleted?.Invoke(sender,e);
+            this.DragCompleted?.Invoke(sender, e);
         }
+
+        /// <summary> 多个图片播放时用于检测播放同步 </summary>
+        public List<IImgOperate> IImgOperateCollection { get; set; } = new List<IImgOperate>();
+
+
+
+        public bool IsBuzy
+        {
+            get { return (bool)GetValue(IsBuzyProperty); }
+            set { SetValue(IsBuzyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsBuzyProperty =
+            DependencyProperty.Register("IsBuzy", typeof(bool), typeof(PlayerToolControl), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 PlayerToolControl control = d as PlayerToolControl;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
+        public string Message
+        {
+            get { return (string)GetValue(MessageProperty); }
+            set { SetValue(MessageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MessageProperty =
+            DependencyProperty.Register("Message", typeof(string), typeof(PlayerToolControl), new PropertyMetadata(default(string), (d, e) =>
+             {
+                 PlayerToolControl control = d as PlayerToolControl;
+
+                 if (control == null) return;
+
+                 string config = e.NewValue as string;
+
+             }));
+
+
     }
 }

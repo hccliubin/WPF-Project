@@ -28,6 +28,11 @@ namespace SureDream.Appliaction.Demo.MediaControl
         public MulMediaPlayerWindow()
         {
             InitializeComponent();
+
+            this.media.ImgPlayModeChanged += l =>
+              {
+                  Debug.WriteLine("ImgPlayModeChanged");
+              };
         }
 
         /// <summary> 获取标定信息存放路径 </summary>
@@ -104,11 +109,11 @@ namespace SureDream.Appliaction.Demo.MediaControl
             //  Do：根据数量初始化控件
             int c = int.Parse(this.txt_count.Text);
 
-            string filePath = @"ftp://127.0.0.1/images/";
+            string filePath = @"ftp://127.0.0.1/images2/";
 
             List<string> folders = new List<string>();
 
-            folders.Add(@"ftp://127.0.0.1/images/");
+            folders.Add(@"ftp://127.0.0.1/images2/");
             //folders.Add(@"ftp://127.0.0.1/images1/");
             //folders.Add(@"ftp://127.0.0.1/images2/");
             //folders.Add(@"ftp://127.0.0.1/images3/");
@@ -126,6 +131,26 @@ namespace SureDream.Appliaction.Demo.MediaControl
             }
 
             this.media.LoadImageFtpFolders("Healthy", "870210lhj", collection.ToArray());
+        }
+
+        private void Btn_speedadd_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.SetImageSpeedUp();
+        }
+
+        private void Btn_speedmul_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.SetImageSpeedDown();
+        }
+
+        private void Btn_playback_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.SetImagePlayMode(ImgPlayMode.倒叙);
+        }
+
+        private void Btn_clearallcache_Click(object sender, RoutedEventArgs e)
+        {
+            this.media.ClearAllCache();
         }
     }
 }

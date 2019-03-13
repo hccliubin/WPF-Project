@@ -49,6 +49,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MediaFullScreenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MulMediaPlayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageButton.cs" />
+    <Compile Include="MediaFullScreenControl.xaml.cs">
+      <DependentUpon>MediaFullScreenControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MulMediaPlayerControl.xaml.cs">
       <DependentUpon>MulMediaPlayerControl.xaml</DependentUpon>
     </Compile>

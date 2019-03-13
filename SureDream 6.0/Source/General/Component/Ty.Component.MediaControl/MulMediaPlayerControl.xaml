@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ty.Component.MediaControl"
+             xmlns:base="clr-namespace:Ty.Base.WpfBase;assembly=Ty.Base.WpfBase"
              xmlns:imagecontrol="clr-namespace:Ty.Component.ImageControl;assembly=Ty.Component.ImageControl"
              mc:Ignorable="d" x:Name="control" Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -12,7 +13,8 @@
             <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding ElementName=control,Path=MediaSources}">
+
+        <ListBox x:Name="control_normal" >
             <ListBox.Resources>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Height" Value="Auto"/>
@@ -47,10 +49,35 @@
             </ListBox.Resources>
             <ListBox.Template>
                 <ControlTemplate TargetType="ListBox">
-                    <UniformGrid  Rows="{Binding ElementName=control,Path=RowCount}" Columns="{Binding ElementName=control,Path=ColCount}" IsItemsHost="True"/>
+                    <UniformGrid  Rows="{Binding ElementName=control,Path=RowCount}" 
+                                  Columns="{Binding ElementName=control,Path=ColCount}" 
+                                  IsItemsHost="True"/>
                 </ControlTemplate>
             </ListBox.Template>
         </ListBox>
+
+        <local:MediaFullScreenControl x:Name="control_fullscreen"  Visibility="Collapsed" CloseClicked="Control_fullscreen_CloseClicked"/>
+
+        <Grid Visibility="{Binding ElementName=playtool,Path=IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
+            <Grid.Background>
+                <SolidColorBrush  Color="Black" Opacity="0.5"/>
+            </Grid.Background>
+            <Ellipse Width="200" Height="200" Stroke="White" StrokeThickness="20"/>
+
+
+            <TextBlock  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40">
+                <Run Text="{Binding ElementName=playtool,Path=Message}"/><Run Text="%"/>
+            </TextBlock>
+            <!--<Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard  RepeatBehavior="Forever" AutoReverse="True" >
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:01"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>-->
+        </Grid>
 
         <imagecontrol:PlayerToolControl x:Name="playtool" Grid.Row="1"/>
 

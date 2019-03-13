@@ -60,8 +60,11 @@ namespace Ty.Component.ImageControl
                 if (args != null && args.NewValue != null)
                 {
                     ImageSource imgSource = args.NewValue as ImageSource;
+
                     view.imgBig.Source = imgSource;
+
                     view.imgless.Source = imgSource;
+
                     view.GetImageWidthHeight();
 
                     view.SetFullImage();
@@ -140,6 +143,7 @@ namespace Ty.Component.ImageControl
             this.SetMarkType(MarkType.None);
 
             this.SetBubbleScale(50);
+
         }
 
         //bool _loationFlag = false;
@@ -220,6 +224,8 @@ namespace Ty.Component.ImageControl
         /// <summary> 设置初始图片为平铺整个控件 </summary>
         void SetFullImage()
         {
+            this.GetImageWidthHeight();
+
             if (imgWidth == 0 || imgHeight == 0)
                 return;
 
@@ -783,6 +789,25 @@ namespace Ty.Component.ImageControl
             {
                 ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
 
+                // 切割图片
+                ImageSource imageSource = this.Source;
+                System.Drawing.Bitmap bitmap = SystemUtils.ImageSourceToBitmap(imageSource);
+                BitmapSource bitmapSource = SystemUtils.BitmapToBitmapImage(bitmap);
+
+                Int32Rect rect = new Int32Rect();
+                rect.X = (int)_dynamic.Rect.X;
+                rect.Y = (int)_dynamic.Rect.Y;
+                rect.Width = (int)_dynamic.Rect.Width;
+                rect.Height = (int)_dynamic.Rect.Height;
+
+                BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, new Int32Rect((int)_dynamic.Rect.X, (int)_dynamic.Rect.Y, (int)_dynamic.Rect.Width, (int)_dynamic.Rect.Height));
+
+                //// 使用切割后的图源
+                //img1.Source = newBitmapSource;
+
+                imgMarkEntity.PicData = SystemUtils.ToBytes(newBitmapSource);
+                 
+
                 this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this._markType);
             }
 
@@ -823,8 +848,8 @@ namespace Ty.Component.ImageControl
             //  Message：更改区域位置
             Rect rectMark = new Rect(percentX * mask.ActualWidth, percentY * mask.ActualHeight, w, h);
 
-            Debug.WriteLine(rectMark.Width);
-            Debug.WriteLine(rectMark.Height);
+            //Debug.WriteLine(rectMark.Width);
+            //Debug.WriteLine(rectMark.Height);
 
             mask.UpdateSelectionRegion(rectMark, true);
 
@@ -998,6 +1023,27 @@ namespace Ty.Component.ImageControl
         //    this.SetMarkType(MarkType.None);
         //}
 
+
+        public PlayerToolControl PlayerToolControl
+        {
+            get { return (PlayerToolControl)GetValue(PlayerToolControlProperty); }
+            set { SetValue(PlayerToolControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerToolControlProperty =
+            DependencyProperty.Register("PlayerToolControl", typeof(PlayerToolControl), typeof(ImageViews), new PropertyMetadata(default(PlayerToolControl), (d, e) =>
+             {
+                 ImageViews control = d as ImageViews;
+
+                 if (control == null) return;
+
+                 PlayerToolControl config = e.NewValue as PlayerToolControl;
+
+             }));
+
+
+        Random random = new Random();
         /// <summary>
         /// 加载图片(上一张下一张切换用)
         /// </summary>
@@ -1023,28 +1069,75 @@ namespace Ty.Component.ImageControl
 
                 try
                 {
+                    bool flag = this.PlayerToolControl != null;
+
+                    List<IImgOperate> temp = new List<IImgOperate>();
+
+                    if (false)
+                    {
+                        temp = this.PlayerToolControl.IImgOperateCollection;
+                    }
+
+                    Action<bool, int, int> action = (l, k, v) =>
+                      {
+                          this.LoadPercent = Convert.ToDouble(k) / Convert.ToDouble(v);
+
+                          Application.Current.Dispatcher.Invoke(() =>
+                          {
+                              if (this.PlayerToolControl != null)
+                              {
+                                  this.PlayerToolControl.IsBuzy = true;
+
+                                  this.PlayerToolControl.Message = ((int)(temp.Select(m => m.LoadPercent).Aggregate((m, n) => m / temp.Count + n / temp.Count) * 100)).ToString();
+                              }
+                          });
+
+                      };
+
                     Task.Run(() =>
                     {
+                        this.IsImageLoaded = false;
+
+                        if (this._imageCacheEngine != null)
+                        {
+                            imagePath = this._imageCacheEngine.GetWaitCurrent(imagePath, action);
+                        }
+
                         var p = imagePath;
                         var s = new BitmapImage();
                         s.BeginInit();
                         s.CacheOption = BitmapCacheOption.OnLoad;
+
+                        //Thread.Sleep(random.Next(3) * 1000);
 
                         s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
                         s.EndInit();
                         //这一句很重要，少了UI线程就不认了。
                         s.Freeze();
 
+                        this.IsImageLoaded = true;
 
+                        if (flag)
+                        {
+                            //  Do：检查是否所有绑定的控件图片都加载完成，都完成时一块显示
+                            while (!temp.TrueForAll(l => l.IsImageLoaded && l.CurrentIndex >= this.CurrentIndex))
+                            {
+                                Thread.Sleep(10);
+                            }
+                        }
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-
                             this.ViewModel.ImageSource = s;
 
                             this.Source = s;
 
                             this.ViewModel.IsBuzy = false;
+
+                            if (this.PlayerToolControl != null)
+                            {
+                                this.PlayerToolControl.IsBuzy = false;
+                            }
                         });
 
                     });
@@ -1173,7 +1266,6 @@ namespace Ty.Component.ImageControl
             //  Do：触发下一页
             this.NextImgEvent?.Invoke();
 
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 ObjectRoutedEventArgs<ImgSliderMode> args = new ObjectRoutedEventArgs<ImgSliderMode>(NextClickRoutedEvent, this, imgSliderMode);
@@ -1213,6 +1305,7 @@ namespace Ty.Component.ImageControl
                 //if (!File.Exists(config.First())) return;
 
                 control.Collection.Clear();
+
                 //  Do：根据路径加载图片内存集合
                 foreach (var item in config)
                 {
@@ -1260,6 +1353,10 @@ namespace Ty.Component.ImageControl
                     control._tempMarkType = control._markType;
 
                     control.SetMarkType(MarkType.None);
+
+                    //  Message：刷新缓存播放机制
+                    if (control._imageCacheEngine != null)
+                        control._imageCacheEngine.RefreshPlayMode(config == ImgPlayMode.正序);
                 }
                 else if (config == ImgPlayMode.停止播放)
                 {
@@ -1274,9 +1371,9 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 自动播放速度
         /// </summary>
-        public double Speed
+        public int Speed
         {
-            get { return (double)GetValue(SpeedProperty); }
+            get { return (int)GetValue(SpeedProperty); }
             set
             {
                 SetValue(SpeedProperty, value);
@@ -1301,13 +1398,15 @@ namespace Ty.Component.ImageControl
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SpeedProperty =
-            DependencyProperty.Register("Speed", typeof(double), typeof(ImageViews), new PropertyMetadata(1.0, (d, e) =>
+            DependencyProperty.Register("Speed", typeof(int), typeof(ImageViews), new PropertyMetadata(1, (d, e) =>
             {
                 ImageViews control = d as ImageViews;
 
                 if (control == null) return;
 
-                control.btn_play_speed.Content = $"间隔{e.NewValue.ToString()}秒";
+                var value = (int)(1 / control.GetSpeedSplitTime());
+
+                control.btn_play_speed.Content = $"每秒{value}张";
 
                 control.OnSpeedChanged();
 
@@ -1368,6 +1467,28 @@ namespace Ty.Component.ImageControl
 
         Task task;
 
+        /// <summary> 获取当前速度的时间间隔 </summary>
+        double GetSpeedSplitTime()
+        {
+            switch (this.Speed)
+            {
+                case -2:
+                    return 1.0 / 3.0;
+                case -4:
+                    return 1.0 / 1.0;
+                case 1:
+                    return 1.0 / 5.0;
+                case 2:
+                    return 1.0 / 10.0;
+                case 4:
+                    return 1.0 / 10.0;
+                case 8:
+                    return 1.0 / 20.0;
+                default:
+                    return 1.0 / 5.0;
+            }
+        }
+
         //  Message：取消播放任务
         CancellationTokenSource tokenSource;
 
@@ -1387,14 +1508,14 @@ namespace Ty.Component.ImageControl
 
                 ImgPlayMode playMode = ImgPlayMode.正序;
 
-                double speed = 0;
+                double speedTime = 0;
 
                 bool isBuzy = false;
 
-                Application.Current.Dispatcher.Invoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     playMode = this.ImgPlayMode;
-                    speed = this.Speed;
+                    speedTime = this.GetSpeedSplitTime();
                     isBuzy = this.ViewModel == null ? false : this.ViewModel.IsBuzy;
                 });
 
@@ -1402,15 +1523,20 @@ namespace Ty.Component.ImageControl
                 if (playMode == ImgPlayMode.正序)
                 {
                     if (!isBuzy)
+                    {
                         this.OnNextClick(ImgSliderMode.System);
+                    }
+
                 }
                 else if (playMode == ImgPlayMode.倒叙)
                 {
                     if (!isBuzy)
+                    {
                         this.OnLastClicked(ImgSliderMode.System);
+                    }
                 }
 
-                Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * speed)), tokenSource.Token);
+                Task nextTask = Task.Delay(TimeSpan.FromMilliseconds((1000 * speedTime)), tokenSource.Token);
 
                 nextTask.ContinueWith(l => action());
 
@@ -1785,6 +1911,8 @@ namespace Ty.Component.ImageControl
 
             this.popup.Visibility = Visibility.Visible;
         }
+
+ 
     }
 
 
@@ -1908,7 +2036,6 @@ namespace Ty.Component.ImageControl
             this.MarkOperate(entity);
         }
 
-
         public ImgMarkEntity GetSelectMarkEntity()
         {
             if (this.ViewModel == null) return null;
@@ -1926,20 +2053,58 @@ namespace Ty.Component.ImageControl
 
         public void ImgPlaySpeedDown()
         {
-            this.Speed = 2 * this.Speed;
+            switch (this.Speed)
+            {
+                case 4:
+                    this.Speed = 2;
+                    break;
+                case 2:
+                    this.Speed = 1;
+                    break;
+                case 1:
+                    this.Speed = -1;
+                    break;
+                case -1:
+                    this.Speed = -2;
+                    break;
+                case -2:
+                    this.Speed = -4;
+                    break;
+                default:
+                    break;
+            }
 
             this.RefreshSpeedText();
         }
 
         void RefreshSpeedText()
         {
-            this.btn_play_speed.Content = $"间隔{this.Speed }秒";
+            this.btn_play_speed.Content = $"每秒{this.Speed }张";
 
         }
 
         public void ImgPlaySpeedUp()
         {
-            this.Speed = this.Speed / 2;
+            switch (this.Speed)
+            {
+                case -4:
+                    this.Speed = -2;
+                    break;
+                case 2:
+                    this.Speed = 4;
+                    break;
+                case 1:
+                    this.Speed = 2;
+                    break;
+                case -1:
+                    this.Speed = 1;
+                    break;
+                case -2:
+                    this.Speed = -1;
+                    break;
+                default:
+                    break;
+            }
 
             this.RefreshSpeedText();
         }
@@ -1969,6 +2134,35 @@ namespace Ty.Component.ImageControl
         public void LoadImg(List<string> imgPathes)
         {
             this.ImagePaths = imgPathes;
+        }
+
+        void RefreshCacheCapacity()
+        {
+            if (_imageCacheEngine == null) return;
+
+            int count = (int)(1 / this.GetSpeedSplitTime());
+
+            //  Message：缓存5s的图片
+            _imageCacheEngine.RefreshCapacity(count);
+        }
+
+        ImageCacheEngine _imageCacheEngine;
+
+        public void SetImageCacheEngine(ImageCacheEngine imageCacheEngine)
+        {
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Stop();
+            }
+
+            _imageCacheEngine = imageCacheEngine;
+
+            this.RefreshCacheCapacity();
+
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Start();
+            }
         }
 
         public void LoadMarkEntitys(List<ImgMarkEntity> markEntityList)
@@ -2098,6 +2292,27 @@ namespace Ty.Component.ImageControl
             }
         }
 
+        public bool IsImageLoaded { get; set; }
+
+        public int CurrentIndex
+        {
+            get
+            {
+                int index = 0;
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    //  Do：设置进度条位置
+                    index = this.ImagePaths.FindIndex(l => l == this.Current.Value);
+                });
+                return index;
+
+
+            }
+        }
+
+        public double LoadPercent { get; set; } = 0.0;
+
         /// <summary> 此方法的说明 </summary>
         public void RegisterPartShotCut(ShortCutEntitys shortcut)
         {
@@ -2221,7 +2436,6 @@ namespace Ty.Component.ImageControl
             _shortCutHookService.RegisterCommand(shortcut, action);
         }
 
-
         public void RegisterDefaltApi()
         {
             // Todo ：双击Ctrl键 
@@ -2251,7 +2465,6 @@ namespace Ty.Component.ImageControl
             binaryWriter.Write(screenshot);
             binaryWriter.Close();
         }
-
 
         bool _isFullScreen;
 
@@ -2289,6 +2502,8 @@ namespace Ty.Component.ImageControl
         public void SetImgPlay(ImgPlayMode imgPlayMode)
         {
             this.ImgPlayMode = imgPlayMode;
+
+
         }
 
         public void SetSelectMarkEntity(Predicate<ImgMarkEntity> match)
@@ -2321,7 +2536,6 @@ namespace Ty.Component.ImageControl
                 item.Visible = item.Type == "1";
             }
         }
-
 
         public void ShowMarks()
         {
@@ -2365,7 +2579,6 @@ namespace Ty.Component.ImageControl
             SetImageByScale();
         }
 
-
         public void SetNarrow()
         {
             if (imgWidth == 0 || imgHeight == 0)
@@ -2398,8 +2611,6 @@ namespace Ty.Component.ImageControl
         {
             this.Rotate(90);
         }
-
-
 
         public void SetMarkType(MarkType markType)
         {
@@ -2453,8 +2664,6 @@ namespace Ty.Component.ImageControl
             return this.current?.Value;
         }
 
-
-
         public void StartSlidePlay()
         {
             this.tool_normal.Visibility = Visibility.Collapsed;
@@ -2497,7 +2706,9 @@ namespace Ty.Component.ImageControl
             this.SetFullImage();
 
             this.btnActualsize.Visibility = Visibility.Visible;
+
             this.btnMacthsize.Visibility = Visibility.Collapsed;
+
         }
 
         public void SetWheelMode(bool value)
@@ -2523,6 +2734,14 @@ namespace Ty.Component.ImageControl
             this.MoveRect.SetValue(InkCanvas.TopProperty, 0.0);
 
             this.bigrect.Rect = new Rect(0, 0, value, value);
+        }
+
+        public void Dispose()
+        {
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Stop();
+            }
         }
     }
 }

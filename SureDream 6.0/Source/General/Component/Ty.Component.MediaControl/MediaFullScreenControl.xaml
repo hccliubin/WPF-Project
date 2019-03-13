@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Ty.Component.MediaControl.MediaFullScreenControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ty.Component.MediaControl"
+             xmlns:imagecontrol="clr-namespace:Ty.Component.ImageControl;assembly=Ty.Component.ImageControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                --><!--自定义资源引用--><!--
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Themes.Resource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml"/>
+                <ResourceDictionary Source="/Ty.Base.WpfBase;component/Themes/Ty.Thremes.Control.xaml"/>
+                <ResourceDictionary Source="/Ty.Component.MediaControl;component/Themes/General.xaml"/>
+                <ResourceDictionary Source="/Ty.Component.MediaControl;component/Themes/Slider.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <RoutedUICommand x:Key="Resource.RouteCommand.Play" Text="播放"/>
+
+            <Style x:Key="Style.Tool.Button" TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="30"/>
+            </Style>
+            
+            <Style x:Key="Style.Slider.Button" TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="20"/>
+            </Style>
+
+            --><!--<Style x:Key="Style.Slider.FButton" TargetType="{x:Type imagecontrol:ImageButton}" BasedOn="{StaticResource MenuIconButtonDefaultStyle}">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="20"/>
+            </Style>--><!--
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="#f1f1f1"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style TargetType="{x:Type local:DynamicShape}">
+                <Setter Property="StrokeDashArray" Value="8,8"/>
+                <Setter Property="StrokeDashCap" Value="Triangle"/>
+                <Setter Property="Stroke" Value="Blue"/>
+                <Setter Property="StrokeThickness" Value="3"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <SolidColorBrush Color="LightGray" Opacity="0.5"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <local:TimeSpanConverter x:Key="Convert.TimeSpan"/>
+        </ResourceDictionary>
+    </UserControl.Resources>-->
+    <Grid>
+        <!--全屏模式-->
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="grid_center" Grid.ColumnSpan="2">
+
+            </Grid>
+
+            <StackPanel x:Name="sp_list" VerticalAlignment="Bottom" Background="Red">
+
+            </StackPanel>
+
+            <!--<Button Height="50" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="Button_Click"/>-->
+
+            <!--<local:ImageButton x:Name="btn_addspeed" Foreground="White" Height="50" Width="50" 
+                               FIcon="&#xe77e;"  
+                               FIconSize="50" ToolTip="加速"
+                               DockPanel.Dock="Right" Grid.Column="1"
+                               VerticalAlignment="Top" HorizontalAlignment="Right"
+                               Click="Button_Click"/>-->
+
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,50" Grid.Column="1" MouseDown="Grid_MouseDown">
+                <Ellipse Width="50" Height="50" Stroke="White" StrokeThickness="4"/>
+                <TextBlock Text="×" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,-3,0,0" VerticalAlignment="Center"/>
+            </Grid>
+         
+
+
+        </Grid>
+    </Grid>
+</UserControl>

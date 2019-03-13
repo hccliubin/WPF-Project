@@ -17,7 +17,7 @@
             <imagecontrol:ImagePlayerControl x:Name="control_image"  PlayerToolControl="{Binding ElementName=playtool}"/>
         </DockPanel>-->
 
-        <ContentControl x:Name="grid_buzy">
+        <!--<ContentControl x:Name="grid_buzy">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
                     <Grid>
@@ -46,7 +46,7 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <!--<DoubleAnimation From="0" To="1" Duration="00:00:05" BeginTime="00:00:02"/>-->
+                                        --><!--<DoubleAnimation From="0" To="1" Duration="00:00:05" BeginTime="00:00:02"/>-->
                                         <!--<ObjectAnimationUsingKeyFrames>
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="0.1"/>
                                             <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="0.1"/>
@@ -63,7 +63,7 @@
                                                     <Visibility>Visible</Visibility>
                                                 </DiscreteObjectKeyFrame.Value>
                                             </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>-->
+                                        </ObjectAnimationUsingKeyFrames>--><!--
 
                                         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
@@ -83,6 +83,7 @@
             </ContentControl.Template>
         </ContentControl>
 
-        <Button Content="加载" Height="30" Width="100" Click="Button_Click"/>
+        <Button Content="加载" Height="30" Width="100" Click="Button_Click"/>-->
+       
     </Grid>
 </Window>

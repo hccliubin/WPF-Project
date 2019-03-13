@@ -169,6 +169,12 @@ namespace Ty.Component.ImageControl
         public DefectCommonUsed SelectCommonHistoricalDefectsOrMark { get; set; }
 
         #endregion
+
+        /// <summary> 标识当前标动属于哪个索引 </summary>
+        public int Index { get; set; }
+
+        /// <summary> 标定图片数据 </summary>
+        public byte[] PicData { get; set; }
     }
 
     /// <summary>
@@ -237,7 +243,7 @@ namespace Ty.Component.ImageControl
     /// 标定内容变更委托，包括：新增、修改、删除
     /// </summary>
     /// <param name="markEntity">标定实体，实体内包含了实体是新增、修改还是删除的相关信息</param>
-    public delegate void ImgMarkHandler(ImgMarkEntity markEntity);
+    public delegate void ImgMarkHandler(ImgMarkEntity markEntity,IImgOperate operate);
 
     /// <summary>
     /// 图片风格化处理委托，

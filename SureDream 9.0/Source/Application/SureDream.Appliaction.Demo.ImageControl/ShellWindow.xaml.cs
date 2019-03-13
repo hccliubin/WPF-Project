@@ -81,7 +81,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             _imgOperate.PreviousImgEvent += () =>
               {
                   string current = _imgOperate.GetCurrentUrl();
-                  
+
 
                   string fileName = System.IO.Path.GetFileNameWithoutExtension(current);
 
@@ -168,12 +168,23 @@ namespace SureDream.Appliaction.Demo.ImageControl
                   l.DetectionVehicles = "检测车辆";
 
                   //  Do：选择的缺陷
-                  l.SelectDefectOrMarkCodes = new TyeEncodeDeviceEntity() ;
+                  l.SelectDefectOrMarkCodes = new TyeEncodeDeviceEntity();
 
                   //  Do：选择的历史信息
                   l.SelectCommonHistoricalDefectsOrMark = new DefectCommonUsed();
 
                   _imgOperate.AddMark(l);
+
+                  string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"_cache", Guid.NewGuid().ToString() + ".jpg");
+
+                  if (!Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+                  {
+                      Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
+                  }
+
+                  BitmapImage bitmapImage = SystemUtils.ByteArrayToBitmapImage(l.PicData);
+
+                  SystemUtils.SaveBitmapImageIntoFile(bitmapImage, path);
 
                   //_imgOperate.CancelAddMark();
               };
@@ -181,12 +192,12 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
             _imgOperate.MarkEntitySelectChanged += l =>
               {
-                  Debug.WriteLine("MarkEntitySelectChanged"+l);
+                  Debug.WriteLine("MarkEntitySelectChanged" + l);
               };
 
             _imgOperate.FullScreenChangedEvent += l =>
                 {
-                    Debug.WriteLine("DoubleClickFullScreenHandle"+l);
+                    Debug.WriteLine("DoubleClickFullScreenHandle" + l);
                 };
 
             this.Loaded += ShellWindow_Loaded;
@@ -198,8 +209,8 @@ namespace SureDream.Appliaction.Demo.ImageControl
         {
             List<string> images = new List<string>();
 
-            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images\1-3.jpg");
-            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images\2-27.jpg");
+            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images1\20190103035949.jpg");
+            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images1\20190103035953.jpg");
             //_imgOperate.LoadImages(images);
 
             _imgOperate.LoadImg(images);
@@ -538,7 +549,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             e.CanExecute = this._isload;
         }
 
-      
+
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             this._imgOperate.SetBubbleScale(e.NewValue);

@@ -375,7 +375,7 @@ namespace Ty.Component.ImageControl
 
             foreach (var item in this.ViewModel.SampleCollection)
             {
-                this.ImgMarkOperateEvent?.Invoke(item.Model);
+                this.ImgMarkOperateEvent?.Invoke(item.Model,this);
             }
 
             Debug.WriteLine("保存");
@@ -941,6 +941,8 @@ namespace Ty.Component.ImageControl
 
         public int CurrentIndex => throw new NotImplementedException();
 
+        public double LoadPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public event ImgMarkHandler ImgMarkOperateEvent;
 
         /// <summary>
@@ -949,7 +951,7 @@ namespace Ty.Component.ImageControl
         /// <param name="entity"></param>
         internal void OnImgMarkOperateEvent(ImgMarkEntity entity)
         {
-            this.ImgMarkOperateEvent?.Invoke(entity);
+            this.ImgMarkOperateEvent?.Invoke(entity,this);
         }
 
         public event ImgProcessHandler ImgProcessEvent;
@@ -958,17 +960,17 @@ namespace Ty.Component.ImageControl
 
         public event Action NextImgEvent;
 
-        public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
-        public event Action<string> DeleteImgEvent;
-        public event Action<bool> FullScreenChangedEvent;
-        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
+        public event Action<ImgMarkEntity, MarkType, IImgOperate> DrawMarkedMouseUp;
+        public event Action<string, IImgOperate> DeleteImgEvent;
+        public event Action<bool, IImgOperate> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity, IImgOperate> MarkEntitySelectChanged;
         public event Action DoubleClickFullScreenHandle;
 
         internal void OnDrawMarkedMouseUp()
         {
             ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
 
-            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this.MarkType);
+            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this.MarkType,this);
         }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
@@ -989,12 +991,50 @@ namespace Ty.Component.ImageControl
 
         public void ImgPlaySpeedDown()
         {
-            this.Speed = this.Speed - 2 * this.Speed;
+            switch(this.Speed)
+            {
+                case 4:
+                    this.Speed = 2;
+                    break;
+                case 2:
+                    this.Speed = 1;
+                    break;
+                case 1:
+                    this.Speed = -1;
+                    break;
+                case -1:
+                    this.Speed = -2;
+                    break;
+                case -2:
+                    this.Speed = -4;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void ImgPlaySpeedUp()
         {
-            this.Speed = this.Speed / 2;
+            switch (this.Speed)
+            {
+                case -4:
+                    this.Speed = -2;
+                    break;
+                case 2:
+                    this.Speed = 4;
+                    break;
+                case 1:
+                    this.Speed = 2;
+                    break;
+                case -1:
+                    this.Speed = 1;
+                    break;
+                case -2:
+                    this.Speed = -1;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void LoadCodes(Dictionary<string, string> codeDic)
@@ -1293,6 +1333,11 @@ namespace Ty.Component.ImageControl
         }
 
         public void SetBubbleScale(double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

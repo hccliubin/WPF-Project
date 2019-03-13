@@ -60,11 +60,21 @@ namespace Ty.Component.ImageControl
                 if (args != null && args.NewValue != null)
                 {
                     ImageSource imgSource = args.NewValue as ImageSource;
+
                     view.imgBig.Source = imgSource;
+
                     view.imgless.Source = imgSource;
+
                     view.GetImageWidthHeight();
 
-                    view.SetFullImage();
+                    //  Message：只加载的第一遍设置自适应
+                    if (!view.IsAutoFullImage)
+                    {
+                        view.SetFullImage();
+
+                        view.IsAutoFullImage = true;
+                    }
+                    
                 }
             }
         }
@@ -140,6 +150,7 @@ namespace Ty.Component.ImageControl
             this.SetMarkType(MarkType.None);
 
             this.SetBubbleScale(50);
+
         }
 
         //bool _loationFlag = false;
@@ -217,9 +228,14 @@ namespace Ty.Component.ImageControl
 
         }
 
+        /// <summary> 用于控件播放是否自动适应 </summary>
+        public bool IsAutoFullImage { get; set; }
+
         /// <summary> 设置初始图片为平铺整个控件 </summary>
         void SetFullImage()
         {
+            this.GetImageWidthHeight();
+
             if (imgWidth == 0 || imgHeight == 0)
                 return;
 
@@ -783,7 +799,26 @@ namespace Ty.Component.ImageControl
             {
                 ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
 
-                this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this._markType);
+                // 切割图片
+                ImageSource imageSource = this.Source;
+                System.Drawing.Bitmap bitmap = SystemUtils.ImageSourceToBitmap(imageSource);
+                BitmapSource bitmapSource = SystemUtils.BitmapToBitmapImage(bitmap);
+
+                Int32Rect rect = new Int32Rect();
+                rect.X = (int)_dynamic.Rect.X;
+                rect.Y = (int)_dynamic.Rect.Y;
+                rect.Width = (int)_dynamic.Rect.Width;
+                rect.Height = (int)_dynamic.Rect.Height;
+
+                BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, new Int32Rect((int)_dynamic.Rect.X, (int)_dynamic.Rect.Y, (int)_dynamic.Rect.Width, (int)_dynamic.Rect.Height));
+
+                //// 使用切割后的图源
+                //img1.Source = newBitmapSource;
+
+                imgMarkEntity.PicData = SystemUtils.ToBytes(newBitmapSource);
+
+
+                this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this._markType, this);
             }
 
             //  Do：将数据初始化
@@ -1044,27 +1079,66 @@ namespace Ty.Component.ImageControl
 
                 try
                 {
-                    List<IImgOperate> temp = this.PlayerToolControl.IImgOperateCollection;
-
                     bool flag = this.PlayerToolControl != null;
+
+                    List<IImgOperate> temp = new List<IImgOperate>();
+
+                    if (flag)
+                    {
+                        temp = this.PlayerToolControl.IImgOperateCollection;
+                    }
+
+                    Action<bool, int, int> action = (l, k, v) =>
+                      {
+                          this.LoadPercent = Convert.ToDouble(k) / Convert.ToDouble(v);
+
+                          Application.Current.Dispatcher.Invoke(() =>
+                          {
+                              if (this.PlayerToolControl != null)
+                              {
+                                  this.PlayerToolControl.IsBuzy = true;
+
+                                  this.PlayerToolControl.Message = ((int)(temp.Select(m => m.LoadPercent).Aggregate((m, n) => m / temp.Count + n / temp.Count) * 100)).ToString();
+                              }
+                          });
+
+                      };
 
                     Task.Run(() =>
                     {
                         this.IsImageLoaded = false;
 
+                        var p = imagePath;
+
                         if (this._imageCacheEngine != null)
                         {
-                            imagePath = this._imageCacheEngine.PlayWait(imagePath);
+                            p = this._imageCacheEngine.GetWaitCurrent(imagePath, action);
+
+                            //  Message：空标识取消操作
+                            if (p == null)
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    this.ViewModel.IsBuzy = false;
+
+                                    if (this.PlayerToolControl != null)
+                                    {
+                                        this.PlayerToolControl.IsBuzy = false;
+                                    }
+                                });
+
+                                return;
+
+                            }
                         }
 
-                        var p = imagePath;
                         var s = new BitmapImage();
                         s.BeginInit();
                         s.CacheOption = BitmapCacheOption.OnLoad;
 
                         //Thread.Sleep(random.Next(3) * 1000);
 
-                        s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+                        s.UriSource = new Uri(p, UriKind.RelativeOrAbsolute);
                         s.EndInit();
                         //这一句很重要，少了UI线程就不认了。
                         s.Freeze();
@@ -1072,7 +1146,8 @@ namespace Ty.Component.ImageControl
                         this.IsImageLoaded = true;
 
                         if (flag)
-                        { //  Do：检查是否所有绑定的控件图片都加载完成，都完成时一块显示
+                        {
+                            //  Do：检查是否所有绑定的控件图片都加载完成，都完成时一块显示
                             while (!temp.TrueForAll(l => l.IsImageLoaded && l.CurrentIndex >= this.CurrentIndex))
                             {
                                 Thread.Sleep(10);
@@ -1086,6 +1161,11 @@ namespace Ty.Component.ImageControl
                             this.Source = s;
 
                             this.ViewModel.IsBuzy = false;
+
+                            if (this.PlayerToolControl != null)
+                            {
+                                this.PlayerToolControl.IsBuzy = false;
+                            }
                         });
 
                     });
@@ -1301,6 +1381,10 @@ namespace Ty.Component.ImageControl
                     control._tempMarkType = control._markType;
 
                     control.SetMarkType(MarkType.None);
+
+                    //  Message：刷新缓存播放机制
+                    if (control._imageCacheEngine != null)
+                        control._imageCacheEngine.RefreshPlayMode(config == ImgPlayMode.正序);
                 }
                 else if (config == ImgPlayMode.停止播放)
                 {
@@ -1654,7 +1738,7 @@ namespace Ty.Component.ImageControl
             window.CenterContent = this.grid_all;
 
             //  Do：触发全屏状态事件
-            this.FullScreenChangedEvent?.Invoke(true);
+            this.FullScreenChangedEvent?.Invoke(true, this);
 
             window.Loaded += (l, k) =>
               {
@@ -1673,7 +1757,7 @@ namespace Ty.Component.ImageControl
             this.SetFullImage();
 
             //  Do：触发取消全屏状态事件
-            this.FullScreenChangedEvent?.Invoke(false);
+            this.FullScreenChangedEvent?.Invoke(false, this);
         }
 
         private void Btn_next_Click(object sender, RoutedEventArgs e)
@@ -1706,7 +1790,7 @@ namespace Ty.Component.ImageControl
         {
             if (this.Current == null) return;
 
-            this.DeleteImgEvent?.Invoke(this.Current.Value);
+            this.DeleteImgEvent?.Invoke(this.Current.Value, this);
         }
 
         /// <summary> 设置双击是否触发全屏 </summary>
@@ -1855,6 +1939,8 @@ namespace Ty.Component.ImageControl
 
             this.popup.Visibility = Visibility.Visible;
         }
+
+
     }
 
 
@@ -1864,10 +1950,10 @@ namespace Ty.Component.ImageControl
         public event ImgProcessHandler ImgProcessEvent;
         public event Action PreviousImgEvent;
         public event Action NextImgEvent;
-        public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
-        public event Action<string> DeleteImgEvent;
-        public event Action<bool> FullScreenChangedEvent;
-        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
+        public event Action<ImgMarkEntity, MarkType, IImgOperate> DrawMarkedMouseUp;
+        public event Action<string, IImgOperate> DeleteImgEvent;
+        public event Action<bool, IImgOperate> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity, IImgOperate> MarkEntitySelectChanged;
 
         double _wheelScale = 0.01;
         public double WheelScale
@@ -1896,7 +1982,7 @@ namespace Ty.Component.ImageControl
         /// <param name="entity"></param>
         public void OnImgMarkOperateEvent(ImgMarkEntity entity)
         {
-            this.ImgMarkOperateEvent?.Invoke(entity);
+            this.ImgMarkOperateEvent?.Invoke(entity, this);
         }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
@@ -1953,7 +2039,7 @@ namespace Ty.Component.ImageControl
             this.ViewModel.Add(sample);
 
             //  Do：触发新增事件
-            this.ImgMarkOperateEvent?.Invoke(sample.Model);
+            this.ImgMarkOperateEvent?.Invoke(sample.Model, this);
 
             //  Do：清除动态框
             _dynamic.BegionMatch(false);
@@ -1995,7 +2081,26 @@ namespace Ty.Component.ImageControl
 
         public void ImgPlaySpeedDown()
         {
-            this.Speed = 2 - 2 * this.Speed;
+            switch (this.Speed)
+            {
+                case 4:
+                    this.Speed = 2;
+                    break;
+                case 2:
+                    this.Speed = 1;
+                    break;
+                case 1:
+                    this.Speed = -1;
+                    break;
+                case -1:
+                    this.Speed = -2;
+                    break;
+                case -2:
+                    this.Speed = -4;
+                    break;
+                default:
+                    break;
+            }
 
             this.RefreshSpeedText();
         }
@@ -2008,7 +2113,26 @@ namespace Ty.Component.ImageControl
 
         public void ImgPlaySpeedUp()
         {
-            this.Speed = this.Speed + 2 * this.Speed;
+            switch (this.Speed)
+            {
+                case -4:
+                    this.Speed = -2;
+                    break;
+                case 2:
+                    this.Speed = 4;
+                    break;
+                case 1:
+                    this.Speed = 2;
+                    break;
+                case -1:
+                    this.Speed = 1;
+                    break;
+                case -2:
+                    this.Speed = -1;
+                    break;
+                default:
+                    break;
+            }
 
             this.RefreshSpeedText();
         }
@@ -2054,11 +2178,19 @@ namespace Ty.Component.ImageControl
 
         public void SetImageCacheEngine(ImageCacheEngine imageCacheEngine)
         {
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Stop();
+            }
+
             _imageCacheEngine = imageCacheEngine;
 
             this.RefreshCacheCapacity();
 
-            _imageCacheEngine.Start();
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Start();
+            }
         }
 
         public void LoadMarkEntitys(List<ImgMarkEntity> markEntityList)
@@ -2152,7 +2284,7 @@ namespace Ty.Component.ImageControl
         {
             var v = this.GetSelectMarkEntity();
 
-            this.MarkEntitySelectChanged?.Invoke(v);
+            this.MarkEntitySelectChanged?.Invoke(v, this);
         }
 
         public void NextImg()
@@ -2206,6 +2338,8 @@ namespace Ty.Component.ImageControl
 
             }
         }
+
+        public double LoadPercent { get; set; } = 0.0;
 
         /// <summary> 此方法的说明 </summary>
         public void RegisterPartShotCut(ShortCutEntitys shortcut)
@@ -2366,7 +2500,7 @@ namespace Ty.Component.ImageControl
         {
             if (!DoubleClickSetFullScreen)
             {
-                this.FullScreenChangedEvent?.Invoke(isFullScreen);
+                this.FullScreenChangedEvent?.Invoke(isFullScreen, this);
                 return;
             }
 
@@ -2396,6 +2530,8 @@ namespace Ty.Component.ImageControl
         public void SetImgPlay(ImgPlayMode imgPlayMode)
         {
             this.ImgPlayMode = imgPlayMode;
+
+
         }
 
         public void SetSelectMarkEntity(Predicate<ImgMarkEntity> match)
@@ -2598,7 +2734,9 @@ namespace Ty.Component.ImageControl
             this.SetFullImage();
 
             this.btnActualsize.Visibility = Visibility.Visible;
+
             this.btnMacthsize.Visibility = Visibility.Collapsed;
+
         }
 
         public void SetWheelMode(bool value)
@@ -2624,6 +2762,14 @@ namespace Ty.Component.ImageControl
             this.MoveRect.SetValue(InkCanvas.TopProperty, 0.0);
 
             this.bigrect.Rect = new Rect(0, 0, value, value);
+        }
+
+        public void Dispose()
+        {
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Stop();
+            }
         }
     }
 }

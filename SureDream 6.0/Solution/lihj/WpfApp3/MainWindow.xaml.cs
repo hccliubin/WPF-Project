@@ -59,9 +59,46 @@ namespace WpfApp3
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            var ss = engine.BeginPlay(this.lll.SelectedItem.ToString());
+            //var ss = engine.GetWaitCurrent(this.lll.SelectedItem.ToString());
 
-            Debug.WriteLine("播放完成:" + ss);
+            //Debug.WriteLine("播放完成:" + ss);
+
+        }
+
+        private void Xxx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            Debug.WriteLine("说明");
+
+        }
+
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            //object temp = this.gg.Content;
+
+            //this.gg.Content = sender;
+
+            //if (temp != null)
+            //    this.xxx.Items.Add(temp);
+
+            if(this.gg.Children.Count>0)
+            {
+                Button button1 = this.gg.Children[0] as Button;
+
+                this.gg.Children.Clear();
+
+                this.pp.Children.Add(button1);
+            }
+            
+
+            Button button = sender as Button;
+
+            this.pp.Children.Remove(button);
+
+            this.gg.Children.Add(button);
+
+
 
         }
     }

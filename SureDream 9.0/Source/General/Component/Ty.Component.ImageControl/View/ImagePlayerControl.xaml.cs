@@ -32,16 +32,17 @@ namespace Ty.Component.ImageControl
 
             this.image_control.LastClicked += Image_control_IndexChangedClick;
 
-            //  Message：默认0.5s一张
-            this.image_control.Speed = this.image_control.Speed / 2; 
-
             this.image_control.SetMarkType(MarkType.None);
 
             this.image_control.button_next.Visibility = Visibility.Collapsed;
             this.image_control.button_last.Visibility = Visibility.Collapsed;
 
+            this.image_control.grid_buzy.Visibility = Visibility.Collapsed;
+
+            this.image_control.tool_normal.Visibility = Visibility.Collapsed;
+            this.image_control.tool_play.Visibility = Visibility.Collapsed;
         }
- 
+
 
         ////  Message：标识拖动条是否随播放变化
         //bool _sliderFlag = false;
@@ -59,7 +60,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(),e.Object);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), e.Object);
 
         }
 
@@ -77,7 +78,7 @@ namespace Ty.Component.ImageControl
             //this.ImageIndexChanged?.Invoke(this.GetCurrentUrl());
 
             //  Do：设置播放位置
-            this.SetPositon(index); 
+            this.SetPositon(index);
 
             this.SliderDragCompleted?.Invoke(index, this.GetCurrentUrl());
 
@@ -92,7 +93,7 @@ namespace Ty.Component.ImageControl
             if (!this.PlayerToolControl.media_slider.IsMouseOver) return;
 
             int index = (int)((this.PlayerToolControl.media_slider.Value / this.PlayerToolControl.media_slider.Maximum) * this.image_control.ImagePaths.Count);
- 
+
 
             //  Do：设置播放位置
             this.SetPositon(index);
@@ -140,9 +141,6 @@ namespace Ty.Component.ImageControl
             //this.image_control.SetImgPlay(ImgPlayMode.正序);
 
             this.SetImgPlay(ImgPlayMode.正序);
-
-
-
         }
 
         /// <summary> 暂停 </summary>
@@ -188,6 +186,8 @@ namespace Ty.Component.ImageControl
 
                  PlayerToolControl config = e.NewValue as PlayerToolControl;
 
+                 control.image_control.PlayerToolControl = config;
+
                  ////  Message：注册播放事件
                  //config.toggle_play.Click += control.ToggleButton_Click;
 
@@ -206,6 +206,8 @@ namespace Ty.Component.ImageControl
 
             this.PlayerToolControl.DragCompleted += media_slider_DragCompleted;
 
+            this.PlayerToolControl.IImgOperateCollection.Add(this.GetImgOperate());
+
             //config.slider_sound.ValueChanged += control.Slider_sound_ValueChanged;
         }
 
@@ -215,22 +217,22 @@ namespace Ty.Component.ImageControl
             this.Pause();
 
             //  Message：注册播放事件
-            this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
+            this.PlayerToolControl.toggle_play.Click -= this.ToggleButton_Click;
 
-            this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
+            this.PlayerToolControl.media_slider.ValueChanged -= this.Media_slider_ValueChanged;
 
             this.PlayerToolControl.DragCompleted -= media_slider_DragCompleted;
+
+            this.PlayerToolControl.IImgOperateCollection.Remove(this.GetImgOperate());
 
 
         }
 
         private void image_control_SpeedChanged(object sender, RoutedEventArgs e)
         {
-            var d = double.Parse(this.image_control.Speed.ToString());
-
             if (this.PlayerToolControl == null) return;
 
-            this.PlayerToolControl.media_speed.Text = 1 / d + "X";
+            this.PlayerToolControl.media_speed.Text = this.image_control.Speed + "X";
         }
 
         private void Image_control_DoubleClickFullScreenHandle(bool obj)
@@ -253,6 +255,8 @@ namespace Ty.Component.ImageControl
 
         public void LoadImageFolder(List<string> imageFoders, string startForder)
         {
+            this.image_control.SetImageCacheEngine(null);
+
             //  Do：默认加载位置
             int startPostion = 0;
 
@@ -281,7 +285,6 @@ namespace Ty.Component.ImageControl
                         startPostion += file.Count;
                     }
 
-
                     //Thread.Sleep(500);
 
                     files.AddRange(file);
@@ -289,7 +292,7 @@ namespace Ty.Component.ImageControl
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.InitImages(files);
+                    this.InitImages(files); 
 
                     //  Do：加载起始位置
                     if (exist)
@@ -302,22 +305,97 @@ namespace Ty.Component.ImageControl
 
         }
 
-        public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord,string ip)
+        public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord, string ip)
         {
-            //foreach (var item in imageFoders)
-            //{
-            //    ComponetProvider.Instance.GetAccessControl(item, "administrator", "123456");
-            //}
+            //  Message：构造缓存模型
+            if (_imageCacheEngine != null)
+            {
+                _imageCacheEngine.Stop();
+            }
+
             using (SharedTool tool = new SharedTool(useName, passWord, ip))
             {
                 this.LoadImageFolder(imageFoders, startForder);
             }
 
-              
+            //  Do：默认加载位置
+            int startPostion = 0;
+
+            List<string> files = new List<string>();
+
+            Task.Run(() =>
+            {
+                //  Do：是否存在startForder
+                bool exist = false;
+
+                foreach (var item in imageFoders)
+                {
+                    //var dir = Directory.CreateDirectory(item);
+
+                    DirectoryInfo dir = new DirectoryInfo(item);
+
+                    var file = dir.GetFiles().Where(l => ComponetProvider.Instance.IsValidImage(l.FullName)).Select(l => l.FullName).ToList();
+
+                    if (item == startForder)
+                    {
+                        exist = true;
+                    }
+
+                    if (!exist)
+                    {
+                        startPostion += file.Count;
+                    }
+
+                    //Thread.Sleep(500);
+
+                    files.AddRange(file);
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.InitImages(files);
+
+                    string start = files[startPostion];
+
+                    _imageCacheEngine = new ImageCacheEngine(this.image_control.ImagePaths, this.GetCacheFolder(), start, useName, passWord, ip);
+
+                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
+
+                    //  Do：加载起始位置
+                    if (exist)
+                    {
+                        this.SetPositon(startPostion);
+                    }
+
+                });
+            });
+
+          
+
+
+        }
+
+
+        ImageCacheEngine _imageCacheEngine;
+
+        string GetCacheFolder()
+        {
+            string local = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "_cache");
+
+            if (!Directory.Exists(local))
+                Directory.CreateDirectory(local);
+
+            return local;
         }
 
         public void LoadFtpImageFolder(List<string> imageFoders, string startForder, string useName, string passWord)
         {
+            //  Message：构造缓存模型
+            if (_imageCacheEngine!=null)
+            {
+                _imageCacheEngine.Stop();
+            }
+
             FtpHelper.Login(useName, passWord);
 
             List<string> files = new List<string>();
@@ -338,6 +416,8 @@ namespace Ty.Component.ImageControl
 
                     var file = FtpHelper.GetFileList(item).Where(l => ComponetProvider.Instance.IsValidImage(l)).Select(l => System.IO.Path.Combine(url, l)).ToList();
 
+                    file= file.OrderBy(l => int.Parse(System.IO.Path.GetFileNameWithoutExtension(l))).ToList();
+
                     if (item == startForder)
                     {
                         exist = true;
@@ -348,7 +428,6 @@ namespace Ty.Component.ImageControl
                         startPostion += file.Count;
                     }
 
-
                     //Thread.Sleep(500);
 
                     files.AddRange(file);
@@ -357,6 +436,12 @@ namespace Ty.Component.ImageControl
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     this.InitImages(files);
+
+                    string start = files[startPostion];
+
+                    _imageCacheEngine = new ImageCacheEngine(files, this.GetCacheFolder(), start, useName, passWord); 
+
+                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -379,9 +464,10 @@ namespace Ty.Component.ImageControl
             this.InitSlider();
         }
 
-
         public void LoadImages(List<string> ImageUrls)
         {
+            this.image_control.SetImageCacheEngine(null);
+
             //this.image_control.LoadImg(ImageUrls);
 
             ////  Do：初始化进度条
@@ -571,6 +657,13 @@ namespace Ty.Component.ImageControl
         {
             this.image_control.SetRotateRight();
         }
+
+        public void Dispose()
+        {
+            this.image_control.Dispose();
+
+            this.DisposePlayerToolControl();
+        }
     }
 
 
@@ -586,7 +679,7 @@ namespace Ty.Component.ImageControl
 
             var d = double.Parse(value.ToString());
 
-            var sp = TimeSpan.FromTicks((long)d);
+            var sp = TimeSpan.FromTicks((long)d/5);
 
             return sp.ToString().Split('.')[0];
         }
@@ -602,11 +695,7 @@ namespace Ty.Component.ImageControl
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
-
-            var d = double.Parse(value.ToString());
-
-            var sp = 1/d+"X";
+            var sp = value + "X";
 
             return sp;
         }

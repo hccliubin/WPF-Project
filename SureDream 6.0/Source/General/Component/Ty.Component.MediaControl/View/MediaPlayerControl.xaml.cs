@@ -210,10 +210,12 @@ namespace Ty.Component.MediaControl
         void Stop()
         {
             this.media_media.Position = TimeSpan.FromTicks(0);
-            this.PlayerToolControl.media_slider.Value = 0;
+            if (this.PlayerToolControl != null)
+                this.PlayerToolControl.media_slider.Value = 0;
             this.media_media.Stop();
             this._timer.Stop();
-            this.PlayerToolControl.toggle_play.IsChecked = true;
+            if (this.PlayerToolControl != null)
+                this.PlayerToolControl.toggle_play.IsChecked = true;
             this.media_media.LoadedBehavior = MediaState.Manual;
         }
 
@@ -417,7 +419,7 @@ namespace Ty.Component.MediaControl
             this.PlayerToolControl.toggle_play.Click += this.ToggleButton_Click;
 
             this.PlayerToolControl.media_slider.ValueChanged += this.Media_slider_ValueChanged;
-            
+
 
             this.PlayerToolControl.slider_sound.ValueChanged += this.Slider_sound_ValueChanged;
         }

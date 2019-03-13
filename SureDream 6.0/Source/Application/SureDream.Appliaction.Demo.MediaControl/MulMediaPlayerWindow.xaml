@@ -35,6 +35,15 @@
 
             <Button x:Name="btn_loadFTPeImages" Content="加载FTP图片列表.." Click="Btn_loadFTPImages_Click"/>
 
+            <Button x:Name="btn_speedadd" Content="增加倍速.." Click="Btn_speedadd_Click"/>
+
+            <Button x:Name="btn_speedmul" Content="减少倍速.." Click="Btn_speedmul_Click"/>
+
+            <Button x:Name="btn_playback" Content="倒序播放.." Click="Btn_playback_Click"/>
+
+            <Button x:Name="btn_clearallcache" Content="清理缓存.." Click="Btn_clearallcache_Click"/>
+
+
         </StackPanel>
 
         <mediacontrol:MulMediaPlayerControl x:Name="media" Grid.Row="1"/>

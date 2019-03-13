@@ -8,7 +8,7 @@ using Ty.Component.ImageControl.Provider.Hook;
 
 namespace Ty.Component.MediaControl
 {
-    interface IMulMediaPlayer
+    interface IMulMediaPlayer : IDisposable
     {
 
         //#region - 视频操作 -
@@ -100,7 +100,7 @@ namespace Ty.Component.MediaControl
         void SetImageNarrow(int index = 0);
 
         /// <summary> 设置缩放比例 </summary>
-        void SetImageScale(double value,int index = 0);
+        void SetImageScale(double value, int index = 0);
 
         /// <summary>
         /// 是否鼠标滚轮进入播放模式
@@ -112,20 +112,20 @@ namespace Ty.Component.MediaControl
         /// </summary>
         event Action<ImgMarkEntity, int> ImageIndexMarkOperateEvent;
 
-        /// <summary>
-        /// 图片风格化处理事件
-        /// </summary>
-        event Action<string, ImgProcessType, int> ImageIndexProcessEvent;
+        ///// <summary>
+        ///// 图片风格化处理事件
+        ///// </summary>
+        //event Action<string, ImgProcessType, int> ImageIndexProcessEvent;
 
-        /// <summary>
-        /// 上一张
-        /// </summary>
-        event Action<int> ImageIndexPreviousEvent;
+        ///// <summary>
+        ///// 上一张
+        ///// </summary>
+        //event Action<int> ImageIndexPreviousEvent;
 
-        /// <summary>
-        /// 下一张
-        /// </summary>
-        event Action<int> ImageIndexNextEvent;
+        ///// <summary>
+        ///// 下一张
+        ///// </summary>
+        //event Action<int> ImageIndexNextEvent;
 
         /// <summary>
         /// 绘制矩形框结束
@@ -185,7 +185,7 @@ namespace Ty.Component.MediaControl
         /// <summary>
         /// 加快图片播放速度
         /// </summary>
-        void SetImagSpeedUp();
+        void SetImageSpeedUp();
 
         /// <summary>
         /// 减慢图片播放速度
@@ -271,10 +271,10 @@ namespace Ty.Component.MediaControl
         /// <param name="index"></param>
         void SetImageIndexPositon(int postion, int index = 0);
 
-        /// <summary>
-        /// 图片索引发生变化时触发，P=当前URL
-        /// </summary>
-        event Action<string, ImgSliderMode> ImageIndexChanged;
+        ///// <summary>
+        ///// 图片索引发生变化时触发，P=当前URL
+        ///// </summary>
+        //event Action<string, ImgSliderMode> ImageIndexChanged;
 
         /// <summary>
         /// 播放类型变化时触发
@@ -306,6 +306,18 @@ namespace Ty.Component.MediaControl
 
         /// <summary> 全屏事件 </summary>
         event Action<int> ImageIndexFullScreenEvent;
+
+        /// <summary> 清空所有缓存 </summary>
+        void ClearAllCache();
+
+        /// <summary>
+        /// 加载图片的标定信息
+        /// </summary>
+        /// <param name="markEntityList">图片已标定内容</param>
+        void ImageIndexLoadMarkEntitys(List<ImgMarkEntity> markEntityList,int index);
+
+        /// <summary> 获取当前播放图片的路径 </summary>
+        List<string> GetCurrentUrl();
 
 
     }

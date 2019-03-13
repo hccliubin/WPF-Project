@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <ListBox x:Name="lll">
-            
+
         </ListBox>
 
         <StackPanel Grid.Column="1">
@@ -24,6 +24,75 @@
 
 
         </StackPanel>
-    
+
+
+        <Grid Background="Red">
+            <!--<UniformGrid FirstColumn="8" Columns="10" Rows="10">
+                <Button Content="1" FontSize="80"/>
+                <Button Content="2" FontSize="80"/>
+                <Button Content="3" FontSize="80"/>
+                <Button Content="4" FontSize="80"  Width="500" Height="500"/>
+                <Button Content="1" FontSize="80"/> 
+                <Button Content="2" FontSize="80"/>
+                <Button Content="3" FontSize="80"/>
+                <Button Content="4" FontSize="80"/>
+            </UniformGrid>-->
+
+            <!--<WrapPanel Orientation="Vertical">
+                <Button Content="1" FontSize="80" Width="200" Height="200"/>
+                <Button Content="2" FontSize="80" Width="200" Height="200"/> 
+                <Button Content="4" FontSize="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            </WrapPanel>-->
+
+
+            <!--<ListBox x:Name="xxx" SelectedIndex="3">
+                <ListBox.Items>
+                    <Button Content="1" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2"/>
+                    <Button Content="2" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"/>
+                    <Button Content="3" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+                    <Button Content="4" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+                    <Button Content="5" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+                    <Button Content="6" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+               
+                
+                </ListBox.Items>
+                --><!--<ListBox.Template>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        --><!--<Grid IsItemsHost="True">
+                        </Grid>--><!--
+
+                        <DockPanel>
+                            <ScrollViewer VerticalAlignment="Bottom">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+
+                            <ContentPresenter Content="{TemplateBinding SelectedItem}"/>
+                            --><!--<Button Content="3" FontSize="80" Grid.Row="2" Grid.Column="2" Margin="0,0"/>--><!--
+                        </DockPanel>
+                        --><!--<ItemsPresenter/>-->
+                        
+                        <!--<Canvas IsItemsHost="True">
+                            
+                        </Canvas>--><!--
+                    </ControlTemplate> 
+                </ListBox.Template>--><!--
+            </ListBox>-->
+            
+            
+        </Grid>
+
+        <StackPanel x:Name="pp">
+            <Button Content="1" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2"/>
+            <Button Content="2" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"/>
+            <Button Content="3" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+            <Button Content="4" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+            <Button Content="5" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+            <Button Content="6" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2" Margin="0,0"/>
+        </StackPanel>
+        
+        <Grid x:Name="gg"/>
+
+
+
     </Grid>
 </Window>
