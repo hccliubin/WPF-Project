@@ -71,7 +71,7 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 图片索引发生变化时触发，P=当前URL
         /// </summary>
-        event Action<string, ImgSliderMode> ImageIndexChanged;
+        event Action<string, ImgSliderMode, IImagePlayerService> ImageIndexChanged;
 
         /// <summary>
         /// 播放类型变化时触发

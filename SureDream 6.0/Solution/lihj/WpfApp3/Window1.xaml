@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Window1" Height="450" Width="800">
     <Grid>
-        <ListBox x:Name="xxx" SelectedIndex="3">
+        <!--<ListBox x:Name="xxx" SelectedIndex="3">
             <ListBox.Items>
                 <Button Content="1" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="2" Grid.Column="2"/>
                 <Button Content="2" FontSize="80" Width="100" Height="100" Click="Button_Click_2" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"/>
@@ -21,27 +21,30 @@
             <ListBox.Template>
                 <ControlTemplate TargetType="{x:Type ListBox}">
 
-                    <!--<Grid IsItemsHost="True"/>-->
+                    --><!--<Grid IsItemsHost="True"/>--><!--
 
                     <Grid>
                         <ItemsPresenter/>
 
-                        <!--<ContentPresenter Content="{TemplateBinding SelectedItem}"/>
+                        --><!--<ContentPresenter Content="{TemplateBinding SelectedItem}"/>
                             
-        <Button Content="3" FontSize="80" Grid.Row="2" Grid.Column="2" Margin="0,0"/>-->
+        <Button Content="3" FontSize="80" Grid.Row="2" Grid.Column="2" Margin="0,0"/>--><!--
         
                         </Grid>
 
-                    <!--<ItemsPresenter/>
+                    --><!--<ItemsPresenter/>
 
                     <Canvas IsItemsHost="True">
 
-                    </Canvas>-->
+                    </Canvas>--><!--
 
                 </ControlTemplate>
             </ListBox.Template>
 
-        </ListBox>
+        </ListBox>--> 
+
+
+        <Slider Margin="5" LargeChange="0.1" Foreground="Red" Value="0.5" VerticalAlignment="Center" Maximum="1" SmallChange="0.1" />
 
     </Grid>
 </Window>

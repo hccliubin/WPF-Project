@@ -800,7 +800,7 @@ namespace Ty.Component.ImageControl
                 rect.Width = (int)_dynamic.Rect.Width;
                 rect.Height = (int)_dynamic.Rect.Height;
 
-                BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, new Int32Rect((int)_dynamic.Rect.X, (int)_dynamic.Rect.Y, (int)_dynamic.Rect.Width, (int)_dynamic.Rect.Height));
+                BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, rect);
 
                 //// 使用切割后的图源
                 //img1.Source = newBitmapSource;

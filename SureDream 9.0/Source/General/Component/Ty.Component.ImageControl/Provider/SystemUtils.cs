@@ -30,7 +30,7 @@ namespace Ty.Component.ImageControl
             //调用CopyPixels
             bitmapSource.CopyPixels(cut, data, stride, 0);
 
-            return BitmapSource.Create(cut.Width, cut.Height, 0, 0, PixelFormats.Bgr32, null, data, stride);
+            return BitmapSource.Create(cut.Width, cut.Height, 0, 0, PixelFormats.Gray8, null, data, stride);
         }
 
         // ImageSource --> Bitmap

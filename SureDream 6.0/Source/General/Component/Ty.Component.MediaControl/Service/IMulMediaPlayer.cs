@@ -143,10 +143,12 @@ namespace Ty.Component.MediaControl
         /// <summary> 选中项改变事件 </summary>
         event Action<ImgMarkEntity, int> ImageMarkEntitySelectChanged;
 
+        /// <summary> 全屏模式改变触发 true=全屏模式 false=取消全屏 </summary>
+        event Action<bool> FullScreenStateChanged;
 
         /// <summary>
         /// 展示全部缺陷标注
-        /// </summary>
+        /// </summary> 
         void ShowAllImageIndexDefects(int index = 0);
 
         /// <summary>
@@ -271,10 +273,10 @@ namespace Ty.Component.MediaControl
         /// <param name="index"></param>
         void SetImageIndexPositon(int postion, int index = 0);
 
-        ///// <summary>
-        ///// 图片索引发生变化时触发，P=当前URL
-        ///// </summary>
-        //event Action<string, ImgSliderMode> ImageIndexChanged;
+        /// <summary>
+        /// 图片索引发生变化时触发，P=当前URL
+        /// </summary>
+        event Action<string, ImgSliderMode,int> ImageIndexChanged;
 
         /// <summary>
         /// 播放类型变化时触发

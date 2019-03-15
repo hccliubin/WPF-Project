@@ -62,7 +62,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), e.Object);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), e.Object,this);
 
         }
 
@@ -251,7 +251,7 @@ namespace Ty.Component.ImageControl
 
         public ImageCacheEngine ImageCacheEngine { get => _imageCacheEngine; set => _imageCacheEngine = value; }
 
-        public event Action<string, ImgSliderMode> ImageIndexChanged;
+        public event Action<string, ImgSliderMode, IImagePlayerService> ImageIndexChanged;
 
         public event Action<ImgPlayMode,IImagePlayerService> ImgPlayModeChanged;
 
@@ -482,7 +482,7 @@ namespace Ty.Component.ImageControl
             this.InitImages(ImageUrls);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.System);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.System,this);
 
         }
 
@@ -544,7 +544,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.User);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.User,this);
         }
 
         public void ShowDefects()

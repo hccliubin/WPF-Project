@@ -52,7 +52,7 @@ namespace SureDream.Appliaction.Demo.MediaControl
               };
 
 
-            this.media.ImagePlayerService.ImageIndexChanged += (k, j) =>
+            this.media.ImagePlayerService.ImageIndexChanged += (k, j,m) =>
               {
                   Debug.WriteLine("ImageIndexChanged:" + k);
                   Debug.WriteLine("ImgSliderMode:" + j);

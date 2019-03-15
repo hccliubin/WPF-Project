@@ -55,8 +55,10 @@
                 </ControlTemplate>
             </ListBox.Template>
         </ListBox>
+      
 
-        <local:MediaFullScreenControl x:Name="control_fullscreen"  Visibility="Collapsed" CloseClicked="Control_fullscreen_CloseClicked"/>
+        <local:MediaFullScreenControl x:Name="control_fullscreen"  
+                                      Visibility="Collapsed" CloseClicked="Control_fullscreen_CloseClicked"/>
 
         <Grid Visibility="{Binding ElementName=playtool,Path=IsBuzy,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
             <Grid.Background>

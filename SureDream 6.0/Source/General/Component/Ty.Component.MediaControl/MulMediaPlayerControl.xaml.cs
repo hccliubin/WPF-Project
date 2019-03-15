@@ -121,13 +121,30 @@ namespace Ty.Component.MediaControl
                 if (item.ImagePlayerService != null)
                 {
                     item.ImagePlayerService.ImgPlayModeChanged += ImagePlayerService_ImgPlayModeChanged;
+
+                    item.ImagePlayerService.ImageIndexChanged += ImagePlayerService_ImageIndexChanged;
                 }
+
+
+               
 
             }
 
         }
 
+
+
+
         #region - 注册事件 -
+
+        private void ImagePlayerService_ImageIndexChanged(string arg1, ImgSliderMode arg2, IImagePlayerService arg3)
+        {
+            int index = this.MediaSources.FindIndex(l => l.ImagePlayerService == arg3);
+
+            this.ImageIndexChanged?.Invoke(arg1, arg2, index);
+
+            Debug.WriteLine("ImageIndexChanged");
+        }
 
         private void ImagePlayerService_ImgPlayModeChanged(ImgPlayMode obj, IImagePlayerService imagePlayer)
         {
@@ -144,8 +161,6 @@ namespace Ty.Component.MediaControl
 
             this.ImageIndexFullScreenEvent?.Invoke(index);
 
-            this.SetFullScreen(index);
-
             Debug.WriteLine("Operate_FullScreenChangedEvent");
         }
 
@@ -154,8 +169,6 @@ namespace Ty.Component.MediaControl
             int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
 
             this.ImageMarkEntitySelectChanged?.Invoke(obj, index);
-
-            this.SetFullScreen(index);
 
             Debug.WriteLine("Operate_MarkEntitySelectChanged");
         }
@@ -166,8 +179,6 @@ namespace Ty.Component.MediaControl
 
             this.ImageIndexMarkOperateEvent?.Invoke(markEntity, index);
 
-            this.SetFullScreen(index);
-
             Debug.WriteLine("Operate_ImgMarkOperateEvent");
         }
 
@@ -177,8 +188,6 @@ namespace Ty.Component.MediaControl
 
             this.ImageIndexDeletedClicked?.Invoke(obj, index);
 
-            this.SetFullScreen(index);
-
             Debug.WriteLine("Operate_DeleteImgEvent");
         }
 
@@ -187,8 +196,6 @@ namespace Ty.Component.MediaControl
             int index = this.MediaSources.FindIndex(l => l.ImagePlayerService?.GetImgOperate() == operate);
 
             this.ImageIndexDrawMarkedMouseUp?.Invoke(markEntity, type, index);
-
-            this.SetFullScreen(index);
 
             Debug.WriteLine("Item_DrawMarkedMouseUp");
         }
@@ -259,6 +266,8 @@ namespace Ty.Component.MediaControl
 
             this.RefreshSize();
 
+            this.FullScreenStateChanged?.Invoke(true);
+
         }
 
         void SetNormal()
@@ -272,6 +281,8 @@ namespace Ty.Component.MediaControl
             this.control_normal.ItemsSource = this.MediaSources;
 
             this.RefreshSize();
+
+            this.FullScreenStateChanged?.Invoke(false);
         }
 
 
@@ -397,11 +408,13 @@ namespace Ty.Component.MediaControl
 
         public event Action<ImgMarkEntity, int> ImageMarkEntitySelectChanged;
 
-        //public event Action<string, ImgSliderMode> ImageIndexChanged;
+        public event Action<string, ImgSliderMode, int> ImageIndexChanged;
 
         public event Action<ImgPlayMode> ImgPlayModeChanged;
 
         public event Action<int> ImageIndexFullScreenEvent;
+
+        public event Action<bool> FullScreenStateChanged;
 
         #endregion
 
@@ -662,7 +675,7 @@ namespace Ty.Component.MediaControl
             {
                 item.ImagePlayerService.SetImgPlay(imgPlayMode);
             }
-            
+
         }
 
         public void SetImagePlayStepDown()
@@ -780,6 +793,8 @@ namespace Ty.Component.MediaControl
                 if (item.ImagePlayerService != null)
                 {
                     item.ImagePlayerService.ImgPlayModeChanged -= ImagePlayerService_ImgPlayModeChanged;
+
+                    item.ImagePlayerService.ImageIndexChanged -= ImagePlayerService_ImageIndexChanged;
                 }
                 //  Message：清理子项
                 item.Dispose();

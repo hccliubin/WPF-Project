@@ -33,6 +33,32 @@ namespace SureDream.Appliaction.Demo.MediaControl
               {
                   Debug.WriteLine("ImgPlayModeChanged");
               };
+
+            this.media.ImageIndexChanged += (l,k,j) =>
+              {
+                  Debug.WriteLine("ImageIndexChanged");
+              };
+
+            this.media.FullScreenStateChanged += l =>
+              {
+                  Debug.WriteLine("FullScreenStateChanged:"+l);
+              };
+
+
+            this.media.ImageIndexDrawMarkedMouseUp+= (l, k, j) =>
+            {
+                Debug.WriteLine("ImageIndexDrawMarkedMouseUp");
+
+                this.media.AddImageIndexMark(l, j);
+            };
+
+
+            this.media.ImageMarkEntitySelectChanged +=(l, k) =>
+             {
+                 Debug.WriteLine("ImageMarkEntitySelectChanged");
+             };
+
+
         }
 
         /// <summary> 获取标定信息存放路径 </summary>
@@ -71,7 +97,10 @@ namespace SureDream.Appliaction.Demo.MediaControl
             }
 
             this.media.LoadImageFolders(imageFoders.ToArray());
-            
+
+
+            this.media.SetImageIndexMarkType(MarkType.Defect);
+
         }
 
         private void Btn_loadShareImages_Click(object sender, RoutedEventArgs e)

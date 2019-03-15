@@ -101,7 +101,7 @@ namespace WpfApp2
             ImageSource imageSource = img.Source;
             Bitmap bitmap = SystemUtils.ImageSourceToBitmap(imageSource);
             BitmapSource bitmapSource = SystemUtils.BitmapToBitmapImage(bitmap);
-            BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, new Int32Rect(3300, 1000, 3300, 2200));
+            BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, new Int32Rect(bitmapSource.PixelWidth / 2, 0, bitmapSource.PixelWidth / 2, bitmapSource.PixelHeight / 2));
 
             Byte[] bytes = SystemUtils.ToBytes(newBitmapSource);
 
