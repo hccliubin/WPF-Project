@@ -41,6 +41,8 @@ namespace Ty.Component.ImageControl
 
             this.image_control.tool_normal.Visibility = Visibility.Collapsed;
             this.image_control.tool_play.Visibility = Visibility.Collapsed;
+
+            this.image_control.IsAutoFullImage = false;
         }
 
 
@@ -60,7 +62,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), e.Object);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), e.Object,this);
 
         }
 
@@ -235,19 +237,23 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_speed.Text = this.image_control.Speed + "X";
         }
 
-        private void Image_control_DoubleClickFullScreenHandle(bool obj)
+        private void Image_control_DoubleClickFullScreenHandle(bool obj,IImgOperate arg2)
         {
             this.FullScreenHandle?.Invoke();
-        }
+        } 
     }
 
     public partial class ImagePlayerControl : IImagePlayerService
     {
         public ImgPlayMode ImgPlayMode => this.image_control.ImgPlayMode;
 
-        public event Action<string, ImgSliderMode> ImageIndexChanged;
+        ImageCacheEngine _imageCacheEngine;
 
-        public event Action<ImgPlayMode> ImgPlayModeChanged;
+        public ImageCacheEngine ImageCacheEngine { get => _imageCacheEngine; set => _imageCacheEngine = value; }
+
+        public event Action<string, ImgSliderMode, IImagePlayerService> ImageIndexChanged;
+
+        public event Action<ImgPlayMode,IImagePlayerService> ImgPlayModeChanged;
 
         public event Action<int, string> SliderDragCompleted;
 
@@ -255,6 +261,7 @@ namespace Ty.Component.ImageControl
 
         public void LoadImageFolder(List<string> imageFoders, string startForder)
         {
+
             this.image_control.SetImageCacheEngine(null);
 
             //  Do：默认加载位置
@@ -306,11 +313,12 @@ namespace Ty.Component.ImageControl
         }
 
         public void LoadShareImageFolder(List<string> imageFoders, string startForder, string useName, string passWord, string ip)
-        {
+        { 
+
             //  Message：构造缓存模型
-            if (_imageCacheEngine != null)
+            if (ImageCacheEngine != null)
             {
-                _imageCacheEngine.Stop();
+                ImageCacheEngine.Stop();
             }
 
             using (SharedTool tool = new SharedTool(useName, passWord, ip))
@@ -357,9 +365,9 @@ namespace Ty.Component.ImageControl
 
                     string start = files[startPostion];
 
-                    _imageCacheEngine = new ImageCacheEngine(this.image_control.ImagePaths, this.GetCacheFolder(), start, useName, passWord, ip);
+                    ImageCacheEngine = new ImageCacheEngine(this.image_control.ImagePaths, this.GetCacheFolder(), start, useName, passWord, ip);
 
-                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
+                    this.image_control.SetImageCacheEngine(this.ImageCacheEngine);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -370,13 +378,7 @@ namespace Ty.Component.ImageControl
                 });
             });
 
-          
-
-
         }
-
-
-        ImageCacheEngine _imageCacheEngine;
 
         string GetCacheFolder()
         {
@@ -391,9 +393,9 @@ namespace Ty.Component.ImageControl
         public void LoadFtpImageFolder(List<string> imageFoders, string startForder, string useName, string passWord)
         {
             //  Message：构造缓存模型
-            if (_imageCacheEngine!=null)
+            if (ImageCacheEngine!=null)
             {
-                _imageCacheEngine.Stop();
+                ImageCacheEngine.Stop();
             }
 
             FtpHelper.Login(useName, passWord);
@@ -416,7 +418,7 @@ namespace Ty.Component.ImageControl
 
                     var file = FtpHelper.GetFileList(item).Where(l => ComponetProvider.Instance.IsValidImage(l)).Select(l => System.IO.Path.Combine(url, l)).ToList();
 
-                    file= file.OrderBy(l => int.Parse(System.IO.Path.GetFileNameWithoutExtension(l))).ToList();
+                    //file= file.OrderBy(l => int.Parse(System.IO.Path.GetFileNameWithoutExtension(l))).ToList();
 
                     if (item == startForder)
                     {
@@ -439,9 +441,9 @@ namespace Ty.Component.ImageControl
 
                     string start = files[startPostion];
 
-                    _imageCacheEngine = new ImageCacheEngine(files, this.GetCacheFolder(), start, useName, passWord); 
+                    ImageCacheEngine = new ImageCacheEngine(files, this.GetCacheFolder(), start, useName, passWord); 
 
-                    this.image_control.SetImageCacheEngine(this._imageCacheEngine);
+                    this.image_control.SetImageCacheEngine(this.ImageCacheEngine);
 
                     //  Do：加载起始位置
                     if (exist)
@@ -458,10 +460,14 @@ namespace Ty.Component.ImageControl
         /// <param name="ImageUrls"></param>
         void InitImages(List<string> ImageUrls)
         {
+
+            this.image_control.IsAutoFullImage = false;
+
             this.image_control.LoadImg(ImageUrls);
 
             //  Do：初始化进度条
             this.InitSlider();
+           
         }
 
         public void LoadImages(List<string> ImageUrls)
@@ -476,7 +482,7 @@ namespace Ty.Component.ImageControl
             this.InitImages(ImageUrls);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.System);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.System,this);
 
         }
 
@@ -517,7 +523,7 @@ namespace Ty.Component.ImageControl
             //  Message：功能按钮在暂停的时候才出现 
             this.image_control.border.Visibility = imgPlayMode == ImgPlayMode.停止播放 ? Visibility.Visible : Visibility.Collapsed;
 
-            this.ImgPlayModeChanged?.Invoke(imgPlayMode);
+            this.ImgPlayModeChanged?.Invoke(imgPlayMode,this);
 
         }
 
@@ -538,7 +544,7 @@ namespace Ty.Component.ImageControl
             this.PlayerToolControl.media_slider.Value = this.GetSliderValue(index);
 
             //  Do：触发页更改事件
-            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.User);
+            this.ImageIndexChanged?.Invoke(this.GetCurrentUrl(), ImgSliderMode.User,this);
         }
 
         public void ShowDefects()

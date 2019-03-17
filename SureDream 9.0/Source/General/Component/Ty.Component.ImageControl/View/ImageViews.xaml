@@ -128,7 +128,7 @@
 					</Image>
 				</ContentControl>-->
 
-                        <ContentControl x:Name="control" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <ContentControl x:Name="control" HorizontalAlignment="Center"  VerticalAlignment="Center">
                             <!--绘图区域   Background="#141414" -->
                             <Viewbox x:Name="vb" Stretch="Uniform" 
                                      LayoutTransform="{StaticResource TfGroup}"   

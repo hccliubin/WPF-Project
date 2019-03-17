@@ -68,14 +68,12 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
-
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
+                    
                     <Grid Grid.Row="0">
                         <!--<local:ImageOprateCtrEntity  x:Name="image_control"/>-->
                         <local:ImageViews  x:Name="image_control" 

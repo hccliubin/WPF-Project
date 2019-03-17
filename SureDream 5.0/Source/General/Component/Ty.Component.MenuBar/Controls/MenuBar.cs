@@ -529,7 +529,7 @@ namespace Ty.Component.MenuBar
                 if (item.MenuKey != null&& !string.IsNullOrEmpty(item.MenuKey.String))
                 {
                     ////  Do：注册快捷键
-                    //InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control);
+                    //InputGesture inputgesture = new KeyGesture(Key.O, ModifierKeys.Control); 
 
                     RelayCommand cmd = new RelayCommand(l =>
                     {

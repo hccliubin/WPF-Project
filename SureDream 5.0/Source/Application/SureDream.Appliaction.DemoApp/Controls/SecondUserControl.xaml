@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <com:MenuBarPanel IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}" VerticalAlignment="Center">
+        <com:MenuBarPanel IsEnabled="{Binding ElementName=toggle_enble,Path=IsChecked}" IsExpend="{Binding ElementName=toggle_expend,Path=IsChecked}" VerticalAlignment="Center">
             <com:MenuBar Header="{Binding ElementName=tb_header1,Path=Text,Mode=TwoWay}" 
                          ButtonSource="{Binding Collection1,Mode=TwoWay}"  CanMenuButtonEnble="{Binding Filter1,Mode=TwoWay}"
                          MenuClicked="MenuBar_MenuClicked" Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
@@ -42,6 +42,8 @@
 
                 <StackPanel  Grid.ColumnSpan="1">
                     <CheckBox x:Name="toggle_enble" Height="30"  Content="工具栏是否可用" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
+
+                    <CheckBox x:Name="toggle_expend" Height="30"  Content="工具栏收起" Width="200" HorizontalAlignment="Left" IsChecked="True"/>
 
                     <StackPanel Orientation="Horizontal" Height="30">
                         <TextBlock Text="名称1：" Height="20"/>

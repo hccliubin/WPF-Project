@@ -67,7 +67,14 @@ namespace Ty.Component.ImageControl
 
                     view.GetImageWidthHeight();
 
-                    view.SetFullImage();
+                    //  Message：只加载的第一遍设置自适应
+                    if (!view.IsAutoFullImage)
+                    {
+                        view.SetFullImage();
+
+                        view.IsAutoFullImage = true;
+                    }
+
                 }
             }
         }
@@ -97,8 +104,8 @@ namespace Ty.Component.ImageControl
 
 
             gridMouse.MouseWheel += svImg_MouseWheel;
-            gridMouse.PreviewMouseLeftButtonDown += control_MouseLeftButtonDown;
-            gridMouse.PreviewMouseLeftButtonUp += control_MouseLeftButtonUp;
+            gridMouse.PreviewMouseDown += control_MouseLeftButtonDown;
+            gridMouse.PreviewMouseUp += control_MouseLeftButtonUp;
             gridMouse.PreviewMouseMove += control_MouseMove;
 
             //svImg.MouseLeftButtonDown += control_MouseLeftButtonDown;
@@ -157,11 +164,14 @@ namespace Ty.Component.ImageControl
         {
             this.UpdateLayout();
 
-            if (imgWidth == 0.0 || imgHeight == 0.0)
-            {
-                imgWidth = control.ActualWidth;
-                imgHeight = control.ActualHeight;
-            }
+            //if (imgWidth == 0.0 || imgHeight == 0.0)
+            //{
+            //    imgWidth = control.ActualWidth;
+            //    imgHeight = control.ActualHeight;
+            //}
+
+            imgWidth = control.ActualWidth;
+            imgHeight = control.ActualHeight;
 
 
             //imgWidth = control.ActualWidth;
@@ -220,6 +230,9 @@ namespace Ty.Component.ImageControl
             this.SetNarrow();
 
         }
+
+        /// <summary> 用于控件播放是否自动适应 </summary>
+        public bool IsAutoFullImage { get; set; }
 
         /// <summary> 设置初始图片为平铺整个控件 </summary>
         void SetFullImage()
@@ -323,7 +336,8 @@ namespace Ty.Component.ImageControl
 
         void control_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((this._markType != MarkType.None))
+
+            if ((this._markType != MarkType.None) && e.MiddleButton == MouseButtonState.Released)
             {
                 return;
             }
@@ -344,10 +358,11 @@ namespace Ty.Component.ImageControl
 
         private void Domousemove(UIElement img, MouseEventArgs e)
         {
-            if (e.LeftButton != MouseButtonState.Pressed)
+            if ((this._markType != MarkType.None) && e.MiddleButton == MouseButtonState.Released)
             {
                 return;
             }
+
 
             var position = e.GetPosition(img);
             double X = mouseXY.X - position.X;
@@ -363,27 +378,40 @@ namespace Ty.Component.ImageControl
 
         void control_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if ((this._markType != MarkType.None))
+            if ((this._markType != MarkType.None && e.ChangedButton != MouseButton.Middle))
             {
                 return;
             }
 
+
+
             var img = sender as UIElement;
+
+
             if (img == null)
             {
                 return;
             }
             img.ReleaseMouseCapture();
             mouseDown = false;
+
+
+            this.RefreshCursor();
         }
 
 
         void control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-            if ((this._markType != MarkType.None))
+            if (e.ChangedButton == MouseButton.Middle)
             {
-                return;
+                this.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                if ((this._markType != MarkType.None))
+                {
+                    return;
+                }
             }
 
             var img = sender as UIElement;
@@ -419,41 +447,40 @@ namespace Ty.Component.ImageControl
             {
                 if (imgWidth == 0 || imgHeight == 0) return;
 
+                double xleft = (this.rootGrid.ActualWidth - this.control.ActualWidth) / 2;
+                double ytop = (this.rootGrid.ActualHeight - this.control.ActualHeight) / 2;
+
+
                 //  Message：设置放大缩小位置
                 var position = e.GetPosition(this.canvas);
                 var position1 = e.GetPosition(this.gridMouse);
 
-                double xPercent = position1.X / this.gridMouse.ActualWidth;
+                double xPercent = (position1.X-xleft) / this.gridMouse.ActualWidth;
                 double yPercent = position1.Y / this.gridMouse.ActualHeight;
 
 
                 double matchscale = this.GetFullScale();
 
-                if (Scale < matchscale && e.Delta < 0)
-                {
-                    this.txtZoom.Text = "已缩到最小";
-
-                    //this.SetFullImage();
-
-                    return;
-                }
-
-                //if (Scale < 0.01 && e.Delta < 0)
+                //if (Scale < matchscale && e.Delta < 0)
                 //{
+                //    //this.SetFullImage();
+
                 //    this.txtZoom.Text = "已缩到最小";
+
                 //    return;
                 //}
 
-                if (Scale > 2 && e.Delta > 0)
-                {
-                    this.txtZoom.Text = "已放到最大";
-                    this.svImg.IsEnabled = false;
-                    return;
-                }
-                else
-                {
-                    this.svImg.IsEnabled = true;
-                }
+
+                //if (Scale > 2 && e.Delta > 0)
+                //{
+                //    this.txtZoom.Text = "已放到最大";
+                //    //this.svImg.IsEnabled = false;
+                //    return;
+                //}
+                //else
+                //{
+                //    //this.svImg.IsEnabled = true;
+                //}
 
                 //Scale = Scale * (e.Delta > 0 ? WheelScale : 1 / WheelScale);
 
@@ -463,14 +490,29 @@ namespace Ty.Component.ImageControl
 
                 //btnNarrow.IsEnabled = Scale > 0.01;
 
+
                 btnNarrow.IsEnabled = Scale > matchscale;
 
-                btnEnlarge.IsEnabled = Scale < 16;
+                btnEnlarge.IsEnabled = Scale < 2;
 
                 this.txtZoom.Text = ((int)(Scale * 100)).ToString() + "%";
 
                 if (sb_Tip != null)
                     sb_Tip.Begin();
+
+                if (Scale < matchscale)
+                {
+                    Scale = matchscale;
+                    this.txtZoom.Text = "已缩到最小";
+                }
+
+                if (Scale > 2)
+                {
+                    Scale = 2;
+                    this.svImg.IsEnabled = false;
+                    this.txtZoom.Text = "已放到最大";
+                }
+                this.svImg.IsEnabled = true;
 
                 SetImageByScale();
 
@@ -481,14 +523,13 @@ namespace Ty.Component.ImageControl
                 double yd = (position.Y / this.canvas.ActualHeight) - (this.mask.Indicator.HeightPercent * (yPercent));
 
 
-                Debug.WriteLine("position.X" + xPercent);
-                Debug.WriteLine("position.Y" + yPercent);
+                Debug.WriteLine("position.X" + xleft);
+                Debug.WriteLine("position.Y" + ytop);
 
                 //svImg.ScrollToHorizontalOffset((1-position.X / this.canvas.ActualWidth) * svImg.ExtentWidth);
                 //svImg.ScrollToVerticalOffset((1-position.Y /this.canvas.ActualHeight) * svImg.ExtentHeight);
 
-
-
+               
                 svImg.ScrollToHorizontalOffset(xd * svImg.ExtentWidth);
                 svImg.ScrollToVerticalOffset(yd * svImg.ExtentHeight);
 
@@ -800,15 +841,15 @@ namespace Ty.Component.ImageControl
                 rect.Width = (int)_dynamic.Rect.Width;
                 rect.Height = (int)_dynamic.Rect.Height;
 
-                BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, rect);
+                BitmapSource newBitmapSource = SystemUtils.CutImage(bitmapSource, new Int32Rect((int)_dynamic.Rect.X, (int)_dynamic.Rect.Y, (int)_dynamic.Rect.Width, (int)_dynamic.Rect.Height));
 
                 //// 使用切割后的图源
                 //img1.Source = newBitmapSource;
 
                 imgMarkEntity.PicData = SystemUtils.ToBytes(newBitmapSource);
-                 
 
-                this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this._markType);
+
+                this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this._markType, this);
             }
 
             //  Do：将数据初始化
@@ -1073,7 +1114,7 @@ namespace Ty.Component.ImageControl
 
                     List<IImgOperate> temp = new List<IImgOperate>();
 
-                    if (false)
+                    if (flag)
                     {
                         temp = this.PlayerToolControl.IImgOperateCollection;
                     }
@@ -1098,19 +1139,37 @@ namespace Ty.Component.ImageControl
                     {
                         this.IsImageLoaded = false;
 
+                        var p = imagePath;
+
                         if (this._imageCacheEngine != null)
                         {
-                            imagePath = this._imageCacheEngine.GetWaitCurrent(imagePath, action);
+                            p = this._imageCacheEngine.GetWaitCurrent(imagePath, action);
+
+                            //  Message：空标识取消操作
+                            if (p == null)
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    this.ViewModel.IsBuzy = false;
+
+                                    if (this.PlayerToolControl != null)
+                                    {
+                                        this.PlayerToolControl.IsBuzy = false;
+                                    }
+                                });
+
+                                return;
+
+                            }
                         }
 
-                        var p = imagePath;
                         var s = new BitmapImage();
                         s.BeginInit();
                         s.CacheOption = BitmapCacheOption.OnLoad;
 
                         //Thread.Sleep(random.Next(3) * 1000);
 
-                        s.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+                        s.UriSource = new Uri(p, UriKind.RelativeOrAbsolute);
                         s.EndInit();
                         //这一句很重要，少了UI线程就不认了。
                         s.Freeze();
@@ -1710,7 +1769,7 @@ namespace Ty.Component.ImageControl
             window.CenterContent = this.grid_all;
 
             //  Do：触发全屏状态事件
-            this.FullScreenChangedEvent?.Invoke(true);
+            this.FullScreenChangedEvent?.Invoke(true, this);
 
             window.Loaded += (l, k) =>
               {
@@ -1729,7 +1788,7 @@ namespace Ty.Component.ImageControl
             this.SetFullImage();
 
             //  Do：触发取消全屏状态事件
-            this.FullScreenChangedEvent?.Invoke(false);
+            this.FullScreenChangedEvent?.Invoke(false, this);
         }
 
         private void Btn_next_Click(object sender, RoutedEventArgs e)
@@ -1762,7 +1821,7 @@ namespace Ty.Component.ImageControl
         {
             if (this.Current == null) return;
 
-            this.DeleteImgEvent?.Invoke(this.Current.Value);
+            this.DeleteImgEvent?.Invoke(this.Current.Value, this);
         }
 
         /// <summary> 设置双击是否触发全屏 </summary>
@@ -1912,7 +1971,7 @@ namespace Ty.Component.ImageControl
             this.popup.Visibility = Visibility.Visible;
         }
 
- 
+
     }
 
 
@@ -1922,10 +1981,10 @@ namespace Ty.Component.ImageControl
         public event ImgProcessHandler ImgProcessEvent;
         public event Action PreviousImgEvent;
         public event Action NextImgEvent;
-        public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
-        public event Action<string> DeleteImgEvent;
-        public event Action<bool> FullScreenChangedEvent;
-        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
+        public event Action<ImgMarkEntity, MarkType, IImgOperate> DrawMarkedMouseUp;
+        public event Action<string, IImgOperate> DeleteImgEvent;
+        public event Action<bool, IImgOperate> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity, IImgOperate> MarkEntitySelectChanged;
 
         double _wheelScale = 0.01;
         public double WheelScale
@@ -1954,7 +2013,7 @@ namespace Ty.Component.ImageControl
         /// <param name="entity"></param>
         public void OnImgMarkOperateEvent(ImgMarkEntity entity)
         {
-            this.ImgMarkOperateEvent?.Invoke(entity);
+            this.ImgMarkOperateEvent?.Invoke(entity, this);
         }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)
@@ -2011,7 +2070,7 @@ namespace Ty.Component.ImageControl
             this.ViewModel.Add(sample);
 
             //  Do：触发新增事件
-            this.ImgMarkOperateEvent?.Invoke(sample.Model);
+            this.ImgMarkOperateEvent?.Invoke(sample.Model, this);
 
             //  Do：清除动态框
             _dynamic.BegionMatch(false);
@@ -2256,7 +2315,7 @@ namespace Ty.Component.ImageControl
         {
             var v = this.GetSelectMarkEntity();
 
-            this.MarkEntitySelectChanged?.Invoke(v);
+            this.MarkEntitySelectChanged?.Invoke(v, this);
         }
 
         public void NextImg()
@@ -2472,7 +2531,7 @@ namespace Ty.Component.ImageControl
         {
             if (!DoubleClickSetFullScreen)
             {
-                this.FullScreenChangedEvent?.Invoke(isFullScreen);
+                this.FullScreenChangedEvent?.Invoke(isFullScreen, this);
                 return;
             }
 
@@ -2560,7 +2619,7 @@ namespace Ty.Component.ImageControl
 
             btnNarrow.IsEnabled = true;
 
-            if (Scale > 16)
+            if (Scale > 2)
                 return;
 
             Scale = Scale + WheelScale;
@@ -2569,7 +2628,7 @@ namespace Ty.Component.ImageControl
 
             SetbtnActualsizeEnable();
 
-            if (Scale > 16)
+            if (Scale > 2)
             {
                 btnEnlarge.IsEnabled = false;
             }
@@ -2621,42 +2680,36 @@ namespace Ty.Component.ImageControl
 
             this.popup.Visibility = Visibility.Collapsed;
 
-            if (markType == MarkType.None)
-            {
-                //this.gridMouse.Visibility = Visibility.Visible;
+            this.RefreshCursor();
+        }
 
+        void RefreshCursor()
+        {
+            if (this._markType == MarkType.None)
+            {
                 _dynamic.Visibility = Visibility.Collapsed;
 
                 //  Message：设置光标和区域放大
                 this.canvas.Cursor = Cursors.Hand;
             }
-            else if (markType == MarkType.Enlarge)
+            else if (this._markType == MarkType.Enlarge)
             {
-                //this.gridMouse.Visibility = Visibility.Hidden;
-
                 //  Message：设置光标和区域放大
                 this.canvas.Cursor = Cursors.Pen;
 
             }
-            else if (markType == MarkType.Bubble)
+            else if (this._markType == MarkType.Bubble)
             {
                 //  Message：设置光标和区域放大
                 this.canvas.Cursor = Cursors.Hand;
 
                 this.MoveRect.Visibility = Visibility.Visible;
-
-                //this.grid_mark.Width = double.NaN;
-                //this.grid_mark.Height = double.NaN;
             }
             else
             {
-                //this.gridMouse.Visibility = Visibility.Hidden;
-
                 //  Message：设置光标和区域放大
                 this.canvas.Cursor = Cursors.Cross;
             }
-
-
         }
 
         public string GetCurrentUrl()

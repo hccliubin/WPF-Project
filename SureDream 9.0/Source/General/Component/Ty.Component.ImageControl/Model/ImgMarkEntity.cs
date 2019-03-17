@@ -243,7 +243,7 @@ namespace Ty.Component.ImageControl
     /// 标定内容变更委托，包括：新增、修改、删除
     /// </summary>
     /// <param name="markEntity">标定实体，实体内包含了实体是新增、修改还是删除的相关信息</param>
-    public delegate void ImgMarkHandler(ImgMarkEntity markEntity);
+    public delegate void ImgMarkHandler(ImgMarkEntity markEntity,IImgOperate operate);
 
     /// <summary>
     /// 图片风格化处理委托，

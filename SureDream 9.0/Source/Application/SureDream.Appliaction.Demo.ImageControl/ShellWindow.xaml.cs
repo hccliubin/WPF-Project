@@ -48,7 +48,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
             List<ImgMarkEntity> temp = new List<ImgMarkEntity>();
 
             //  Do：注册编辑标定事件
-            _imgOperate.ImgMarkOperateEvent += l =>
+            _imgOperate.ImgMarkOperateEvent += (l, k) =>
               {
                   string fn = System.IO.Path.GetFileNameWithoutExtension(this._imgOperate.GetCurrentUrl());
 
@@ -137,7 +137,7 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
             };
 
-            _imgOperate.DrawMarkedMouseUp += (l, k) =>
+            _imgOperate.DrawMarkedMouseUp += (l, k,m) =>
               {
                   Debug.WriteLine(l);
                   Debug.WriteLine(k);
@@ -190,12 +190,12 @@ namespace SureDream.Appliaction.Demo.ImageControl
               };
 
 
-            _imgOperate.MarkEntitySelectChanged += l =>
+            _imgOperate.MarkEntitySelectChanged += (l,k) =>
               {
                   Debug.WriteLine("MarkEntitySelectChanged" + l);
               };
 
-            _imgOperate.FullScreenChangedEvent += l =>
+            _imgOperate.FullScreenChangedEvent += (l, k) =>
                 {
                     Debug.WriteLine("DoubleClickFullScreenHandle" + l);
                 };
@@ -207,13 +207,13 @@ namespace SureDream.Appliaction.Demo.ImageControl
 
         private void ShellWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            List<string> images = new List<string>();
+            //List<string> images = new List<string>();
 
-            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images1\20190103035949.jpg");
-            images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images1\20190103035953.jpg");
-            //_imgOperate.LoadImages(images);
+            //images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images1\20190103035949.jpg");
+            //images.Add(@"F:\GitHub\WPF-Project\SureDream 9.0\Product\Debug\images1\20190103035953.jpg");
+            ////_imgOperate.LoadImages(images);
 
-            _imgOperate.LoadImg(images);
+            //_imgOperate.LoadImg(images);
         }
 
         //  Message：加载图片

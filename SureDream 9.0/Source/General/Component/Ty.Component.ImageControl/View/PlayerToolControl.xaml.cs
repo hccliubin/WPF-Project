@@ -85,6 +85,6 @@ namespace Ty.Component.ImageControl
 
              }));
 
-
+   
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Ty.Component.ImageControl
 {
@@ -359,7 +360,10 @@ namespace Ty.Component.ImageControl
             }
             catch (Exception ex)
             {
-                throw new Exception("从ftp服务器下载文件出错，文件名：" + downloadUrl + "异常信息：" + ex.ToString());
+                //throw new Exception("从ftp服务器下载文件出错，文件名：" + downloadUrl + "异常信息：" + ex.ToString());
+
+                Debug.WriteLine("从ftp服务器下载文件出错，文件名：" + downloadUrl + "异常信息：" + ex.ToString());
+
             }
             finally
             {

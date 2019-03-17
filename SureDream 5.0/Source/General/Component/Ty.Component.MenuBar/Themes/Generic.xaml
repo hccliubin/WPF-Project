@@ -687,27 +687,27 @@
         <Setter Property="Background" Value="#222222"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:MenuBarPanel}">
-                    <Grid>
+                <ControlTemplate TargetType="{x:Type local:MenuBarPanel}"> 
+                    <Grid> 
                         <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
 
                         </Border>
 
-                        <StackPanel>
-                            <ItemsPresenter Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.VisibilityConverter}}">
-
-                            </ItemsPresenter>
-                            <ToggleButton x:Name="toggle" Width="Auto" Foreground="{StaticResource Resource.Button.Foreground}" Height="10" HorizontalAlignment="Right" IsChecked="True">
+                        <DockPanel >
+                            <ToggleButton x:Name="toggle" Width="Auto" DockPanel.Dock="Right" 
+                                          Foreground="{StaticResource Resource.Button.Foreground}" 
+                                          HorizontalAlignment="Right"   Height="10"
+                                          IsChecked="True">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                                         <Grid>
-                                            <TextBlock Text="&#xe9bd;" Style="{StaticResource FIcon}" x:Name="txt" FontSize="{StaticResource DefaultFontSize}" ToolTip="显示工具栏"/>
+                                            <TextBlock Text="&#xe9b9;" Style="{StaticResource FIcon}" x:Name="txt" FontSize="{StaticResource DefaultFontSize}" ToolTip="显示工具栏"/>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsChecked" Value="true">
-                                                <Setter Property="Text" Value="&#xe9c0;" TargetName="txt" />
+                                                <Setter Property="Text" Value="&#xe9bc;" TargetName="txt" />
                                                 <Setter Property="ToolTip" Value="隐藏工具栏" TargetName="txt" />
                                             </Trigger>
                                             <!--<Trigger Property="IsMouseOver" Value="True">
@@ -723,8 +723,41 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
-                        </StackPanel>
+
+                            <!--<ItemsPresenter Visibility="{Binding ElementName=toggle,Path=IsChecked,Converter={x:Static base:XConverter.VisibilityConverter}}">
+
+                            </ItemsPresenter>-->
+
+                            <ItemsPresenter x:Name="item"/>
+
+                        </DockPanel>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=toggle,Path=IsChecked}" Value="false">
+                            <!--<Setter Property="Visibility" Value="Collapsed" TargetName="center"/>-->
+                            <!--<DataTrigger.EnterActions>
+                                <BeginStoryboard  Storyboard="{StaticResource Story_ScaleX}"/>
+                            </DataTrigger.EnterActions>-->
+
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard >
+                                    <Storyboard  Storyboard.TargetProperty="Height">
+                                        <DoubleAnimation  From="104" To="10" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard >
+                                    <Storyboard  Storyboard.TargetProperty="Height">
+                                        <DoubleAnimation  From="10" To="104" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1030,7 +1063,7 @@
                         Margin="{TemplateBinding Padding}"
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
 
-                                <Image  x:Name="icon"  Source="{TemplateBinding ImageSource}" Opacity="0.5" Margin="{TemplateBinding FIconMargin}"/>
+                                <Image  x:Name="icon"  Source="{TemplateBinding ImageSource}" Opacity="1" Margin="{TemplateBinding FIconMargin}"/>
 
                                 <TextBlock VerticalAlignment="Center"  x:Name="txt" 
                            TextDecorations="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContentDecorations}" 

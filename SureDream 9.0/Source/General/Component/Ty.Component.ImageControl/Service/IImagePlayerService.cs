@@ -71,12 +71,12 @@ namespace Ty.Component.ImageControl
         /// <summary>
         /// 图片索引发生变化时触发，P=当前URL
         /// </summary>
-        event Action<string, ImgSliderMode> ImageIndexChanged;
+        event Action<string, ImgSliderMode, IImagePlayerService> ImageIndexChanged;
 
         /// <summary>
         /// 播放类型变化时触发
         /// </summary>
-        event Action<ImgPlayMode> ImgPlayModeChanged;
+        event Action<ImgPlayMode, IImagePlayerService> ImgPlayModeChanged;
 
         ///// <summary>
         ///// 拖拽进度条触发 P1= 索引 P2=路径

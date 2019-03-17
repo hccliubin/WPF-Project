@@ -375,7 +375,7 @@ namespace Ty.Component.ImageControl
 
             foreach (var item in this.ViewModel.SampleCollection)
             {
-                this.ImgMarkOperateEvent?.Invoke(item.Model);
+                this.ImgMarkOperateEvent?.Invoke(item.Model,this);
             }
 
             Debug.WriteLine("保存");
@@ -951,7 +951,7 @@ namespace Ty.Component.ImageControl
         /// <param name="entity"></param>
         internal void OnImgMarkOperateEvent(ImgMarkEntity entity)
         {
-            this.ImgMarkOperateEvent?.Invoke(entity);
+            this.ImgMarkOperateEvent?.Invoke(entity,this);
         }
 
         public event ImgProcessHandler ImgProcessEvent;
@@ -960,17 +960,17 @@ namespace Ty.Component.ImageControl
 
         public event Action NextImgEvent;
 
-        public event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
-        public event Action<string> DeleteImgEvent;
-        public event Action<bool> FullScreenChangedEvent;
-        public event Action<ImgMarkEntity> MarkEntitySelectChanged;
+        public event Action<ImgMarkEntity, MarkType, IImgOperate> DrawMarkedMouseUp;
+        public event Action<string, IImgOperate> DeleteImgEvent;
+        public event Action<bool, IImgOperate> FullScreenChangedEvent;
+        public event Action<ImgMarkEntity, IImgOperate> MarkEntitySelectChanged;
         public event Action DoubleClickFullScreenHandle;
 
         internal void OnDrawMarkedMouseUp()
         {
             ImgMarkEntity imgMarkEntity = new ImgMarkEntity();
 
-            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this.MarkType);
+            this.DrawMarkedMouseUp?.Invoke(imgMarkEntity, this.MarkType,this);
         }
 
         public void AddImgFigure(Dictionary<string, string> imgFigures)

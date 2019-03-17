@@ -90,24 +90,24 @@ namespace Ty.Component.ImageControl
         /// 绘制矩形框结束
         /// </summary>
 
-        event Action<ImgMarkEntity, MarkType> DrawMarkedMouseUp;
+        event Action<ImgMarkEntity, MarkType, IImgOperate> DrawMarkedMouseUp;
 
         /// <summary>
         /// 删除按钮点击事件
         /// </summary>
 
-        event Action<string> DeleteImgEvent;
+        event Action<string, IImgOperate> DeleteImgEvent;
 
         /// <summary>
         /// 全屏模式切换事件 true=是全屏状态
         /// </summary>
 
-        event Action<bool> FullScreenChangedEvent;
+        event Action<bool, IImgOperate> FullScreenChangedEvent;
 
 
 
         /// <summary> 选中项改变事件 </summary>
-        event Action<ImgMarkEntity> MarkEntitySelectChanged;
+        event Action<ImgMarkEntity, IImgOperate> MarkEntitySelectChanged;
 
         #endregion
 

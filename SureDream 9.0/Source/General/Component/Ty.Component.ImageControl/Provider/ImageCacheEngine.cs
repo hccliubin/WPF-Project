@@ -68,12 +68,12 @@ namespace Ty.Component.ImageControl
             //  Do：可播放队列设置15s
             //this.Capacity = count;
 
-            this.Capacity = count * 10;
+            this.Capacity = count * 5;
 
             ////Do：后台缓存最多队列设置成5分钟
             //this.CapacityTotal = count * 5 * 60;
 
-            this.CapacityTotal = count * 5 * 60;
+            this.CapacityTotal = count * 1 * 10;
         }
  
 
@@ -165,6 +165,9 @@ namespace Ty.Component.ImageControl
         /// <summary> 获取下好的文件 返回null则需要等待 </summary>
         public string GetWaitCurrent(string file, Action<bool, int, int> action)
         {
+            //  Message：如果没下载完，则等待15s数据都下载完为止
+            flag = false;
+
             var result = this._fileCollection.Find(l => l.FilePath == file);
 
             int last = this._fileCollection.FindIndex(l => l.FilePath == _current.FilePath);
@@ -190,9 +193,6 @@ namespace Ty.Component.ImageControl
             }
             else
             {
-                //  Message：如果没下载完，则等待15s数据都下载完为止
-                flag = false;
-
                 Thread.Sleep(1000);
 
                 flag = true;
@@ -204,13 +204,13 @@ namespace Ty.Component.ImageControl
                     if (!flag)
                     {
                         Debug.WriteLine("取消等待");
-                        break;
+                        return null;
                     }
                     Thread.Sleep(500);
 
                     action(false, waitCache.FindAll(l => l.IsLoaded == 2).Count, waitCache.Count);
                 }
-
+                 
                 action(true, waitCache.FindAll(l => l.IsLoaded == 2).Count, waitCache.Count);
 
                 return result.LocalPath;
@@ -313,7 +313,7 @@ namespace Ty.Component.ImageControl
                 File.Copy(this.FilePath, this.LocalPath, false);
             }
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             this.IsLoaded = 2;
 
