@@ -171,7 +171,7 @@
 
             </Trigger>-->
 
-                         
+
 
                         </Grid.Triggers>
                     </Grid>
@@ -687,12 +687,11 @@
         <Setter Property="Background" Value="#222222"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:MenuBarPanel}"> 
-                    <Grid> 
+                <ControlTemplate TargetType="{x:Type local:MenuBarPanel}">
+                    <Grid>
                         <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-
                         </Border>
 
                         <DockPanel >
@@ -732,7 +731,6 @@
 
                         </DockPanel>
                     </Grid>
-
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ElementName=toggle,Path=IsChecked}" Value="false">
                             <!--<Setter Property="Visibility" Value="Collapsed" TargetName="center"/>-->
